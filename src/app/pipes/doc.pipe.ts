@@ -1,0 +1,15 @@
+/** @format */
+
+import { Pipe, PipeTransform } from '@angular/core';
+import { DbService } from '../services/db.service';
+
+@Pipe({
+  name: 'doc',
+})
+export class DocPipe implements PipeTransform {
+  constructor(private db: DbService) {}
+
+  transform(value: any): any {
+    return this.db.doc$(value);
+  }
+}
