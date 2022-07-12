@@ -313,12 +313,6 @@ export class VideoService {
   //접근 권한 설정
   GalleryPermission(): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      let androidPermissionsList = [
-        this.androidPermission.PERMISSION.CAMERA,
-        this.androidPermission.PERMISSION.ACCESS_FINE_LOCATION,
-        this.androidPermission.PERMISSION.WRITE_EXTERNAL_STORAGE,
-        this.androidPermission.PERMISSION.READ_PHONE_STATE,
-      ];
       if (this.platform.is('android')) {
         this.androidPermission.checkPermission(this.androidPermission.PERMISSION.WRITE_EXTERNAL_STORAGE).then(
           value => {

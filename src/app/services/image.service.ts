@@ -15,18 +15,18 @@ export class ImageService {
     encodingType: this.camera.EncodingType.JPEG,
     mediaType: this.camera.MediaType.PICTURE,
     sourceType: this.camera.PictureSourceType.CAMERA,
-    correctOrientation: true,
-    saveToPhotoAlbum: false,
+    // correctOrientation: true,
+    // saveToPhotoAlbum: false,
   };
 
   public gallery: CameraOptions = {
-    quality: 100,
-    // targetWidth: 600,
-    // targetHeight: 600,
+    quality: 60,
     destinationType: this.camera.DestinationType.DATA_URL,
     encodingType: this.camera.EncodingType.JPEG,
     correctOrientation: true,
     sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+    // correctOrientation: true,
+    // saveToPhotoAlbum: false,
   };
   constructor(public camera: Camera, private loadingService: LoadingService, private commonService: CommonService, public imagePicker: ImagePicker) {}
 
