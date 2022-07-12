@@ -5,7 +5,12 @@
 export const environment = {
   production: false,
   firebase: {
-    // 프로젝트 설정> 내 앱> 웹 앱> SDK 설정 및 구성> 코드 내 firebaseConfig
+    apiKey: 'AIzaSyD05yuvnXp-Mke98Wdrqv6GnLhf0NX8upQ',
+    authDomain: 'kncurationproject.firebaseapp.com',
+    projectId: 'kncurationproject',
+    storageBucket: 'kncurationproject.appspot.com',
+    messagingSenderId: '260606524447',
+    appId: '1:260606524447:web:7ac6a32463f7a7c3f3292a',
   },
 };
 

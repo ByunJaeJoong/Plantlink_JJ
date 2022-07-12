@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CameraOptions, Camera } from '@ionic-native/camera/ngx';
+import { CameraOptions, Camera } from '@awesome-cordova-plugins/camera/ngx';
 import firebase from 'firebase/app';
 import { CommonService } from './common.service';
 import { LoadingService } from './loading.service';
-import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { ImagePicker } from '@awesome-cordova-plugins/image-picker/ngx';
 @Injectable({
   providedIn: 'root',
 })

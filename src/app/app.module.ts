@@ -3,24 +3,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
-
+import { SplashScreen } from '@awesome-cordova-plugins/splash-screen/ngx';
+import { StatusBar } from '@awesome-cordova-plugins/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 
 // native plugin module
-import { Camera } from '@ionic-native/camera/ngx';
-import { ImagePicker } from '@ionic-native/image-picker/ngx';
-
-import { MediaCapture } from '@ionic-native/media-capture/ngx';
-import { Media, MediaObject } from '@ionic-native/media/ngx';
-import { Base64 } from '@ionic-native/base64/ngx';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-import { VideoEditor, CreateThumbnailOptions } from '@ionic-native/video-editor/ngx';
-import { File } from '@ionic-native/file/ngx';
+import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
+import { Camera } from '@awesome-cordova-plugins/camera/ngx';
+import { ImagePicker } from '@awesome-cordova-plugins/image-picker/ngx';
+import { MediaCapture } from '@awesome-cordova-plugins/media-capture/ngx';
+import { Media } from '@awesome-cordova-plugins/media/ngx';
+import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
+import { VideoEditor } from '@awesome-cordova-plugins/video-editor/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -45,16 +42,15 @@ firebase.default.initializeApp(environment.firebase);
     AngularFireStorageModule,
   ],
   providers: [
-    MobileAccessibility,
     StatusBar,
     SplashScreen,
     ScreenOrientation,
+    MobileAccessibility,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Camera,
     ImagePicker,
     MediaCapture,
     Media,
-    Base64,
     AndroidPermissions,
     VideoEditor,
     File,

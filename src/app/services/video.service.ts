@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { VideoEditor, CreateThumbnailOptions } from '@ionic-native/video-editor/ngx';
-import { MediaCapture } from '@ionic-native/media-capture/ngx';
-import { File } from '@ionic-native/file/ngx';
-import { Base64 } from '@ionic-native/base64/ngx';
+import { VideoEditor, CreateThumbnailOptions } from '@awesome-cordova-plugins/video-editor/ngx';
+import { MediaCapture } from '@awesome-cordova-plugins/media-capture/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
 import * as firebase from 'firebase';
 import { Platform } from '@ionic/angular';
-import { Camera } from '@ionic-native/camera/ngx';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { Camera } from '@awesome-cordova-plugins/camera/ngx';
+import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { CommonService } from './common.service';
 import { LoadingService } from './loading.service';
 import * as moment from 'moment';
@@ -19,7 +18,6 @@ export class VideoService {
     private mediaCapture: MediaCapture,
     private platform: Platform,
     private file: File,
-    private base64: Base64,
     private videoEditor: VideoEditor,
     private camera: Camera,
     private androidPermission: AndroidPermissions,
@@ -83,8 +81,7 @@ export class VideoService {
                   this.loadingService.hide();
                 });
             })
-            .catch(error111 => {
-              console.log('error111');
+            .catch(error4 => {
               this.loadingService.hide();
             });
         }
@@ -213,39 +210,20 @@ export class VideoService {
       var path = dataTmp.substring(0, pathSepTmp);
       var filename = dataTmp.substring(pathSepTmp);
 
-      if (this.platform.is('ios') || this.platform.is('iphone')) {
-        this.file
-          .readAsDataURL(path, filename)
-          .then(URL => {
-            this.uploadFtp(URL, type)
-              .then(url => {
-                resolve(url);
-              })
-              .catch(error => {
-                reject(error);
-              });
-          })
-          .catch(error => {
-            reject(error);
-          });
-      } else if (this.platform.is('android')) {
-        this.transVideo(path, filename)
-          .then(url => {
-            console.log('url', url);
-            resolve(url);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      }
-    });
-  }
-
-  transVideo(path, filename) {
-    return new Promise((resolve, reject) => {
-      this.uploadFtp(path + filename).then(url => {
-        resolve(url);
-      });
+      this.file
+        .readAsDataURL(path, filename)
+        .then(URL => {
+          this.uploadFtp(URL, type)
+            .then(url => {
+              resolve(url);
+            })
+            .catch(error => {
+              reject(error);
+            });
+        })
+        .catch(error => {
+          reject(error);
+        });
     });
   }
 
@@ -253,60 +231,27 @@ export class VideoService {
     return new Promise((resolve, reject) => {
       let videoName: string = 'video-' + new Date().getTime() + '.mp4';
 
-      if (this.platform.is('ios')) {
-        var storageRef = firebase.default.storage().ref();
-        var file = tmpPath + '';
-        var upRef = '/videos/' + videoName;
-        var uploadTask = storageRef.child(upRef).putString(file, 'data_url', { contentType: 'video/mp4' });
-        uploadTask.on(
-          firebase.default.storage.TaskEvent.STATE_CHANGED,
-          snapshot => {},
-          error => {
-            console.log(error);
-          },
-          () => {
-            try {
-              uploadTask.then(v => {
-                let url = `https://storage.googleapis.com/${v.metadata.bucket}/${v.metadata.fullPath}`;
-                resolve(url);
-              });
-            } catch (e) {
-              resolve(e);
-            }
+      var storageRef = firebase.default.storage().ref();
+      var file = tmpPath + '';
+      var upRef = '/videos/' + videoName;
+      var uploadTask = storageRef.child(upRef).putString(file, 'data_url', { contentType: 'video/mp4' });
+      uploadTask.on(
+        firebase.default.storage.TaskEvent.STATE_CHANGED,
+        snapshot => {},
+        error => {
+          console.log(error);
+        },
+        () => {
+          try {
+            uploadTask.then(v => {
+              let url = `https://storage.googleapis.com/${v.metadata.bucket}/${v.metadata.fullPath}`;
+              resolve(url);
+            });
+          } catch (e) {
+            resolve(e);
           }
-        );
-      } else {
-        this.base64.encodeFile(tmpPath).then(
-          base64data => {
-            var storageRef = firebase.default.storage().ref();
-
-            var file = base64data + '';
-            var upRef = '/videos/' + videoName;
-            var uploadTask = storageRef.child(upRef).putString(file, 'data_url', { contentType: 'video/mp4' });
-            uploadTask.on(
-              firebase.default.storage.TaskEvent.STATE_CHANGED,
-              snapshot => {},
-              error => {
-                console.log(error);
-              },
-              () => {
-                try {
-                  uploadTask.then(v => {
-                    let url = `https://storage.googleapis.com/${v.metadata.bucket}/${v.metadata.fullPath}`;
-                    resolve(url);
-                  });
-                } catch (e) {
-                  resolve(e);
-                }
-              }
-            );
-          },
-          e => {
-            console.log('uploadFtp-base64 전환실패', e);
-            reject(e);
-          }
-        );
-      }
+        }
+      );
     });
   }
 
@@ -345,74 +290,40 @@ export class VideoService {
 
   //firebase storage 에 저장
   uploadPostImage(url, option?: 'thumbnail') {
-    if (this.platform.is('ios')) {
-      return new Promise(resolve => {
-        if (url === undefined) return url;
-        let result = url;
-        url = 'file:///' + url;
-        var dataTmp = url;
-        var pathSepTmp = dataTmp.lastIndexOf('/') + 1;
+    return new Promise(resolve => {
+      if (url === undefined) return url;
+      let result = url;
+      url = 'file:///' + url;
+      var dataTmp = url;
+      var pathSepTmp = dataTmp.lastIndexOf('/') + 1;
 
-        var path = dataTmp.substring(0, pathSepTmp);
-        var filename = dataTmp.substring(pathSepTmp);
+      var path = dataTmp.substring(0, pathSepTmp);
+      var filename = dataTmp.substring(pathSepTmp);
 
-        this.file.readAsDataURL(path, filename).then((base64data: string) => {
-          var storageRef = firebase.default.storage().ref();
-          var file = base64data + '';
-          var fileName = 'image_' + moment().format('x') + '.jpg';
-          var upRef = '/images/' + fileName;
-          var uploadTask = storageRef.child(upRef).putString(file, 'data_url');
-          uploadTask.on(
-            firebase.default.storage.TaskEvent.STATE_CHANGED,
-            snapshot => {},
-            error => {
-              console.log(error);
-            },
-            () => {
-              try {
-                uploadTask.then(v => {
-                  let url = `https://storage.googleapis.com/${v.metadata.bucket}/${v.metadata.fullPath}`;
-                  resolve(url);
-                });
-              } catch (e) {
-                resolve(e);
-              }
+      this.file.readAsDataURL(path, filename).then((base64data: string) => {
+        var storageRef = firebase.default.storage().ref();
+        var file = base64data + '';
+        var fileName = 'image_' + moment().format('x') + '.jpg';
+        var upRef = '/images/' + fileName;
+        var uploadTask = storageRef.child(upRef).putString(file, 'data_url');
+        uploadTask.on(
+          firebase.default.storage.TaskEvent.STATE_CHANGED,
+          snapshot => {},
+          error => {
+            console.log(error);
+          },
+          () => {
+            try {
+              uploadTask.then(v => {
+                let url = `https://storage.googleapis.com/${v.metadata.bucket}/${v.metadata.fullPath}`;
+                resolve(url);
+              });
+            } catch (e) {
+              resolve(e);
             }
-          );
-        });
+          }
+        );
       });
-    } else {
-      return new Promise(resolve => {
-        if (url === undefined) return url;
-        let result = url;
-
-        url = 'file:///' + url;
-
-        this.base64.encodeFile(url).then(base64data => {
-          var storageRef = firebase.default.storage().ref();
-          var file = base64data + '';
-          var fileName = 'image_' + moment().format('x') + '.jpg';
-          var upRef = '/images/' + fileName;
-          var uploadTask = storageRef.child(upRef).putString(file, 'data_url');
-          uploadTask.on(
-            firebase.default.storage.TaskEvent.STATE_CHANGED,
-            snapshot => {},
-            error => {
-              console.log(error);
-            },
-            () => {
-              try {
-                uploadTask.then(v => {
-                  let url = `https://storage.googleapis.com/${v.metadata.bucket}/${v.metadata.fullPath}`;
-                  resolve(url);
-                });
-              } catch (e) {
-                resolve(e);
-              }
-            }
-          );
-        });
-      });
-    }
+    });
   }
 }

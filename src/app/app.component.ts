@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { SplashScreen } from '@awesome-cordova-plugins/splash-screen/ngx';
+import { StatusBar } from '@awesome-cordova-plugins/status-bar/ngx';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { LoadingService } from './services/loading.service';
 import { DbService } from './services/db.service';
+declare const cordova: any;
 
 @Component({
   selector: 'app-root',
@@ -18,8 +19,8 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private mobileAccessibility: MobileAccessibility,
-    private screenOrientation: ScreenOrientation
+    private screenOrientation: ScreenOrientation,
+    private mobileAccessibility: MobileAccessibility
   ) {
     this.initializeApp();
   }
