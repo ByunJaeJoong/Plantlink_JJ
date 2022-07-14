@@ -25,12 +25,14 @@
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
 
+@import './././theme/mixin.scss';
+
 /* 기본 리셋 reset*/
 *,
 html,
 body {
   font-size: 16px; // rem 단위 폰트 지정
-  color: unset;
+  color: #161616;
   font-weight: normal;
   line-height: unset;
   letter-spacing: unset;
@@ -241,11 +243,14 @@ button {
 //ion-header 기본 높이
 ion-header {
   ion-toolbar {
-    --min-height: 56px;
-    --padding-start: 0;
-    --padding-end: 0;
+    --min-height: 65px;
+    --padding-start: 1rem;
+    --padding-end: 1.0625rem;
     --padding-top: 0;
     --padding-bottom: 0;
+    ion-title {
+      @include font(#161616, 500, 1rem, 1.1875rem);
+    }
   }
 }
 
@@ -330,6 +335,27 @@ ion-item-divider {
   margin-right: 0;
 }
 
+ion-button {
+  opacity: 1;
+  margin: 0;
+  padding: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-end: 0px !important;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --background-activated: none;
+  --background-focused: none;
+  --background-hover: none;
+  --background-focused-opacity: 1;
+  // height: auto;
+  --border-radius: 0;
+  --background: transparent;
+  &.ion-activated {
+    opacity: 0.7;
+  }
+}
+
 //ion-searchbar
 .sc-ion-searchbar-ios-h {
   padding: 0;
@@ -354,6 +380,50 @@ ion-item-divider {
 ion-input {
   .native-input.sc-ion-input-ios {
     padding: 0;
+    --placeholder-opacity: 1;
+    --placeholder-color: #949494;
+  }
+}
+
+//인풋 !
+.input-wrap {
+  padding: 0.75rem 0.5625rem;
+  width: 100%;
+  height: 2.5625rem;
+  border: 1px solid #949494;
+  border-radius: 4px;
+
+  > ion-input {
+    .native-input.sc-ion-input-ios {
+      padding: 0;
+      --placeholder-opacity: 1;
+      --placeholder-color: #949494;
+
+      @include font(#161616, 400, 0.875rem, 1.0625rem);
+    }
+  }
+
+  &.item-has-focus {
+    border: 1px solid #161616;
+  }
+}
+
+//validation-wrap
+.input-vali-wrap {
+  padding: 0.75rem 0.5625rem;
+  width: 100%;
+  height: 2.5625rem;
+  border: 1px solid #da7f8c;
+  border-radius: 4px;
+
+  > ion-input {
+    .native-input.sc-ion-input-ios {
+      padding: 0;
+      --placeholder-opacity: 1;
+      --placeholder-color: #949494;
+
+      @include font(#161616, 400, 0.875rem, 1.0625rem);
+    }
   }
 }
 
@@ -383,11 +453,12 @@ ion-checkbox {
 //공통 css
 //ion-button 을 back-button 레이아웃으로 사이즈와 url 바꿔서 사용하세요.!
 .show-back-button {
-  width: 44px;
-  height: 44px;
+  width: 30px;
+  height: 30px;
   // background: url(./assets/icon/favicon.png) no-repeat; //url
   background-size: 24px;
   background-position: center;
+  background: url(././assets/images/back-icon.png) no-repeat center center / 100%;
 }
 
 //######### alert css #########
@@ -395,10 +466,7 @@ ion-alert.sc-ion-alert-ios-h {
   --max-width: 280px !important;
 
   ion-backdrop.sc-ion-alert-ios {
-    background-color: var(
-      --ion-backdrop-color,
-      #161616
-    ); //디자인 권장   background-color 값 추후 프로젝트에 맞게 수정해주세요.
+    background-color: var(--ion-backdrop-color, #161616); //디자인 권장   background-color 값 추후 프로젝트에 맞게 수정해주세요.
   }
   --backdrop-opacity: 0.65; //디자인 권장 opacity 값 추후 프로젝트에 맞게 수정해주세요.
 }
@@ -407,5 +475,19 @@ ion-alert.sc-ion-alert-ios-h {
 ion-button:not(.ion-activated) {
   &:hover {
     opacity: 1;
+  }
+}
+
+ion-button {
+  margin: 0;
+  &.basic-btn {
+    width: 100%;
+    height: 2.875rem;
+    --border-radius: 4px;
+    --background: #afd365;
+    color: #fff;
+    font-size: 0.9375rem;
+    line-height: 1.125rem;
+    font-weight: 600;
   }
 }

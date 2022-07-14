@@ -1,0 +1,51 @@
+<!-- Screen ID : UI L-0002 -->
+
+<ion-header>
+  <ion-toolbar>
+    <div class="end-wrap">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/" text="" icon=""> </ion-back-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="account-login-wrap">
+    <h1>
+      <img src="assets/images/logo-black.png" alt="" />
+    </h1>
+
+    <ion-item class="input-wrap">
+      <ion-input type="text" placeholder="구글 이메일" inputmode="text" type="email"></ion-input>
+    </ion-item>
+
+    <!-- validation 나타날 때 이메일 입력창 입니다.  -->
+    <!-- <div class="validation-wrap">
+      <ion-item class="input-vali-wrap">
+        <ion-input type="text" placeholder="구글 이메일" inputmode="text" type="email"></ion-input>
+      </ion-item>
+      <p>이메일을 입력해주세요</p>
+    </div> -->
+
+    <ion-item class="input-wrap">
+      <ion-input type="text" placeholder="비밀번호" inputmode="text" type="password"></ion-input>
+    </ion-item>
+
+    <!-- validation 나타날 때 비밀번호 입력창 입니다.  -->
+    <!-- <div class="validation-wrap">
+      <ion-item class="input-vali-wrap">
+        <ion-input type="text" placeholder="비밀번호" inputmode="text" type="password"></ion-input>
+      </ion-item>
+      <p>비밀번호를 입력해주세요</p>
+    </div> -->
+
+    <div class="find-wrap">
+      <ion-button fill="clear" class="find-id" (click)="findId()"> 아이디 찾기 </ion-button>
+      <span></span>
+      <ion-button fill="clear" class="find-pw" (click)="findPw()"> 비밀번호 찾기 </ion-button>
+    </div>
+
+    <ion-button class="basic-btn" fill="clear"> 로그인 </ion-button>
+  </div>
+</ion-content>

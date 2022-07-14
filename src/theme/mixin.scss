@@ -1,0 +1,15 @@
+//font style
+@mixin font($color, $weight, $size, $line) {
+  color: $color;
+  font: {
+    size: $size;
+    weight: $weight;
+  }
+  line-height: $line;
+}
+@mixin absolute($top, $left, $x, $y) {
+  position: absolute;
+  top: $top;
+  left: $left;
+  transform: translate($x, $y);
+}

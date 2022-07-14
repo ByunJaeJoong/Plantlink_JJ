@@ -1,0 +1,59 @@
+#login-join-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  min-height: 100%;
+  padding-top: 13.75rem;
+
+  .flex-wrap {
+    text-align: center;
+    height: calc(100% - 13.75rem - 13.875rem);
+    h1 {
+      width: 11.1875rem;
+      height: 3.625rem;
+      margin: 0 auto;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    ion-button {
+      &.google-login {
+        margin-top: 5rem;
+        width: 13.875rem;
+        padding: 0.6875rem auto;
+        border: 1px solid #949494;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        line-height: 1.0625rem;
+        font-weight: 500;
+        background: url(../../../../assets/images/goole-icon.png) no-repeat center left 1.125rem / 1.125rem;
+      }
+
+      &.login-btn {
+        width: 2.4375rem;
+        height: 1.125rem;
+        font-size: 0.9375rem;
+        line-height: 1.125rem;
+        font-weight: 600;
+      }
+    }
+
+    .login-wrap {
+      height: 1.1875rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1.5625rem;
+      p {
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.0625rem;
+        margin-right: 1rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,82 @@
+@import '../../../../theme/mixin.scss';
+//@include font(#161616, 300, 0.875rem, 1.0625rem);
+
+.end-wrap {
+  display: flex;
+
+  align-items: flex-end;
+}
+
+ion-content {
+  --padding-top: 5.5625rem;
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+  --padding-bottom: 5.5625rem;
+}
+
+#account-login-wrap {
+  h1 {
+    width: 7rem;
+    height: 2.25rem;
+    margin: 0 auto;
+    margin-bottom: 2.6875rem;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  //기본 인풋
+  .input-wrap {
+    margin-bottom: 1.25rem;
+  }
+
+  //validation 나타나는 input
+  .validation-wrap {
+    margin-bottom: 1.5rem;
+    position: relative;
+    p {
+      position: absolute;
+      top: 43px;
+      margin-bottom: 0.25rem;
+      @include font(#da7f8c, 600, 0.6875rem, 0.875rem);
+    }
+  }
+
+  //버튼 wrap
+  .find-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 9.25rem;
+    height: 1.0625rem;
+    margin: 0 auto;
+    margin-top: 2.5625rem;
+    margin-bottom: 1.5625rem;
+    span {
+      display: block;
+      height: 12px;
+      width: 1px;
+      background: #949494;
+      z-index: 100;
+    }
+
+    ion-button {
+      &.find-id {
+        width: 3.6875rem;
+        color: #949494;
+        font-size: 0.8125rem;
+        line-height: 1rem;
+        font-weight: 500;
+      }
+
+      &.find-pw {
+        width: 4.4375rem;
+        color: #949494;
+        font-size: 0.8125rem;
+        line-height: 1.125rem;
+        font-weight: 500;
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+@import '../../../../theme/mixin.scss';
+//@include font(#161616, 300, 0.875rem, 1.0625rem);
+
+ion-header {
+  ion-toolbar {
+    ion-button {
+      width: 1.875rem;
+      height: 1.875rem;
+      background: url(../../../../assets/images/close-icon.png) no-repeat center center/ 100%;
+    }
+
+    ion-title {
+      position: absolute;
+      bottom: 0;
+      @include font(#161616, 500, 1rem, 1.1875rem);
+    }
+  }
+}
+
+ion-content {
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+  --padding-top: 1rem;
+
+  #find-id-wrap {
+    h3 {
+      margin-bottom: 0.25rem;
+      @include font(#161616, 500, 0.75rem, 0.9375rem);
+    }
+
+    .margin {
+      margin-bottom: 1.4375rem;
+    }
+  }
+
+  ion-button {
+    margin-bottom: 2.125rem;
+
+    margin-top: 1.125rem;
+  }
+
+  //validation 나타나는 인풋
+  .validation-wrap {
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    p {
+      text-align: right;
+      margin-bottom: 0.25rem;
+      @include font(#da7f8c, 600, 0.6875rem, 0.875rem);
+    }
+  }
+}
