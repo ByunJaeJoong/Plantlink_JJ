@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-find-pass-confirm',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./find-pass-confirm.page.scss'],
 })
 export class FindPassConfirmPage implements OnInit {
+  constructor(private navController: NavController) {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  //아이디찾기
+  goLoign() {
+    this.navController.navigateForward(['/login']);
   }
-
 }

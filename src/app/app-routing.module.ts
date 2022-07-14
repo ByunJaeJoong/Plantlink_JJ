@@ -26,6 +26,10 @@ const routes: Routes = [
     path: 'find-password',
     loadChildren: () => import('./pages/account/find-password/find-password.module').then(m => m.FindPasswordPageModule),
   },
+  {
+    path: 'find-pass-confirm',
+    loadChildren: () => import('./pages/account/find-pass-confirm/find-pass-confirm.module').then( m => m.FindPassConfirmPageModule)
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],
