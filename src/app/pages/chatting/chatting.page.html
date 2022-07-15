@@ -1,11 +1,51 @@
-<!-- Screen ID : UI C-0001 -->
+<!-- Screen ID : UI C-0001 튜토리얼 -->
+<!-- Screen ID : UI C-0002 채팅 리스트-->
 
-<ion-header>
-  <ion-toolbar>
+<ion-content>
+  <div class="header-wrap">
     <ion-buttons slot="start">
       <ion-button (click)="goHome()" fill="clear" class="back-btn"> </ion-button>
     </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+    <h2>대화</h2>
+    <div class="left"></div>
+  </div>
 
-<ion-content> </ion-content>
+  <div id="chatting-list">
+    <ion-item>
+      <ion-avatar>
+        <img src="assets/samples/chatting-profile.png" alt="" />
+      </ion-avatar>
+      <ion-label>
+        <p class="title">화분 친구</p>
+        <p class="con">모든게 다 잘 될거야 !</p>
+      </ion-label>
+      <span>17:16</span>
+    </ion-item>
+  </div>
+
+  <!-- 처음 한번만 보여지는 튜토리얼 -->
+  <div id="tutorial-wrap">
+    <ion-button fill="clear">
+      다시보지 않기
+      <div class="icon"></div>
+    </ion-button>
+
+    <div class="tutorial-item">
+      <ion-avatar>
+        <img src="assets/samples/chatting-profile.png" alt="" />
+      </ion-avatar>
+      <ion-label>
+        <p class="title">화분 친구</p>
+        <p class="con">모든게 다 잘 될거야 !</p>
+      </ion-label>
+    </div>
+
+    <div class="arrow-wrap">
+      <div class="icon"></div>
+      <p>
+        AI 감정친구 화분친구의<br />
+        프로필을 눌러 대화해보세요 :)
+      </p>
+    </div>
+  </div>
+</ion-content>

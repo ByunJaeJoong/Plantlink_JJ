@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-chatting',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chatting.page.scss'],
 })
 export class ChattingPage implements OnInit {
+  constructor(private navController: NavController) {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  //홈으로
+  goHome() {
+    this.navController.navigateBack(['/tabs/home']);
   }
-
 }
