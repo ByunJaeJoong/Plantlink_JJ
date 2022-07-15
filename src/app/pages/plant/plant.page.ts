@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./plant.page.scss'],
 })
 export class PlantPage implements OnInit {
+  constructor() {}
+  isOpen = false;
+  ngOnInit() {}
 
-  constructor() { }
-
-  ngOnInit() {
+  // 이미지 영역 보기
+  inputArea() {
+    this.isOpen = !this.isOpen;
   }
-
 }

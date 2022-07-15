@@ -27,6 +27,6 @@ export class ChattingDetailPage implements OnInit {
 
   //대화리스트로
   goChatList() {
-    this.navController.navigateBack(['/tabs/chat']);
+    this.navController.navigateBack(['/tabs/chatting']);
   }
 }
