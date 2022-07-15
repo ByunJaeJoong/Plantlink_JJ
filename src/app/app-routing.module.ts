@@ -50,6 +50,10 @@ const routes: Routes = [
     path: 'plant-search',
     loadChildren: () => import('./pages/plant-search/plant-search.module').then( m => m.PlantSearchPageModule)
   },
+  {
+    path: 'plant-detail',
+    loadChildren: () => import('./pages/plant-detail/plant-detail.module').then( m => m.PlantDetailPageModule)
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],

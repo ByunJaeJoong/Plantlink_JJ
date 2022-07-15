@@ -40,4 +40,9 @@ export class PlantPage implements OnInit {
       this.headerBackSwitch = false;
     }
   }
+
+  //식물 현재 상태
+  goPlantDetail() {
+    this.navController.navigateBack(['/plant-detail']);
+  }
 }

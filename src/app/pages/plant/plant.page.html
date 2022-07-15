@@ -13,11 +13,11 @@
     <!-- 식물이 있는 경우! -->
     <div class="plant-wrap">
       <span></span>
-      <ion-item (click)="inputArea()">
+      <ion-item (click)="$event.stopPropagation(); goPlantDetail()">
         <ion-avatar>
           <img src="assets/samples/plant-sample01.jpeg" alt="" />
         </ion-avatar>
-        <ion-label> 금목서 </ion-label>
+        <ion-label (click)="inputArea()"> 금목서 </ion-label>
         <p>디바이스와 연결됨</p>
       </ion-item>
 
@@ -33,89 +33,6 @@
           <img src="assets/samples/plant-sample01.jpeg" alt="" />
         </ion-avatar>
         <ion-label> 금목서 </ion-label>
-        <p>디바이스와 연결됨</p>
-      </ion-item>
-
-      <ion-item>
-        <ion-avatar>
-          <img src="assets/samples/plant-sample02.jpeg" alt="" />
-        </ion-avatar>
-        <ion-label> 스킨답서스 </ion-label>
-        <p>디바이스와 연결됨</p>
-      </ion-item>
-      <ion-item (click)="inputArea()">
-        <ion-avatar>
-          <img src="assets/samples/plant-sample01.jpeg" alt="" />
-        </ion-avatar>
-        <ion-label> 금목서 </ion-label>
-        <p>디바이스와 연결됨</p>
-      </ion-item>
-
-      <ion-item>
-        <ion-avatar>
-          <img src="assets/samples/plant-sample02.jpeg" alt="" />
-        </ion-avatar>
-        <ion-label> 스킨답서스 </ion-label>
-        <p>디바이스와 연결됨</p>
-      </ion-item>
-      <ion-item (click)="inputArea()">
-        <ion-avatar>
-          <img src="assets/samples/plant-sample01.jpeg" alt="" />
-        </ion-avatar>
-        <ion-label> 금목서 </ion-label>
-        <p>디바이스와 연결됨</p>
-      </ion-item>
-
-      <ion-item>
-        <ion-avatar>
-          <img src="assets/samples/plant-sample02.jpeg" alt="" />
-        </ion-avatar>
-        <ion-label> 스킨답서스 </ion-label>
-        <p>디바이스와 연결됨</p>
-      </ion-item>
-      <ion-item (click)="inputArea()">
-        <ion-avatar>
-          <img src="assets/samples/plant-sample01.jpeg" alt="" />
-        </ion-avatar>
-        <ion-label> 금목서 </ion-label>
-        <p>디바이스와 연결됨</p>
-      </ion-item>
-
-      <ion-item>
-        <ion-avatar>
-          <img src="assets/samples/plant-sample02.jpeg" alt="" />
-        </ion-avatar>
-        <ion-label> 스킨답서스 </ion-label>
-        <p>디바이스와 연결됨</p>
-      </ion-item>
-      <ion-item (click)="inputArea()">
-        <ion-avatar>
-          <img src="assets/samples/plant-sample01.jpeg" alt="" />
-        </ion-avatar>
-        <ion-label> 금목서 </ion-label>
-        <p>디바이스와 연결됨</p>
-      </ion-item>
-
-      <ion-item>
-        <ion-avatar>
-          <img src="assets/samples/plant-sample02.jpeg" alt="" />
-        </ion-avatar>
-        <ion-label> 스킨답서스 </ion-label>
-        <p>디바이스와 연결됨</p>
-      </ion-item>
-      <ion-item (click)="inputArea()">
-        <ion-avatar>
-          <img src="assets/samples/plant-sample01.jpeg" alt="" />
-        </ion-avatar>
-        <ion-label> 금목서 </ion-label>
-        <p>디바이스와 연결됨</p>
-      </ion-item>
-
-      <ion-item>
-        <ion-avatar>
-          <img src="assets/samples/plant-sample02.jpeg" alt="" />
-        </ion-avatar>
-        <ion-label> 스킨답서스 </ion-label>
         <p>디바이스와 연결됨</p>
       </ion-item>
     </div>
