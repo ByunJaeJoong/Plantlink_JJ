@@ -508,12 +508,49 @@ ion-checkbox {
 
 //######### alert css #########
 ion-alert.sc-ion-alert-ios-h {
-  --max-width: 280px !important;
+  --max-width: 335px !important;
+  --width: 100%;
 
   ion-backdrop.sc-ion-alert-ios {
     background-color: var(--ion-backdrop-color, #161616); //디자인 권장   background-color 값 추후 프로젝트에 맞게 수정해주세요.
   }
   --backdrop-opacity: 0.65; //디자인 권장 opacity 값 추후 프로젝트에 맞게 수정해주세요.
+}
+
+.two-btn {
+  .alert-wrapper {
+    border-radius: 6px !important;
+  }
+  .alert-head.sc-ion-alert-ios {
+    padding: 0;
+  }
+  .alert-message {
+    @include font(#161616, 500, 1rem, 1.1875rem);
+    padding-top: 3.5rem;
+    padding-bottom: 2.625rem;
+    background-color: #fff;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .alert-button-group {
+    background-color: #fff;
+    .alert-button {
+      border: 0;
+      height: 3.125rem;
+      background: #afd365;
+      span {
+        @include font(#fff, 500, 1rem, 1.1875rem);
+      }
+
+      &.alert-button-role-cancel {
+        background: #fff;
+
+        span {
+          @include font(#afd365, 500, 1rem, 1.1875rem);
+        }
+      }
+    }
+  }
 }
 
 //ion-button 잔상 수정
