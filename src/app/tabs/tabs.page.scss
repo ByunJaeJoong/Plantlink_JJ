@@ -1,1 +1,63 @@
+@import '../../theme/mixin.scss';
+//@include font(#161616, 300, 0.875rem, 1.0625rem);
 
+ion-tab-button {
+  ion-icon {
+    width: 1.5625rem;
+    height: 1.5625rem;
+  }
+
+  ion-label {
+    @include font(#949494, 500, 0.625rem, 0.75rem);
+  }
+
+  &.tab-selected {
+    ion-label {
+      color: #afd365;
+    }
+  }
+}
+
+.home {
+  ion-icon {
+    background: url(../../assets/images/home-icon-off.png) no-repeat center center / 1.0625rem 1.1875rem;
+  }
+  &.tab-selected {
+    ion-icon {
+      background: url(../../assets/images/home-icon-active.png) no-repeat center center/ 1.0625rem 1.1875rem;
+    }
+  }
+}
+
+.chat {
+  ion-icon {
+    background: url(../../assets/images/chat-icon-off.png) no-repeat center center / 1.0625rem;
+  }
+  &.tab-selected {
+    ion-icon {
+      background: url(../../assets/images/chat-icon-active.png) no-repeat center center/ 1.0625rem;
+    }
+  }
+}
+
+.plant {
+  ion-icon {
+    background: url(../../assets/images/plant-icon-off.png) no-repeat center center / 1.0625rem 1.1875rem;
+  }
+  &.tab-selected {
+    ion-icon {
+      background: url(../../assets/images/plant-icon-active.png) no-repeat center center/ 1.0625rem 1.1875rem;
+    }
+  }
+}
+
+.menu {
+  ion-icon {
+    background: url(../../assets/images/menu-icon-off.png) no-repeat center center / 1.0625rem 1rem;
+  }
+  &.tab-selected {
+    ion-icon {
+      background: url(../../assets/images/menu-icon-active.png) no-repeat center center/ 1.0625rem 1rem;
+    }
+  }
+}

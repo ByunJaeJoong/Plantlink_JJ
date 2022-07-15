@@ -30,6 +30,18 @@ const routes: Routes = [
     path: 'find-pass-confirm',
     loadChildren: () => import('./pages/account/find-pass-confirm/find-pass-confirm.module').then( m => m.FindPassConfirmPageModule)
   },
+  {
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'chatting',
+    loadChildren: () => import('./pages/chatting/chatting.module').then( m => m.ChattingPageModule)
+  },
+  {
+    path: 'plant',
+    loadChildren: () => import('./pages/plant/plant.module').then( m => m.PlantPageModule)
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],

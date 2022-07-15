@@ -20,4 +20,9 @@ export class LoginPage implements OnInit {
   findPw() {
     this.navController.navigateForward(['/find-password']);
   }
+
+  //홈으로
+  goHome() {
+    this.navController.navigateForward(['/tabs/home']);
+  }
 }

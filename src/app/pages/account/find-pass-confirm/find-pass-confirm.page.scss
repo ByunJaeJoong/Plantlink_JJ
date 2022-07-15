@@ -11,6 +11,6 @@ ion-content {
   h3 {
     text-align: center;
     margin-bottom: 2rem;
-    @include font(#161616, 500, 0.75rem, 0.9375rem);
+    @include font(#161616, 500, 1rem, 1.1875rem);
   }
 }
