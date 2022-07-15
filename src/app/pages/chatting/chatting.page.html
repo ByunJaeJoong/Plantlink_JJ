@@ -1,5 +1,5 @@
 <!-- Screen ID : UI C-0001 튜토리얼 -->
-<!-- Screen ID : UI C-0002 채팅 리스트-->
+<!-- Screen ID : UI C-0002 대화 리스트-->
 
 <ion-content>
   <div class="header-wrap">
@@ -11,7 +11,7 @@
   </div>
 
   <div id="chatting-list">
-    <ion-item>
+    <ion-item (click)="goChatDetail()">
       <ion-avatar>
         <img src="assets/samples/chatting-profile.png" alt="" />
       </ion-avatar>
@@ -24,8 +24,8 @@
   </div>
 
   <!-- 처음 한번만 보여지는 튜토리얼 -->
-  <div id="tutorial-wrap">
-    <ion-button fill="clear">
+  <!-- <div id="tutorial-wrap">
+    <ion-button fill="clear" (click)="onClick()">
       다시보지 않기
       <div class="icon"></div>
     </ion-button>
@@ -47,5 +47,5 @@
         프로필을 눌러 대화해보세요 :)
       </p>
     </div>
-  </div>
+  </div> -->
 </ion-content>

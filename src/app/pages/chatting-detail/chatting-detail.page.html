@@ -1,0 +1,103 @@
+<!-- Screen ID : UI C-0003 대화창-->
+
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
+  <div class="header-wrap" [ngClass]="{'active': headerBackSwitch}">
+    <ion-buttons slot="start">
+      <ion-button (click)="goChatList()" fill="clear" class="back-btn"> </ion-button>
+    </ion-buttons>
+    <h2>화분친구</h2>
+    <div class="left"></div>
+  </div>
+
+  <div class="detail-wrap" id="scrollBox">
+    <ion-item class="user-item">
+      <ion-avatar>
+        <img src="assets/samples/chatting-profile.png" alt="" />
+      </ion-avatar>
+      <ion-label>
+        <p class="content">
+          풍부하게 듣기만 붙잡아 그들의 때문이다. 것은 얼마나 살 인생을 이것이다. 우리의 위하여서, 있는 것은 반짝이는 내는 이상이 사막이다.
+        </p>
+      </ion-label>
+      <p class="time">12:35</p>
+    </ion-item>
+
+    <ion-item class="chat-item">
+      <p class="time">12:35</p>
+      <ion-label>
+        <p class="content">
+          풍부하게 듣기만 붙잡아 그들의 때문이다. 것은 얼마나 살 인생을 이것이다. 우리의 위하여서, 있는 것은 반짝이는 내는 이상이 사막이다.
+        </p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item class="user-item">
+      <ion-avatar>
+        <img src="assets/samples/chatting-profile.png" alt="" />
+      </ion-avatar>
+      <ion-label>
+        <p class="content">
+          풍부하게 듣기만 붙잡아 그들의 때문이다. 것은 얼마나 살 인생을 이것이다. 우리의 위하여서, 있는 것은 반짝이는 내는 이상이 사막이다.
+        </p>
+      </ion-label>
+      <p class="time">12:35</p>
+    </ion-item>
+
+    <ion-item class="user-item">
+      <ion-avatar>
+        <img src="assets/samples/chatting-profile.png" alt="" />
+      </ion-avatar>
+      <ion-label>
+        <p class="content">
+          풍부하게 듣기만 붙잡아 그들의 때문이다. 것은 얼마나 살 인생을 이것이다. 우리의 위하여서, 있는 것은 반짝이는 내는 이상이 사막이다.
+        </p>
+      </ion-label>
+      <p class="time">12:35</p>
+    </ion-item>
+
+    <ion-item class="user-item">
+      <ion-avatar>
+        <img src="assets/samples/chatting-profile.png" alt="" />
+      </ion-avatar>
+      <ion-label>
+        <p class="content">
+          풍부하게 듣기만 붙잡아 그들의 때문이다. 것은 얼마나 살 인생을 이것이다. 우리의 위하여서, 있는 것은 반짝이는 내는 이상이 사막이다.
+        </p>
+      </ion-label>
+      <p class="time">12:35</p>
+    </ion-item>
+
+    <ion-item class="user-item">
+      <ion-avatar>
+        <img src="assets/samples/chatting-profile.png" alt="" />
+      </ion-avatar>
+      <ion-label>
+        <p class="content">
+          풍부하게 듣기만 붙잡아 그들의 때문이다. 것은 얼마나 살 인생을 이것이다. 우리의 위하여서, 있는 것은 반짝이는 내는 이상이 사막이다.
+        </p>
+      </ion-label>
+      <p class="time">12:35</p>
+    </ion-item>
+
+    <ion-item class="user-item">
+      <ion-avatar>
+        <img src="assets/samples/chatting-profile.png" alt="" />
+      </ion-avatar>
+      <ion-label>
+        <p class="content">
+          풍부하게 듣기만 붙잡아 그들의 때문이다. 것은 얼마나 살 인생을 이것이다. 우리의 위하여서, 있는 것은 반짝이는 내는 이상이 사막이다.
+        </p>
+      </ion-label>
+      <p class="time">12:35</p>
+    </ion-item>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <!-- TODO 글씨 입력했을 때 디자인 없음 :확인하고 패딩값! -->
+  <ion-toolbar class="chat-box">
+    <ion-item class="input-chat-wrap">
+      <ion-input type="text" inputmode="text"></ion-input>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

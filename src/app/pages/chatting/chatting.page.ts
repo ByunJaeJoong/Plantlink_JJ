@@ -15,4 +15,9 @@ export class ChattingPage implements OnInit {
   goHome() {
     this.navController.navigateBack(['/tabs/home']);
   }
+
+  //채팅디테일
+  goChatDetail() {
+    this.navController.navigateForward(['/chatting-detail']);
+  }
 }

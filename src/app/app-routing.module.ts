@@ -42,6 +42,10 @@ const routes: Routes = [
     path: 'plant',
     loadChildren: () => import('./pages/plant/plant.module').then( m => m.PlantPageModule)
   },
+  {
+    path: 'chatting-detail',
+    loadChildren: () => import('./pages/chatting-detail/chatting-detail.module').then( m => m.ChattingDetailPageModule)
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],

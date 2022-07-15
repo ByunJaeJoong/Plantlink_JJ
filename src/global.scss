@@ -254,11 +254,23 @@ ion-header {
   }
 }
 
+ion-footer {
+  ion-toolbar {
+    --min-height: 2.6875rem;
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    --padding-bottom: 0;
+  }
+}
+
 //ion-header 아래 보더
 .header-ios ion-toolbar:last-of-type {
   --border-width: 0 0 0 0;
 }
-
+.footer-ios ion-toolbar:last-of-type {
+  --border-width: 0 0 0 0;
+}
 //ion-list-header
 ion-list-header {
   --border-color: transparent;
@@ -412,6 +424,32 @@ ion-input {
 
   &.item-has-focus {
     border: 1px solid #161616;
+  }
+}
+
+//채팅 디테일 인풋
+.chat-box {
+  --padding-top: 0.3125rem;
+  --padding-bottom: 0.3125rem;
+  --padding-start: 1.75rem;
+  --padding-end: 1.75rem;
+
+  .input-chat-wrap {
+    --background: #f0f0f0;
+    --border-radius: 17px;
+
+    ion-input {
+      height: 33px;
+      --placeholder-opacity: 1;
+
+      .native-input.sc-ion-input-ios {
+        --placeholder-opacity: 1;
+        --placeholder-color: #949494;
+        padding-inline-start: 1rem;
+
+        @include font(#161616, 400, 0.875rem, 1.0625rem);
+      }
+    }
   }
 }
 
