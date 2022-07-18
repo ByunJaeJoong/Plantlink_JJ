@@ -28,31 +28,39 @@ const routes: Routes = [
   },
   {
     path: 'find-pass-confirm',
-    loadChildren: () => import('./pages/account/find-pass-confirm/find-pass-confirm.module').then( m => m.FindPassConfirmPageModule)
+    loadChildren: () => import('./pages/account/find-pass-confirm/find-pass-confirm.module').then(m => m.FindPassConfirmPageModule),
   },
   {
     path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule),
   },
   {
     path: 'chatting',
-    loadChildren: () => import('./pages/chatting/chatting.module').then( m => m.ChattingPageModule)
+    loadChildren: () => import('./pages/chatting/chatting.module').then(m => m.ChattingPageModule),
   },
   {
     path: 'plant',
-    loadChildren: () => import('./pages/plant/plant.module').then( m => m.PlantPageModule)
+    loadChildren: () => import('./pages/plant/plant.module').then(m => m.PlantPageModule),
   },
   {
     path: 'chatting-detail',
-    loadChildren: () => import('./pages/chatting-detail/chatting-detail.module').then( m => m.ChattingDetailPageModule)
+    loadChildren: () => import('./pages/chatting-detail/chatting-detail.module').then(m => m.ChattingDetailPageModule),
   },
   {
     path: 'plant-search',
-    loadChildren: () => import('./pages/plant-search/plant-search.module').then( m => m.PlantSearchPageModule)
+    loadChildren: () => import('./pages/plant-search/plant-search.module').then(m => m.PlantSearchPageModule),
   },
   {
     path: 'plant-detail',
-    loadChildren: () => import('./pages/plant-detail/plant-detail.module').then( m => m.PlantDetailPageModule)
+    loadChildren: () => import('./pages/plant-detail/plant-detail.module').then(m => m.PlantDetailPageModule),
+  },
+  {
+    path: 'setting',
+    loadChildren: () => import('./pages/setting/setting.module').then(m => m.SettingPageModule),
+  },
+  {
+    path: 'app-menu',
+    loadChildren: () => import('./pages/app-menu/app-menu.module').then( m => m.AppMenuPageModule)
   },
 ];
 @NgModule({
