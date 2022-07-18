@@ -1,6 +1,18 @@
 <div class="flex-center">
-  <ion-button fill="clear"><img src="assets/images/home-icon-off.png" alt="" /> </ion-button>
-  <ion-button fill="clear"><img src="../../../../assets/images/chat-icon-off.png" alt="" /> </ion-button>
-  <ion-button fill="clear"><img src="../../../" alt="" /> </ion-button>
-  <ion-button fill="clear" class="chat-tab"> </ion-button>
+  <div class="box home" (click)="goHome()">
+    <ion-icon></ion-icon>
+    <ion-label>홈</ion-label>
+  </div>
+  <div class="box chat" (click)="goChatting()">
+    <ion-icon></ion-icon>
+    <ion-label>대화</ion-label>
+  </div>
+  <div class="box plant">
+    <ion-icon></ion-icon>
+    <ion-label class="plant-label">식물</ion-label>
+  </div>
+  <div class="box menu">
+    <ion-icon></ion-icon>
+    <ion-label>메뉴</ion-label>
+  </div>
 </div>

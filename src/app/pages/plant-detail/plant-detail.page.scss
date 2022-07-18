@@ -1,0 +1,139 @@
+@import '../../../theme/mixin.scss';
+//@include font(#161616, 300, 0.875rem, 1.0625rem);
+
+ion-content {
+  --background: url(../../../assets/samples/plant-background.png) no-repeat center center / 100% 100%;
+}
+
+.header-wrap {
+  width: 100%;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 300;
+
+  &.active {
+    background: #fff;
+    transition: background ease-in-out 0.2s;
+  }
+
+  h2 {
+    text-align: center;
+    @include font(#161616, 600, 1rem, 1.1875rem);
+  }
+  .back-btn {
+    width: 1.875rem;
+    height: 1.875rem;
+    background: url(../../../assets/images/back-icon.png) no-repeat center center/ 100%;
+  }
+
+  .left {
+    width: 1.875rem;
+    height: 1.875rem;
+  }
+}
+
+#plant-slider-wrap {
+  padding: 1.8125rem 1.25rem;
+
+  ion-slides {
+    height: auto;
+
+    ion-slide {
+      .flex-slide-wrap {
+        width: 100%;
+        .title {
+          display: flex;
+          align-items: center;
+          margin-bottom: 1.125rem;
+
+          img {
+            width: 1rem;
+            height: 1.1875rem;
+          }
+          p {
+            @include font(#161616, 600, 1rem, 1.1875rem);
+          }
+        }
+
+        ion-card {
+          padding: 1rem;
+          border-radius: 6px;
+          margin-bottom: 4.6875rem;
+          .sub-title {
+            margin-bottom: 1.0625rem;
+            img {
+              margin-right: 0.25rem;
+              width: 1.625rem;
+              height: 1.625rem;
+            }
+            ion-label {
+              @include font(#161616, 600, 0.9375rem, 1.125rem);
+              opacity: 80%;
+            }
+          }
+
+          .con {
+            display: flex;
+            justify-content: space-between;
+            div {
+              text-align: left;
+              width: 100%;
+            }
+            .justify-wrap {
+              display: flex;
+              justify-content: space-between;
+              align-items: baseline;
+
+              ion-label {
+                width: 3.4375rem;
+                text-align: left;
+              }
+            }
+
+            .top {
+              margin-bottom: 0.25rem;
+              @include font(#949494, 400, 0.8125rem, 1rem);
+            }
+            .bottom {
+              @include font(#161616, 600, 1rem, 1.1875rem);
+            }
+
+            .red {
+              color: #d54f62;
+            }
+            .blue {
+              color: #5483ef;
+            }
+
+            .up-down {
+              display: flex;
+              p {
+                font-size: 0.625rem;
+                font-weight: 400;
+                line-height: 0.75rem;
+              }
+              img {
+                width: 0.75rem;
+                height: 0.75rem;
+              }
+            }
+
+            //중간 막대
+            span {
+              display: block;
+              width: 0.25rem;
+              height: 2.3125rem;
+              background-color: #f0f0f0;
+              margin-right: 1.3438rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}

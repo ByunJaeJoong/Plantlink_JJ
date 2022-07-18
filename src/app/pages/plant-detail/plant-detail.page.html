@@ -1,9 +1,107 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>plant-detail</ion-title>
-  </ion-toolbar>
-</ion-header>
+<!-- Screen ID : UI S-0001 식물 현재 상태-->
 
-<ion-content>
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
+  <div class="header-wrap" [ngClass]="{'active': headerBackSwitch}">
+    <ion-buttons slot="start">
+      <ion-button (click)="goHome()" fill="clear" class="back-btn"> </ion-button>
+    </ion-buttons>
+    <h2>식물</h2>
+    <div class="left"></div>
+  </div>
 
+  <div id="plant-slider-wrap">
+    <ion-slides [options]="slideOpts" class="plant-slide">
+      <ion-slide>
+        <div class="flex-slide-wrap">
+          <div class="wrap">
+            <div class="title">
+              <img src="assets/images/plant-name-icon.png" alt="" />
+              <p>골드</p>
+            </div>
+
+            <!-- 온도 카드 -->
+            <ion-card class="first">
+              <ion-item class="sub-title">
+                <img src="assets/images/plant-temperature-icon.png" alt="" />
+                <ion-label>온도</ion-label>
+              </ion-item>
+
+              <ion-item class="con">
+                <div class="left">
+                  <p class="top">Best</p>
+                  <p class="bottom">16~20 °C</p>
+                </div>
+                <span></span>
+                <div class="right">
+                  <p class="top">Yours</p>
+                  <div class="justify-wrap">
+                    <p class="bottom">18 °C</p>
+                    <ion-label class="up-down">-</ion-label>
+                  </div>
+                </div>
+              </ion-item>
+            </ion-card>
+
+            <!-- 조도 카드 -->
+            <ion-card class="second">
+              <ion-item class="sub-title">
+                <img src="assets/images/plant- illuminance-icon.png" alt="" />
+                <ion-label>조도</ion-label>
+              </ion-item>
+
+              <ion-item class="con">
+                <div class="left">
+                  <p class="top">Best</p>
+                  <p class="bottom">800~1,500 lux</p>
+                </div>
+                <span></span>
+                <div class="right">
+                  <p class="top">Yours</p>
+                  <div class="justify-wrap">
+                    <p class="bottom red">2,000 lux</p>
+                    <ion-label class="up-down">
+                      <img src="assets/images/up-icon.png" alt="" />
+                      <p class="red">500lux</p>
+                    </ion-label>
+                  </div>
+                </div>
+              </ion-item>
+            </ion-card>
+
+            <!-- 토양수분 카드 -->
+            <ion-card class="third">
+              <ion-item class="sub-title">
+                <img src="assets/images/plant-water-icon.png" alt="" />
+                <ion-label>토양수분</ion-label>
+              </ion-item>
+
+              <ion-item class="con">
+                <div class="left">
+                  <p class="top">Best</p>
+                  <p class="bottom">45~50 %</p>
+                </div>
+                <span></span>
+                <div class="right">
+                  <p class="top">Yours</p>
+                  <div class="justify-wrap">
+                    <p class="bottom blue">43 %</p>
+                    <ion-label class="up-down">
+                      <img src="/assets/images/down-icon.png" alt="" />
+                      <p class="blue">2%</p>
+                    </ion-label>
+                  </div>
+                </div>
+              </ion-item>
+            </ion-card>
+          </div>
+        </div>
+      </ion-slide>
+    </ion-slides>
+  </div>
 </ion-content>
+
+<ion-footer class="fake-tab">
+  <ion-toolbar>
+    <app-fake-tab></app-fake-tab>
+  </ion-toolbar>
+</ion-footer>
