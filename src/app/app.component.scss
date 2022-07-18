@@ -1,0 +1,44 @@
+.my-custom-menu {
+  --width: 55%;
+
+  &.ion-menu::part(backdrop) {
+    --background: transparent !important;
+  }
+
+  .show-backdrop {
+    background-color: transparent !important;
+  }
+
+  .menu-inner {
+    background-color: transparent !important;
+  }
+
+  .header-wrap {
+    width: 100%;
+    padding: 0.8125rem 1.0625rem;
+    ion-button {
+      width: 1.875rem;
+      height: 1.875rem;
+      background: url(../assets/images/menu-close-btn.png) no-repeat center center / 100%;
+    }
+  }
+
+  ion-lst {
+    width: 100%;
+    ion-item {
+      width: 100%;
+      margin-bottom: 3rem;
+    }
+  }
+}
+
+ion-item {
+  height: 50px;
+  background: red;
+  ion-label {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.1875rem;
+    --background: transparent;
+  }
+}

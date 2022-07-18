@@ -10,4 +10,9 @@ export class HomePage implements OnInit {
   constructor(public menuController: MenuController) {}
 
   ngOnInit() {}
+
+  // 메뉴
+  openAppMenu() {
+    this.menuController.open('first');
+  }
 }

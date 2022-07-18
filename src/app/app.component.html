@@ -1,3 +1,20 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu side="end" type="push" menuId="first" contentId="main" class="my-custom-menu">
+    <ion-content>
+      <div class="header-wrap">
+        <ion-buttons slot="end">
+          <ion-button fill="clear"> </ion-button>
+        </ion-buttons>
+      </div>
+
+      <ion-item type="button"> 일기장 </ion-item>
+      <ion-item type="button"> 식물 현재 상태 </ion-item>
+      <ion-item type="button"> 식물 보고서 </ion-item>
+      <ion-item type="button"> 식물 도감 </ion-item>
+      <ion-item type="button"> Bluetooth 연결 </ion-item>
+      <ion-item type="button"> 개인 설정 </ion-item>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="main"></ion-router-outlet>
 </ion-app>

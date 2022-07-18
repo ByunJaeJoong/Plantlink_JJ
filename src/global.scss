@@ -574,6 +574,28 @@ ion-button {
   }
 }
 
+//메뉴 커스텀
+.my-custom-menu {
+  ion-content {
+    --background-color: transparent;
+  }
+  &.menu-inner {
+    background-color: transparent !important;
+  }
+
+  // &.ion-menu::part(backdrop) {
+  //   --background: transparent !important;
+  // }
+
+  // .show-backdrop {
+  //   background-color: transparent !important;
+  // }
+
+  &::part(backdrop) {
+    display: none;
+  }
+}
+
 // 반응형
 
 @media screen and (max-width: 320px) {
