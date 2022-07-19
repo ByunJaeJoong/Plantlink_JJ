@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goSetting()" fill="clear" class="back-btn"> </ion-button>
+    </ion-buttons>
+    <ion-title>일기장</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <mbsc-eventcalendar class="calendar" [headerTemplate]="customTemplate" [options]="eventSettings">
+    <ng-template #customTemplate>
+      <mbsc-calendar-today (click)="setToday()"></mbsc-calendar-today>
+      <mbsc-calendar-prev></mbsc-calendar-prev>
+      <mbsc-calendar-nav></mbsc-calendar-nav>
+      <mbsc-calendar-next></mbsc-calendar-next>
+    </ng-template>
+  </mbsc-eventcalendar>
+</ion-content>
+
+<ion-footer class="fake-tab">
+  <ion-toolbar>
+    <app-fake-tab-off></app-fake-tab-off>
+  </ion-toolbar>
+</ion-footer>

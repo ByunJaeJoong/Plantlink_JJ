@@ -1,18 +1,34 @@
 <ion-app>
-  <ion-menu side="end" type="push" menuId="first" contentId="main" class="my-custom-menu">
+  <ion-menu side="end" type="overlay" menuId="first" contentId="main" class="my-custom-menu">
     <ion-content>
-      <div class="header-wrap">
-        <ion-buttons slot="end">
-          <ion-button fill="clear"> </ion-button>
-        </ion-buttons>
-      </div>
+      <div class="content-wrap">
+        <div class="header-wrap">
+          <ion-buttons slot="end">
+            <ion-button (click)="goBack()" fill="clear" class="close-back"> </ion-button>
+          </ion-buttons>
+        </div>
 
-      <ion-item type="button"> 일기장 </ion-item>
-      <ion-item type="button"> 식물 현재 상태 </ion-item>
-      <ion-item type="button"> 식물 보고서 </ion-item>
-      <ion-item type="button"> 식물 도감 </ion-item>
-      <ion-item type="button"> Bluetooth 연결 </ion-item>
-      <ion-item type="button"> 개인 설정 </ion-item>
+        <div class="menu-wrap">
+          <ion-item (click)="goDiary()">
+            <ion-label>일기장</ion-label>
+          </ion-item>
+          <ion-item (click)="goPlantDetail()">
+            <ion-label>식물 현재 상태</ion-label>
+          </ion-item>
+          <ion-item (click)="goPlantReport()">
+            <ion-label>식물 보고서</ion-label>
+          </ion-item>
+          <ion-item (click)="goPlantBook()">
+            <ion-label>식물 도감</ion-label>
+          </ion-item>
+          <ion-item (click)="goBlueTooth()">
+            <ion-label>Bluetooth 연결</ion-label>
+          </ion-item>
+          <ion-item (click)="goSetting()">
+            <ion-label>개인 설정</ion-label>
+          </ion-item>
+        </div>
+      </div>
     </ion-content>
   </ion-menu>
 

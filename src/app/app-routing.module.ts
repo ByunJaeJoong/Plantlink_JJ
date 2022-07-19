@@ -60,23 +60,35 @@ const routes: Routes = [
   },
   {
     path: 'app-menu',
-    loadChildren: () => import('./pages/app-menu/app-menu.module').then( m => m.AppMenuPageModule)
+    loadChildren: () => import('./pages/app-menu/app-menu.module').then(m => m.AppMenuPageModule),
   },
   {
     path: 'faq',
-    loadChildren: () => import('./pages/faq/faq.module').then( m => m.FaqPageModule)
+    loadChildren: () => import('./pages/faq/faq.module').then(m => m.FaqPageModule),
   },
   {
     path: 'contract',
-    loadChildren: () => import('./pages/contract/contract.module').then( m => m.ContractPageModule)
+    loadChildren: () => import('./pages/contract/contract.module').then(m => m.ContractPageModule),
   },
   {
     path: 'info',
-    loadChildren: () => import('./pages/info/info.module').then( m => m.InfoPageModule)
+    loadChildren: () => import('./pages/info/info.module').then(m => m.InfoPageModule),
   },
   {
     path: 'connect-device',
-    loadChildren: () => import('./pages/connect-device/connect-device.module').then( m => m.ConnectDevicePageModule)
+    loadChildren: () => import('./pages/connect-device/connect-device.module').then(m => m.ConnectDevicePageModule),
+  },
+  {
+    path: 'diary',
+    loadChildren: () => import('./pages/diary/diary.module').then( m => m.DiaryPageModule)
+  },
+  {
+    path: 'plant-report',
+    loadChildren: () => import('./pages/plant-report/plant-report.module').then( m => m.PlantReportPageModule)
+  },
+  {
+    path: 'plant-book',
+    loadChildren: () => import('./pages/plant-book/plant-book.module').then( m => m.PlantBookPageModule)
   },
 ];
 @NgModule({

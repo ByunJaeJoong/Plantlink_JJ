@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { MenuController, NavController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@awesome-cordova-plugins/splash-screen/ngx';
 import { StatusBar } from '@awesome-cordova-plugins/status-bar/ngx';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
@@ -20,7 +20,9 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private screenOrientation: ScreenOrientation,
-    private mobileAccessibility: MobileAccessibility
+    private mobileAccessibility: MobileAccessibility,
+    private navController: NavController,
+    private menu: MenuController
   ) {
     this.initializeApp();
   }
@@ -65,5 +67,46 @@ export class AppComponent {
 
       this.splashScreen.hide();
     });
+  }
+
+  // 메뉴 닫기
+  goBack() {
+    this.menu.close();
+  }
+
+  //다이어리로
+  goDiary() {
+    this.menu.close();
+    this.navController.navigateForward(['/diary']);
+  }
+
+  //식물 현재 상태로
+  goPlantDetail() {
+    this.menu.close();
+    this.navController.navigateForward(['/plant-detail']);
+  }
+
+  //식물 보고서
+  goPlantReport() {
+    this.menu.close();
+    this.navController.navigateForward(['/plant-report']);
+  }
+
+  //식물 도감
+  goPlantBook() {
+    this.menu.close();
+    this.navController.navigateForward(['/plant-book']);
+  }
+
+  //블루투스 연결하기
+  goBlueTooth() {
+    this.menu.close();
+    this.navController.navigateForward(['/connect-device']);
+  }
+
+  //세팅
+  goSetting() {
+    this.menu.close();
+    this.navController.navigateForward(['/setting']);
   }
 }

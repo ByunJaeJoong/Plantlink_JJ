@@ -615,24 +615,34 @@ ion-button {
 }
 
 //메뉴 커스텀
+//TODO 미디어쿼리 se 일때 넓이 이상해짐 + 갤럭시 폴드도.. / 홈 화면... 갤럭시 폴드 일때 이상함
 .my-custom-menu {
-  ion-content {
-    --background-color: transparent;
+  // background: transparent !important;
+  --width: 55%;
+  // --height: calc(100% - 3.5rem);
+
+  .header-wrap {
+    .sc-ion-buttons-ios-h {
+      justify-content: flex-end;
+    }
   }
-  &.menu-inner {
-    background-color: transparent !important;
-  }
-
-  // &.ion-menu::part(backdrop) {
-  //   --background: transparent !important;
-  // }
-
-  // .show-backdrop {
-  //   background-color: transparent !important;
-  // }
-
   &::part(backdrop) {
     display: none;
+  }
+
+  .menu-wrap {
+    padding-top: 5.25rem;
+    ion-item {
+      --padding-top: 1.5rem;
+      --padding-bottom: 1.5rem;
+      --background: transparent;
+      --padding-end: 1.75rem;
+
+      ion-label {
+        text-align: right;
+        @include font(#161616, 600, 1rem, 1.1875rem);
+      }
+    }
   }
 }
 
