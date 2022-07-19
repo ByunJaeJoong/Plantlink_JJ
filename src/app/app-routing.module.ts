@@ -62,6 +62,18 @@ const routes: Routes = [
     path: 'app-menu',
     loadChildren: () => import('./pages/app-menu/app-menu.module').then( m => m.AppMenuPageModule)
   },
+  {
+    path: 'faq',
+    loadChildren: () => import('./pages/faq/faq.module').then( m => m.FaqPageModule)
+  },
+  {
+    path: 'contract',
+    loadChildren: () => import('./pages/contract/contract.module').then( m => m.ContractPageModule)
+  },
+  {
+    path: 'info',
+    loadChildren: () => import('./pages/info/info.module').then( m => m.InfoPageModule)
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],

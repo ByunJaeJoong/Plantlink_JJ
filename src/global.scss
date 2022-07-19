@@ -596,6 +596,36 @@ ion-button {
   }
 }
 
+//faq
+mat-accordion {
+  mat-expansion-panel-header {
+    padding: 1.1875rem 1.25rem;
+    height: auto;
+    font-weight: 500;
+    border-bottom: 1px solid #eeeeee;
+  }
+  .mat-expansion-panel-body {
+    padding: 1.25rem;
+    background-color: #f8f8fa;
+    border-bottom: 1px solid #eee;
+    white-space: pre-line;
+    word-break: break-all;
+  }
+  .mat-expansion-panel:not([class*='mat-elevation-z']) {
+    box-shadow: none;
+    background: url(././assets/images/faq-arrow.png) no-repeat right center/ 24px 24px;
+  }
+  .mat-expansion-indicator {
+    width: 24px;
+    height: 24px;
+    // background: url(././assets/img/notice_up_icon.png) no-repeat right center/ 100% 100%;
+
+    &::after {
+      display: none;
+    }
+  }
+}
+
 // 반응형
 
 @media screen and (max-width: 320px) {

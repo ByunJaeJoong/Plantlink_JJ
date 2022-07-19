@@ -1,3 +1,5 @@
+<!-- Screen ID : UI S-0001 -->
+
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -22,17 +24,17 @@
     <p>plantlink@gmail.com</p>
 
     <div class="list-wrap">
-      <ion-item>
+      <ion-item (click)="goFaq()">
         <img src="assets/images/setting-faq-icon.png" alt="" />
         <ion-label>FAQ</ion-label>
         <img src="assets/images/setting-next-btn.png" alt="" />
       </ion-item>
-      <ion-item>
+      <ion-item (click)="goContract()">
         <img src="assets/images/setting-constract-icon.png" alt="" />
         <ion-label>사용자 계약</ion-label>
         <img src="assets/images/setting-next-btn.png" alt="" />
       </ion-item>
-      <ion-item>
+      <ion-item (click)="goInfo()">
         <img src="assets/images/setting-info-icon.png" alt="" />
         <ion-label>정보</ion-label>
         <img src="assets/images/setting-next-btn.png" alt="" />

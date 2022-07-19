@@ -25,6 +25,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import * as firebase from 'firebase/app';
 import { environment } from 'src/environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 firebase.default.initializeApp(environment.firebase);
 
@@ -40,6 +41,7 @@ firebase.default.initializeApp(environment.firebase);
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     StatusBar,
