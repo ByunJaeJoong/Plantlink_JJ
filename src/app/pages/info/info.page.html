@@ -2,8 +2,25 @@
 
 <ion-header>
   <ion-toolbar>
-    <ion-title>info</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="goSetting()" fill="clear" class="back-btn"> </ion-button>
+    </ion-buttons>
+    <ion-title>정보</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content> </ion-content>
+<ion-content>
+  <div id="info-wrap">
+    <div class="icon"></div>
+    <p>버전 1.0</p>
+
+    <ion-item>
+      <img src="assets/images/mail-icon.png" alt="" />
+      <ion-label>
+        <p>E-mail</p>
+        <p class="main-color">plantlink@linkto.co.kr</p>
+      </ion-label>
+    </ion-item>
+    <ion-button fill="clear" (click)="goLogout()"> 로그아웃 </ion-button>
+  </div>
+</ion-content>

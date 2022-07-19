@@ -517,6 +517,7 @@ ion-alert.sc-ion-alert-ios-h {
   --backdrop-opacity: 0.65; //디자인 권장 opacity 값 추후 프로젝트에 맞게 수정해주세요.
 }
 
+//버튼 두개 alert
 .two-btn {
   .alert-wrapper {
     border-radius: 6px !important;
@@ -527,6 +528,45 @@ ion-alert.sc-ion-alert-ios-h {
   .alert-message {
     @include font(#161616, 500, 1rem, 1.1875rem);
     padding-top: 3.5rem;
+    padding-bottom: 2.625rem;
+    background-color: #fff;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .alert-button-group {
+    background-color: #fff;
+    .alert-button {
+      border: 0;
+      height: 3.125rem;
+      background: #afd365;
+      span {
+        @include font(#fff, 500, 1rem, 1.1875rem);
+      }
+
+      &.alert-button-role-cancel {
+        background: #fff;
+
+        span {
+          @include font(#afd365, 500, 1rem, 1.1875rem);
+        }
+      }
+    }
+  }
+}
+
+//헤더있는 버튼두개 alert
+.two-btn-header {
+  .alert-wrapper {
+    border-radius: 6px !important;
+  }
+  .alert-head.sc-ion-alert-ios {
+    padding-top: 3.125rem;
+    background-color: #fff;
+    @include font(#161616, 500, 1rem, 1.1875rem);
+  }
+  .alert-message {
+    @include font(#161616, 400, 0.9375rem, 1.125rem);
+
     padding-bottom: 2.625rem;
     background-color: #fff;
     border-bottom: 1px solid #f0f0f0;

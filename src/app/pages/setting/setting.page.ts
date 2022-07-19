@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-setting',
@@ -7,7 +8,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./setting.page.scss'],
 })
 export class SettingPage implements OnInit {
-  constructor(private navController: NavController) {}
+  constructor(private navController: NavController, private alertService: AlertService) {}
 
   ngOnInit() {}
 
@@ -26,7 +27,13 @@ export class SettingPage implements OnInit {
     this.navController.navigateForward(['/contract']);
   }
 
+  //백버튼
   goSetting() {
     this.navController.navigateForward(['/setting']);
+  }
+
+  //캐시 삭제 alert
+  deleteCashAlert() {
+    this.alertService.cancelOkBtn('two-btn-header', '크기 0.1M', '캐시를 삭제하시겠어요?', '취소', '확인');
   }
 }

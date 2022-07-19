@@ -3,7 +3,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="goChatList()" fill="clear" class="back-btn"> </ion-button>
+      <ion-button (click)="goSetting()" fill="clear" class="back-btn"> </ion-button>
     </ion-buttons>
     <ion-title>개인 설정</ion-title>
   </ion-toolbar>
@@ -39,7 +39,7 @@
         <ion-label>정보</ion-label>
         <img src="assets/images/setting-next-btn.png" alt="" />
       </ion-item>
-      <ion-item>
+      <ion-item (click)="deleteCashAlert()">
         <img src="assets/images/setting-delete-icon.png" alt="" />
         <ion-label>캐시 삭제</ion-label>
         <img src="assets/images/setting-next-btn.png" alt="" />
