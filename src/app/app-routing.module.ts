@@ -74,6 +74,10 @@ const routes: Routes = [
     path: 'info',
     loadChildren: () => import('./pages/info/info.module').then( m => m.InfoPageModule)
   },
+  {
+    path: 'connect-device',
+    loadChildren: () => import('./pages/connect-device/connect-device.module').then( m => m.ConnectDevicePageModule)
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],
