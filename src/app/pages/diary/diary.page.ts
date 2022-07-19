@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { localeKo, MbscEventcalendarOptions } from '@mobiscroll/angular';
+import { localeKo, MbscCalendarEvent, MbscEventcalendarOptions } from '@mobiscroll/angular';
 
 @Component({
   selector: 'app-diary',
@@ -9,6 +9,8 @@ import { localeKo, MbscEventcalendarOptions } from '@mobiscroll/angular';
 })
 export class DiaryPage implements OnInit {
   constructor(private http: HttpClient) {}
+
+  myEvents: MbscCalendarEvent[] = [];
 
   eventSettings: MbscEventcalendarOptions = {
     locale: localeKo,
@@ -27,5 +29,9 @@ export class DiaryPage implements OnInit {
     },
   };
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.http.jsonp<MbscCalendarEvent[]>('https://trial.mobiscroll.com/events/?vers=5', 'callback').subscribe(resp => {
+      this.myEvents = resp;
+    });
+  }
 }

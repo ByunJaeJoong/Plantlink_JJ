@@ -833,6 +833,35 @@ mat-accordion {
   }
 }
 
+.mbsc-event-list {
+  height: auto !important;
+  overflow: scroll !important;
+  // padding-bottom: 5.5rem !important;
+
+  // border-top: 1px solid #f0f0f0;
+  // .mbsc-list {
+  //   height: auto;
+  //   .mbsc-event-list-empty {
+  //     height: calc(100vh - 3.5rem - 3.5rem - 23.6875rem - 5.5rem) !important;
+  //   }
+  // }
+  // .mbsc-list-item {
+  //   padding: 1rem 0;
+  //   display: block;
+  //   &:nth-last-of-type(1) {
+  //     // padding-top: 0;
+  //     &::after {
+  //       border: none;
+  //       display: none;
+  //     }
+  //   }
+  //   &.mbsc-ios.mbsc-list-item:before {
+  //     display: none;
+  //     border: none;
+  //   }
+  // }
+}
+
 // 반응형
 
 @media screen and (max-width: 320px) {

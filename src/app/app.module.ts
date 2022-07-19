@@ -28,7 +28,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import * as firebase from 'firebase/app';
 import { environment } from 'src/environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 firebase.default.initializeApp(environment.firebase);
 

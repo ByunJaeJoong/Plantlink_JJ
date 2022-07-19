@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <mbsc-eventcalendar class="calendar" [headerTemplate]="customTemplate" [options]="eventSettings">
+  <mbsc-eventcalendar class="calendar" [headerTemplate]="customTemplate" [eventTemplate]="myTemplate" [options]="eventSettings">
     <ng-template #customTemplate>
       <mbsc-calendar-nav></mbsc-calendar-nav>
       <div class="wrap">
@@ -17,6 +17,14 @@
       </div>
     </ng-template>
   </mbsc-eventcalendar>
+  <ng-template #myTemplate class="template-list">
+    <ion-item>
+      <ion-thumbnail>
+        <img src="../../../assets/samples/diary-sample01.png" alt="" />
+      </ion-thumbnail>
+      <ion-label>Awesome Label</ion-label>
+    </ion-item>
+  </ng-template>
 </ion-content>
 
 <ion-footer class="fake-tab">
