@@ -1,3 +1,5 @@
+import { FormsModule } from '@angular/forms';
+import { MbscModule } from '@mobiscroll/angular';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -26,6 +28,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import * as firebase from 'firebase/app';
 import { environment } from 'src/environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 firebase.default.initializeApp(environment.firebase);
 
@@ -33,10 +36,14 @@ firebase.default.initializeApp(environment.firebase);
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
+    MbscModule,
+    FormsModule,
+    MbscModule,
     BrowserModule,
     IonicModule.forRoot({ mode: 'ios' }),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
+    HttpClientModule,
 
     AngularFirestoreModule,
     AngularFireAuthModule,

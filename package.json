@@ -37,6 +37,7 @@
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/mobile-accessibility": "^5.36.0",
     "@ionic/angular": "^5.0.0",
+    "@mobiscroll/angular": "^5.17.2",
     "cordova-ios": "6.2.0",
     "firebase": "^8.10.1",
     "install": "^0.13.0",

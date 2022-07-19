@@ -7,14 +7,10 @@ import { IonicModule } from '@ionic/angular';
 import { DiaryPageRoutingModule } from './diary-routing.module';
 
 import { DiaryPage } from './diary.page';
+import { MbscModule } from '@mobiscroll/angular';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    DiaryPageRoutingModule
-  ],
-  declarations: [DiaryPage]
+  imports: [CommonModule, FormsModule, IonicModule, DiaryPageRoutingModule, MbscModule],
+  declarations: [DiaryPage],
 })
 export class DiaryPageModule {}
