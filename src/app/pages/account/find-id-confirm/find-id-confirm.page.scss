@@ -1,6 +1,12 @@
 @import '../../../../theme/mixin.scss';
 //@include font(#161616, 300, 0.875rem, 1.0625rem);
-
+ion-header {
+  ion-toolbar {
+    ion-title {
+      @include font(#161616, 500, 1rem, 1.1875rem);
+    }
+  }
+}
 ion-content {
   --padding-start: 1rem;
   --padding-end: 1rem;

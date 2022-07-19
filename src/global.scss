@@ -249,7 +249,7 @@ ion-header {
     --padding-top: 0;
     --padding-bottom: 0;
     ion-title {
-      @include font(#161616, 500, 1rem, 1.1875rem);
+      @include font(#161616, 600, 1rem, 1.1875rem);
     }
   }
 }
@@ -639,26 +639,38 @@ ion-button {
 //faq
 mat-accordion {
   mat-expansion-panel-header {
-    padding: 1.1875rem 1.25rem;
-    height: auto;
-    font-weight: 500;
-    border-bottom: 1px solid #eeeeee;
+    padding-top: 0.875rem;
+    padding-bottom: 0.75rem;
+    height: 2.75rem;
+    border-bottom: 0.5px solid #e4e4e5;
+
+    &.mat-expansion-panel-header {
+      padding: 0;
+    }
+  }
+  mat-expansion-panel {
+    margin: 0;
+    mat-panel-title {
+      @include font(#161616, 500, 0.9375rem, 1.125rem);
+    }
   }
   .mat-expansion-panel-body {
-    padding: 1.25rem;
-    background-color: #f8f8fa;
-    border-bottom: 1px solid #eee;
+    padding: 0.5rem 1rem;
+    background-color: #f8f8f8;
+
     white-space: pre-line;
     word-break: break-all;
+    p {
+      @include font(#161616, 400, 0.9375rem, 1.125rem);
+    }
   }
   .mat-expansion-panel:not([class*='mat-elevation-z']) {
     box-shadow: none;
-    background: url(././assets/images/faq-arrow.png) no-repeat right center/ 24px 24px;
   }
   .mat-expansion-indicator {
-    width: 24px;
-    height: 24px;
-    // background: url(././assets/img/notice_up_icon.png) no-repeat right center/ 100% 100%;
+    width: 1.1875rem;
+    height: 1.1875rem;
+    background: url(././assets/images/faq-arrow.png) no-repeat right center/ 1.1875rem;
 
     &::after {
       display: none;
