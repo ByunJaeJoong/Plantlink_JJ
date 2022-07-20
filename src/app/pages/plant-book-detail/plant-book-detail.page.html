@@ -13,11 +13,11 @@
   <div id="plant-info-wrap">
     <div class="top">
       <h2>스킨답서스</h2>
-      <ion-button (click)="onClick()" fill="clear" class="add-plant">
+      <ion-button (click)="noDevice()" fill="clear" class="add-plant">
         <div class="icon"></div>
         나의 식물 등록하기
       </ion-button>
-      <!-- <ion-button (click)="onClick()" fill="clear" class="remove-plant">
+      <!-- <ion-button (click)="disconnectAlert()" fill="clear" class="remove-plant">
         <div class="icon"></div>
         나의 식물 해제하기
       </ion-button> -->
@@ -28,28 +28,46 @@
     </ion-card>
 
     <div class="title">
-      <img src="" alt="" />
+      <img src="assets/images/info-icon.png" alt="" />
       <h3>상세 정보</h3>
     </div>
     <ion-grid class="info">
       <ion-row>
-        <ion-col class="th" size="3.7">원산지</ion-col>
-        <ion-col size="7">정보</ion-col>
+        <ion-col class="row-title" size="3.2">원산지</ion-col>
+        <ion-col class="con">정보</ion-col>
       </ion-row>
       <ion-row>
-        <ion-col class="th" size="3.7">꽃피는 계절</ion-col>
-        <ion-col size="7">정보</ion-col>
+        <ion-col class="row-title" size="3.2">꽃피는 계절</ion-col>
+        <ion-col class="con">정보</ion-col>
       </ion-row>
       <ion-row>
-        <ion-col class="th" size="3.7">열매맺는 계절</ion-col>
-        <ion-col size="7">정보</ion-col>
+        <ion-col class="row-title" size="3.2">열매맺는 계절</ion-col>
+        <ion-col class="con">정보</ion-col>
       </ion-row>
     </ion-grid>
 
     <div class="title">
-      <img src="" alt="" />
+      <img class="icon" src="assets/images/plant-name-icon.png" alt="" />
       <h3>관리 방법</h3>
     </div>
+    <ion-grid class="info">
+      <ion-row>
+        <ion-col class="row-title" size="3.2">적정온도</ion-col>
+        <ion-col class="con">보통 (약간 잘 견딤)</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="row-title" size="3.2">적정조도</ion-col>
+        <ion-col class="con">낮은 광도 (300~800lux) </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="row-title" size="3.2">토양수분</ion-col>
+        <ion-col class="con">정보</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="row-title" size="3.2">물주기</ion-col>
+        <ion-col class="con">정보</ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 </ion-content>
 <ion-footer class="fake-tab">
