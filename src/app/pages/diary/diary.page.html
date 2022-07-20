@@ -1,3 +1,5 @@
+<!-- Screen ID : UI D-0001 -->
+
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -22,7 +24,7 @@
   </mbsc-eventcalendar>
 
   <ng-template #myTemplate class="template-list">
-    <ion-item>
+    <ion-item (click)="goDiaryDetail()">
       <ion-card>
         <img src="assets/samples/diary-sample01.png" alt="" />
       </ion-card>

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { localeKo, MbscCalendarEvent, MbscEventcalendarOptions } from '@mobiscroll/angular';
+import { DiaryWritePage } from '../diary-write/diary-write.page';
 
 @Component({
   selector: 'app-diary',
@@ -9,7 +10,7 @@ import { localeKo, MbscCalendarEvent, MbscEventcalendarOptions } from '@mobiscro
   styleUrls: ['./diary.page.scss'],
 })
 export class DiaryPage implements OnInit {
-  constructor(private http: HttpClient, private navController: NavController) {}
+  constructor(private http: HttpClient, private navController: NavController, private modalController: ModalController) {}
 
   myEvents: MbscCalendarEvent[] = [];
 
@@ -37,12 +38,20 @@ export class DiaryPage implements OnInit {
   }
 
   //홈으로
+  goDiaryDetail() {
+    this.navController.navigateForward(['/diary-detail']);
+  }
+
+  //일기디테일
   goHome() {
     this.navController.navigateForward(['/tabs/home']);
   }
 
   //일기쓰러가기
-  goWrite() {
-    this.navController.navigateForward(['/diary-write']);
+  async goWrite() {
+    const modal = await this.modalController.create({
+      component: DiaryWritePage,
+    });
+    return await modal.present();
   }
 }

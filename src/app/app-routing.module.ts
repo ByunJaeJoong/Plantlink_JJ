@@ -94,6 +94,14 @@ const routes: Routes = [
     path: 'diary-write',
     loadChildren: () => import('./pages/diary-write/diary-write.module').then( m => m.DiaryWritePageModule)
   },
+  {
+    path: 'diary-detail',
+    loadChildren: () => import('./pages/diary-detail/diary-detail.module').then( m => m.DiaryDetailPageModule)
+  },
+  {
+    path: 'diary-write-camera',
+    loadChildren: () => import('./pages/diary-write-camera/diary-write-camera.module').then( m => m.DiaryWriteCameraPageModule)
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],
