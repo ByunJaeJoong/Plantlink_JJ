@@ -1,0 +1,59 @@
+<!-- Screen ID : UI B-0003 -->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goHome()" fill="clear" class="back-btn"> </ion-button>
+    </ion-buttons>
+    <ion-title>식물 도감</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="plant-info-wrap">
+    <div class="top">
+      <h2>스킨답서스</h2>
+      <ion-button (click)="onClick()" fill="clear" class="add-plant">
+        <div class="icon"></div>
+        나의 식물 등록하기
+      </ion-button>
+      <!-- <ion-button (click)="onClick()" fill="clear" class="remove-plant">
+        <div class="icon"></div>
+        나의 식물 해제하기
+      </ion-button> -->
+    </div>
+
+    <ion-card>
+      <img src="assets/samples/plant-sample02.jpeg" alt="" />
+    </ion-card>
+
+    <div class="title">
+      <img src="" alt="" />
+      <h3>상세 정보</h3>
+    </div>
+    <ion-grid class="info">
+      <ion-row>
+        <ion-col class="th" size="3.7">원산지</ion-col>
+        <ion-col size="7">정보</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="th" size="3.7">꽃피는 계절</ion-col>
+        <ion-col size="7">정보</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="th" size="3.7">열매맺는 계절</ion-col>
+        <ion-col size="7">정보</ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div class="title">
+      <img src="" alt="" />
+      <h3>관리 방법</h3>
+    </div>
+  </div>
+</ion-content>
+<ion-footer class="fake-tab">
+  <ion-toolbar>
+    <app-fake-tab-off></app-fake-tab-off>
+  </ion-toolbar>
+</ion-footer>

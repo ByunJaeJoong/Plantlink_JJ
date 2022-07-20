@@ -102,6 +102,10 @@ const routes: Routes = [
     path: 'diary-write-camera',
     loadChildren: () => import('./pages/diary-write-camera/diary-write-camera.module').then( m => m.DiaryWriteCameraPageModule)
   },
+  {
+    path: 'plant-book-detail',
+    loadChildren: () => import('./pages/plant-book-detail/plant-book-detail.module').then( m => m.PlantBookDetailPageModule)
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],
