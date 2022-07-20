@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
+import { DiaryWriteCameraPage } from '../diary-write-camera/diary-write-camera.page';
 
 @Component({
   selector: 'app-diary-write',
@@ -20,5 +21,13 @@ export class DiaryWritePage implements OnInit {
   goHome() {
     this.navController.navigateForward(['/diary']);
     this.modalController.dismiss();
+  }
+
+  //앨범으로 가기
+  async goAlbum() {
+    const modal = await this.modalController.create({
+      component: DiaryWriteCameraPage,
+    });
+    return await modal.present();
   }
 }

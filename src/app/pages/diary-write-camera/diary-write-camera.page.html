@@ -1,9 +1,62 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>diary-write-camera</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()" fill="clear"> 취소 </ion-button>
+    </ion-buttons>
+    <ion-title>사진</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" class="done" (click)="done()"> 완료</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div id="pic-wrap">
+    <!-- 카메라 버튼 -->
+    <div class="camera-box"></div>
 
+    <!-- 선택한 박스 -->
+    <div class="box">
+      <div class="icon"></div>
+      <img src="assets/samples/plant-sample02.jpeg" alt="" />
+    </div>
+
+    <div class="box">
+      <img src="assets/samples/plant-sample01.jpeg" alt="" />
+    </div>
+
+    <div class="box">
+      <img src="assets/samples/diary-sample01.png" alt="" />
+    </div>
+
+    <!-- 빈 칸 박스 -->
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+    <div class="empty-box"></div>
+  </div>
 </ion-content>

@@ -1,0 +1,61 @@
+@import '../../../theme/mixin.scss';
+//@include font(#161616, 300, 0.875rem, 1.0625rem);
+
+ion-header {
+  ion-toolbar {
+    ion-button {
+      --color: #161616;
+      font-size: 1rem;
+      line-height: 1.1875rem;
+      font-weight: 500;
+    }
+  }
+}
+
+ion-content {
+  --padding-start: 0.3125rem;
+  //   --padding-end: 0.3125rem;
+}
+
+#pic-wrap {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+
+  > div {
+    width: calc(25% - 5px);
+    padding-bottom: calc(25% - 5px);
+    height: 0;
+    overflow: hidden;
+  }
+  .camera-box {
+    background: #afd365 url(../../../assets/images/album-camera-icon.png) no-repeat center center / 1.875rem;
+  }
+
+  .box {
+    position: relative;
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .icon {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 30;
+      background: rgba(#000, 0.5) url(../../../assets/images/select-icon.png) no-repeat center center / 1.875rem;
+    }
+  }
+
+  .empty-box {
+    background: #f0f0f0;
+  }
+}
