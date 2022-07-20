@@ -390,13 +390,13 @@ ion-button {
   padding: 0;
   padding-top: 0;
   padding-bottom: 0;
-  padding-inline-start: 0;
+  // padding-inline-start: 0;
   padding-inline-end: 0;
 }
 
-.searchbar-cancel-button.sc-ion-searchbar-ios {
-  padding-inline-start: 0;
-}
+// .searchbar-cancel-button.sc-ion-searchbar-ios {
+//   padding-inline-start: 0;
+// }
 
 // ion-input
 .sc-ion-input-ios-h {
@@ -947,6 +947,41 @@ mat-accordion {
 .mbsc-calendar-table {
   .mbsc-selected .mbsc-calendar-cell-text {
     background: #afd365 !important;
+  }
+}
+
+//searchbar
+.book-searchbar-item {
+  ion-searchbar {
+    padding-bottom: 0.25rem;
+    height: 2.125rem;
+    border-bottom: 1px solid #949494;
+    --background: transparent url(././assets/images/search-icon.png) no-repeat left 0 center / 1.875rem;
+
+    .searchbar-input-container.sc-ion-searchbar-ios {
+      height: 2.125rem;
+    }
+    .searchbar-search-icon {
+      display: none;
+    }
+
+    .searchbar-clear-button.sc-ion-searchbar-ios {
+      top: 2px;
+      width: 1.875rem;
+      height: 1.875rem;
+      background: url(./assets/images/search-cancel-icon.png) no-repeat center center / 100% 100%;
+      ion-icon {
+        display: none;
+      }
+    }
+  }
+  .searchbar-left-aligned.sc-ion-searchbar-ios-h .searchbar-input.sc-ion-searchbar-ios {
+    padding-inline-start: 2.625rem;
+    padding-inline-end: 2.375rem;
+    --placeholder-color: #949494;
+    --placeholder-opacity: 1;
+    --placeholder-font-weight: 400;
+    font-size: 1rem;
   }
 }
 

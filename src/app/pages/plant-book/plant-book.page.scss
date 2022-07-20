@@ -1,0 +1,129 @@
+@import '../../../theme/mixin.scss';
+//@include font(#161616, 300, 0.875rem, 1.0625rem);
+
+ion-header {
+  ion-toolbar {
+    .back-btn {
+      width: 1.875rem;
+      height: 1.875rem;
+      background: url(../../../assets/images/back-icon.png) no-repeat center center/ 100%;
+    }
+  }
+  ion-item {
+    --padding-start: 1.25rem;
+    --padding-end: 1.25rem;
+  }
+}
+
+ion-content {
+  --padding-start: 1.25rem;
+  --padding-end: 1.25rem;
+
+  --padding-bottom: 1.75rem;
+}
+
+#plant-book-wrap {
+  .empty {
+    padding-top: 7rem;
+    text-align: center;
+    img {
+      display: inline-block;
+      width: 3.125rem;
+      height: 3.125rem;
+    }
+    p {
+      @include font(#949494, 400, 1rem, 1.1875rem);
+    }
+  }
+
+  //인기검색
+  .popular {
+    padding-top: 1.75rem;
+    h2 {
+      margin-bottom: 0.1563rem;
+      @include font(#949494, 500, 0.9375rem, 1.125rem);
+    }
+    ion-item {
+      --padding-top: 0.875rem;
+      --padding-bottom: 0.9375rem;
+      border-top: 1px solid #f0f0f0;
+
+      &:last-child {
+        border-bottom: 1px solid #f0f0f0;
+      }
+      ion-card {
+        margin-right: 0.8125rem;
+        width: 3.9375rem;
+        height: 4.125rem;
+        border-radius: 10px;
+        img {
+          display: block;
+          width: 100%;
+          height: 100px;
+          object-fit: cover;
+        }
+      }
+
+      ion-label {
+        .title {
+          margin-bottom: 0.4375rem;
+          @include font(#161616, 500, 0.9375rem, 1.125rem);
+        }
+
+        .name {
+          @include font(#949494, 300, 0.75rem, 0.9375rem);
+        }
+      }
+    }
+  }
+
+  //검색결과
+  .search-result {
+    padding-top: 1.5rem;
+    ion-item {
+      --padding-top: 0.875rem;
+      --padding-bottom: 0.9375rem;
+      border-top: 1px solid #f0f0f0;
+
+      &:last-child {
+        border-bottom: 1px solid #f0f0f0;
+      }
+      ion-card {
+        margin-right: 0.8125rem;
+        width: 3.9375rem;
+        height: 4.125rem;
+        border-radius: 10px;
+        img {
+          display: block;
+          width: 100%;
+          height: 100px;
+          object-fit: cover;
+        }
+      }
+
+      ion-label {
+        .title {
+          margin-bottom: 0.4375rem;
+          @include font(#161616, 500, 0.9375rem, 1.125rem);
+        }
+
+        .name {
+          @include font(#949494, 300, 0.75rem, 0.9375rem);
+        }
+      }
+    }
+  }
+
+  //검색입력폼
+  .search-form {
+    padding-top: 1.25rem;
+    p {
+      @include font(#161616, 400, 1.0625rem, 1.25rem);
+
+      margin-bottom: 1.75rem;
+      span {
+        @include font(#afd365, 400, 1.0625rem, 1.25rem);
+      }
+    }
+  }
+}

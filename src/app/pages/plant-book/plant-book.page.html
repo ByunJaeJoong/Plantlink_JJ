@@ -1,9 +1,147 @@
+<!-- Screen ID : UI B-0001 -->
+<!-- Screen ID : UI B-0002 -->
+
 <ion-header>
   <ion-toolbar>
-    <ion-title>plant-book</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="goHome()" fill="clear" class="back-btn"> </ion-button>
+    </ion-buttons>
+    <ion-title>식물 도감</ion-title>
   </ion-toolbar>
+  <ion-item class="book-searchbar-item">
+    <ion-searchbar placeholder="식물을 검색해주세요." inputmode="search" type="search" [debounce]="250" clearIcon></ion-searchbar>
+  </ion-item>
 </ion-header>
 
 <ion-content>
+  <div id="plant-book-wrap">
+    <!-- 검색 결과가 없을 때 -->
+    <!-- <div class="empty">
+      <img src="assets/images/empty-icon.png" alt="" />
+      <p>식물의 종류를 찾을 수 없어요.</p>
+    </div> -->
 
+    <!-- 인기 식물 리스트 -->
+    <!-- <div class="popular">
+      <h2>인기 식물</h2>
+      <ion-item>
+        <ion-card>
+          <img src="assets/samples/plant-sample01.jpeg" alt="" />
+        </ion-card>
+        <ion-label>
+          <p class="title">스킨답서스</p>
+          <p class="name">별칭</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-card>
+          <img src="assets/samples/plant-sample02.jpeg" alt="" />
+        </ion-card>
+        <ion-label>
+          <p class="title">스킨답서스</p>
+          <p class="name">별칭</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-card>
+          <img src="assets/samples/plant-sample03.png" alt="" />
+        </ion-card>
+        <ion-label>
+          <p class="title">스킨답서스</p>
+          <p class="name">별칭</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-card>
+          <img src="assets/samples/plant-sample01.jpeg" alt="" />
+        </ion-card>
+        <ion-label>
+          <p class="title">스킨답서스</p>
+          <p class="name">별칭</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-card>
+          <img src="assets/samples/plant-sample02.jpeg" alt="" />
+        </ion-card>
+        <ion-label>
+          <p class="title">스킨답서스</p>
+          <p class="name">별칭</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-card>
+          <img src="assets/samples/plant-sample03.png" alt="" />
+        </ion-card>
+        <ion-label>
+          <p class="title">스킨답서스</p>
+          <p class="name">별칭</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-card>
+          <img src="assets/samples/plant-sample01.jpeg" alt="" />
+        </ion-card>
+        <ion-label>
+          <p class="title">스킨답서스</p>
+          <p class="name">별칭</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-card>
+          <img src="assets/samples/plant-sample02.jpeg" alt="" />
+        </ion-card>
+        <ion-label>
+          <p class="title">스킨답서스</p>
+          <p class="name">별칭</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-card>
+          <img src="assets/samples/plant-sample03.png" alt="" />
+        </ion-card>
+        <ion-label>
+          <p class="title">스킨답서스</p>
+          <p class="name">별칭</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-card>
+          <img src="assets/samples/plant-sample03.png" alt="" />
+        </ion-card>
+        <ion-label>
+          <p class="title">스킨답서스</p>
+          <p class="name">별칭</p>
+        </ion-label>
+      </ion-item>
+    </div> -->
+
+    <!-- 검색결과 입니다 -->
+    <!-- <div class="search-result">
+      <ion-item>
+        <ion-card>
+          <img src="assets/samples/plant-sample03.png" alt="" />
+        </ion-card>
+        <ion-label>
+          <p class="title">스킨답서스</p>
+          <p class="name">별칭</p>
+        </ion-label>
+      </ion-item>
+    </div> -->
+
+    <!-- 검색어 입력시 나오는 입력폼입니다 -->
+    <div class="search-form">
+      <p><span>스킨</span>답서스 픽투스</p>
+      <p><span>스킨</span>답서스</p>
+      <p>엔조이 <span>스킨</span>답서스</p>
+      <p><span>스킨</span>답서스 오래우스</p>
+      <p><span>스킨</span>답서스 실버레이</p>
+    </div>
+  </div>
 </ion-content>
+
+<ion-footer class="fake-tab">
+  <ion-toolbar>
+    <app-fake-tab-off></app-fake-tab-off>
+  </ion-toolbar>
+</ion-footer>
