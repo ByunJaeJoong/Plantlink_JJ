@@ -264,6 +264,16 @@ ion-footer {
   }
 }
 
+.write-footer {
+  ion-toolbar {
+    --min-height: 3.5rem;
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    --padding-bottom: 0;
+  }
+}
+
 //ion-header 아래 보더
 .header-ios ion-toolbar:last-of-type {
   --border-width: 0 0 0 0;
@@ -484,6 +494,13 @@ ion-input {
   padding-bottom: 0;
 }
 
+.sc-ion-textarea-ios-h {
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.125rem;
+  word-break: break-all;
+  white-space: pre-line;
+}
 //ion-select
 ion-select {
   --padding-top: 0;
@@ -689,14 +706,18 @@ mat-accordion {
 }
 
 ///달력///@at-root
+.calendar-wrap {
+}
 .calendar {
   //타이틀
+
   .mbsc-ios.mbsc-calendar-controls {
     justify-content: space-between;
   }
   .mbsc-ios.mbsc-eventcalendar .mbsc-calendar-wrapper {
-    padding: 0.9375rem 0.5625rem;
+    padding: 0.9375rem 0.5625rem 4.375rem 0.5625rem;
     border: none;
+
     .mbsc-calendar-day.mbsc-disabled {
       background: #fff;
     }
@@ -724,14 +745,12 @@ mat-accordion {
     }
     //세로 칸 선없애기
     .mbsc-calendar-cell {
-      // padding: 0.5rem;
       width: 3.625rem !important;
       height: 3.9375rem !important;
       border: 0;
       text-align: center;
       display: flex;
       margin: 0;
-
       justify-content: center;
     }
   }
@@ -751,7 +770,6 @@ mat-accordion {
 
   .calendar .mbsc-ios.mbsc-selected .mbsc-calendar-cell-text {
     display: flex;
-    // padding: 0.5rem;
     width: 2.3125rem !important;
     height: 2.3125rem !important;
     flex-direction: column;
@@ -767,7 +785,6 @@ mat-accordion {
   .mbsc-calendar-day-outer .mbsc-calendar-day-text,
   .mbsc-calendar-day-outer .mbsc-calendar-month-name {
     @include font(#f0f0f0, 500, 0.8125rem, 1rem);
-    // color: #f0f0f0;
     opacity: 1;
   }
 
@@ -780,8 +797,6 @@ mat-accordion {
     height: 2.3125rem !important;
     border: none;
     color: #fff !important;
-    // width: 2.3125rem;
-    // height: 2.3125rem;
     @include font(#fff, 400, 0.8125rem, 1rem);
   }
 
@@ -796,14 +811,20 @@ mat-accordion {
   }
 
   .mbsc-calendar-cell {
-    // width: 2.8125rem;
-    // height: 2.8125rem;
-    // border: 0;
-    // text-align: center;
     .mbsc-calendar-cell-inner {
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    .mbsc-ios.mbsc-calendar-mark {
+      background: #da7f8c;
+      position: relative;
+      top: 11px;
+    }
+
+    .mbsc-ios.mbsc-calendar-marks {
+      height: 3.125rem;
     }
   }
 }
@@ -836,30 +857,73 @@ mat-accordion {
 .mbsc-event-list {
   height: auto !important;
   overflow: scroll !important;
-  // padding-bottom: 5.5rem !important;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 0.3125rem;
+  .mbsc-list {
+    height: auto;
+  }
+  .mbsc-ios.mbsc-list-item {
+    padding: 0.9375rem 1.25rem;
+    display: block;
+    &:nth-last-of-type(1) {
+      // padding-top: 0;
+      &::after {
+        border: none;
+        display: none;
+      }
+    }
+    &.mbsc-ios.mbsc-list-item:before {
+      display: none;
+      border: none;
+    }
+  }
 
-  // border-top: 1px solid #f0f0f0;
-  // .mbsc-list {
-  //   height: auto;
-  //   .mbsc-event-list-empty {
-  //     height: calc(100vh - 3.5rem - 3.5rem - 23.6875rem - 5.5rem) !important;
-  //   }
+  .mbsc-ios.mbsc-list-header {
+    display: none;
+  }
+}
+
+// 4줄
+.rows-ellipsis {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  white-space: pre-line;
+}
+
+//일기장 달력 사이즈
+
+@media screen and (max-height: 568px) {
+  // .mbsc-calendar-wrapper {
+  //   height: 70% !important;
   // }
-  // .mbsc-list-item {
-  //   padding: 1rem 0;
-  //   display: block;
-  //   &:nth-last-of-type(1) {
-  //     // padding-top: 0;
-  //     &::after {
-  //       border: none;
-  //       display: none;
-  //     }
-  //   }
-  //   &.mbsc-ios.mbsc-list-item:before {
-  //     display: none;
-  //     border: none;
-  //   }
-  // }
+}
+
+//캘린더 작은 화면일 때 스크롤
+@media screen and (max-height: 700px) {
+}
+@media screen and (min-height: 640px) {
+}
+
+@media screen and (min-height: 658px) {
+}
+
+@media screen and (min-height: 667px) {
+}
+
+@media screen and (min-height: 700px) {
+}
+
+@media screen and (min-height: 740px) {
+}
+
+@media screen and (min-height: 800px) {
+}
+
+@media screen and (min-height: 896px) {
 }
 
 // 반응형

@@ -1,0 +1,47 @@
+@import '../../../theme/mixin.scss';
+//@include font(#161616, 300, 0.875rem, 1.0625rem);
+
+ion-header {
+  ion-toolbar {
+    .back-btn {
+      width: 1.875rem;
+      height: 1.875rem;
+      background: url(../../../assets/images/back-icon.png) no-repeat center center/ 100%;
+    }
+    .done {
+      --color: #161616;
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.1875rem;
+    }
+  }
+}
+
+#diary-write-wrap {
+  padding: 0.625rem 1.25rem;
+  .pic {
+    text-align: center;
+    margin-bottom: 1.6875rem;
+    ion-card {
+      display: inline-block;
+      width: 13.3125rem;
+      height: 13rem;
+      border-radius: 6px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+}
+
+.write-footer {
+  padding-left: 1.25rem;
+  ion-button {
+    width: 1.875rem;
+    height: 1.875rem;
+    background: url(../../../assets/images/camera-icon.png) no-repeat center center / 100%;
+  }
+}

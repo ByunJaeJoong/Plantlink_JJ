@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goHome()" fill="clear" class="back-btn"> </ion-button>
+    </ion-buttons>
+    <ion-title>일기장</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" class="done"> 등록</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="diary-write-wrap">
+    <div class="pic">
+      <ion-card>
+        <img src="assets/samples/diary-sample01.png" alt="" />
+      </ion-card>
+    </div>
+
+    <ion-item>
+      <ion-textarea inputmode="text" type="text"> </ion-textarea>
+    </ion-item>
+  </div>
+</ion-content>
+
+<ion-footer class="write-footer">
+  <ion-toolbar>
+    <ion-button (click)="onClick()" fill="clear"> </ion-button>
+  </ion-toolbar>
+</ion-footer>

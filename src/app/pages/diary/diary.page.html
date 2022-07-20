@@ -1,14 +1,17 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="goSetting()" fill="clear" class="back-btn"> </ion-button>
+      <ion-button (click)="goHome()" fill="clear" class="back-btn"> </ion-button>
     </ion-buttons>
     <ion-title>일기장</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <mbsc-eventcalendar class="calendar" [headerTemplate]="customTemplate" [eventTemplate]="myTemplate" [options]="eventSettings">
+  <!--  TODO달력 사이즈!!!!!!!! -->
+  <!-- <div class="calendar-wrap"> -->
+  <ion-button fill="clear" class="write-btn" (click)="goWrite()"> </ion-button>
+  <mbsc-eventcalendar class="calendar" [data]="myEvents" [headerTemplate]="customTemplate" [eventTemplate]="myTemplate" [options]="eventSettings">
     <ng-template #customTemplate>
       <mbsc-calendar-nav></mbsc-calendar-nav>
       <div class="wrap">
@@ -17,14 +20,21 @@
       </div>
     </ng-template>
   </mbsc-eventcalendar>
+
   <ng-template #myTemplate class="template-list">
     <ion-item>
-      <ion-thumbnail>
-        <img src="../../../assets/samples/diary-sample01.png" alt="" />
-      </ion-thumbnail>
-      <ion-label>Awesome Label</ion-label>
+      <ion-card>
+        <img src="assets/samples/diary-sample01.png" alt="" />
+      </ion-card>
+      <p class="rows-ellipsis">
+        풍부하게 듣기만 붙잡아 그들의 때문이다. 것은 얼마나 살 인생을 이것이다. 우리의 위하여서, 있는 것은 반짝이는 내는 이상이 사막이다. 그러므로
+        그들에게 얼음 목숨을 품으며, 봄바람이다. 우리 낙원을 열락의 꾸며 하여도 무엇을 봄바람이다. 기쁘며, 못할 우리 인생에 크고 살 이것이다. 따뜻한
+        피어나기 놀이 뜨고, 있는 얼마나 이상의 얼마나 품고 운다. 오아이스도 주며, 자신과 속잎나고, 날카로우나 청춘을 크고 사막이다. 하는 군영과 않는
+        뭇 위하여, 굳세게 위하여 끓는 보는 때문이다.
+      </p>
     </ion-item>
   </ng-template>
+  <!-- </div> -->
 </ion-content>
 
 <ion-footer class="fake-tab">

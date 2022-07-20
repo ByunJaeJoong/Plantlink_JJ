@@ -90,6 +90,10 @@ const routes: Routes = [
     path: 'plant-book',
     loadChildren: () => import('./pages/plant-book/plant-book.module').then( m => m.PlantBookPageModule)
   },
+  {
+    path: 'diary-write',
+    loadChildren: () => import('./pages/diary-write/diary-write.module').then( m => m.DiaryWritePageModule)
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],

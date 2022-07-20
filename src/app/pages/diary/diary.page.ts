@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { localeKo, MbscCalendarEvent, MbscEventcalendarOptions } from '@mobiscroll/angular';
 
 @Component({
@@ -8,7 +9,7 @@ import { localeKo, MbscCalendarEvent, MbscEventcalendarOptions } from '@mobiscro
   styleUrls: ['./diary.page.scss'],
 })
 export class DiaryPage implements OnInit {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private navController: NavController) {}
 
   myEvents: MbscCalendarEvent[] = [];
 
@@ -33,5 +34,15 @@ export class DiaryPage implements OnInit {
     this.http.jsonp<MbscCalendarEvent[]>('https://trial.mobiscroll.com/events/?vers=5', 'callback').subscribe(resp => {
       this.myEvents = resp;
     });
+  }
+
+  //홈으로
+  goHome() {
+    this.navController.navigateForward(['/tabs/home']);
+  }
+
+  //일기쓰러가기
+  goWrite() {
+    this.navController.navigateForward(['/diary-write']);
   }
 }
