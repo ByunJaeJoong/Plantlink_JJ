@@ -9,12 +9,43 @@
     </div>
   </div>
 
-  <ion-button (click)="onClick()" expand="block" fill="clear"> 2022.06 </ion-button>
-  <div class="wrap">
-    <!-- 임시차트에요..! -->
-    <!-- https://www.chartjs.org/docs/latest/charts/bar.html -->
-    <div class="chart-test">
-      <canvas #chart class="chart"></canvas>
+  <!-- 날짜 달력 버튼 -->
+  <ion-button fill="clear" class="calendar-btn">
+    2022.06
+    <div class="icon"></div>
+  </ion-button>
+
+  <!-- 주간/ 월간 세그먼트 -->
+  <div class="segment_wrap">
+    <ion-segment [(ngModel)]="segment" (ionChange)="changeSegment()">
+      <ion-segment-button value="주간">
+        <ion-label>주간</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="월간">
+        <ion-label>월간</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="segment">
+    <div *ngSwitchCase="'주간'"></div>
+
+    <div *ngSwitchCase="'월간'">
+      <div class="chart-wrap">
+        <!-- 임시차트에요..! -->
+        <!-- https://www.chartjs.org/docs/latest/charts/bar.html -->
+        <div class="chart-test">
+          <canvas #tem class="chart"></canvas>
+        </div>
+
+        <div class="chart-test">
+          <canvas #illumin class="chart"></canvas>
+        </div>
+
+        <div class="chart-test">
+          <canvas #water class="chart"></canvas>
+        </div>
+      </div>
     </div>
   </div>
 </ion-content>
