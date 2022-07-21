@@ -985,16 +985,28 @@ mat-accordion {
   }
 }
 
+.calendar-wrap {
+  height: calc(100%);
+  overflow: scroll;
+}
 //일기장 달력 사이즈
 
 @media screen and (max-height: 568px) {
   // .mbsc-calendar-wrapper {
   //   height: 70% !important;
   // }
+  .calendar-wrap {
+    height: calc(100% - 4.5rem + 200px);
+    // overflow: scroll;
+  }
 }
 
 //캘린더 작은 화면일 때 스크롤
 @media screen and (max-height: 700px) {
+  .calendar-wrap {
+    height: calc(100% - 4.5rem + 200px);
+    // overflow: scroll;
+  }
 }
 @media screen and (min-height: 640px) {
 }

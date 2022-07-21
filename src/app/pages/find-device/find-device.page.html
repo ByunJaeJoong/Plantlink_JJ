@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goHome()" fill="clear" class="back-btn"> </ion-button>
+    </ion-buttons>
+    <ion-title>Bluetooth 연결</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="loading circle">
+    <img src="assets/images/Flowerpot-icon.png" alt="" />
+    <p>블루투스를 켠 상태에서<br />장치와 가까이 놓아주세요</p>
+    <div class="bar"></div>
+  </div>
+
+  <div class="loader-circle"></div>
+  <p class="find">1개 장치 발견</p>
+</ion-content>

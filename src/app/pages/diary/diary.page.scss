@@ -32,6 +32,10 @@ ion-item {
 }
 
 .write-btn {
+  z-index: 1000;
+  position: absolute;
+  right: 21px;
+  top: 31.25rem;
   width: 1.875rem;
   height: 1.875rem;
   background: url(../../../assets/images/write-btn-icon.png) no-repeat center center / 100%;

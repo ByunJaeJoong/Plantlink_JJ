@@ -1,0 +1,128 @@
+@import '../../../theme/mixin.scss';
+//@include font(#161616, 300, 0.875rem, 1.0625rem);
+
+ion-header {
+  ion-toolbar {
+    --background: #afd365;
+    .back-btn {
+      width: 1.875rem;
+      height: 1.875rem;
+      background: url(../../../assets/images/back-icon.png) no-repeat center center/ 100%;
+    }
+  }
+}
+
+ion-content {
+  position: relative;
+  --background: #afd365;
+  --padding-top: 7rem;
+  .loading {
+    position: relative;
+    width: 11.25rem;
+    height: 11.25rem;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: url(../../../assets/images/loading-circle.png) no-repeat center center / 100%;
+    img {
+      margin: 0 auto;
+      width: 1.6525rem;
+      height: 2.5681rem;
+    }
+    p {
+      margin-top: 0.25rem;
+      @include font(#fff, 400, 0.875rem, 1.375rem);
+    }
+  }
+  .find {
+    text-align: center;
+    margin-top: 1.625rem;
+    @include font(#fff, 400, 0.875rem, 1.375rem);
+  }
+
+  .bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 12.5rem;
+    height: 13.125rem;
+    padding: 0.625rem;
+    margin: auto;
+    background-color: transparent;
+    //     animation: bar 1s infinite linear;
+  }
+
+  .circle {
+    .bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 11.25rem;
+      height: 11.25rem;
+      margin: auto;
+      border: 0.625rem solid;
+      border-color: rgba(255, 255, 255, 1) transparent transparent transparent;
+      border-radius: 50%;
+      //  animation: circle 2s linear infinite;
+    }
+  }
+
+  @keyframes circle {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loader-circle {
+    position: absolute;
+    z-index: 3000;
+    top: 125px;
+    left: calc(50% - 75px);
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: transparent;
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-animation: loader-circle 3s linear infinite;
+    animation: loader-circle 3s linear infinite;
+  }
+
+  .loader-circle:after {
+    content: '';
+    position: absolute;
+    right: 50%;
+    top: -19px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #fff;
+  }
+
+  @-webkit-keyframes loader-circle {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes loader-circle {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

@@ -1,14 +1,14 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="goSetting()" fill="clear" class="back-btn"> </ion-button>
+      <ion-button (click)="goHome()" fill="clear" class="back-btn"> </ion-button>
     </ion-buttons>
     <ion-title>Bluetooth 연결</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="onClick()" expand="block" fill="clear" shape="round"> 장치 추가하기 </ion-button>
+  <ion-button (click)="findDevice()" fill="clear"> 장치 추가하기 </ion-button>
 </ion-content>
 <ion-footer class="fake-tab">
   <ion-toolbar>

@@ -106,6 +106,10 @@ const routes: Routes = [
     path: 'plant-book-detail',
     loadChildren: () => import('./pages/plant-book-detail/plant-book-detail.module').then( m => m.PlantBookDetailPageModule)
   },
+  {
+    path: 'find-device',
+    loadChildren: () => import('./pages/find-device/find-device.module').then( m => m.FindDevicePageModule)
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],
