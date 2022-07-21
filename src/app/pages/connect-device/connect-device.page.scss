@@ -12,7 +12,38 @@ ion-header {
 }
 
 ion-content {
+  --padding-top: 1rem;
+  --padding-start: 1.25rem;
+  --padding-end: 1.25rem;
   position: relative;
+
+  .device-list {
+    ion-item {
+      --padding-top: 0.8125rem;
+      --padding-end: 0.5rem;
+      --padding-bottom: 0.6875rem;
+      --padding-start: 0.5rem;
+      border-top: 0.5px solid #e4e4e5;
+
+      ion-label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .name {
+          @include font(#161616, 500, 1rem, 1.1875rem);
+        }
+
+        .connect {
+          @include font(#d1d4d9, 500, 0.875rem, 1.0625rem);
+        }
+      }
+
+      &:last-child {
+        border-bottom: 0.5px solid #e4e4e5;
+      }
+    }
+  }
   ion-button {
     position: absolute;
     bottom: 2.5625rem;

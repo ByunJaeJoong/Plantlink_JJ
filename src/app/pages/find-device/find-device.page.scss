@@ -18,8 +18,8 @@ ion-content {
   --padding-top: 7rem;
   .loading {
     position: relative;
-    width: 11.25rem;
-    height: 11.25rem;
+    width: 180px;
+    height: 180px;
     margin: 0 auto;
     text-align: center;
     border-radius: 50%;
@@ -27,14 +27,31 @@ ion-content {
     flex-direction: column;
     justify-content: center;
     background: url(../../../assets/images/loading-circle.png) no-repeat center center / 100%;
-    img {
-      margin: 0 auto;
-      width: 1.6525rem;
-      height: 2.5681rem;
+
+    //장치 찾고 있을 때
+    .find-device {
+      img {
+        margin: 0 auto;
+        width: 1.6525rem;
+        height: 2.5681rem;
+      }
+      p {
+        margin-top: 0.25rem;
+        @include font(#fff, 400, 0.875rem, 1.375rem);
+      }
     }
-    p {
-      margin-top: 0.25rem;
-      @include font(#fff, 400, 0.875rem, 1.375rem);
+
+    //장치 못 찾았을 때
+    .not-find-device {
+      img {
+        margin: 0 auto;
+        width: 3.2106rem;
+        height: 3.2969rem;
+      }
+      p {
+        margin-top: 0.25rem;
+        @include font(#fff, 400, 0.875rem, 1.375rem);
+      }
     }
   }
   .find {
@@ -42,20 +59,6 @@ ion-content {
     margin-top: 1.625rem;
     @include font(#fff, 400, 0.875rem, 1.375rem);
   }
-
-  //   .bar {
-  //     position: absolute;
-  //     left: 0;
-  //     right: 0;
-  //     top: 0;
-  //     bottom: 0;
-  //     //     width: 12.5rem;
-  //     //     height: 13.125rem;
-  //     //     padding: 0.625rem;
-  //     //     margin: auto;
-  //     background-color: red;
-  //     animation: bar 1s infinite linear;
-  //   }
 
   //  테두리 조각
   .circle {
@@ -130,5 +133,20 @@ ion-content {
     100% {
       transform: rotate(360deg);
     }
+  }
+
+  ion-button {
+    position: absolute;
+    left: 50%;
+    bottom: 6.0625rem;
+    transform: translateX(-50%);
+    width: calc(100% - 1rem - 1.125rem);
+    height: 2.875rem;
+    --background: #fff;
+    --border-radius: 4px;
+    color: #afd365;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1.125rem;
   }
 }
