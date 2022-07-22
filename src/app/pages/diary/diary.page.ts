@@ -15,7 +15,7 @@ export class DiaryPage implements OnInit {
   myEvents: MbscCalendarEvent[] = [];
 
   eventSettings: MbscEventcalendarOptions = {
-    // locale: localeKo,
+    locale: localeKo,
     theme: 'ios',
     themeVariant: 'light',
     clickToCreate: false,
@@ -23,7 +23,7 @@ export class DiaryPage implements OnInit {
     dragToMove: false,
     dragToResize: false,
     // dateFormat: 'YYYY/mm',
-    // dateFormatLong: 'YYYY/mm',
+    dateFormatLong: 'YYYY.mm',
     noEventsText: ``,
     view: {
       calendar: { type: 'month' },

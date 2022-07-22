@@ -98,7 +98,8 @@ export class PlantReportPage implements OnInit {
             data: this.data,
             backgroundColor: '#EDC3C9',
             borderColor: '#DB7F8C',
-            barThickness: 40,
+            barThickness: 45,
+            barPercentage: 100,
           },
         ],
       },
@@ -139,6 +140,7 @@ export class PlantReportPage implements OnInit {
 
             grid: {
               display: false,
+              borderWidth: 0,
             },
 
             ticks: {
@@ -153,6 +155,7 @@ export class PlantReportPage implements OnInit {
             position: 'top',
             grid: {
               display: false,
+              borderWidth: 0,
             },
 
             ticks: {
@@ -224,6 +227,7 @@ export class PlantReportPage implements OnInit {
             data: this.data,
             backgroundColor: '#FFF9D5',
             borderColor: '#FFDC30',
+            barThickness: 45,
           },
         ],
       },
@@ -264,6 +268,7 @@ export class PlantReportPage implements OnInit {
 
             grid: {
               display: false,
+              borderWidth: 0,
             },
 
             ticks: {
@@ -277,12 +282,14 @@ export class PlantReportPage implements OnInit {
             position: 'top',
             grid: {
               display: false,
+              borderWidth: 0,
             },
             ticks: {
               font: { size: 8 },
               autoSkip: false,
               crossAlign: 'center',
               maxRotation: 0,
+              color: '#161616',
 
               callback: function (value: number) {
                 if (this.getLabelForValue(value) == '월') {
@@ -314,9 +321,8 @@ export class PlantReportPage implements OnInit {
 
           y: {
             type: 'linear',
-            display: true,
+            display: false,
             position: 'left',
-
             min: 0,
             max: 200,
 
@@ -325,7 +331,7 @@ export class PlantReportPage implements OnInit {
             grid: {
               drawTicks: false,
               drawBorder: false,
-              drawOnChartArea: true,
+              drawOnChartArea: false,
             },
           },
         },
@@ -347,6 +353,7 @@ export class PlantReportPage implements OnInit {
             data: this.data,
             backgroundColor: '#5483EF',
             borderColor: '#ACDBFF',
+            barThickness: 45,
           },
         ],
       },
@@ -387,6 +394,7 @@ export class PlantReportPage implements OnInit {
 
             grid: {
               display: false,
+              borderWidth: 0,
             },
 
             ticks: {
@@ -400,9 +408,11 @@ export class PlantReportPage implements OnInit {
             position: 'top',
             grid: {
               display: false,
+              borderWidth: 0,
             },
 
             ticks: {
+              color: '#161616',
               font: { size: 8 },
               autoSkip: false,
               crossAlign: 'center',
@@ -438,9 +448,8 @@ export class PlantReportPage implements OnInit {
 
           y: {
             type: 'linear',
-            display: true,
+            display: false,
             position: 'left',
-
             min: 0,
             max: 200,
 
@@ -449,7 +458,7 @@ export class PlantReportPage implements OnInit {
             grid: {
               drawTicks: false,
               drawBorder: false,
-              drawOnChartArea: true,
+              drawOnChartArea: false,
             },
           },
         },
@@ -470,6 +479,7 @@ export class PlantReportPage implements OnInit {
             data: this.data,
             backgroundColor: '#EDC3C9',
             borderColor: '#DB7F8C',
+            barThickness: 6,
           },
         ],
       },
@@ -510,6 +520,7 @@ export class PlantReportPage implements OnInit {
 
             grid: {
               display: false,
+              borderWidth: 0,
             },
 
             ticks: {
@@ -523,6 +534,7 @@ export class PlantReportPage implements OnInit {
             position: 'top',
             grid: {
               display: false,
+              borderWidth: 0,
             },
 
             ticks: {
@@ -530,6 +542,7 @@ export class PlantReportPage implements OnInit {
               autoSkip: false,
               crossAlign: 'center',
               maxRotation: 0,
+              color: '#161616',
 
               callback: function (value: number) {
                 if (this.getLabelForValue(value) == '1') {
@@ -666,6 +679,7 @@ export class PlantReportPage implements OnInit {
             data: this.data,
             backgroundColor: '#FFF9D5',
             borderColor: '#FFDC30',
+            barThickness: 6,
           },
         ],
       },
@@ -705,6 +719,7 @@ export class PlantReportPage implements OnInit {
             title: { display: true, align: 'start', font: { size: 8 }, padding: 0 },
 
             grid: {
+              borderWidth: 0,
               display: false,
             },
 
@@ -718,6 +733,7 @@ export class PlantReportPage implements OnInit {
           x1: {
             position: 'top',
             grid: {
+              borderWidth: 0,
               display: false,
             },
 
@@ -726,6 +742,7 @@ export class PlantReportPage implements OnInit {
               autoSkip: false,
               crossAlign: 'center',
               maxRotation: 0,
+              color: '#161616',
 
               callback: function (value: number) {
                 if (this.getLabelForValue(value) == '1') {
@@ -862,6 +879,7 @@ export class PlantReportPage implements OnInit {
             data: this.data,
             backgroundColor: '#5483EF',
             borderColor: '#ACDBFF',
+            barThickness: 6,
           },
         ],
       },
@@ -901,6 +919,7 @@ export class PlantReportPage implements OnInit {
 
             grid: {
               display: false,
+              borderWidth: 0,
             },
 
             ticks: {
@@ -914,6 +933,7 @@ export class PlantReportPage implements OnInit {
             position: 'top',
             grid: {
               display: false,
+              borderWidth: 0,
             },
 
             ticks: {
@@ -921,6 +941,7 @@ export class PlantReportPage implements OnInit {
               autoSkip: false,
               crossAlign: 'center',
               maxRotation: 0,
+              color: '#161616',
 
               callback: function (value: number) {
                 if (this.getLabelForValue(value) == '1') {
