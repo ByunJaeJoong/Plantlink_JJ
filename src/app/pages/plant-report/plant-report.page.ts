@@ -8,9 +8,13 @@ Chart.register(...registerables);
   styleUrls: ['./plant-report.page.scss'],
 })
 export class PlantReportPage implements OnInit {
-  @ViewChild('tem', { static: false }) tem;
-  @ViewChild('illumin', { static: false }) illumin;
-  @ViewChild('water', { static: false }) water;
+  @ViewChild('temWeek', { static: false }) temWeek;
+  @ViewChild('illuminWeek', { static: false }) illuminWeek;
+  @ViewChild('waterWeek', { static: false }) waterWeek;
+  @ViewChild('temMonth', { static: false }) temMonth;
+  @ViewChild('illuminMonth', { static: false }) illuminMonth;
+  @ViewChild('waterMonth', { static: false }) waterMonth;
+
   bar: any;
 
   label = [
@@ -47,34 +51,413 @@ export class PlantReportPage implements OnInit {
     '31',
   ];
 
+  weekLabel = ['월', '화', '수', '목', '금', '토', '일'];
   data = [65, 59, 90, 81, 56, 55, 40, 65, 59, 90, 81, 56, 55, 40, 65, 59, 90, 81, 56, 55, 40, 65, 59, 90, 81, 56, 55, 40, 65, 59, 90];
 
-  // resultSelect = '주간';
-  segment = '월간';
+  resultSelect = '월간';
+  segment = '주간';
   constructor() {}
 
   ngOnInit() {}
   changeSegment() {
     setTimeout(() => {
-      this.createChart();
-      this.createIlluminChart();
-      this.createWaterChart();
+      if (this.segment == '주간') {
+        this.weekTem();
+        this.weekIllumin();
+        this.weekWaterChart();
+      } else {
+        this.monthTem();
+        this.monthIllumin();
+        this.monthWater();
+      }
     }, 10);
   }
 
   ionViewDidEnter() {
-    // view가 완성된 후 호출되어야 하기 때문에 ionViewDidEnter 사용
-    this.createChart();
-    this.createIlluminChart();
-    this.createWaterChart();
+    this.weekTem();
+    this.weekIllumin();
+    this.weekWaterChart();
+    this.monthTem();
+    this.monthIllumin();
+    this.monthWater();
   }
 
   // 차트
-  //월간 온도 차트
-  createChart() {
+  //주간 온도 차트
+  weekTem() {
     const that = this;
 
-    this.bar = new Chart(this.tem.nativeElement, {
+    this.bar = new Chart(this.temWeek.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: this.weekLabel,
+        datasets: [
+          {
+            label: '온도',
+            data: this.data,
+            backgroundColor: '#EDC3C9',
+            borderColor: '#DB7F8C',
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+
+        elements: {
+          point: {
+            pointStyle: 'rectRot',
+          },
+          bar: {
+            borderWidth: {
+              top: 3,
+              right: 0,
+              bottom: 0,
+              left: 0,
+            },
+          },
+        },
+
+        plugins: {
+          legend: {
+            display: false,
+          },
+
+          tooltip: {
+            enabled: false,
+          },
+
+          title: {
+            display: false,
+          },
+        },
+
+        scales: {
+          x: {
+            title: { display: true, align: 'start', text: '(℃)', font: { size: 8 }, padding: 0 },
+
+            grid: {
+              display: false,
+            },
+
+            ticks: {
+              font: { size: 8 },
+              autoSkip: false,
+              crossAlign: 'center',
+              maxRotation: 0,
+            },
+          },
+          x1: {
+            position: 'top',
+            grid: {
+              display: false,
+            },
+
+            ticks: {
+              font: { size: 8 },
+              autoSkip: false,
+              crossAlign: 'center',
+              maxRotation: 0,
+
+              callback: function (value: number) {
+                if (this.getLabelForValue(value) == '월') {
+                  return '65';
+                }
+                if (this.getLabelForValue(value) == '화') {
+                  return '59';
+                }
+                if (this.getLabelForValue(value) == '수') {
+                  return '90';
+                }
+                if (this.getLabelForValue(value) == '목') {
+                  return '81';
+                }
+                if (this.getLabelForValue(value) == '금') {
+                  return '56';
+                }
+                if (this.getLabelForValue(value) == '토') {
+                  return '55';
+                }
+                if (this.getLabelForValue(value) == '일') {
+                  return '40';
+                } else {
+                  return this.getLabelForValue(value);
+                }
+              },
+            },
+          },
+
+          y: {
+            type: 'linear',
+            display: true,
+            position: 'left',
+
+            min: 0,
+            max: 200,
+
+            ticks: { display: false, stepSize: 50 },
+
+            grid: {
+              drawTicks: false,
+              drawBorder: false,
+              drawOnChartArea: true,
+            },
+          },
+        },
+      },
+    });
+  }
+
+  //주간 조도 차트
+  weekIllumin() {
+    const that = this;
+
+    this.bar = new Chart(this.illuminWeek.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: this.weekLabel,
+        datasets: [
+          {
+            label: '온도',
+            data: this.data,
+            backgroundColor: '#FFF9D5',
+            borderColor: '#FFDC30',
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+
+        elements: {
+          point: {
+            pointStyle: 'rectRot',
+          },
+          bar: {
+            borderWidth: {
+              top: 3,
+              right: 0,
+              bottom: 0,
+              left: 0,
+            },
+          },
+        },
+
+        plugins: {
+          legend: {
+            display: false,
+          },
+
+          tooltip: {
+            enabled: false,
+          },
+
+          title: {
+            display: false,
+          },
+        },
+
+        scales: {
+          x: {
+            title: { display: true, align: 'start', text: '(℃)', font: { size: 8 }, padding: 0 },
+
+            grid: {
+              display: false,
+            },
+
+            ticks: {
+              font: { size: 8 },
+              autoSkip: false,
+              crossAlign: 'center',
+              maxRotation: 0,
+            },
+          },
+          x1: {
+            position: 'top',
+            grid: {
+              display: false,
+            },
+            ticks: {
+              font: { size: 8 },
+              autoSkip: false,
+              crossAlign: 'center',
+              maxRotation: 0,
+
+              callback: function (value: number) {
+                if (this.getLabelForValue(value) == '월') {
+                  return '65';
+                }
+                if (this.getLabelForValue(value) == '화') {
+                  return '59';
+                }
+                if (this.getLabelForValue(value) == '수') {
+                  return '90';
+                }
+                if (this.getLabelForValue(value) == '목') {
+                  return '81';
+                }
+                if (this.getLabelForValue(value) == '금') {
+                  return '56';
+                }
+                if (this.getLabelForValue(value) == '토') {
+                  return '55';
+                }
+                if (this.getLabelForValue(value) == '일') {
+                  return '40';
+                } else {
+                  return this.getLabelForValue(value);
+                }
+              },
+            },
+          },
+
+          y: {
+            type: 'linear',
+            display: true,
+            position: 'left',
+
+            min: 0,
+            max: 200,
+
+            ticks: { display: false, stepSize: 50 },
+
+            grid: {
+              drawTicks: false,
+              drawBorder: false,
+              drawOnChartArea: true,
+            },
+          },
+        },
+      },
+    });
+  }
+
+  //주간 토양수분 차트
+  weekWaterChart() {
+    const that = this;
+
+    this.bar = new Chart(this.waterWeek.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: this.weekLabel,
+        datasets: [
+          {
+            label: '온도',
+            data: this.data,
+            backgroundColor: '#5483EF',
+            borderColor: '#ACDBFF',
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+
+        elements: {
+          point: {
+            pointStyle: 'rectRot',
+          },
+          bar: {
+            borderWidth: {
+              top: 3,
+              right: 0,
+              bottom: 0,
+              left: 0,
+            },
+          },
+        },
+
+        plugins: {
+          legend: {
+            display: false,
+          },
+
+          tooltip: {
+            enabled: false,
+          },
+
+          title: {
+            display: false,
+          },
+        },
+
+        scales: {
+          x: {
+            title: { display: true, align: 'start', text: '(℃)', font: { size: 8 }, padding: 0 },
+
+            grid: {
+              display: false,
+            },
+
+            ticks: {
+              font: { size: 8 },
+              autoSkip: false,
+              crossAlign: 'center',
+              maxRotation: 0,
+            },
+          },
+          x1: {
+            position: 'top',
+            grid: {
+              display: false,
+            },
+
+            ticks: {
+              font: { size: 8 },
+              autoSkip: false,
+              crossAlign: 'center',
+              maxRotation: 0,
+
+              callback: function (value: number) {
+                if (this.getLabelForValue(value) == '월') {
+                  return '65';
+                }
+                if (this.getLabelForValue(value) == '화') {
+                  return '59';
+                }
+                if (this.getLabelForValue(value) == '수') {
+                  return '90';
+                }
+                if (this.getLabelForValue(value) == '목') {
+                  return '81';
+                }
+                if (this.getLabelForValue(value) == '금') {
+                  return '56';
+                }
+                if (this.getLabelForValue(value) == '토') {
+                  return '55';
+                }
+                if (this.getLabelForValue(value) == '일') {
+                  return '40';
+                } else {
+                  return this.getLabelForValue(value);
+                }
+              },
+            },
+          },
+
+          y: {
+            type: 'linear',
+            display: true,
+            position: 'left',
+
+            min: 0,
+            max: 200,
+
+            ticks: { display: false, stepSize: 50 },
+
+            grid: {
+              drawTicks: false,
+              drawBorder: false,
+              drawOnChartArea: true,
+            },
+          },
+        },
+      },
+    });
+  }
+  //월간 온도 차트
+  monthTem() {
+    const that = this;
+
+    this.bar = new Chart(this.temMonth.nativeElement, {
       type: 'bar',
       data: {
         labels: this.label,
@@ -267,10 +650,10 @@ export class PlantReportPage implements OnInit {
   }
 
   //월간 조도 차트
-  createIlluminChart() {
+  monthIllumin() {
     const that = this;
 
-    this.bar = new Chart(this.illumin.nativeElement, {
+    this.bar = new Chart(this.illuminMonth.nativeElement, {
       type: 'bar',
       data: {
         labels: this.label,
@@ -278,8 +661,8 @@ export class PlantReportPage implements OnInit {
           {
             label: '온도',
             data: this.data,
-            backgroundColor: '#EDC3C9',
-            borderColor: '#DB7F8C',
+            backgroundColor: '#FFF9D5',
+            borderColor: '#FFDC30',
           },
         ],
       },
@@ -463,10 +846,10 @@ export class PlantReportPage implements OnInit {
   }
 
   //월간 토양수분 차트
-  createWaterChart() {
+  monthWater() {
     const that = this;
 
-    this.bar = new Chart(this.water.nativeElement, {
+    this.bar = new Chart(this.waterMonth.nativeElement, {
       type: 'bar',
       data: {
         labels: this.label,
@@ -474,8 +857,8 @@ export class PlantReportPage implements OnInit {
           {
             label: '온도',
             data: this.data,
-            backgroundColor: '#EDC3C9',
-            borderColor: '#DB7F8C',
+            backgroundColor: '#5483EF',
+            borderColor: '#ACDBFF',
           },
         ],
       },

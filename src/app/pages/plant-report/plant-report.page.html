@@ -28,22 +28,40 @@
   </div>
 
   <div [ngSwitch]="segment">
-    <div *ngSwitchCase="'주간'"></div>
+    <div *ngSwitchCase="'주간'">
+      <div class="chart-wrap">
+        <!-- 주간 온도 -->
+        <div class="chart-test">
+          <canvas #temWeek class="chart"></canvas>
+        </div>
+
+        <!-- 주간 조도 -->
+        <div class="chart-test">
+          <canvas #illuminWeek class="chart"></canvas>
+        </div>
+
+        <!-- 주간 토양수분 -->
+        <div class="chart-test">
+          <canvas #waterWeek class="chart"></canvas>
+        </div>
+      </div>
+    </div>
 
     <div *ngSwitchCase="'월간'">
       <div class="chart-wrap">
-        <!-- 임시차트에요..! -->
-        <!-- https://www.chartjs.org/docs/latest/charts/bar.html -->
+        <!-- 월간 온도 -->
         <div class="chart-test">
-          <canvas #tem class="chart"></canvas>
+          <canvas #temMonth class="chart"></canvas>
         </div>
 
+        <!-- 월간 조도 -->
         <div class="chart-test">
-          <canvas #illumin class="chart"></canvas>
+          <canvas #illuminMonth class="chart"></canvas>
         </div>
 
+        <!-- 월간 토양수분 -->
         <div class="chart-test">
-          <canvas #water class="chart"></canvas>
+          <canvas #waterMonth class="chart"></canvas>
         </div>
       </div>
     </div>
