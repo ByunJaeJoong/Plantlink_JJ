@@ -503,7 +503,7 @@ export class PlantReportPage implements OnInit {
 
         scales: {
           x: {
-            title: { display: true, align: 'start', text: '(℃)', font: { size: 8 }, padding: 0 },
+            title: { display: true, align: 'start', font: { size: 8 }, padding: 0 },
 
             grid: {
               display: false,
@@ -699,7 +699,7 @@ export class PlantReportPage implements OnInit {
 
         scales: {
           x: {
-            title: { display: true, align: 'start', text: '(℃)', font: { size: 8 }, padding: 0 },
+            title: { display: true, align: 'start', font: { size: 8 }, padding: 0 },
 
             grid: {
               display: false,
@@ -864,7 +864,6 @@ export class PlantReportPage implements OnInit {
       },
       options: {
         responsive: true,
-
         elements: {
           point: {
             pointStyle: 'rectRot',
@@ -895,7 +894,7 @@ export class PlantReportPage implements OnInit {
 
         scales: {
           x: {
-            title: { display: true, align: 'start', text: '(℃)', font: { size: 8 }, padding: 0 },
+            title: { display: true, align: 'start', font: { size: 8 }, padding: 0 },
 
             grid: {
               display: false,

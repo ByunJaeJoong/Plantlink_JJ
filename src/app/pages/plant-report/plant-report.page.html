@@ -28,20 +28,32 @@
   </div>
 
   <div [ngSwitch]="segment">
-    <div *ngSwitchCase="'주간'">
-      <div class="chart-wrap">
-        <!-- 주간 온도 -->
-        <div class="chart-test">
+    <div class="padding-wrap">
+      <div *ngSwitchCase="'주간'">
+        <div class="chart-wrap">
+          <!-- 주간 온도 -->
+          <div class="title-wrap">
+            <img src="assets/images/plant-temperature-icon.png" alt="" />
+            <p>온도</p>
+          </div>
           <canvas #temWeek class="chart"></canvas>
         </div>
 
         <!-- 주간 조도 -->
-        <div class="chart-test">
+        <div class="chart-wrap">
+          <div class="title-wrap">
+            <img src="assets/images/plant-illuminance-icon.png" alt="" />
+            <p>조도</p>
+          </div>
           <canvas #illuminWeek class="chart"></canvas>
         </div>
 
         <!-- 주간 토양수분 -->
-        <div class="chart-test">
+        <div class="chart-wrap">
+          <div class="title-wrap">
+            <img src="assets/images/plant-water-icon.png" alt="" />
+            <p>토양수분</p>
+          </div>
           <canvas #waterWeek class="chart"></canvas>
         </div>
       </div>
@@ -50,16 +62,32 @@
     <div *ngSwitchCase="'월간'">
       <div class="chart-wrap">
         <!-- 월간 온도 -->
+        <div class="title-wrap">
+          <img src="assets/images/plant-temperature-icon.png" alt="" />
+          <p>온도</p>
+        </div>
         <div class="chart-test">
           <canvas #temMonth class="chart"></canvas>
         </div>
+      </div>
 
-        <!-- 월간 조도 -->
+      <!-- 월간 조도 -->
+      <div class="chart-wrap">
+        <div class="title-wrap">
+          <img src="assets/images/plant-illuminance-icon.png" alt="" />
+          <p>조도</p>
+        </div>
         <div class="chart-test">
           <canvas #illuminMonth class="chart"></canvas>
         </div>
+      </div>
 
-        <!-- 월간 토양수분 -->
+      <!-- 월간 토양수분 -->
+      <div class="chart-wrap">
+        <div class="title-wrap">
+          <img src="assets/images/plant-water-icon.png" alt="" />
+          <p>토양수분</p>
+        </div>
         <div class="chart-test">
           <canvas #waterMonth class="chart"></canvas>
         </div>
