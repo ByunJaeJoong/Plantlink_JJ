@@ -1,6 +1,62 @@
 @import '../../../theme/mixin.scss';
 //@include font(#161616, 300, 0.875rem, 1.0625rem);
 
+ion-content {
+  --background: url(../../../assets/samples/plant-background.png) no-repeat center center / 100% 100%;
+  .header-wrap {
+    width: 100%;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 300;
+    background: transparent;
+    &.active {
+      background: #fff;
+      transition: background ease-in-out 0.2s;
+    }
+
+    h2 {
+      text-align: center;
+      @include font(#161616, 600, 1rem, 1.1875rem);
+    }
+    .back-btn {
+      width: 1.875rem;
+      height: 1.875rem;
+      background: url(../../../assets/images/back-icon.png) no-repeat center center/ 100% 100%;
+    }
+
+    .left {
+      width: 1.875rem;
+      height: 1.875rem;
+    }
+  }
+
+  .top-btn-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .calendar-btn {
+      font-size: 1rem;
+      line-height: 1.1875rem;
+      font-weight: 600;
+      .icon {
+        width: 1.875rem;
+        height: 1.875rem;
+        background: url(../../../assets/images/report-arrow.png) no-repeat center center / 100% 100%;
+      }
+    }
+  }
+
+  .report-wrap {
+    padding: 0 1.25rem;
+  }
+}
+
 .padding-wrap {
   padding-top: 1.25rem;
 }
@@ -35,54 +91,6 @@
     .chart {
       min-width: 500px;
       min-height: 7.1875rem;
-    }
-  }
-}
-
-ion-content {
-  --padding-start: 1.25rem;
-  --padding-end: 1.25rem;
-  --background: url(../../../assets/samples/plant-background.png) no-repeat center center / 100% 100%;
-  .header-wrap {
-    width: 100%;
-    height: 3.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 1rem;
-    position: sticky;
-    top: 0;
-    z-index: 300;
-    background: transparent;
-    &.active {
-      background: #fff;
-      transition: background ease-in-out 0.2s;
-    }
-
-    h2 {
-      text-align: center;
-      @include font(#161616, 600, 1rem, 1.1875rem);
-    }
-    .back-btn {
-      width: 1.875rem;
-      height: 1.875rem;
-      background: url(../../../assets/images/back-icon.png) no-repeat center center/ 100% 100%;
-    }
-
-    .left {
-      width: 1.875rem;
-      height: 1.875rem;
-    }
-  }
-
-  .calendar-btn {
-    font-size: 1rem;
-    line-height: 1.1875rem;
-    font-weight: 600;
-    .icon {
-      width: 1.875rem;
-      height: 1.875rem;
-      background: url(../../../assets/images/report-arrow.png) no-repeat center center / 100% 100%;
     }
   }
 }

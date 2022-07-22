@@ -9,87 +9,91 @@
     </div>
   </div>
 
-  <!-- 날짜 달력 버튼 -->
-  <ion-button fill="clear" class="calendar-btn">
-    2022.06
-    <div class="icon"></div>
-  </ion-button>
+  <div class="report-wrap">
+    <div class="top-btn-wrap">
+      <ion-button fill="clear" class="calendar-btn">
+        2022.06
+        <div class="icon"></div>
+      </ion-button>
 
-  <!-- 주간/ 월간 세그먼트 -->
-  <div class="segment_wrap">
-    <ion-segment [(ngModel)]="segment" (ionChange)="changeSegment()">
-      <ion-segment-button value="주간">
-        <ion-label>주간</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="월간">
-        <ion-label>월간</ion-label>
-      </ion-segment-button>
-    </ion-segment>
-  </div>
+      <div class="segment_wrap">
+        <ion-segment [(ngModel)]="segment" (ionChange)="changeSegment()" scrollable="false" mode="md">
+          <ion-segment-button value="주간">
+            <ion-label>주간</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="월간">
+            <ion-label>월간</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+    </div>
 
-  <div [ngSwitch]="segment">
-    <div class="padding-wrap">
-      <div *ngSwitchCase="'주간'">
+    <!-- 주간/ 월간 세그먼트 -->
+
+    <div [ngSwitch]="segment">
+      <div class="padding-wrap">
+        <div *ngSwitchCase="'주간'">
+          <div class="chart-wrap">
+            <!-- 주간 온도 -->
+            <div class="title-wrap">
+              <img src="assets/images/plant-temperature-icon.png" alt="" />
+              <p>온도</p>
+            </div>
+            <canvas #temWeek class="chart"></canvas>
+          </div>
+
+          <!-- 주간 조도 -->
+          <div class="chart-wrap">
+            <div class="title-wrap">
+              <img src="assets/images/plant-illuminance-icon.png" alt="" />
+              <p>조도</p>
+            </div>
+            <canvas #illuminWeek class="chart"></canvas>
+          </div>
+
+          <!-- 주간 토양수분 -->
+          <div class="chart-wrap">
+            <div class="title-wrap">
+              <img src="assets/images/plant-water-icon.png" alt="" />
+              <p>토양수분</p>
+            </div>
+            <canvas #waterWeek class="chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div *ngSwitchCase="'월간'">
         <div class="chart-wrap">
-          <!-- 주간 온도 -->
+          <!-- 월간 온도 -->
           <div class="title-wrap">
             <img src="assets/images/plant-temperature-icon.png" alt="" />
             <p>온도</p>
           </div>
-          <canvas #temWeek class="chart"></canvas>
+          <div class="chart-test">
+            <canvas #temMonth class="chart"></canvas>
+          </div>
         </div>
 
-        <!-- 주간 조도 -->
+        <!-- 월간 조도 -->
         <div class="chart-wrap">
           <div class="title-wrap">
             <img src="assets/images/plant-illuminance-icon.png" alt="" />
             <p>조도</p>
           </div>
-          <canvas #illuminWeek class="chart"></canvas>
+          <div class="chart-test">
+            <canvas #illuminMonth class="chart"></canvas>
+          </div>
         </div>
 
-        <!-- 주간 토양수분 -->
+        <!-- 월간 토양수분 -->
         <div class="chart-wrap">
           <div class="title-wrap">
             <img src="assets/images/plant-water-icon.png" alt="" />
             <p>토양수분</p>
           </div>
-          <canvas #waterWeek class="chart"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <div *ngSwitchCase="'월간'">
-      <div class="chart-wrap">
-        <!-- 월간 온도 -->
-        <div class="title-wrap">
-          <img src="assets/images/plant-temperature-icon.png" alt="" />
-          <p>온도</p>
-        </div>
-        <div class="chart-test">
-          <canvas #temMonth class="chart"></canvas>
-        </div>
-      </div>
-
-      <!-- 월간 조도 -->
-      <div class="chart-wrap">
-        <div class="title-wrap">
-          <img src="assets/images/plant-illuminance-icon.png" alt="" />
-          <p>조도</p>
-        </div>
-        <div class="chart-test">
-          <canvas #illuminMonth class="chart"></canvas>
-        </div>
-      </div>
-
-      <!-- 월간 토양수분 -->
-      <div class="chart-wrap">
-        <div class="title-wrap">
-          <img src="assets/images/plant-water-icon.png" alt="" />
-          <p>토양수분</p>
-        </div>
-        <div class="chart-test">
-          <canvas #waterMonth class="chart"></canvas>
+          <div class="chart-test">
+            <canvas #waterMonth class="chart"></canvas>
+          </div>
         </div>
       </div>
     </div>

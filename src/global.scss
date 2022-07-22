@@ -950,6 +950,37 @@ mat-accordion {
   }
 }
 
+//segment
+.segment_wrap {
+  ion-segment {
+    --background: transperent;
+    border: 1px solid #afd365;
+    border-radius: 4px;
+    ion-segment-button {
+      margin: 0;
+      min-width: 3.875rem;
+      min-height: 29px;
+      --indicator-box-shadow: none;
+      --background-hover-opacity: 0;
+      --ripple-color: transparent;
+      --indicator-color: none;
+      ion-label {
+        font-weight: 500;
+        font-size: 0.875rem;
+        line-height: 1.0625rem;
+        color: #afd365;
+      }
+    }
+    .segment-button-checked {
+      background: #afd365;
+      ion-label {
+        font-weight: 600;
+        color: #fff;
+      }
+    }
+  }
+}
+
 //searchbar
 .book-searchbar-item {
   ion-searchbar {

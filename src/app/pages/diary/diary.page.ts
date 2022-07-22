@@ -15,7 +15,7 @@ export class DiaryPage implements OnInit {
   myEvents: MbscCalendarEvent[] = [];
 
   eventSettings: MbscEventcalendarOptions = {
-    locale: localeKo,
+    // locale: localeKo,
     theme: 'ios',
     themeVariant: 'light',
     clickToCreate: false,

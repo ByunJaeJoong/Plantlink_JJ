@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import fa from '@mobiscroll/angular/dist/js/i18n/fa';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
@@ -97,6 +98,7 @@ export class PlantReportPage implements OnInit {
             data: this.data,
             backgroundColor: '#EDC3C9',
             borderColor: '#DB7F8C',
+            barThickness: 40,
           },
         ],
       },
@@ -146,6 +148,7 @@ export class PlantReportPage implements OnInit {
               maxRotation: 0,
             },
           },
+
           x1: {
             position: 'top',
             grid: {
@@ -154,6 +157,7 @@ export class PlantReportPage implements OnInit {
 
             ticks: {
               font: { size: 8 },
+              color: '#161616',
               autoSkip: false,
               crossAlign: 'center',
               maxRotation: 0,
@@ -188,9 +192,8 @@ export class PlantReportPage implements OnInit {
 
           y: {
             type: 'linear',
-            display: true,
+            display: false,
             position: 'left',
-
             min: 0,
             max: 200,
 
@@ -199,7 +202,7 @@ export class PlantReportPage implements OnInit {
             grid: {
               drawTicks: false,
               drawBorder: false,
-              drawOnChartArea: true,
+              drawOnChartArea: false,
             },
           },
         },
