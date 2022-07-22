@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { MenuController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-fake-tab',
@@ -7,7 +7,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./fake-tab.component.scss'],
 })
 export class FakeTabComponent implements OnInit {
-  constructor(private navController: NavController) {}
+  constructor(private navController: NavController, public menuController: MenuController) {}
 
   ngOnInit() {}
 
@@ -19,5 +19,10 @@ export class FakeTabComponent implements OnInit {
   //대화로 이동
   goChatting() {
     this.navController.navigateRoot(['/tabs/chatting']);
+  }
+
+  // 메뉴
+  openAppMenu() {
+    this.menuController.open('first');
   }
 }
