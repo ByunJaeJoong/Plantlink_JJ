@@ -727,7 +727,7 @@ mat-accordion {
       }
       .mbsc-ios.mbsc-calendar-button.mbsc-button {
         span {
-          @include font(#161616, 600, 1rem, 1.1875rem);
+          @include font(transparent, 600, 1rem, 1.1875rem);
         }
       }
       .mbsc-ios.mbsc-calendar-day:after {
@@ -764,8 +764,6 @@ mat-accordion {
     }
 
     .mbsc-calendar-day-text {
-      // display: flex;
-      // align-items: center;
       flex-direction: column;
       justify-content: center;
       margin: 0;
@@ -833,6 +831,7 @@ mat-accordion {
       }
     }
   }
+
   .mbsc-calendar-controls {
     padding: 0;
     mbsc-calendar-prev {
@@ -886,6 +885,25 @@ mat-accordion {
     .mbsc-ios.mbsc-list-header {
       display: none;
     }
+  }
+}
+
+.mbsc-button {
+  &:nth-of-type(1) {
+    .mbsc-icon {
+      background: url(././assets/images/calendar-arrow-left.png) no-repeat center center / 1.875rem;
+    }
+  }
+  &:nth-last-of-type(1) {
+    .mbsc-icon {
+      background: url(././assets/images/calendar-arrow-right.png) no-repeat center center / 1.875rem;
+    }
+  }
+}
+
+.mbsc-icon {
+  svg {
+    display: none !important;
   }
 }
 
@@ -972,12 +990,6 @@ mat-accordion {
   }
   .mbsc-calendar-button.mbsc-button.mbsc-reset {
     padding: 0;
-  }
-
-  mbsc-button {
-    mbsc-icon {
-      display: none;
-    }
   }
 }
 
@@ -1129,6 +1141,31 @@ mat-accordion {
 
 //달력 내용
 .pop-calendar-wrap {
+  .mbsc-calendar-controls {
+    padding: 0;
+    mbsc-calendar-prev {
+      background: url(././assets/images/calendar-arrow-left.png) no-repeat center center / 1.875rem;
+      .mbsc-calendar-button {
+        padding: 0;
+        width: 1.875rem;
+        height: 1.875rem;
+        .mbsc-button-icon {
+          display: none;
+        }
+      }
+    }
+    mbsc-calendar-next {
+      background: url(./assets/images/calendar-arrow-right.png) no-repeat center center / 1.875rem;
+      .mbsc-calendar-button {
+        width: 1.875rem;
+        height: 1.875rem;
+        padding: 0;
+        .mbsc-button-icon {
+          display: none;
+        }
+      }
+    }
+  }
   padding: 10px;
   .mbsc-ios.mbsc-datepicker-inline {
     border: 0;
@@ -1136,6 +1173,7 @@ mat-accordion {
 
   .mbsc-ios.mbsc-calendar-controls {
     margin-bottom: 0.5rem;
+    justify-content: space-between;
   }
 
   //title{
@@ -1143,6 +1181,7 @@ mat-accordion {
     font-size: 1rem;
     font-weight: 600;
     line-height: 1.1875rem;
+    color: transparent;
   }
 
   //월화수목금토일
@@ -1191,32 +1230,6 @@ mat-accordion {
   .mbsc-ios.mbsc-calendar-week-nr,
   .mbsc-ios.mbsc-calendar-today {
     color: #161616;
-  }
-
-  .mbsc-calendar-controls {
-    padding: 0;
-    mbsc-calendar-prev {
-      background: url(././assets/images/calendar-arrow-left.png) no-repeat center center / 1.875rem;
-      .mbsc-calendar-button {
-        padding: 0;
-        width: 1.875rem;
-        height: 1.875rem;
-        .mbsc-button-icon {
-          display: none;
-        }
-      }
-    }
-    mbsc-calendar-next {
-      background: url(./assets/images/calendar-arrow-right.png) no-repeat center center / 1.875rem;
-      .mbsc-calendar-button {
-        width: 1.875rem;
-        height: 1.875rem;
-        padding: 0;
-        .mbsc-button-icon {
-          display: none;
-        }
-      }
-    }
   }
 
   //연도 칸

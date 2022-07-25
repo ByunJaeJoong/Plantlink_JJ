@@ -7,6 +7,7 @@ import { localeKo, MbscEventcalendarOptions } from '@mobiscroll/angular';
   styleUrls: ['./pop-calendar.component.scss'],
 })
 export class PopCalendarComponent implements OnInit {
+  date = new Date();
   constructor() {}
 
   eventSettings: MbscEventcalendarOptions = {
@@ -14,4 +15,9 @@ export class PopCalendarComponent implements OnInit {
   };
 
   ngOnInit() {}
+
+  test(ev) {
+    console.log('ev', ev.month);
+    this.date = ev.month;
+  }
 }

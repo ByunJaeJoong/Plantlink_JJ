@@ -40,3 +40,9 @@ ion-item {
   height: 1.875rem;
   background: url(../../../assets/images/write-btn-icon.png) no-repeat center center / 100%;
 }
+
+.date {
+  position: absolute;
+  left: 1.0625rem;
+  @include font(#161616, 600, 1rem, 1.1875rem);
+}
