@@ -176,10 +176,10 @@ export class PlantReportPage implements OnInit {
                   return '59';
                 }
                 if (this.getLabelForValue(value) == '수') {
-                  return '90';
+                  return '40';
                 }
                 if (this.getLabelForValue(value) == '목') {
-                  return '81';
+                  return '41';
                 }
                 if (this.getLabelForValue(value) == '금') {
                   return '56';
@@ -203,7 +203,7 @@ export class PlantReportPage implements OnInit {
             min: 0,
             max: 200,
 
-            ticks: { display: false, stepSize: 50 },
+            ticks: { display: false, stepSize: 100 },
 
             grid: {
               drawTicks: false,
@@ -327,9 +327,9 @@ export class PlantReportPage implements OnInit {
             display: false,
             position: 'left',
             min: 0,
-            max: 200,
+            max: 100,
 
-            ticks: { display: false, stepSize: 50 },
+            ticks: { display: false, stepSize: 100 },
 
             grid: {
               drawTicks: false,
