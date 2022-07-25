@@ -75,7 +75,6 @@ ion-content {
   //월간 스크롤 달력
   .chart-test {
     max-width: 100%;
-
     overflow: scroll;
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
@@ -103,15 +102,14 @@ ion-content {
   padding: 0.9375rem 1.0625rem 0 1.0625rem;
 }
 
-//주간 달력
-.chart-week {
-  min-height: 7.5rem;
-}
+// //주간 달력
+// .chart-week {
+//   min-height: 7.1875rem;
+// }
 
 .title-wrap {
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem;
   img {
     width: 1.625rem;
     height: 1.625rem;
