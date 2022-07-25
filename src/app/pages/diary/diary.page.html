@@ -13,9 +13,17 @@
   <!--  TODO달력 사이즈!!!!!!!! -->
   <div class="calendar-wrap">
     <ion-button fill="clear" class="write-btn" (click)="goWrite()"> </ion-button>
-    <mbsc-eventcalendar class="calendar" [data]="myEvents" [headerTemplate]="customTemplate" [eventTemplate]="myTemplate" [options]="eventSettings">
+    <mbsc-eventcalendar
+      class="calendar"
+      [data]="myEvents"
+      [headerTemplate]="customTemplate"
+      [eventTemplate]="myTemplate"
+      (onPageLoaded)="test($event)"
+      [options]="eventSettings"
+    >
       <ng-template #customTemplate>
         <mbsc-calendar-nav></mbsc-calendar-nav>
+        <p class="date">{{ date | date: 'yyyy.MM' }}</p>
         <div class="wrap">
           <mbsc-calendar-prev></mbsc-calendar-prev>
           <mbsc-calendar-next></mbsc-calendar-next>

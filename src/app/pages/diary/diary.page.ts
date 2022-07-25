@@ -10,6 +10,8 @@ import { DiaryWritePage } from '../diary-write/diary-write.page';
   styleUrls: ['./diary.page.scss'],
 })
 export class DiaryPage implements OnInit {
+  date = new Date();
+
   constructor(private http: HttpClient, private navController: NavController, private modalController: ModalController) {}
 
   myEvents: MbscCalendarEvent[] = [];
@@ -22,19 +24,25 @@ export class DiaryPage implements OnInit {
     dragToCreate: false,
     dragToMove: false,
     dragToResize: false,
-    // dateFormat: 'YYYY/mm',
+
     dateFormatLong: 'YYYY.mm',
     noEventsText: ``,
     view: {
       calendar: { type: 'month' },
       agenda: { type: 'month' },
     },
+    cssClass: 'asdlkfjal',
   };
 
   ngOnInit() {
     this.http.jsonp<MbscCalendarEvent[]>('https://trial.mobiscroll.com/events/?vers=5', 'callback').subscribe(resp => {
       this.myEvents = resp;
     });
+  }
+
+  test(ev) {
+    console.log('ev', ev.month);
+    this.date = ev.month;
   }
 
   //홈으로

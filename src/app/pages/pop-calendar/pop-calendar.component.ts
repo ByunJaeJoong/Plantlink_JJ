@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { localeKo, MbscEventcalendarOptions } from '@mobiscroll/angular';
 
 @Component({
   selector: 'app-pop-calendar',
@@ -6,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pop-calendar.component.scss'],
 })
 export class PopCalendarComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
+  eventSettings: MbscEventcalendarOptions = {
+    locale: localeKo,
+  };
 
   ngOnInit() {}
-
 }

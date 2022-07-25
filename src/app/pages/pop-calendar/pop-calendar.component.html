@@ -1,5 +1,5 @@
 <div class="pop-calendar-wrap">
-  <mbsc-eventcalendar
+  <!-- <mbsc-eventcalendar
     class="report-calendar"
     [data]="myEvents"
     [headerTemplate]="customTemplate"
@@ -13,5 +13,6 @@
         <mbsc-calendar-next></mbsc-calendar-next>
       </div>
     </ng-template>
-  </mbsc-eventcalendar>
+  </mbsc-eventcalendar> -->
+  <mbsc-datepicker [options]="eventSettings" [controls]="['calendar']" display="inline" class="report-calendar"> </mbsc-datepicker>
 </div>
