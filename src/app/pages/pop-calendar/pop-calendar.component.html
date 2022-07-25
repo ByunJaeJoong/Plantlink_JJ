@@ -1,1 +1,17 @@
-
+<div class="pop-calendar-wrap">
+  <mbsc-eventcalendar
+    class="report-calendar"
+    [data]="myEvents"
+    [headerTemplate]="customTemplate"
+    [eventTemplate]="myTemplate"
+    [options]="eventSettings"
+  >
+    <ng-template #customTemplate>
+      <mbsc-calendar-nav></mbsc-calendar-nav>
+      <div class="wrap">
+        <mbsc-calendar-prev></mbsc-calendar-prev>
+        <mbsc-calendar-next></mbsc-calendar-next>
+      </div>
+    </ng-template>
+  </mbsc-eventcalendar>
+</div>

@@ -1104,3 +1104,180 @@ mat-accordion {
 }
 
 @import '~@mobiscroll/angular/dist/css/mobiscroll.scss';
+
+//식물 보고서 다이알로그 캘린더
+//pop-calendar
+.cdk-overlay-pane {
+  .mat-dialog-container {
+    border-radius: 10px !important;
+    padding: 0;
+    border: 1px solid #f0f0f0;
+  }
+}
+.cdk-overlay-dark-backdrop {
+  background: transparent;
+}
+
+//달력 내용
+.pop-calendar-wrap {
+  .report-calendar {
+    //타이틀
+    .mbsc-ios.mbsc-calendar-controls {
+      justify-content: space-between;
+    }
+    .mbsc-ios.mbsc-eventcalendar .mbsc-calendar-wrapper {
+      padding: 0.625rem;
+      border: none;
+
+      .mbsc-calendar-day.mbsc-disabled {
+        background: #fff;
+      }
+      .mbsc-ios.mbsc-calendar-header {
+        border: none;
+        background: #fff;
+        justify-content: space-between;
+      }
+      .mbsc-ios.mbsc-calendar-button.mbsc-button {
+        span {
+          @include font(#161616, 600, 1rem, 1.1875rem);
+        }
+      }
+      .mbsc-ios.mbsc-calendar-day:after {
+        border-color: transparent;
+      }
+
+      //월화수목금토일
+      .mbsc-ios.mbsc-calendar-week-day {
+        @include font(#161616, 400, 0.875rem, 1.0625rem);
+      }
+      //요일 배경색깔
+      .mbsc-calendar-week-days {
+        background: #fff !important;
+      }
+      //세로 칸 선없애기
+      .mbsc-calendar-cell {
+        width: 2.0625rem !important;
+        height: 2.0625rem !important;
+        border: 0;
+        text-align: center;
+        display: flex;
+        margin: 0;
+        justify-content: center;
+      }
+    }
+
+    //가로 선 없애기
+    .mbsc-calendar-row {
+      border: none;
+    }
+
+    .mbsc-calendar-day-text {
+      margin: 0;
+    }
+
+    .mbsc-ios.mbsc-calendar-day-marked {
+      padding: 0;
+    }
+
+    //지난달 일자
+    .mbsc-calendar-day-outer .mbsc-calendar-day-text,
+    .mbsc-calendar-day-outer .mbsc-calendar-month-name {
+      @include font(#f0f0f0, 500, 0.8125rem, 1rem);
+      opacity: 1;
+    }
+
+    //선택되었을 때
+    .mbsc-ios.mbsc-selected .mbsc-calendar-cell-text {
+      border-color: #afd365;
+      background: #afd365;
+      margin-bottom: 10px !important;
+      min-width: 1.875rem !important;
+      height: 1.875rem !important;
+      border: none;
+      color: #fff !important;
+      @include font(#fff, 400, 0.8125rem, 1.875rem);
+    }
+
+    //오늘 날짜
+    .mbsc-ios.mbsc-calendar-week-nr,
+    .mbsc-ios.mbsc-calendar-today {
+      color: #161616;
+    }
+
+    .mbsc-calendar-cell-text {
+      @include font(#161616, 400, 0.8125rem, 1rem);
+    }
+
+    .mbsc-calendar-cell {
+      .mbsc-calendar-cell-inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .mbsc-ios.mbsc-calendar-mark {
+        background: #da7f8c;
+        position: relative;
+        top: 11px;
+      }
+
+      .mbsc-ios.mbsc-calendar-marks {
+        // height: 3.125rem;
+      }
+    }
+  }
+  .mbsc-calendar-controls {
+    padding: 0;
+    mbsc-calendar-prev {
+      background: url(././assets/images/calendar-arrow-left.png) no-repeat center center / 1.875rem;
+      .mbsc-calendar-button {
+        padding: 0;
+        width: 1.875rem;
+        height: 1.875rem;
+        .mbsc-button-icon {
+          display: none;
+        }
+      }
+    }
+    mbsc-calendar-next {
+      background: url(./assets/images/calendar-arrow-right.png) no-repeat center center / 1.875rem;
+      .mbsc-calendar-button {
+        width: 1.875rem;
+        height: 1.875rem;
+        padding: 0;
+        .mbsc-button-icon {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .mbsc-event-list {
+    height: auto !important;
+    overflow: scroll !important;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 0.3125rem;
+    .mbsc-list {
+      height: auto;
+    }
+    .mbsc-ios.mbsc-list-item {
+      padding: 0.9375rem 1.25rem;
+      display: block;
+      &:nth-last-of-type(1) {
+        // padding-top: 0;
+        &::after {
+          border: none;
+          display: none;
+        }
+      }
+      &.mbsc-ios.mbsc-list-item:before {
+        display: none;
+        border: none;
+      }
+    }
+
+    .mbsc-ios.mbsc-list-header {
+      display: none;
+    }
+  }
+}
