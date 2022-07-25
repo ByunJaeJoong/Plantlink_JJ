@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import fa from '@mobiscroll/angular/dist/js/i18n/fa';
 import { Chart, registerables } from 'chart.js';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { PopCalendarComponent } from '../pop-calendar/pop-calendar.component';
+import he from '@mobiscroll/angular/dist/js/i18n/he';
 Chart.register(...registerables);
 
 @Component({
@@ -57,7 +60,7 @@ export class PlantReportPage implements OnInit {
 
   resultSelect = '월간';
   segment = '주간';
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit() {}
   changeSegment() {
@@ -1061,6 +1064,13 @@ export class PlantReportPage implements OnInit {
           },
         },
       },
+    });
+  }
+
+  openPopCalendar() {
+    this.dialog.open(PopCalendarComponent, {
+      width: '273px',
+      height: '274px',
     });
   }
 }

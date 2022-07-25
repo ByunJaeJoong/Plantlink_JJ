@@ -29,11 +29,13 @@ import * as firebase from 'firebase/app';
 import { environment } from 'src/environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
+import { PopCalendarComponent } from './pages/pop-calendar/pop-calendar.component';
 
 firebase.default.initializeApp(environment.firebase);
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, PopCalendarComponent],
   entryComponents: [],
   imports: [
     MbscModule,
@@ -49,6 +51,7 @@ firebase.default.initializeApp(environment.firebase);
     AngularFireAuthModule,
     AngularFireStorageModule,
     BrowserAnimationsModule,
+    MatDialogModule,
   ],
   providers: [
     StatusBar,

@@ -8,9 +8,9 @@ import { PlantReportPageRoutingModule } from './plant-report-routing.module';
 
 import { PlantReportPage } from './plant-report.page';
 import { SharedModule } from '../shared/fake-tab/shared.moduls';
-
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, PlantReportPageRoutingModule, SharedModule],
+  imports: [CommonModule, FormsModule, IonicModule, PlantReportPageRoutingModule, SharedModule, MatDialogModule],
   declarations: [PlantReportPage],
 })
 export class PlantReportPageModule {}
