@@ -2,7 +2,9 @@
 <!-- Screen ID : UI P-0002 식물 목록-->
 
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
+  <img class="img-back" src="assets/images/plant-backgorund.png" alt="" />
   <div class="background-wrap">
+    <img src="" alt="" />
     <div class="header-wrap" [ngClass]="{'active': headerBackSwitch}">
       <ion-buttons slot="start">
         <ion-button (click)="goHome()" fill="clear" class="back-btn"> </ion-button>

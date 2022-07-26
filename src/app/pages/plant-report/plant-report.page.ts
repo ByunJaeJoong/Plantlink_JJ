@@ -76,7 +76,7 @@ export class PlantReportPage implements OnInit {
         this.monthIllumin();
         this.monthWater();
       }
-    }, 10);
+    }, 500);
   }
 
   ionViewDidEnter() {
@@ -1092,7 +1092,6 @@ export class PlantReportPage implements OnInit {
       this.headerBackSwitch = false;
     }
   }
-
 
   //홈화면으로
   goHome() {

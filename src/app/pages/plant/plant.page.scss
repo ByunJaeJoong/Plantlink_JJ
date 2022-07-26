@@ -2,9 +2,10 @@
 //@include font(#161616, 300, 0.875rem, 1.0625rem);
 
 .background-wrap {
+  position: fixed;
+  z-index: -100;
   width: 100%;
-  min-height: 100vh;
-  max-height: 100vh;
+  min-height: 100%;
   background: url(../../../assets/samples/plant-background.png) no-repeat center center;
   background-size: cover;
 }
