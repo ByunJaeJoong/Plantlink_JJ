@@ -11,7 +11,7 @@ export class FindPassConfirmPage implements OnInit {
 
   ngOnInit() {}
 
-  //아이디찾기
+  //로그인화면으로
   goLoign() {
     this.navController.navigateForward(['/login']);
   }

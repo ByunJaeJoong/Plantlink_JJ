@@ -532,7 +532,7 @@ ion-alert.sc-ion-alert-ios-h {
   ion-backdrop.sc-ion-alert-ios {
     background-color: var(--ion-backdrop-color, #161616); //디자인 권장   background-color 값 추후 프로젝트에 맞게 수정해주세요.
   }
-  --backdrop-opacity: 0.65; //디자인 권장 opacity 값 추후 프로젝트에 맞게 수정해주세요.
+  --backdrop-opacity: 0.5; //디자인 권장 opacity 값 추후 프로젝트에 맞게 수정해주세요.
 }
 
 //버튼 두개 alert
@@ -633,11 +633,9 @@ ion-button {
 }
 
 //메뉴 커스텀
-//TODO 미디어쿼리 se 일때 넓이 이상해짐 + 갤럭시 폴드도.. / 홈 화면... 갤럭시 폴드 일때 이상함
 .my-custom-menu {
-  // background: transparent !important;
-  --width: 55%;
-  // --height: calc(100% - 3.5rem);
+  --width: calc(50% + 1.25rem);
+  // --min-width: 21.3125rem;
 
   .header-wrap {
     .sc-ion-buttons-ios-h {
@@ -663,6 +661,12 @@ ion-button {
     }
   }
 }
+
+// @media screen and (min-width: 280px) {
+//   .my-custom-menu {
+//     --width: 12.5625rem !important;
+//   }
+// }
 
 //faq
 mat-accordion {
@@ -980,6 +984,59 @@ mat-accordion {
   right: -62%;
 }
 
+@media screen and (max-width: 414px) {
+  .mbsc-ios.mbsc-calendar-popup .mbsc-popup-body {
+    position: absolute;
+    right: -73%;
+  }
+}
+@media screen and (max-width: 375px) {
+  .mbsc-ios.mbsc-calendar-popup .mbsc-popup-body {
+    position: absolute;
+    right: -63%;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .mbsc-ios.mbsc-calendar-popup .mbsc-popup-body {
+    position: absolute;
+    right: -43%;
+  }
+}
+
+@media screen and (max-width: 280px) {
+  .mbsc-ios.mbsc-calendar-popup .mbsc-popup-body {
+    position: absolute;
+    right: -37%;
+  }
+
+  .mbsc-popup-content {
+    width: 18.75rem;
+    .mbsc-ios.mbsc-calendar-controls {
+      padding-top: 0.625rem;
+      padding-left: 0.625rem;
+      padding-right: 0.625rem;
+    }
+
+    .mbsc-ios.mbsc-calendar-cell {
+      border: none;
+      .mbsc-ios.mbsc-calendar-cell-text {
+        font-size: 0.9375rem;
+        font-weight: 400;
+      }
+      .mbsc-calendar-cell-inner {
+        padding: 0 0.125rem;
+      }
+
+      .mbsc-calendar-year-text {
+        min-width: 60px;
+        margin: 0.625rem 0;
+        padding: 0 0.625rem;
+      }
+    }
+  }
+}
+
 .mbsc-popup-content {
   .mbsc-calendar-picker-wrapper {
     width: 16.5em;
@@ -1246,8 +1303,6 @@ mat-accordion {
 //차트
 
 //차트 막대 넓이
-@media screen and (max-width: 280px) {
-}
 
 @media screen and (max-height: 567px) {
   //주간 달력

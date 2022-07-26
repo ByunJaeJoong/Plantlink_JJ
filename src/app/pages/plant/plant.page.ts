@@ -17,13 +17,13 @@ export class PlantPage implements OnInit {
     this.isOpen = !this.isOpen;
   }
 
-  //식물목록이 없을 뜨는 alert
-  alert() {
+  //식물목록이 없을 때 뜨는 alert
+  emptyAlert() {
     this.alertService
       .cancelOkBtn('two-btn', '현재 등록된 식물이 없습니다.<br>장치 연결을 통해 식물을 등록하시겠어요?', '', '취소', '확인')
       .then(ok => {
         if (ok) {
-          this.navController.navigateForward(['/plant-search']);
+          this.navController.navigateForward(['/connect-device']);
         }
       });
   }
@@ -39,6 +39,11 @@ export class PlantPage implements OnInit {
     } else {
       this.headerBackSwitch = false;
     }
+  }
+
+  //홈으로
+  goHome() {
+    this.navController.navigateForward(['/tabs/home']);
   }
 
   //식물 현재 상태

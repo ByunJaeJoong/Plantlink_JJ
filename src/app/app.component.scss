@@ -1,9 +1,8 @@
 ion-menu {
-  --height: calc(100vh - 56px);
+  --height: calc(100vh - 50px);
   --background: rgba(255, 255, 255, 0.8);
   ion-content {
     --background: rgba(255, 255, 255, 0);
-    // background: ;
   }
 }
 

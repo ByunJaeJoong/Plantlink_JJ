@@ -16,7 +16,7 @@ export class LoginPage implements OnInit {
     this.navController.navigateForward(['/find-id']);
   }
 
-  //비번찾기
+  //비밀번호 찾기
   findPw() {
     this.navController.navigateForward(['/find-password']);
   }
