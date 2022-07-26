@@ -12,6 +12,10 @@ export class SettingPage implements OnInit {
 
   ngOnInit() {}
 
+  //홈으로
+  goHome() {
+    this.navController.navigateForward(['/tabs/home']);
+  }
   //faq로
   goFaq() {
     this.navController.navigateForward(['/faq']);

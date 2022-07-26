@@ -706,13 +706,14 @@ mat-accordion {
 
 //diary 달력
 .calendar-wrap {
+  min-height: 60%;
   .calendar {
     //타이틀
     .mbsc-ios.mbsc-calendar-controls {
       justify-content: space-between;
     }
     .mbsc-ios.mbsc-eventcalendar .mbsc-calendar-wrapper {
-      padding: 0.9375rem 0.5625rem 4.375rem 0.5625rem;
+      padding: 0 0.5625rem 2.1875rem 0.5625rem;
       border: none;
 
       .mbsc-calendar-day.mbsc-disabled {
@@ -746,7 +747,7 @@ mat-accordion {
       //세로 칸 선없애기
       .mbsc-calendar-cell {
         width: 3.625rem !important;
-        height: 3.9375rem !important;
+        height: 3.75rem !important;
 
         border: 0;
         text-align: center;

@@ -12,6 +12,12 @@ export class PopCalendarComponent implements OnInit {
 
   eventSettings: MbscEventcalendarOptions = {
     locale: localeKo,
+    theme: 'ios',
+    themeVariant: 'light',
+    clickToCreate: false,
+    dragToCreate: false,
+    dragToMove: false,
+    dragToResize: false,
   };
 
   ngOnInit() {}
