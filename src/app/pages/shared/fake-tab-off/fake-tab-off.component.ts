@@ -21,6 +21,11 @@ export class FakeTabOffComponent implements OnInit {
     this.navController.navigateRoot(['/tabs/chatting']);
   }
 
+  //식물로 이동
+  goPlant() {
+    this.navController.navigateRoot(['/tabs/plant']);
+  }
+
   // 메뉴
   openAppMenu() {
     this.menuController.open('first');

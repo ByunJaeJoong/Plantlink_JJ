@@ -662,12 +662,6 @@ ion-button {
   }
 }
 
-// @media screen and (min-width: 280px) {
-//   .my-custom-menu {
-//     --width: 12.5625rem !important;
-//   }
-// }
-
 //faq
 mat-accordion {
   mat-expansion-panel-header {
@@ -1124,12 +1118,8 @@ mat-accordion {
 //일기장 달력 사이즈
 
 @media screen and (max-height: 568px) {
-  // .mbsc-calendar-wrapper {
-  //   height: 70% !important;
-  // }
   .calendar-wrap {
     height: calc(100% - 4.5rem + 200px);
-    // overflow: scroll;
   }
 }
 
@@ -1137,29 +1127,21 @@ mat-accordion {
 @media screen and (max-height: 700px) {
   .calendar-wrap {
     height: calc(100% - 4.5rem + 200px);
-    // overflow: scroll;
   }
-}
-@media screen and (min-height: 640px) {
-}
 
-@media screen and (min-height: 658px) {
-}
-
-@media screen and (min-height: 700px) {
-}
-
-@media screen and (min-height: 740px) {
-}
-
-@media screen and (min-height: 800px) {
-}
-
-@media screen and (min-height: 896px) {
+  //식물 디테일
+  #plant-slider-wrap {
+    padding: 0.9375rem !important;
+    ion-card {
+      margin-bottom: 2.625rem !important;
+      &:last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+  }
 }
 
 // 반응형
-
 @media screen and (max-width: 320px) {
   html,
   body {

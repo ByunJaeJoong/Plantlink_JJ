@@ -7,14 +7,10 @@ import { IonicModule } from '@ionic/angular';
 import { DiaryDetailPageRoutingModule } from './diary-detail-routing.module';
 
 import { DiaryDetailPage } from './diary-detail.page';
+import { SharedModule } from '../shared/fake-tab/shared.moduls';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    DiaryDetailPageRoutingModule
-  ],
-  declarations: [DiaryDetailPage]
+  imports: [CommonModule, FormsModule, IonicModule, DiaryDetailPageRoutingModule, SharedModule],
+  declarations: [DiaryDetailPage],
 })
 export class DiaryDetailPageModule {}

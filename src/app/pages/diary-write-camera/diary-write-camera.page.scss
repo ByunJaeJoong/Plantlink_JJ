@@ -29,6 +29,10 @@ ion-content {
     overflow: hidden;
   }
   .camera-box {
+    width: calc(25% - 5px);
+    padding-bottom: calc(25% - 5px);
+    height: 0;
+    overflow: hidden;
     background: #afd365 url(../../../assets/images/album-camera-icon.png) no-repeat center center / 1.875rem;
   }
 
