@@ -3,9 +3,10 @@
 
 ion-content {
   .all-back {
-    width: 100%;
-    height: 100%;
-    background: url(../../../assets/samples/plant-background.png) no-repeat center center/ 100% 100%;
+    width: 100vw;
+    min-height: 100vh;
+    background: url(../../../assets/samples/plant-background.png) no-repeat center center;
+    background-size: cover;
   }
   .header-wrap {
     width: 100%;
@@ -59,6 +60,9 @@ ion-content {
 
   .report-wrap {
     padding: 0 1.25rem;
+    &.month-padding {
+      height: 100vh;
+    }
   }
 }
 
@@ -101,11 +105,6 @@ ion-content {
 .month {
   padding: 0.9375rem 1.0625rem 0 1.0625rem;
 }
-
-// //주간 달력
-// .chart-week {
-//   min-height: 7.1875rem;
-// }
 
 .title-wrap {
   display: flex;

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import fa from '@mobiscroll/angular/dist/js/i18n/fa';
 import { Chart, registerables } from 'chart.js';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -12,12 +12,12 @@ Chart.register(...registerables);
   styleUrls: ['./plant-report.page.scss'],
 })
 export class PlantReportPage implements OnInit {
-  @ViewChild('temWeek', { static: false }) temWeek;
-  @ViewChild('illuminWeek', { static: false }) illuminWeek;
-  @ViewChild('waterWeek', { static: false }) waterWeek;
-  @ViewChild('temMonth', { static: false }) temMonth;
-  @ViewChild('illuminMonth', { static: false }) illuminMonth;
-  @ViewChild('waterMonth', { static: false }) waterMonth;
+  @ViewChild('temWeek', { static: false }) temWeek: ElementRef;
+  @ViewChild('illuminWeek', { static: false }) illuminWeek: ElementRef;
+  @ViewChild('waterWeek', { static: false }) waterWeek: ElementRef;
+  @ViewChild('temMonth', { static: false }) temMonth: ElementRef;
+  @ViewChild('illuminMonth', { static: false }) illuminMonth: ElementRef;
+  @ViewChild('waterMonth', { static: false }) waterMonth: ElementRef;
 
   bar: any;
 
@@ -63,6 +63,7 @@ export class PlantReportPage implements OnInit {
   constructor(private dialog: MatDialog) {}
 
   ngOnInit() {}
+
   changeSegment() {
     setTimeout(() => {
       if (this.segment == '주간') {
@@ -543,7 +544,7 @@ export class PlantReportPage implements OnInit {
             },
 
             ticks: {
-              font: { size: 8 },
+              font: { size: 7 },
               autoSkip: false,
               crossAlign: 'center',
               maxRotation: 0,
@@ -655,7 +656,7 @@ export class PlantReportPage implements OnInit {
             position: 'left',
 
             min: 0,
-            max: 200,
+            max: 100,
 
             ticks: { display: false, stepSize: 50 },
 
@@ -743,7 +744,7 @@ export class PlantReportPage implements OnInit {
             },
 
             ticks: {
-              font: { size: 8 },
+              font: { size: 7 },
               autoSkip: false,
               crossAlign: 'center',
               maxRotation: 0,
@@ -855,7 +856,7 @@ export class PlantReportPage implements OnInit {
             position: 'left',
 
             min: 0,
-            max: 200,
+            max: 100,
 
             ticks: { display: false, stepSize: 50 },
 
@@ -942,7 +943,7 @@ export class PlantReportPage implements OnInit {
             },
 
             ticks: {
-              font: { size: 8 },
+              font: { size: 7 },
               autoSkip: false,
               crossAlign: 'center',
               maxRotation: 0,
@@ -1054,7 +1055,7 @@ export class PlantReportPage implements OnInit {
             position: 'left',
 
             min: 0,
-            max: 200,
+            max: 100,
 
             ticks: { display: false, stepSize: 50 },
 

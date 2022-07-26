@@ -1,5 +1,7 @@
-<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
-  <div class="all-back">
+<!-- Screen ID : UI R-0001 식물 보고서-->
+
+<ion-content>
+  <div class="all-back report-plant-detail-wrap">
     <div class="background-wrap">
       <div class="header-wrap" [ngClass]="{'active': headerBackSwitch}">
         <ion-buttons slot="start">
@@ -10,7 +12,7 @@
       </div>
     </div>
 
-    <div class="report-wrap">
+    <div class="report-wrap" [ngClass]="{'month-padding': segment == '월간'}">
       <div class="top-btn-wrap">
         <ion-button fill="clear" class="calendar-btn" (click)="openPopCalendar()">
           2022.07
