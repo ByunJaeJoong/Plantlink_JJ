@@ -4,6 +4,7 @@ import { Chart, registerables } from 'chart.js';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { PopCalendarComponent } from '../pop-calendar/pop-calendar.component';
 import he from '@mobiscroll/angular/dist/js/i18n/he';
+import { NavController } from '@ionic/angular';
 Chart.register(...registerables);
 
 @Component({
@@ -60,7 +61,7 @@ export class PlantReportPage implements OnInit {
 
   resultSelect = '월간';
   segment = '주간';
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private navController: NavController) {}
 
   ngOnInit() {}
 
@@ -1090,5 +1091,11 @@ export class PlantReportPage implements OnInit {
     } else {
       this.headerBackSwitch = false;
     }
+  }
+
+
+  //홈화면으로
+  goHome() {
+    this.navController.navigateForward(['/tabs/home']);
   }
 }

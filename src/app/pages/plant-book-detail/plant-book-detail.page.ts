@@ -39,4 +39,9 @@ export class PlantBookDetailPage implements OnInit {
       }
     });
   }
+
+  //홈화면으로
+  goHome() {
+    this.navController.navigateForward(['/tabs/home']);
+  }
 }

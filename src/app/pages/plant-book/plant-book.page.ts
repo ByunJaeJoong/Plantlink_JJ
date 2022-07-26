@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-plant-book',
@@ -6,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./plant-book.page.scss'],
 })
 export class PlantBookPage implements OnInit {
+  constructor(private navController: NavController) {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  //홈화면으로
+  goHome() {
+    this.navController.navigateForward(['/tabs/home']);
   }
 
+  //식물 정보 디테일
+  goPlantBookDetail() {
+    this.navController.navigateForward(['/plant-book-detail']);
+  }
 }
