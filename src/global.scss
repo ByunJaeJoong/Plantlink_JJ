@@ -906,17 +906,6 @@ mat-accordion {
   }
 }
 
-// 4줄
-.rows-ellipsis {
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-all;
-  white-space: pre-line;
-}
-
 //연도
 .mbsc-popup-content {
   width: 16.5625rem;

@@ -3,7 +3,7 @@
     <name>plantlink</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://192.168.2.2:8102" />
+    <content original-src="index.html" src="http://192.168.2.2:8101" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -108,5 +108,5 @@
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <allow-navigation href="http://localhost:8101" sessionid="c5ecb784" />
     <allow-navigation href="http://localhost:8100" sessionid="d7c8c005" />
-    <allow-navigation href="http://192.168.2.2:8102" sessionid="cbf3de22" />
+    <allow-navigation href="http://192.168.2.2:8101" sessionid="6dd43b50" />
 </widget>

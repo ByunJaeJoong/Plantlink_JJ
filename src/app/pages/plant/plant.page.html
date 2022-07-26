@@ -1,11 +1,9 @@
 <!-- Screen ID : UI P-0001 식물 등록 알림창-->
 <!-- Screen ID : UI P-0002 식물 목록-->
 
-<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
-  <img class="img-back" src="assets/images/plant-backgorund.png" alt="" />
+<ion-content>
   <div class="background-wrap">
-    <img src="" alt="" />
-    <div class="header-wrap" [ngClass]="{'active': headerBackSwitch}">
+    <div class="header-wrap">
       <ion-buttons slot="start">
         <ion-button (click)="goHome()" fill="clear" class="back-btn"> </ion-button>
       </ion-buttons>
@@ -36,7 +34,7 @@
 </ion-content>
 
 <!-- TODO 빌드했을 때 배경 확인하기 -->
-<ion-footer *ngIf="isOpen">
+<ion-footer>
   <ion-toolbar class="chat-box">
     <ion-item class="input-chat-wrap">
       <ion-input type="text" inputmode="text"></ion-input>

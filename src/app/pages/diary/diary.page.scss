@@ -46,3 +46,12 @@ ion-item {
   left: 1.0625rem;
   @include font(#161616, 600, 1rem, 1.1875rem);
 }
+
+.rows-ellipsis {
+  // height: 5.25rem;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  white-space: pre-line;
+}
