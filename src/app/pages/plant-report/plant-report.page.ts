@@ -1070,10 +1070,25 @@ export class PlantReportPage implements OnInit {
     });
   }
 
+  //달력
   openPopCalendar() {
     this.dialog.open(PopCalendarComponent, {
       width: '273px',
       height: '274px',
     });
+  }
+
+  headerBackSwitch = false;
+
+  //헤더 스크롤 할 때 색 변하게
+  logScrolling(event) {
+    let scroll = event.detail.scrollTop;
+    console.log(event);
+
+    if (scroll > 46) {
+      this.headerBackSwitch = true;
+    } else {
+      this.headerBackSwitch = false;
+    }
   }
 }
