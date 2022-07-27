@@ -108,5 +108,5 @@
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <allow-navigation href="http://localhost:8101" sessionid="c5ecb784" />
     <allow-navigation href="http://localhost:8100" sessionid="d7c8c005" />
-    <allow-navigation href="http://192.168.2.2:8101" sessionid="6dd43b50" />
+    <allow-navigation href="http://192.168.2.2:8101" sessionid="7e593817" />
 </widget>

@@ -63,19 +63,19 @@ export class DiaryPage implements OnInit {
     return await modal.present();
   }
 
-  // //줄 쩜쩜쩜
-  // ionViewWillEnter() {
-  //   this.textStyling();
-  // }
-  // textStyling() {
-  //   const cont = document.querySelectorAll<HTMLElement>('.rows-ellipsis');
+  //줄 쩜쩜쩜
+  ionViewWillEnter() {
+    this.textStyling();
+  }
+  textStyling() {
+    const cont = document.querySelectorAll<HTMLElement>('.rows-ellipsis');
 
-  //   cont.forEach(ele => {
-  //     if (ele.clientHeight > 20) {
-  //       ele.style.display = '-webkit-box';
-  //       ele.style.webkitLineClamp = '4';
-  //       ele.style.webkitBoxOrient = 'vertical';
-  //     }
-  //   });
-  // }
+    cont.forEach(ele => {
+      if (ele.clientHeight > 20) {
+        ele.style.display = '-webkit-box';
+        ele.style.webkitLineClamp = '4';
+        ele.style.webkitBoxOrient = 'vertical';
+      }
+    });
+  }
 }

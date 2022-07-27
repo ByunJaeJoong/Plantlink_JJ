@@ -47,9 +47,12 @@ ion-item {
   @include font(#161616, 600, 1rem, 1.1875rem);
 }
 
+// 4줄
 .rows-ellipsis {
-  // height: 5.25rem;
-  width: 100%;
+  width: calc(100% - 5.375rem);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-all;

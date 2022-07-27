@@ -48,28 +48,58 @@
     background-color: #f0f0f0;
   }
   ion-item {
-    --padding-top: 0.75rem;
-    --padding-bottom: 0.75rem;
-    --background: transparent;
+    &.chat-list {
+      --padding-top: 0.75rem;
+      --padding-bottom: 0.75rem;
+      --background: transparent;
 
-    border-bottom: 1px solid #f0f0f0;
-    ion-avatar {
-      width: 3.5rem;
-      height: 3.5rem;
-      margin-right: 1.625rem;
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+      border-bottom: 1px solid #f0f0f0;
+      ion-avatar {
+        width: 3.5rem;
+        height: 3.5rem;
+        margin-right: 1.625rem;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      ion-label {
+        @include font(#161616, 600, 1rem, 1.1875rem);
+      }
+
+      p {
+        @include font(#949494, 500, 0.6875rem, 0.875rem);
       }
     }
+  }
+}
 
-    ion-label {
-      @include font(#161616, 600, 1rem, 1.1875rem);
-    }
+//bottom 채팅input
+.hide-name-wrap {
+  z-index: 100000;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  --padding-start: 1.75rem;
+  --padding-end: 1.75rem;
+  --padding-top: 0.3125rem;
+  --padding-bottom: 0.3125rem;
+  ion-input {
+    border-radius: 17px;
+    height: 33px;
+    --background: #f0f0f0;
+    --placeholder-opacity: 1;
+    --padding-start: 2.8125rem;
 
-    p {
-      @include font(#949494, 500, 0.6875rem, 0.875rem);
+    .native-input.sc-ion-input-ios {
+      --placeholder-opacity: 1;
+      --placeholder-color: #949494;
+      padding-inline-start: 1rem;
+
+      @include font(#161616, 400, 0.875rem, 1.0625rem);
     }
   }
 }

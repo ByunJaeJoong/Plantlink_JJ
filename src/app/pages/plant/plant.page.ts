@@ -9,13 +9,8 @@ import { AlertService } from 'src/app/services/alert.service';
 })
 export class PlantPage implements OnInit {
   constructor(private alertService: AlertService, private navController: NavController) {}
-  isOpen = false;
-  ngOnInit() {}
 
-  // 이미지 영역 보기
-  inputArea() {
-    this.isOpen = !this.isOpen;
-  }
+  ngOnInit() {}
 
   //식물목록이 없을 때 뜨는 alert
   emptyAlert() {
