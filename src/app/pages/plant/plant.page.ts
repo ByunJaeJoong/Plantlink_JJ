@@ -9,7 +9,7 @@ import { AlertService } from 'src/app/services/alert.service';
 })
 export class PlantPage implements OnInit {
   constructor(private alertService: AlertService, private navController: NavController) {}
-
+  panelOpenState = '';
   ngOnInit() {}
 
   //식물목록이 없을 때 뜨는 alert
