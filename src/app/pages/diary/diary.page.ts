@@ -24,14 +24,12 @@ export class DiaryPage implements OnInit {
     dragToCreate: false,
     dragToMove: false,
     dragToResize: false,
-
     dateFormatLong: 'YYYY.mm',
     noEventsText: ``,
     view: {
       calendar: { type: 'month' },
       agenda: { type: 'month' },
     },
-    cssClass: 'asdlkfjal',
   };
 
   ngOnInit() {
