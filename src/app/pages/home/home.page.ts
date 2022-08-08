@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
+import { DbService } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,23 @@ import { MenuController } from '@ionic/angular';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  constructor(public menuController: MenuController) {}
+  constructor(public menuController: MenuController, private db: DbService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // this.update();
+  }
+
+  // update() {
+  //   const id = this.db.createId();
+  //   this.db.updateAt(faq/${id}, {
+  //     faqId: id,
+  //     title: 'title',
+  //     content: 'content',
+  //     dateCreated: new Date().toISOString(),
+  //     userType: 'business',
+  //     deleteSwitch: false,
+  //   });
+  // }
 
   // 메뉴
   openAppMenu() {

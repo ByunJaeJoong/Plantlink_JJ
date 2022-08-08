@@ -12,15 +12,15 @@
 <ion-content>
   <div id="find-id-wrap">
     <!-- 일반 이름 입력창 -->
-    <div class="basic-wrap">
+    <div class="basic-wrap" *ngIf="nameCheck">
       <h3>이름</h3>
       <ion-item class="input-wrap margin">
-        <ion-input type="text" inputmode="text" placeholder="이름을 입력해주세요."></ion-input>
+        <ion-input type="text" inputmode="text" placeholder="이름을 입력해주세요." [(ngModel)]="name"></ion-input>
       </ion-item>
     </div>
 
     <!-- validation 나타날 때 입력창 입니다.  -->
-    <!-- <div class="validation-wrap margin">
+    <div class="validation-wrap margin" *ngIf="!nameCheck">
       <div class="top">
         <h3>이름</h3>
         <p>올바른 이름을 입력해주세요</p>
@@ -28,12 +28,12 @@
       <ion-item class="input-vali-wrap">
         <ion-input type="text" inputmode="text" placeholder="이름을 입력해주세요"></ion-input>
       </ion-item>
-    </div> -->
+    </div>
 
     <div class="basic-wrap">
       <h3>휴대폰 번호</h3>
       <ion-item class="input-wrap">
-        <ion-input inputmode="numeric" type="tel" placeholder="휴대폰 번호를 입력해주세요."></ion-input>
+        <ion-input inputmode="numeric" type="tel" placeholder="휴대폰 번호를 입력해주세요." [(ngModel)]="phone"></ion-input>
       </ion-item>
     </div>
 

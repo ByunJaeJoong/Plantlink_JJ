@@ -32,7 +32,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PopCalendarComponent } from './pages/pop-calendar/pop-calendar.component';
 
-firebase.default.initializeApp(environment.firebase);
+// firebase.default.initializeApp(environment.firebaseConfig);
 
 @NgModule({
   declarations: [AppComponent, PopCalendarComponent],
@@ -44,7 +44,7 @@ firebase.default.initializeApp(environment.firebase);
     BrowserModule,
     IonicModule.forRoot({ mode: 'ios' }),
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     HttpClientModule,
 
     AngularFirestoreModule,

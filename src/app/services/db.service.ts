@@ -13,6 +13,9 @@ import * as firebase from 'firebase';
 export class DbService {
   constructor(public afs: AngularFirestore, public angularDb: AngularFireDatabase) {}
 
+  createId() {
+    return this.afs.createId();
+  }
   collection$(path, query?) {
     return this.afs
       .collection(path, query)
