@@ -7,7 +7,7 @@
     </ion-buttons>
     <ion-title>일기장</ion-title>
     <ion-buttons slot="end">
-      <ion-button fill="clear" class="done" (click)="close()"> 등록</ion-button>
+      <ion-button fill="clear" class="done" (click)="save()"> 등록</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -21,7 +21,7 @@
     </div>
 
     <ion-item>
-      <ion-textarea inputmode="text" type="text"> </ion-textarea>
+      <ion-textarea inputmode="text" type="text" [(ngModel)]="diary.content"> </ion-textarea>
     </ion-item>
   </div>
 </ion-content>
