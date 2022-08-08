@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { localeKo, MbscCalendarEvent, MbscEventcalendarOptions } from '@mobiscroll/angular';
@@ -10,9 +9,8 @@ import { DiaryWritePage } from '../diary-write/diary-write.page';
   styleUrls: ['./diary.page.scss'],
 })
 export class DiaryPage implements OnInit {
-  date = new Date();
-
-  constructor(private http: HttpClient, private navController: NavController, private modalController: ModalController) {}
+  date: Date = new Date();
+  selectDate: string = '';
 
   myEvents: MbscCalendarEvent[] = [];
 
@@ -30,16 +28,25 @@ export class DiaryPage implements OnInit {
       calendar: { type: 'month' },
       agenda: { type: 'month' },
     },
+    // 일기디테일을 클릭하였을 때, 그 안에 데이터
+    onEventClick: (event, isnst) => {
+      console.log(event.event);
+    },
+    // 캘린더에서 클릭한 날에 대한 정보
+    onSelectedDateChange: (args, inst) => {
+      let date = new Date(args.date + '');
+      date.setHours(date.getHours() + 9);
+      this.selectDate = date.toISOString();
+    },
   };
-
-  ngOnInit() {
-    this.http.jsonp<MbscCalendarEvent[]>('https://trial.mobiscroll.com/events/?vers=5', 'callback').subscribe(resp => {
-      this.myEvents = resp;
-    });
+  constructor(private navController: NavController, private modalController: ModalController) {
+    // diary 페이지에 오면 당일에 표시
+    this.selectDate = new Date().toISOString();
   }
 
-  test(ev) {
-    console.log('ev', ev.month);
+  ngOnInit() {}
+
+  test(ev: any) {
     this.date = ev.month;
   }
 
@@ -57,6 +64,9 @@ export class DiaryPage implements OnInit {
   async goWrite() {
     const modal = await this.modalController.create({
       component: DiaryWritePage,
+      componentProps: {
+        selectDate: this.selectDate,
+      },
     });
     return await modal.present();
   }
