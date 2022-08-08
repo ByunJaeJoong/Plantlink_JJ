@@ -28,7 +28,7 @@ export class DiaryPage implements OnInit {
     noEventsText: ``,
     view: {
       calendar: { type: 'month' },
-      agenda: { type: 'month' },
+      agenda: { type: 'day' },
     },
   };
 
