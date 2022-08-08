@@ -19,10 +19,9 @@ export class DiaryPage implements OnInit {
   diaryData$: Observable<any>;
 
   myEvents: MbscCalendarEvent[] = [];
+
   diaryDetail: any;
   diaryData: any;
-  a: any = [];
-  b: any = [];
 
   eventSettings: MbscEventcalendarOptions = {
     locale: localeKo,
@@ -32,11 +31,11 @@ export class DiaryPage implements OnInit {
     dragToCreate: false,
     dragToMove: false,
     dragToResize: false,
-    dateFormatLong: 'YYYY.mm',
+    dateFormatLong: '',
     noEventsText: ``,
     view: {
       calendar: { type: 'month' },
-      agenda: { type: 'month' },
+      agenda: { type: 'day' },
     },
     // 일기디테일을 클릭하였을 때, 그 안에 데이터
     onEventClick: (event, isnst) => {
@@ -47,9 +46,8 @@ export class DiaryPage implements OnInit {
       let date = new Date(args.date + '');
       date.setHours(date.getHours() + 9);
       this.selectDate = date.toISOString();
-      // this.diaryDetail = this.diaryData$.pipe(map(data: any)=> {})
-      // this.diaryData = this.diaryData$.
-      this.diaryDetail = this.diaryData.filter(data => data.selectDate?.indexOf(this.selectDate) > -1);
+
+      this.diaryDetail = this.diaryData.filter((data: any) => data.selectDate?.indexOf(this.selectDate) > -1);
       console.log(this.diaryDetail);
     },
   };
@@ -59,10 +57,7 @@ export class DiaryPage implements OnInit {
     this.getData();
   }
 
-  async ngOnInit() {
-    this.a = await this.db.collection$(`diary`).pipe(first()).toPromise();
-    console.log(this.a);
-  }
+  async ngOnInit() {}
 
   async getData() {
     const defaultColor: string = '#ff6d42';
@@ -80,8 +75,13 @@ export class DiaryPage implements OnInit {
         return diarys;
       })
     );
+
     this.diaryData = await this.diaryData$.pipe(first()).toPromise();
   }
+
+  // dateCheck(){
+
+  // }
 
   test(ev: any) {
     this.date = ev.month;
