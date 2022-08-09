@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ModalController, NavController } from '@ionic/angular';
 import { localeKo, MbscCalendarEvent, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { DbService } from 'src/app/services/db.service';
 import { DiaryWritePage } from '../diary-write/diary-write.page';
 
@@ -19,9 +19,6 @@ export class DiaryPage implements OnInit {
   diaryData$: Observable<any>;
 
   myEvents: MbscCalendarEvent[] = [];
-
-  diaryDetail: any;
-  diaryData: any;
 
   eventSettings: MbscEventcalendarOptions = {
     locale: localeKo,
@@ -46,9 +43,6 @@ export class DiaryPage implements OnInit {
       let date = new Date(args.date + '');
       date.setHours(date.getHours() + 9);
       this.selectDate = date.toISOString();
-
-      this.diaryDetail = this.diaryData.filter((data: any) => data.selectDate?.indexOf(this.selectDate) > -1);
-      console.log(this.diaryDetail);
     },
   };
   constructor(private http: HttpClient, private navController: NavController, private modalController: ModalController, private db: DbService) {
@@ -75,13 +69,7 @@ export class DiaryPage implements OnInit {
         return diarys;
       })
     );
-
-    this.diaryData = await this.diaryData$.pipe(first()).toPromise();
   }
-
-  // dateCheck(){
-
-  // }
 
   test(ev: any) {
     this.date = ev.month;

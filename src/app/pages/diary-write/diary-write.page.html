@@ -14,9 +14,9 @@
 
 <ion-content>
   <div id="diary-write-wrap">
-    <div class="pic">
+    <div class="pic" *ngIf="diary.images?.length > 0">
       <ion-card>
-        <img src="assets/samples/diary-sample01.png" alt="" />
+        <img src="{{diary?.images[0]}}" alt="" />
       </ion-card>
     </div>
 
