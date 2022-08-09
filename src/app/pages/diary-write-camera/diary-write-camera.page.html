@@ -13,10 +13,13 @@
 <ion-content>
   <div id="pic-wrap">
     <!-- 카메라 버튼 -->
-    <ion-button class="camera-box"> </ion-button>
+    <ion-button class="camera-box" (click)="camera()"> </ion-button>
 
+    <div class="box" *ngFor="let image of images">
+      <img src="{{image}}" alt="" (click)="imageClick()" />
+    </div>
     <!-- 선택한 박스 -->
-    <div class="box">
+    <!-- <div class="box">
       <div class="icon"></div>
       <img src="assets/samples/plant-sample02.jpeg" alt="" />
     </div>
@@ -27,9 +30,10 @@
 
     <div class="box">
       <img src="assets/samples/diary-sample01.png" alt="" />
-    </div>
+    </div> -->
 
     <!-- 빈 칸 박스 -->
+    <!-- <div class="empty-box"></div>
     <div class="empty-box"></div>
     <div class="empty-box"></div>
     <div class="empty-box"></div>
@@ -56,7 +60,6 @@
     <div class="empty-box"></div>
     <div class="empty-box"></div>
     <div class="empty-box"></div>
-    <div class="empty-box"></div>
-    <div class="empty-box"></div>
+    <div class="empty-box"></div> -->
   </div>
 </ion-content>
