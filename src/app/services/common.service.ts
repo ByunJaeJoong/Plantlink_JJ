@@ -11,13 +11,13 @@ export class CommonService {
    * 2020-01-22 정재은
    */
   generateFilename() {
-    var length = 10;
+    var length = 20;
     var text = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     for (var i = 0; i < length; i++) {
       text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
-    return text + new Date().valueOf();
+    return text;
   }
 
   /**

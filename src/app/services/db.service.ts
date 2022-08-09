@@ -31,7 +31,7 @@ export class DbService {
       );
   }
 
-  doc$(path) {
+  doc$(path): Observable<any> {
     return this.afs
       .doc(path)
       .snapshotChanges()
@@ -39,7 +39,7 @@ export class DbService {
         map(doc => {
           const data: any = doc.payload.data();
           const id = doc.payload.id;
-          return { id: id, ...data };
+          return { id: doc.payload.id, ...data };
         })
       );
   }

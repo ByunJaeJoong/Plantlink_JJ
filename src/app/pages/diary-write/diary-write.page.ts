@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController, NavParams } from '@ionic/angular';
-import { AlertService } from 'src/app/services/alert.service';
+import { ActionSheetController, ModalController, NavController, NavParams } from '@ionic/angular';
 import { CommonService } from 'src/app/services/common.service';
 import { DbService } from 'src/app/services/db.service';
 import { ImageService } from 'src/app/services/image.service';
-import { DiaryWriteCameraPage } from '../diary-write-camera/diary-write-camera.page';
 
 @Component({
   selector: 'app-diary-write',
@@ -20,25 +18,49 @@ export class DiaryWritePage implements OnInit {
     selectDate: '',
   };
 
+  diaryData: any = [];
+
   constructor(
     private modalController: ModalController,
     private navController: NavController,
     private navParams: NavParams,
     private db: DbService,
     private common: CommonService,
-    private image: ImageService
+    private image: ImageService,
+    private actionSheetController: ActionSheetController
   ) {
     this.diary.selectDate = this.navParams.get('selectDate');
+    this.diaryData = this.navParams.get('diaryData');
+    this.getData();
+  }
+
+  async getData() {
+    if (this.diaryData) {
+      this.diary.diaryId = this.diaryData.id;
+      this.diary.content = this.diaryData.content;
+      this.diary.images = this.diaryData.images;
+      this.diary.dateCreated = this.diaryData.dateCreated;
+      this.diary.selectDate = this.diaryData.selectDate;
+    }
   }
 
   ngOnInit() {}
 
   // 일기장 등록
   async save() {
-    this.diary.diaryId = this.common.generateFilename();
-    this.diary.dateCreated = new Date().toISOString();
+    if (this.diaryData) {
+      this.updateDiary();
+      this.navController.navigateForward(['/diary']);
+    } else {
+      this.diary.diaryId = this.common.generateFilename();
+      this.diary.dateCreated = new Date().toISOString();
 
-    await this.db.updateAt(`diary`, this.diary);
+      this.updateDiary();
+    }
+  }
+
+  async updateDiary() {
+    await this.db.updateAt(`diary/${this.diary.diaryId}`, this.diary);
     this.close();
   }
 
@@ -53,16 +75,51 @@ export class DiaryWritePage implements OnInit {
     this.modalController.dismiss();
   }
 
-  //앨범으로 가기
+  // 카메라 또는 갤러리 선택
   async goAlbum() {
-    // const url = await this.image.getGallery('diaryImg');
-    const modal = await this.modalController.create({
-      component: DiaryWriteCameraPage,
-      componentProps: {
-        images: this.diary.images,
-        //url: url,
-      },
+    const actionSheet = await this.actionSheetController.create({
+      buttons: [
+        {
+          text: '카메라',
+          handler: async () => {
+            const url = await this.image.getCamera('diaryImg');
+            this.imageCheck();
+            this.diary.images.push(url);
+          },
+        },
+        {
+          text: '갤러리',
+          handler: async () => {
+            const url = await this.image.getGallery('diaryImg');
+            this.imageCheck();
+            this.diary.images.push(url);
+          },
+        },
+        {
+          text: '취소',
+          role: 'cancel',
+          handler: () => {},
+        },
+      ],
     });
-    return await modal.present();
+
+    await actionSheet.present();
   }
+
+  imageCheck() {
+    if (this.diary.images.length > 0) {
+      this.diary.images = [];
+    }
+  }
+
+  //앨범으로 가기
+  // async goAlbum() {
+  //   const modal = await this.modalController.create({
+  //     component: DiaryWriteCameraPage,
+  //     componentProps: {
+  //       images: this.diary.images
+  //     },
+  //   });
+  //   return await modal.present();
+  // }
 }

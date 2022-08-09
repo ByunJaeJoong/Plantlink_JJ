@@ -34,7 +34,7 @@
 
     <!-- 스크롤 -->
     <ng-template #myTemplate let-data class="template-list">
-      <ion-item (click)="goDiaryDetail()" class="text-box">
+      <ion-item (click)="goDiaryDetail(data.id)" class="text-box">
         <ng-container *ngIf="data.original.image != undefined">
           <ion-card>
             <img src="{{data.original.image}}" alt="" />

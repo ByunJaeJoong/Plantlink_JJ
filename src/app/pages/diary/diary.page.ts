@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ModalController, NavController } from '@ionic/angular';
 import { localeKo, MbscCalendarEvent, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { Observable } from 'rxjs';
@@ -34,10 +33,6 @@ export class DiaryPage implements OnInit {
       calendar: { type: 'month' },
       agenda: { type: 'day' },
     },
-    // 일기디테일을 클릭하였을 때, 그 안에 데이터
-    onEventClick: (event, isnst) => {
-      console.log(event.event);
-    },
     // 캘린더에서 클릭한 날에 대한 정보
     onSelectedDateChange: (args, inst) => {
       let date = new Date(args.date + '');
@@ -45,7 +40,7 @@ export class DiaryPage implements OnInit {
       this.selectDate = date.toISOString();
     },
   };
-  constructor(private http: HttpClient, private navController: NavController, private modalController: ModalController, private db: DbService) {
+  constructor(private navController: NavController, private modalController: ModalController, private db: DbService) {
     // diary 페이지에 오면 당일에 표시
     this.selectDate = new Date().toISOString();
     this.getData();
@@ -64,7 +59,7 @@ export class DiaryPage implements OnInit {
             (diary.id = diary.diaryId),
             (diary.start = diary.selectDate),
             (diary.title = diary.content),
-            (diary.image = diary.images[0]);
+            (diary.image = diary.images?.[0]);
         });
         return diarys;
       })
@@ -75,12 +70,16 @@ export class DiaryPage implements OnInit {
     this.date = ev.month;
   }
 
-  //홈으로
-  goDiaryDetail() {
-    this.navController.navigateForward(['/diary-detail']);
+  //일기디테일
+  goDiaryDetail(diaryId: string) {
+    this.navController.navigateForward(['/diary-detail'], {
+      queryParams: {
+        diaryId: diaryId,
+      },
+    });
   }
 
-  //일기디테일
+  //홈으로
   goHome() {
     this.navController.navigateForward(['/tabs/home']);
   }

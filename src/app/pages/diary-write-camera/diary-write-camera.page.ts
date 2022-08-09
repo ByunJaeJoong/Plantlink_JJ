@@ -15,18 +15,13 @@ export class DiaryWriteCameraPage implements OnInit {
     this.images = this.navParams.get('images');
   }
 
-  async ngOnInit() {
-    //await this.image.getGallery('diaryImg');
-  }
+  ngOnInit() {}
 
   async camera() {
     const url = await this.image.getCamera('diaryImg');
     this.images.push(url);
   }
 
-  imageClick() {
-    console.log('클릭');
-  }
   //모달 닫기
   done() {
     this.modalController.dismiss();
