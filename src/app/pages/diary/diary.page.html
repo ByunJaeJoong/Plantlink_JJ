@@ -11,40 +11,42 @@
 
 <ion-content>
   <!-- 달력 -->
-  <div class="calendar-wrap">
-    <ng-container *ngIf="diaryData$ | async as diarys">
-      <ion-button fill="clear" class="write-btn" (click)="goWrite()"> </ion-button>
-      <mbsc-eventcalendar
-        class="calendar"
-        [data]="diarys"
-        [headerTemplate]="customTemplate"
-        [eventTemplate]="myTemplate"
-        (onPageLoaded)="test($event)"
-        [options]="eventSettings"
-      >
-        <!-- 연도 -->
-        <ng-template #customTemplate>
-          <mbsc-calendar-nav></mbsc-calendar-nav>
-          <p class="date">{{ date | date: 'yyyy.MM' }}</p>
-          <div class="wrap">
-            <mbsc-calendar-prev></mbsc-calendar-prev>
-            <mbsc-calendar-next></mbsc-calendar-next>
-          </div>
-        </ng-template>
-      </mbsc-eventcalendar>
-    </ng-container>
+  <div class="calendar-wrap" *ngIf="diaryData$ | async as diarys">
+    <ion-button fill="clear" class="write-btn" (click)="goWrite()"> </ion-button>
+    <mbsc-eventcalendar
+      class="calendar"
+      [data]="diarys"
+      [headerTemplate]="customTemplate"
+      [eventTemplate]="myTemplate"
+      (onPageLoaded)="test($event)"
+      [options]="eventSettings"
+    >
+      <!-- 연도 -->
+      <ng-template #customTemplate>
+        <mbsc-calendar-nav></mbsc-calendar-nav>
+        <p class="date">{{ date | date: 'yyyy.MM' }}</p>
+        <div class="wrap">
+          <mbsc-calendar-prev></mbsc-calendar-prev>
+          <mbsc-calendar-next></mbsc-calendar-next>
+        </div>
+      </ng-template>
+    </mbsc-eventcalendar>
+
     <!-- 스크롤 -->
     <ng-template #myTemplate let-data class="template-list">
-      <ng-container *ngFor="let item of diaryDetail">
-        <ion-item (click)="goDiaryDetail()" class="text-box">
-          <ion-card> </ion-card>
+      <ion-item (click)="goDiaryDetail()" class="text-box">
+        <ng-container *ngIf="data.original.image != undefined">
+          <ion-card>
+            <img src="{{data.original.image}}" alt="" />
+          </ion-card>
+          <p class="rows-ellipsis">{{data.title}}</p>
+        </ng-container>
 
-          <ng-container *ngIf="data.original.image == undefined">
-            <ion-card></ion-card>
-          </ng-container>
-          <p class="rows-ellipsis">{{item.title}}</p>
-        </ion-item>
-      </ng-container>
+        <ng-container *ngIf="data.original.image == undefined">
+          <ion-card> </ion-card>
+          <p class="rows-ellipsis">{{data.title}}</p>
+        </ng-container>
+      </ion-item>
     </ng-template>
   </div>
 </ion-content>

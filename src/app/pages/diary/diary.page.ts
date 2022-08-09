@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ModalController, NavController } from '@ionic/angular';
 import { localeKo, MbscCalendarEvent, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { DbService } from 'src/app/services/db.service';
 import { DiaryWritePage } from '../diary-write/diary-write.page';
 
@@ -19,10 +19,6 @@ export class DiaryPage implements OnInit {
   diaryData$: Observable<any>;
 
   myEvents: MbscCalendarEvent[] = [];
-  diaryDetail: any;
-  diaryData: any;
-  a: any = [];
-  b: any = [];
 
   eventSettings: MbscEventcalendarOptions = {
     locale: localeKo,
@@ -32,7 +28,7 @@ export class DiaryPage implements OnInit {
     dragToCreate: false,
     dragToMove: false,
     dragToResize: false,
-    dateFormatLong: 'YYYY.mm',
+    dateFormatLong: '',
     noEventsText: ``,
     view: {
       calendar: { type: 'month' },
@@ -47,10 +43,6 @@ export class DiaryPage implements OnInit {
       let date = new Date(args.date + '');
       date.setHours(date.getHours() + 9);
       this.selectDate = date.toISOString();
-      // this.diaryDetail = this.diaryData$.pipe(map(data: any)=> {})
-      // this.diaryData = this.diaryData$.
-      this.diaryDetail = this.diaryData.filter(data => data.selectDate?.indexOf(this.selectDate) > -1);
-      console.log(this.diaryDetail);
     },
   };
   constructor(private http: HttpClient, private navController: NavController, private modalController: ModalController, private db: DbService) {
@@ -59,10 +51,7 @@ export class DiaryPage implements OnInit {
     this.getData();
   }
 
-  async ngOnInit() {
-    this.a = await this.db.collection$(`diary`).pipe(first()).toPromise();
-    console.log(this.a);
-  }
+  async ngOnInit() {}
 
   async getData() {
     const defaultColor: string = '#ff6d42';
@@ -80,7 +69,6 @@ export class DiaryPage implements OnInit {
         return diarys;
       })
     );
-    this.diaryData = await this.diaryData$.pipe(first()).toPromise();
   }
 
   test(ev: any) {

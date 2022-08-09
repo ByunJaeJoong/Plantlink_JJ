@@ -3,6 +3,7 @@ import { ModalController, NavController, NavParams } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert.service';
 import { CommonService } from 'src/app/services/common.service';
 import { DbService } from 'src/app/services/db.service';
+import { ImageService } from 'src/app/services/image.service';
 import { DiaryWriteCameraPage } from '../diary-write-camera/diary-write-camera.page';
 
 @Component({
@@ -25,7 +26,7 @@ export class DiaryWritePage implements OnInit {
     private navParams: NavParams,
     private db: DbService,
     private common: CommonService,
-    private alert: AlertService
+    private image: ImageService
   ) {
     this.diary.selectDate = this.navParams.get('selectDate');
   }
@@ -38,7 +39,6 @@ export class DiaryWritePage implements OnInit {
     this.diary.dateCreated = new Date().toISOString();
 
     await this.db.updateAt(`diary`, this.diary);
-    this.alert.okBtn('', '일기장 등록이 완료되었습니다.');
     this.close();
   }
 
@@ -55,8 +55,13 @@ export class DiaryWritePage implements OnInit {
 
   //앨범으로 가기
   async goAlbum() {
+    // const url = await this.image.getGallery('diaryImg');
     const modal = await this.modalController.create({
       component: DiaryWriteCameraPage,
+      componentProps: {
+        images: this.diary.images,
+        //url: url,
+      },
     });
     return await modal.present();
   }
