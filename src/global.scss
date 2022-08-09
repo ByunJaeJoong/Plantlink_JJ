@@ -1278,6 +1278,15 @@ mat-accordion {
   }
 }
 
+.mbsc-schedule-date-header-text {
+  display: none;
+  // border: 0;
+}
+
+.mbsc-ios.mbsc-schedule-date-header {
+  border: 0;
+}
+
 //차트
 
 //차트 막대 넓이
