@@ -12,7 +12,9 @@
 <ion-content>
   <div id="info-wrap">
     <div class="icon"></div>
-    <p>버전 1.0</p>
+    <ng-container *ngFor="let item of master">
+      <p>버전 {{item.version}}</p>
+    </ng-container>
 
     <ion-item>
       <img src="assets/images/mail-icon.png" alt="" />
