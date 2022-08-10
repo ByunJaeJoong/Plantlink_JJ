@@ -63,7 +63,7 @@
 
   <!-- 주소-->
   <h3>주소 <span>*</span></h3>
-  <ion-item class="join-search-wrap" (click)="openDaumPopup()">
+  <ion-item class="join-search-wrap" (click)="addAddress()">
     <ion-input inputmode="text" type="text" placeholder="도로명, 지번, 건물명 검색" readonly></ion-input>
     <ion-button fill="clear">
       <img src="assets/images/join-search-icon.png" alt="" />
@@ -80,15 +80,3 @@
     <ion-button (click)="goCom()" fill="clear" class="basic-btn"> 가입하기 </ion-button>
   </ion-toolbar>
 </ion-footer>
-
-<div #address_pop style="display: none; position: fixed; overflow: hidden; z-index: 1; -webkit-overflow-scrolling: touch">
-  <div class="close-btn">
-    <div #address_pop style="display: none; position: fixed; overflow: hidden; z-index: 1; -webkit-overflow-scrolling: touch">
-      <img
-        (click)="closeAddressPopup()"
-        src="assets/img/icon-address-done.png"
-        style="cursor: pointer; position: absolute; right: -1px; top: -1px; width: 18px; height: 18px; z-index: 1"
-      />
-    </div>
-  </div>
-</div>
