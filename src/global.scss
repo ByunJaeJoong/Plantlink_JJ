@@ -1243,6 +1243,31 @@ mat-accordion {
   }
 }
 
+//주소 추가 입력창
+.address-search-wrap {
+  --padding-end: 1.25rem;
+  --padding-start: 0.3125rem;
+  border-bottom: 1px solid #707070;
+  min-height: 2.0625rem;
+  > ion-input {
+    .native-input.sc-ion-input-ios {
+      padding-top: 0;
+      padding-bottom: 0;
+      --placeholder-opacity: 1;
+      --placeholder-color: #949494;
+    }
+  }
+
+  > ion-button {
+    width: 1.875rem;
+    height: 1.875rem;
+    img {
+      width: 1.3125rem;
+      height: 1.3125rem;
+    }
+  }
+}
+
 .calendar-wrap {
   height: 100%;
   overflow: scroll;

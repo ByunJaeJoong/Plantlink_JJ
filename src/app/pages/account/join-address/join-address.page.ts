@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { postcode } from 'src/assets/js/postcode.js';
 
 @Component({
@@ -12,7 +13,7 @@ export class JoinAddressPage implements OnInit {
   store = {
     address: '',
   };
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2, private navController: NavController) {}
 
   ngOnInit() {}
 
@@ -37,5 +38,10 @@ export class JoinAddressPage implements OnInit {
   // 닫기
   closeAddressPopup() {
     this.renderer.setStyle(this.popup.nativeElement, 'display', 'none');
+  }
+
+  //회원가입 완료 화면으로
+  goJoin() {
+    this.navController.navigateForward(['/join']);
   }
 }

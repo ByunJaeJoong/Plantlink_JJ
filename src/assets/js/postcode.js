@@ -39,7 +39,7 @@ export function postcode(renderer, elem, callback) {
   renderer.setStyle(elem, 'display', 'block');
   renderer.setStyle(elem, 'width', width + '%');
   renderer.setStyle(elem, 'height', height + '%');
-  renderer.setStyle(elem, 'border', borderWidth + 'px solid');
+  renderer.setStyle(elem, 'border', 0);
   renderer.setStyle(elem, 'left', 0);
   renderer.setStyle(elem, 'top', 56 + 'px');
   renderer.setStyle(elem, 'z-index', 9999);
