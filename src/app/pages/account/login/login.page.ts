@@ -25,4 +25,9 @@ export class LoginPage implements OnInit {
   goHome() {
     this.navController.navigateForward(['/tabs/home']);
   }
+
+  //회원가입으로
+  goJoin() {
+    this.navController.navigateForward(['/join']);
+  }
 }
