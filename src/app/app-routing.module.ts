@@ -110,6 +110,10 @@ const routes: Routes = [
     path: 'find-device',
     loadChildren: () => import('./pages/find-device/find-device.module').then( m => m.FindDevicePageModule)
   },
+  {
+    path: 'join',
+    loadChildren: () => import('./pages/account/join/join.module').then( m => m.JoinPageModule)
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],
