@@ -1,0 +1,58 @@
+ion-content {
+  --padding-start: 1.25rem;
+  --padding-end: 1.25rem;
+
+  h3 {
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 0.9375rem;
+    color: #000000;
+    span {
+      position: relative;
+      left: -0.25rem;
+      top: -0.0625rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 0.9375rem;
+      color: #da7f8c;
+    }
+  }
+
+  .m-bottom {
+    margin-bottom: 1.3125rem;
+  }
+
+  .m-top {
+    margin-top: 1.0625rem;
+  }
+}
+
+ion-footer {
+  ion-toolbar {
+    --padding-top: 0.5625rem;
+    --padding-start: 1.25rem;
+    --padding-end: 1.25rem;
+    // --padding-bottom: 1.6875rem;
+  }
+}
+
+.agree-box {
+  margin-bottom: 0.5625rem;
+  ion-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 0.9375rem;
+    color: #000000;
+  }
+  ion-checkbox {
+    margin-right: 0.375rem;
+    --size: 1.125rem;
+    --border: 0;
+    --checkmark-width: 0;
+    --background: url(../../../../assets/images/check-off.png) no-repeat center center/ 100% 100%;
+    --background-checked: url(../../../../assets/images/checked.png) no-repeat center center/ 100% 100%;
+    --border-color: transparent;
+    --border-color-checked: transparent;
+  }
+}
