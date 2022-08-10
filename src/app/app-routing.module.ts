@@ -114,6 +114,14 @@ const routes: Routes = [
     path: 'join',
     loadChildren: () => import('./pages/account/join/join.module').then( m => m.JoinPageModule)
   },
+  {
+    path: 'complete-join',
+    loadChildren: () => import('./pages/account/complete-join/complete-join.module').then( m => m.CompleteJoinPageModule)
+  },
+  {
+    path: 'join-address',
+    loadChildren: () => import('./pages/account/join-address/join-address.module').then( m => m.JoinAddressPageModule)
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],

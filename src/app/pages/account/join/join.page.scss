@@ -55,3 +55,12 @@ ion-footer {
     --border-color-checked: transparent;
   }
 }
+
+.close-btn {
+  width: 1.875rem;
+  height: 1.875rem;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}

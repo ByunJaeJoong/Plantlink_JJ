@@ -1,0 +1,14 @@
+ion-content {
+  --padding-start: 1.0625rem;
+  --padding-end: 1.0625rem;
+  .center-wrap {
+    padding-top: 11.875rem;
+    p {
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.1875rem;
+      margin-bottom: 2rem;
+    }
+  }
+}
