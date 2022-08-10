@@ -15,7 +15,7 @@ export class DiaryWritePage implements OnInit {
     dateCreated: '',
     content: '',
     images: [],
-    selectDate: '',
+    postDate: '',
   };
 
   diaryData: any = [];
@@ -29,7 +29,7 @@ export class DiaryWritePage implements OnInit {
     private image: ImageService,
     private actionSheetController: ActionSheetController
   ) {
-    this.diary.selectDate = this.navParams.get('selectDate');
+    this.diary.postDate = this.navParams.get('postDate');
     this.diaryData = this.navParams.get('diaryData');
     this.getData();
   }
@@ -40,7 +40,7 @@ export class DiaryWritePage implements OnInit {
       this.diary.content = this.diaryData.content;
       this.diary.images = this.diaryData.images;
       this.diary.dateCreated = this.diaryData.dateCreated;
-      this.diary.selectDate = this.diaryData.selectDate;
+      this.diary.postDate = this.diaryData.postDate;
     }
   }
 
