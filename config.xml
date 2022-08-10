@@ -47,13 +47,13 @@
         <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
-    <platform name="ios">
+
     <platform name="ios">
     <edit-config file="*-Info.plist" mode="merge" target="UIUserInterfaceStyle">
             <string>Light</string>
     </edit-config>
 
-<preference name="WKWebViewOnly" value="true" />
+    <preference name="WKWebViewOnly" value="true" />
         <feature name="CDVWKWebViewEngine">
             <param name="ios-package" value="CDVWKWebViewEngine" />
         </feature>
@@ -63,7 +63,7 @@
         <allow-navigation href="https://*/*"/>
 
 
-<edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
             <application android:networkSecurityConfig="@xml/network_security_config" />
             <application android:requestLegacyExternalStorage="true" />
         </edit-config>
