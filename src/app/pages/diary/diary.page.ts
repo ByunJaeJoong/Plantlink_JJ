@@ -14,7 +14,7 @@ import { DiaryWritePage } from '../diary-write/diary-write.page';
 export class DiaryPage implements OnInit {
   userId: string = localStorage.getItem('userId');
   date: Date = new Date();
-  selectDate: string = '';
+  postDate: string = '';
   diaryData$: Observable<any>;
 
   myEvents: MbscCalendarEvent[] = [];
@@ -37,12 +37,12 @@ export class DiaryPage implements OnInit {
     onSelectedDateChange: (args, inst) => {
       let date = new Date(args.date + '');
       date.setHours(date.getHours() + 9);
-      this.selectDate = date.toISOString();
+      this.postDate = date.toISOString();
     },
   };
   constructor(private navController: NavController, private modalController: ModalController, private db: DbService) {
     // diary 페이지에 오면 당일에 표시
-    this.selectDate = new Date().toISOString();
+    this.postDate = new Date().toISOString();
     this.getData();
   }
 
@@ -55,9 +55,9 @@ export class DiaryPage implements OnInit {
       map(diarys => {
         diarys.map((diary: any) => {
           (diary.color = defaultColor),
-            (diary.end = diary.selectDate),
+            (diary.end = diary.postDate),
             (diary.id = diary.diaryId),
-            (diary.start = diary.selectDate),
+            (diary.start = diary.postDate),
             (diary.title = diary.content),
             (diary.image = diary.images?.[0]);
         });
@@ -89,7 +89,7 @@ export class DiaryPage implements OnInit {
     const modal = await this.modalController.create({
       component: DiaryWritePage,
       componentProps: {
-        selectDate: this.selectDate,
+        postDate: this.postDate,
       },
     });
     return await modal.present();

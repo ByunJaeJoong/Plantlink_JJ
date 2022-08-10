@@ -25,7 +25,6 @@ export class DiaryDetailPage implements OnInit {
 
   async getData() {
     this.diaryData = await this.db.doc$(`diary/${this.diaryId}`).pipe(first()).toPromise();
-    this.diaryData = await this.db.doc$(`diary/${this.diaryId}`).pipe(first()).toPromise();
   }
 
   //달력화면으로 !
