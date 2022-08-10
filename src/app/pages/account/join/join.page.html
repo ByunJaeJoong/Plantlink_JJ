@@ -13,7 +13,7 @@
     <h3>아이디 <span>*</span></h3>
     <ion-item class="join-input-wrap">
       <ion-input inputmode="email" type="email" placeholder="아이디를 입력해주세요." minlength="2" maxlength="8"></ion-input>
-      <ion-button (click)="onClick()" fill="clear" class="border-btn"> 중복확인 </ion-button>
+      <ion-button (click)="checkIdNo()" fill="clear" class="border-btn"> 중복확인 </ion-button>
     </ion-item>
     <!-- validation -->
     <!-- <h4 class="error">2자 이상 8자 이하의 영문만 허용</h4> -->
@@ -45,26 +45,26 @@
   <h3>이메일 <span>*</span></h3>
   <ion-item class="join-input-wrap m-bottom">
     <ion-input inputmode="email" type="email" placeholder="이메일 주소를 입력해 주세요."></ion-input>
-    <ion-button (click)="onClick()" fill="clear" class="border-btn" disabled> 중복확인 </ion-button>
+    <ion-button (click)="checkEmailOk()" fill="clear" class="border-btn"> 중복확인 </ion-button>
   </ion-item>
 
   <!-- 휴대폰 -->
   <h3>휴대폰 <span>*</span></h3>
   <ion-item class="join-input-wrap">
     <ion-input inputmode="numeric" type="tel" placeholder="숫자만 입력하세요."></ion-input>
-    <ion-button (click)="onClick()" fill="clear" class="border-btn"> 인증번호 받기 </ion-button>
+    <ion-button (click)="checkNumber()" fill="clear" class="border-btn"> 인증번호 받기 </ion-button>
   </ion-item>
 
   <!-- 인증번호 확인 -->
   <ion-item class="join-input-wrap m-bottom m-top">
     <ion-input inputmode="text" type="text"></ion-input>
-    <ion-button (click)="onClick()" fill="clear" class="border-btn"> 인증번호 확인 </ion-button>
+    <ion-button (click)="checkedNumber()" fill="clear" class="border-btn"> 인증번호 확인 </ion-button>
   </ion-item>
 
   <!-- 주소-->
   <h3>주소 <span>*</span></h3>
   <ion-item class="join-search-wrap">
-    <ion-input type="text" placeholder="도로명, 지번, 건물명 검색"></ion-input>
+    <ion-input inputmode="text" type="text" placeholder="도로명, 지번, 건물명 검색" readonly></ion-input>
     <ion-button fill="clear">
       <img src="assets/images/join-search-icon.png" alt="" />
     </ion-button>
