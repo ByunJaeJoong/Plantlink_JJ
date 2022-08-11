@@ -5,17 +5,23 @@
     <ion-buttons slot="end">
       <ion-button (click)="back()" fill="clear" class="close-back"> </ion-button>
     </ion-buttons>
-    <ion-title>아이디 찾기</ion-title>
+    <ion-title>{{type == 'id' ? '아이디 찾기' : '비밀번호 찾기'}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div id="find-id-wrap">
     <!-- 일반 이름 입력창 -->
-    <div class="basic-wrap">
+    <div class="basic-wrap" *ngIf="type == 'id'">
       <h3>이름</h3>
       <ion-item class="input-wrap margin">
         <ion-input type="text" inputmode="text" placeholder="이름을 입력해주세요." [(ngModel)]="name"></ion-input>
+      </ion-item>
+    </div>
+    <div class="basic-wrap" *ngIf="type == 'password'">
+      <h3>이메일</h3>
+      <ion-item class="input-wrap margin">
+        <ion-input type="email" inputmode="email" placeholder="이메일을 입력해주세요." [(ngModel)]="email"></ion-input>
       </ion-item>
     </div>
 

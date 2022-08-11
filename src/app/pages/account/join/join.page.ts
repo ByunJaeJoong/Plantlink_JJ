@@ -6,8 +6,10 @@ import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { DbService } from 'src/app/services/db.service';
 import { LoadingService } from 'src/app/services/loading.service';
+import { MoveParamsService } from 'src/app/services/move-params.service';
 import { PhoneAuthService } from 'src/app/services/phone-auth.service';
 import { TimerService } from 'src/app/services/timer.service';
+import { postcode } from 'src/assets/js/postcode.js';
 
 @Component({
   selector: 'app-join',
@@ -15,6 +17,8 @@ import { TimerService } from 'src/app/services/timer.service';
   styleUrls: ['./join.page.scss'],
 })
 export class JoinPage implements OnInit {
+  @ViewChild('address_pop', { read: ElementRef, static: true }) popup!: ElementRef;
+
   users: Users = {
     uid: '',
     dateCreated: '',
@@ -32,6 +36,10 @@ export class JoinPage implements OnInit {
     myPlant: [],
   };
 
+  store = {
+    address: '',
+  };
+
   password: string;
   confirmPassword: string;
   certifyNum: string;
@@ -43,6 +51,11 @@ export class JoinPage implements OnInit {
   certifiedSwitch: boolean = false;
   failAuth: boolean = false;
 
+  search: string = '';
+  shopAddress: any;
+  shopZoneCode: any;
+  shopAddressSwitch: boolean = false;
+
   constructor(
     private navController: NavController,
     private alert: AlertService,
@@ -50,10 +63,14 @@ export class JoinPage implements OnInit {
     private db: DbService,
     private pa: PhoneAuthService,
     private loading: LoadingService,
-    private timer: TimerService
+    private timer: TimerService,
+    private renderer: Renderer2,
+    private moveParamsService: MoveParamsService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    const param = this.moveParamsService.getData();
+  }
 
   // 아이디 유효성 검사
   async checkEmail() {
@@ -167,6 +184,36 @@ export class JoinPage implements OnInit {
     }
   }
 
+  // 주소
+  openDaumPopup() {
+    setTimeout(() => {
+      this.getAddress().then(data => {
+        this.shopZoneCode = data.sigunguCode;
+        this.shopAddress = data.roadAddress;
+        console.log('data', data);
+        this.shopAddressSwitch = true;
+        this.search = data.sido + '/' + data.sigungu + '/' + data.bname;
+      });
+
+      // postcode(this.renderer, this.popup.nativeElement, data => {
+      //   console.log(data);
+      //   this.store.address = data.address;
+      // });
+    }, 1000);
+  }
+
+  getAddress(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      postcode(this.renderer, this.popup.nativeElement, data => {
+        resolve(data);
+      });
+    });
+  }
+
+  closeDaumPopup() {
+    this.renderer.setStyle(this.popup.nativeElement, 'display', 'none');
+  }
+
   //회원가입 완료 화면으로
   goCom() {
     if (!this.emailOverlap) {
@@ -195,6 +242,7 @@ export class JoinPage implements OnInit {
 
   //나머지 주소 입력하기
   addAddress() {
+    this.moveParamsService.setData(this.users);
     this.navController.navigateForward(['/join-address']);
   }
 }

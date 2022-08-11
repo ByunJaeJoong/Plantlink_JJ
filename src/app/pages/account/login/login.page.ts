@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
+import { FindIdPage } from '../find-id/find-id.page';
 
 @Component({
   selector: 'app-login',
@@ -7,18 +8,33 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  constructor(private navController: NavController) {}
+  constructor(private navController: NavController, private modalCtrl: ModalController) {}
 
   ngOnInit() {}
 
   //아이디찾기
   findId() {
-    this.navController.navigateForward(['/find-id']);
+    // const modal = await this.modalCtrl.create({
+    //   component: FindIdPage,
+    //   componentProps: {
+    //     type: 'id',
+    //   },
+    // });
+    // await modal.present();
+    this.navController.navigateForward(['/find-id'], {
+      queryParams: {
+        type: 'id',
+      },
+    });
   }
 
   //비밀번호 찾기
   findPw() {
-    this.navController.navigateForward(['/find-password']);
+    this.navController.navigateForward(['/find-id'], {
+      queryParams: {
+        type: 'password',
+      },
+    });
   }
 
   //홈으로

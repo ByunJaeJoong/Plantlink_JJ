@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { MoveParamsService } from 'src/app/services/move-params.service';
 import { postcode } from 'src/assets/js/postcode.js';
 
 @Component({
@@ -18,9 +19,12 @@ export class JoinAddressPage implements OnInit {
   store = {
     address: '',
   };
-  constructor(private renderer: Renderer2, private navController: NavController) {}
+  constructor(private renderer: Renderer2, private navController: NavController, private moveParamsService: MoveParamsService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    const param = this.moveParamsService.getData();
+    console.log(param);
+  }
 
   openDaumPopup() {
     setTimeout(() => {

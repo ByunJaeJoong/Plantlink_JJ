@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { first } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
@@ -14,9 +15,11 @@ import { TimerService } from 'src/app/services/timer.service';
   styleUrls: ['./find-id.page.scss'],
 })
 export class FindIdPage implements OnInit {
+  @Input() type;
   name: string;
   phone: string;
   user: any;
+  email: any;
 
   userSwitch: boolean = false;
   nameValidate: boolean = false;
@@ -37,15 +40,31 @@ export class FindIdPage implements OnInit {
     private alert: AlertService,
     private loading: LoadingService,
     private pa: PhoneAuthService,
-    private timer: TimerService
-  ) {}
+    private timer: TimerService,
+    private route: ActivatedRoute
+  ) {
+    this.type = this.route.snapshot.queryParams.type;
+  }
 
   ngOnInit() {}
 
-  // 회원정보 일치하는 지 확인
+  // 아이디 찾기 일 때 회원정보 확인
   async userCheck() {
     this.user = await this.db
       .collection$(`users`, ref => ref.where('name', '==', this.name).where('phone', '==', this.phone))
+      .pipe(first())
+      .toPromise();
+    if (this.user.length > 0) {
+      this.userSwitch = true;
+    } else {
+      this.userSwitch = false;
+    }
+    console.log(this.user);
+  }
+  // 비밀번호 찾기 일 때 회원정보 확인
+  async userCheck2() {
+    this.user = await this.db
+      .collection$(`users`, ref => ref.where('email', '==', this.email).where('phone', '==', this.phone))
       .pipe(first())
       .toPromise();
     if (this.user.length > 0) {
@@ -59,7 +78,11 @@ export class FindIdPage implements OnInit {
   // 회원정보 확인 후 인증번호 발송
   async authenticate() {
     await this.loading.load();
-    await this.userCheck();
+    if (this.type == 'id') {
+      await this.userCheck();
+    } else {
+      await this.userCheck2();
+    }
     if (!this.userSwitch) {
       this.alert.okBtn('', '일치하는 회원 정보가 없습니다.');
     } else {
@@ -112,9 +135,15 @@ export class FindIdPage implements OnInit {
       .then(async () => {
         this.completeProcess();
         this.loading.hide();
-        this.navController.navigateForward(['/find-id-confirm'], {
-          queryParams: { email: this.user[0].email },
-        });
+        if (this.type == 'id') {
+          this.navController.navigateForward(['/find-id-confirm'], {
+            queryParams: { email: this.user[0].email },
+          });
+        } else {
+          this.navController.navigateForward(['/find-password'], {
+            queryParams: { uid: this.user[0].uid },
+          });
+        }
       })
       .catch(error => {
         this.completeErrorProcess(error);
