@@ -34,17 +34,19 @@
 
     <!-- 스크롤 -->
     <ng-template #myTemplate let-data class="template-list">
-      <ion-item (click)="goDiaryDetail(data.id)" class="text-box">
+      <ion-item (click)="goDiaryDetail(data.id)" class="text-box image-con">
         <ng-container *ngIf="data.original.image != undefined">
           <ion-card>
             <img src="{{data.original.image}}" alt="" />
           </ion-card>
           <p class="rows-ellipsis">{{data.title}}</p>
         </ng-container>
+      </ion-item>
 
+      <ion-item class="no-image-con" (click)="goDiaryDetail(data.id)">
         <ng-container *ngIf="data.original.image == undefined">
-          <ion-card> </ion-card>
           <p class="rows-ellipsis">{{data.title}}</p>
+          <!-- <p class="rows-ellipsis">{{data.title}}</p> -->
         </ng-container>
       </ion-item>
     </ng-template>
