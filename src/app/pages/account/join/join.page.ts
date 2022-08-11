@@ -240,6 +240,10 @@ export class JoinPage implements OnInit {
     }
   }
 
+  // 닫기
+  closeAddressPopup() {
+    this.renderer.setStyle(this.popup.nativeElement, 'display', 'none');
+  }
   //나머지 주소 입력하기
   addAddress() {
     this.moveParamsService.setData(this.users);
