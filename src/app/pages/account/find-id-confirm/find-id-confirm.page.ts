@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -7,17 +8,20 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./find-id-confirm.page.scss'],
 })
 export class FindIdConfirmPage implements OnInit {
-  constructor(private navController: NavController) {}
+  email: any;
+  constructor(private navController: NavController, private route: ActivatedRoute) {
+    this.email = this.route.snapshot.queryParams.email;
+  }
 
   ngOnInit() {}
 
   //아이디찾기
   goLoign() {
-    this.navController.navigateForward(['/login']);
+    this.navController.navigateRoot(['/login']);
   }
 
   //비번찾기
   findPw() {
-    this.navController.navigateForward(['/find-password']);
+    this.navController.navigateRoot(['/find-password']);
   }
 }

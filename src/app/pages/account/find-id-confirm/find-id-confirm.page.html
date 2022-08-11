@@ -7,9 +7,9 @@
 </ion-header>
 
 <ion-content>
-  <div id="id-confirm-wrap">
+  <div id="id-confirm-wrap" *ngIf="email">
     <h3>회원님의 정보와 일치하는 아이디 목록입니다.</h3>
-    <p>plantlink@gmail.com</p>
+    <p>{{email}}</p>
 
     <ion-button (click)="goLoign()" fill="clear" class="basic-btn"> 로그인 </ion-button>
 

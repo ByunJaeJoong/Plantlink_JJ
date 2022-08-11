@@ -2,11 +2,11 @@ export interface Users {
   uid: string;
   dateCreated: string;
   exitSwitch: boolean;
-  userId: string;
   name: string;
   address: string;
   email: string;
   phone: string;
+  loginType: string;
   chatEnterSwitch: boolean;
   connectSwitch: boolean;
   plantSwitch: boolean;
