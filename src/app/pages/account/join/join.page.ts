@@ -53,6 +53,7 @@ export class JoinPage implements OnInit {
   certifiedSwitch: boolean = false;
   failAuth: boolean = false;
 
+  agree: boolean;
   search: string = '';
   shopAddress: any;
   shopZoneCode: any;
@@ -231,7 +232,11 @@ export class JoinPage implements OnInit {
       this.alert.okBtn('', '휴대폰 인증을 진행해 주세요.');
       return;
     }
-    if (this.emailOverlap && this.passwordCheck && this.certifiedSwitch) {
+    if (!this.agree) {
+      this.alert.okBtn('', '개인 정보 이용에 동의해 주세요.');
+      return;
+    }
+    if (this.emailOverlap && this.passwordCheck && this.certifiedSwitch && this.agree) {
       this.auth.registerUser(this.users.email, this.confirmPassword).then(result => {
         this.users.uid = result.user.uid;
         this.users.address = `${this.address} ${this.address2}`;
