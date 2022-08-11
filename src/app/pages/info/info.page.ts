@@ -12,8 +12,10 @@ import { DbService } from 'src/app/services/db.service';
   styleUrls: ['./info.page.scss'],
 })
 export class InfoPage implements OnInit {
-  master: any = [];
+  userId: string = localStorage.getItem('userId');
 
+  user$: Observable<any>;
+  master: any = [];
   constructor(private alertService: AlertService, private navController: NavController, private db: DbService, private auth: AuthService) {
     this.getData();
   }
@@ -22,6 +24,7 @@ export class InfoPage implements OnInit {
 
   async getData() {
     this.master = await this.db.collection$(`master`).pipe(first()).toPromise();
+    this.user$ = this.db.doc$(`users/${this.userId}`);
   }
 
   //로그아웃 alert
