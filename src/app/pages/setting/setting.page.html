@@ -10,18 +10,23 @@
 </ion-header>
 
 <ion-content>
-  <div id="setting-wrap">
+  <div id="setting-wrap" *ngIf="user$ | async as user">
     <div class="profile">
       <ion-button fill="clear">
         <!-- 등록한 이미지가 없을 때 기본 사진. -->
-        <img src="assets/images/profile.png" alt="" />
+        <ng-container>
+          <img src="assets/images/profile.png" alt="userProfile" (click)="changeImage()" />
+        </ng-container>
         <!-- 이미지 있을 때 -->
-        <!-- <img src="assets/samples/plant-sample02.jpeg" alt="" /> -->
+        <!-- <ng-container >
+          <img src="{{user.profileImage}}" alt="userProfile" (click)="changeImage()" />
+        </ng-container> -->
       </ion-button>
       <img class="plus" src="assets/images/add-icon.png" alt="" />
     </div>
 
     <p>plantlink@gmail.com</p>
+    <!-- <p>{{user.email}}</p> -->
 
     <div class="list-wrap">
       <ion-item (click)="goFaq()">
