@@ -40,6 +40,8 @@ export class JoinPage implements OnInit {
     address: '',
   };
 
+  address: string;
+  address2: string;
   password: string;
   confirmPassword: string;
   certifyNum: string;
@@ -192,6 +194,7 @@ export class JoinPage implements OnInit {
         this.shopAddress = data.roadAddress;
         console.log('data', data);
         this.shopAddressSwitch = true;
+        this.address = data.address;
         this.search = data.sido + '/' + data.sigungu + '/' + data.bname;
       });
 
@@ -231,6 +234,7 @@ export class JoinPage implements OnInit {
     if (this.emailOverlap && this.passwordCheck && this.certifiedSwitch) {
       this.auth.registerUser(this.users.email, this.confirmPassword).then(result => {
         this.users.uid = result.user.uid;
+        this.users.address = `${this.address} ${this.address2}`;
         this.db.updateAt(`users/${result.user.uid}`, this.users).then(() => {
           console.log('성공!');
           this.loading.hide();

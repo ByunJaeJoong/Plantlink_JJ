@@ -158,12 +158,12 @@ export class AuthService {
   // 비밀번호 재설정 메일 발송
   sendPasswordReset(email) {
     return new Promise((resolve, reject) => {
-      // this.loadingService.load("비밀번호 재설정 메일을 발송중입니다.");
+      this.loadingService.load('비밀번호 재설정 메일을 발송중입니다.');
       return this.afAuth
         .sendPasswordResetEmail(email)
         .then(success => {
-          // this.loadingService.hide();
-          // this.alertService.presentAlert("비밀번호 재설정", "이메일으로 비밀번호 재설정 이메일이 전송되었습니다. 이메일을 확인해 주세요.");
+          this.loadingService.hide();
+          this.alertService.okBtn('', '이메일으로 비밀번호 재설정 이메일이 전송되었습니다.<br> 이메일을 확인해 주세요.');
           resolve(success);
         })
         .catch(error => {

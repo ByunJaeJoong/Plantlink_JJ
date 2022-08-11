@@ -14,27 +14,12 @@ export class LoginPage implements OnInit {
 
   //아이디찾기
   findId() {
-    // const modal = await this.modalCtrl.create({
-    //   component: FindIdPage,
-    //   componentProps: {
-    //     type: 'id',
-    //   },
-    // });
-    // await modal.present();
-    this.navController.navigateForward(['/find-id'], {
-      queryParams: {
-        type: 'id',
-      },
-    });
+    this.navController.navigateForward(['/find-id'], {});
   }
 
   //비밀번호 찾기
   findPw() {
-    this.navController.navigateForward(['/find-id'], {
-      queryParams: {
-        type: 'password',
-      },
-    });
+    this.navController.navigateForward(['/find-password'], {});
   }
 
   //홈으로

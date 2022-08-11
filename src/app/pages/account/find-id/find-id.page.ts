@@ -15,7 +15,6 @@ import { TimerService } from 'src/app/services/timer.service';
   styleUrls: ['./find-id.page.scss'],
 })
 export class FindIdPage implements OnInit {
-  @Input() type;
   name: string;
   phone: string;
   user: any;
@@ -42,9 +41,7 @@ export class FindIdPage implements OnInit {
     private pa: PhoneAuthService,
     private timer: TimerService,
     private route: ActivatedRoute
-  ) {
-    this.type = this.route.snapshot.queryParams.type;
-  }
+  ) {}
 
   ngOnInit() {}
 
@@ -61,28 +58,12 @@ export class FindIdPage implements OnInit {
     }
     console.log(this.user);
   }
-  // 비밀번호 찾기 일 때 회원정보 확인
-  async userCheck2() {
-    this.user = await this.db
-      .collection$(`users`, ref => ref.where('email', '==', this.email).where('phone', '==', this.phone))
-      .pipe(first())
-      .toPromise();
-    if (this.user.length > 0) {
-      this.userSwitch = true;
-    } else {
-      this.userSwitch = false;
-    }
-    console.log(this.user);
-  }
 
   // 회원정보 확인 후 인증번호 발송
   async authenticate() {
     await this.loading.load();
-    if (this.type == 'id') {
-      await this.userCheck();
-    } else {
-      await this.userCheck2();
-    }
+    await this.userCheck();
+
     if (!this.userSwitch) {
       this.alert.okBtn('', '일치하는 회원 정보가 없습니다.');
     } else {
@@ -135,15 +116,11 @@ export class FindIdPage implements OnInit {
       .then(async () => {
         this.completeProcess();
         this.loading.hide();
-        if (this.type == 'id') {
-          this.navController.navigateForward(['/find-id-confirm'], {
-            queryParams: { email: this.user[0].email },
-          });
-        } else {
-          this.navController.navigateForward(['/find-password'], {
-            queryParams: { uid: this.user[0].uid },
-          });
-        }
+        this.navController.navigateForward(['/find-id-confirm'], {
+          queryParams: {
+            email: this.user[0].email,
+          },
+        });
       })
       .catch(error => {
         this.completeErrorProcess(error);

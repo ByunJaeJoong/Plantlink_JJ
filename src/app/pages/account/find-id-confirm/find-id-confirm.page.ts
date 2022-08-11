@@ -22,6 +22,10 @@ export class FindIdConfirmPage implements OnInit {
 
   //비번찾기
   findPw() {
-    this.navController.navigateRoot(['/find-password']);
+    this.navController.navigateRoot(['/find-password'], {
+      queryParams: {
+        email: this.email,
+      },
+    });
   }
 }
