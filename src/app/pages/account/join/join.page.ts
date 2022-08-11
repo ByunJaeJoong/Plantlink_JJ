@@ -21,7 +21,7 @@ export class JoinPage implements OnInit {
 
   users: Users = {
     uid: '',
-    dateCreated: '',
+    dateCreated: new Date().toISOString(),
     exitSwitch: false,
     name: '',
     address: '',
