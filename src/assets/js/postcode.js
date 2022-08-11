@@ -41,7 +41,7 @@ export function postcode(renderer, elem, callback) {
   renderer.setStyle(elem, 'height', height + '%');
   renderer.setStyle(elem, 'border', 0);
   renderer.setStyle(elem, 'left', 0);
-  renderer.setStyle(elem, 'top', 56 + 'px');
+  renderer.setStyle(elem, 'top', 0);
   renderer.setStyle(elem, 'z-index', 9999);
 
   // renderer.setStyle(elem, 'left', ((window.innerWidth || document.documentElement.clientWidth) - width) / 2 - borderWidth + 'px');
