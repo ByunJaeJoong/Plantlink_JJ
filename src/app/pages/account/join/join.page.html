@@ -97,10 +97,10 @@
 <ion-footer class="join-footer">
   <ion-toolbar>
     <ion-item class="agree-box">
-      <ion-checkbox></ion-checkbox>
+      <ion-checkbox [(ngModel)]="agree"></ion-checkbox>
       <ion-label class="all-agree">개인 정보 이용에 동의합니다.</ion-label>
     </ion-item>
-    <ion-button (click)="goCom()" fill="clear" class="basic-btn" [disabled]="!users.email || !users.name"> 가입하기 </ion-button>
+    <ion-button (click)="goCom()" fill="clear" class="basic-btn" [disabled]="!users.email || !users.name || !address"> 가입하기 </ion-button>
   </ion-toolbar>
   <div id="recaptcha-container"></div>
 </ion-footer>
