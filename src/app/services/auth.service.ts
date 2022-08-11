@@ -24,7 +24,7 @@ export class AuthService {
         localStorage.setItem('userId', data.uid);
       } else {
         // 예외사항 고려
-        // localStorage.clear();
+        localStorage.clear();
       }
     });
   }

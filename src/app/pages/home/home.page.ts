@@ -12,6 +12,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     // this.update();
+    console.log(localStorage.getItem('userId'));
   }
 
   // update() {

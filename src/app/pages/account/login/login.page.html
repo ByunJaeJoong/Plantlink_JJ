@@ -14,29 +14,33 @@
       <img src="assets/images/logo-black.png" alt="" />
     </h1>
 
-    <ion-item class="input-wrap">
-      <ion-input placeholder="구글 이메일" inputmode="text" type="email"></ion-input>
-    </ion-item>
+    <ng-container *ngIf="emailValidate">
+      <ion-item class="input-wrap">
+        <ion-input placeholder="구글 이메일" inputmode="text" type="email" [(ngModel)]="email"></ion-input>
+      </ion-item>
+    </ng-container>
 
     <!-- validation 나타날 때 이메일 입력창 입니다.  -->
-    <!-- <div class="validation-wrap">
+    <div class="validation-wrap" *ngIf="!emailValidate">
       <ion-item class="input-vali-wrap">
-        <ion-input placeholder="구글 이메일" inputmode="text" type="email"></ion-input>
+        <ion-input placeholder="구글 이메일" inputmode="text" type="email" [(ngModel)]="email"></ion-input>
       </ion-item>
       <p>이메일을 입력해주세요</p>
-    </div> -->
+    </div>
 
-    <ion-item class="input-wrap">
-      <ion-input placeholder="비밀번호" inputmode="text" type="password" maxlength="12" minlength="6"></ion-input>
-    </ion-item>
+    <ng-container *ngIf="passwordValidate">
+      <ion-item class="input-wrap">
+        <ion-input placeholder="비밀번호" inputmode="text" type="password" maxlength="20" minlength="8" [(ngModel)]="password"></ion-input>
+      </ion-item>
+    </ng-container>
 
     <!-- validation 나타날 때 비밀번호 입력창 입니다.  -->
-    <!-- <div class="validation-wrap">
+    <div class="validation-wrap" *ngIf="!passwordValidate">
       <ion-item class="input-vali-wrap">
-        <ion-input placeholder="비밀번호" inputmode="text" type="password" maxlength="12" minlength="6"></ion-input>
+        <ion-input placeholder="비밀번호" inputmode="text" type="password" maxlength="20" minlength="8" [(ngModel)]="password"></ion-input>
       </ion-item>
       <p>비밀번호를 입력해주세요</p>
-    </div> -->
+    </div>
 
     <div class="find-wrap">
       <ion-button fill="clear" class="find-id" (click)="findId()"> 아이디 찾기 </ion-button>
@@ -44,7 +48,7 @@
       <ion-button fill="clear" class="find-pw" (click)="findPw()"> 비밀번호 찾기 </ion-button>
     </div>
 
-    <ion-button class="basic-btn" fill="clear" (click)="goHome()"> 로그인 </ion-button>
+    <ion-button class="basic-btn" fill="clear" (click)="login()"> 로그인 </ion-button>
 
     <ion-button class="main-border" fill="clear" (click)="goJoin()"> 회원가입 </ion-button>
   </div>
