@@ -12,52 +12,72 @@
   <div class="validation">
     <h3>아이디 <span>*</span></h3>
     <ion-item class="join-input-wrap">
-      <ion-input inputmode="email" type="email" placeholder="아이디를 입력해주세요." minlength="2" maxlength="8"></ion-input>
-      <ion-button (click)="checkIdNo()" fill="clear" class="border-btn"> 중복확인 </ion-button>
+      <ion-input
+        [(ngModel)]="users.email"
+        (ionChange)="emailChange()"
+        inputmode="email"
+        type="email"
+        placeholder="아이디를 입력해주세요."
+      ></ion-input>
+      <ion-button (click)="checkEmail()" fill="clear" class="border-btn" [disabled]="!emailExpression()"> 중복확인 </ion-button>
     </ion-item>
     <!-- validation -->
-    <!-- <h4 class="error">2자 이상 8자 이하의 영문만 허용</h4> -->
+    <h4 class="error" *ngIf="users.email && !emailExpression()">2자 이상 8자 이하의 영문만 허용</h4>
   </div>
 
   <!-- 비밀번호 -->
   <div class="validation">
     <h3>비밀번호 <span>*</span></h3>
     <ion-item class="join-input-wrap">
-      <ion-input inputmode="text" type="password" placeholder="비밀번호를 입력해주세요." minlength="6" maxlength="12"></ion-input>
+      <ion-input
+        [(ngModel)]="password"
+        inputmode="text"
+        type="password"
+        placeholder="비밀번호를 입력해주세요."
+        minlength="6"
+        maxlength="12"
+      ></ion-input>
     </ion-item>
     <!-- validation -->
-    <!-- <h4 class="error">6자 이상 12자 이하의 영문과 특수문자 조합</h4> -->
+    <h4 class="error" *ngIf="password && !passwordExpression()">6자 이상 12자 이하의 영문과 특수문자 조합</h4>
   </div>
 
   <!-- 비밀번호 확인 -->
   <h3>비밀번호확인 <span>*</span></h3>
   <ion-item class="join-input-wrap m-bottom">
-    <ion-input inputmode="text" type="password" placeholder="비밀번호를 한번 더 입력해주세요." minlength="6" maxlength="12"></ion-input>
+    <ion-input
+      [(ngModel)]="confirmPassword"
+      inputmode="text"
+      type="password"
+      placeholder="비밀번호를 한번 더 입력해주세요."
+      minlength="6"
+      maxlength="12"
+    ></ion-input>
   </ion-item>
 
   <!-- 이름 -->
   <h3>이름 <span>*</span></h3>
   <ion-item class="join-input-wrap m-bottom">
-    <ion-input inputmode="text" type="text" placeholder="이름을 입력해 주세요."></ion-input>
+    <ion-input [(ngModel)]="users.name" inputmode="text" type="text" placeholder="이름을 입력해 주세요."></ion-input>
   </ion-item>
 
   <!-- 이메일 -->
-  <h3>이메일 <span>*</span></h3>
+  <!-- <h3>이메일 <span>*</span></h3>
   <ion-item class="join-input-wrap m-bottom">
-    <ion-input inputmode="email" type="email" placeholder="이메일 주소를 입력해 주세요."></ion-input>
+    <ion-input [(ngModel)]="users.email" inputmode="email" type="email" placeholder="이메일 주소를 입력해 주세요."></ion-input>
     <ion-button (click)="checkEmailOk()" fill="clear" class="border-btn"> 중복확인 </ion-button>
-  </ion-item>
+  </ion-item> -->
 
   <!-- 휴대폰 -->
   <h3>휴대폰 <span>*</span></h3>
   <ion-item class="join-input-wrap">
-    <ion-input inputmode="numeric" type="tel" placeholder="숫자만 입력하세요."></ion-input>
-    <ion-button (click)="checkNumber()" fill="clear" class="border-btn"> 인증번호 받기 </ion-button>
+    <ion-input (ionChange)="phoneChange()" [(ngModel)]="users.phone" inputmode="numeric" type="tel" placeholder="숫자만 입력하세요."></ion-input>
+    <ion-button (click)="authenticate()" fill="clear" class="border-btn"> 인증번호 받기 </ion-button>
   </ion-item>
 
   <!-- 인증번호 확인 -->
   <ion-item class="join-input-wrap m-bottom m-top">
-    <ion-input inputmode="text" type="text"></ion-input>
+    <ion-input [(ngModel)]="certifyNum" inputmode="text" type="text"></ion-input>
     <ion-button (click)="checkedNumber()" fill="clear" class="border-btn"> 인증번호 확인 </ion-button>
   </ion-item>
 
@@ -77,6 +97,7 @@
       <ion-checkbox></ion-checkbox>
       <ion-label class="all-agree">개인 정보 이용에 동의합니다.</ion-label>
     </ion-item>
-    <ion-button (click)="goCom()" fill="clear" class="basic-btn"> 가입하기 </ion-button>
+    <ion-button (click)="goCom()" fill="clear" class="basic-btn" [disabled]="!users.email || !users.name"> 가입하기 </ion-button>
   </ion-toolbar>
+  <div id="recaptcha-container"></div>
 </ion-footer>

@@ -7,6 +7,7 @@ import { switchMap, take, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { LoadingService } from './loading.service';
+import * as firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root',
@@ -29,31 +30,31 @@ export class AuthService {
   }
 
   // email + password 가입
-  registerUser(value) {
+  registerUser(email, password) {
     return new Promise<any>((resolve, reject) => {
-      this.afAuth.createUserWithEmailAndPassword(value.email, value.password).then(
-        success => resolve(success),
-        error => {
-          let code = error['code'];
-          this.alertService.showErrorMessage(code);
-          reject(code);
-        }
-      );
+      firebase.default
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(res => {
+          localStorage.setItem('userId', res.user.uid);
+          resolve(res);
+        })
+        .catch(err => {
+          reject(err);
+        });
     });
   }
 
-  // email + password 로그인
-  loginUser(value) {
+  loginUser(email, password) {
     return new Promise<any>((resolve, reject) => {
-      this.afAuth
-        .signInWithEmailAndPassword(value.email, value.password)
-        .then(res => resolve(res))
-        .catch(error => {
-          let code = error['code'];
-          this.alertService.showErrorMessage(code);
-
-          reject(code);
-        });
+      firebase.default
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(
+          res => resolve(res),
+          err => reject(err)
+        )
+        .catch(err => reject(err));
     });
   }
 

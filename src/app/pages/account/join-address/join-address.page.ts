@@ -10,6 +10,11 @@ import { postcode } from 'src/assets/js/postcode.js';
 export class JoinAddressPage implements OnInit {
   @ViewChild('address_pop', { read: ElementRef, static: true }) popup!: ElementRef;
   search: string = '';
+  shopAddress: any;
+  shopZoneCode: any;
+
+  shopAddressSwitch: boolean = false;
+
   store = {
     address: '',
   };
@@ -22,7 +27,10 @@ export class JoinAddressPage implements OnInit {
       // this.keyboard.hide();
       this.getAddress().then(data => {
         console.log('data', data);
-        this.search = `${data.sido} ${data.sigungu} ${data.bname}`;
+        this.shopZoneCode = data.sigunguCode;
+        this.shopAddress = data.roadAddress;
+        this.shopAddressSwitch = true;
+        this.search = data.address;
       });
     }, 1000);
   }
