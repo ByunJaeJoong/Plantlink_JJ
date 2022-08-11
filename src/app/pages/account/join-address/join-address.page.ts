@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { MoveParamsService } from 'src/app/services/move-params.service';
 import { postcode } from 'src/assets/js/postcode.js';
 
 @Component({
@@ -10,19 +11,30 @@ import { postcode } from 'src/assets/js/postcode.js';
 export class JoinAddressPage implements OnInit {
   @ViewChild('address_pop', { read: ElementRef, static: true }) popup!: ElementRef;
   search: string = '';
+  shopAddress: any;
+  shopZoneCode: any;
+
+  shopAddressSwitch: boolean = false;
+
   store = {
     address: '',
   };
-  constructor(private renderer: Renderer2, private navController: NavController) {}
+  constructor(private renderer: Renderer2, private navController: NavController, private moveParamsService: MoveParamsService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    const param = this.moveParamsService.getData();
+    console.log(param);
+  }
 
   openDaumPopup() {
     setTimeout(() => {
       // this.keyboard.hide();
       this.getAddress().then(data => {
         console.log('data', data);
-        this.search = `${data.sido} ${data.sigungu} ${data.bname}`;
+        this.shopZoneCode = data.sigunguCode;
+        this.shopAddress = data.roadAddress;
+        this.shopAddressSwitch = true;
+        this.search = data.address;
       });
     }, 1000);
   }
