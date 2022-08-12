@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, NavController } from '@ionic/angular';
-import * as firebase from 'firebase';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
@@ -135,8 +134,6 @@ export class SettingPage implements OnInit {
           myPlant: [],
         });
 
-        console.log(this.user);
-
         myPlantData.forEach(async (data: any) => {
           await this.db.delete(`myPlant/${data.id}`);
         });
@@ -155,7 +152,7 @@ export class SettingPage implements OnInit {
           connectSwitch: false,
           bluetooth: [],
         });
-        console.log(this.user);
+
         myBluetooth.forEach(async (data: any) => {
           await this.db.delete(`bluetooth/${data.id}`);
         });
