@@ -52,7 +52,7 @@ export class DiaryPage implements OnInit {
     const defaultColor: string = '#ff6d42';
 
     this.diaryData$ = this.db
-      .collection$(`diary`, ref => ref.where('userId', '==', this.userId))
+      .collection$(`diary`, ref => ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false))
       .pipe(
         map(diarys => {
           diarys.map((diary: any) => {

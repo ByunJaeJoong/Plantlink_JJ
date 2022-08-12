@@ -10,12 +10,16 @@ import { ImageService } from 'src/app/services/image.service';
   styleUrls: ['./diary-write.page.scss'],
 })
 export class DiaryWritePage implements OnInit {
+  userId: string = localStorage.getItem('userId');
+
   diary: any = {
     diaryId: '',
     dateCreated: '',
     content: '',
     images: [],
     postDate: '',
+    userId: '',
+    deleteSwitch: false,
   };
 
   diaryData: any = [];
@@ -41,6 +45,8 @@ export class DiaryWritePage implements OnInit {
       this.diary.images = this.diaryData.images;
       this.diary.dateCreated = this.diaryData.dateCreated;
       this.diary.postDate = this.diaryData.postDate;
+      this.diary.userId = this.diaryData.userId;
+      this.diary.deleteSwitch = this.diaryData.deleteSwitch;
     }
   }
 
@@ -54,6 +60,7 @@ export class DiaryWritePage implements OnInit {
     } else {
       this.diary.diaryId = this.common.generateFilename();
       this.diary.dateCreated = new Date().toISOString();
+      this.diary.userId = this.userId;
 
       this.updateDiary();
     }
