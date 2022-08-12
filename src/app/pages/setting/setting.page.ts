@@ -15,7 +15,7 @@ export class SettingPage implements OnInit {
   userId: string = localStorage.getItem('userId');
 
   user$: Observable<any>;
-  user: any = [];
+
   constructor(
     private navController: NavController,
     private alertService: AlertService,
@@ -31,8 +31,6 @@ export class SettingPage implements OnInit {
   // 사용자의 프로필 사진이 계속 변경될 수 있기 때문에 옵저버로 확인
   async getData() {
     this.user$ = this.db.doc$(`users/${this.userId}`);
-    this.user = await this.db.doc$(`users/${this.userId}`).pipe(first()).toPromise();
-    console.log(this.user);
   }
 
   // 카메라 또는 갤러리 선택
@@ -96,8 +94,6 @@ export class SettingPage implements OnInit {
   async deleteCashAlert() {
     const ok = await this.alertService.cancelOkBtn('two-btn-header', '크기 0.1M', '캐시를 삭제하시겠어요?', '취소', '확인');
 
-    console.log(ok);
-
     if (ok) {
       const myDiary = await this.db
         .collection$(`diary`, ref => ref.where('userId', '==', this.userId))
@@ -113,21 +109,23 @@ export class SettingPage implements OnInit {
         .collection$(`chats`, ref => ref.where('userId', '==', this.userId))
         .pipe(first())
         .toPromise();
+      console.log(myChat);
 
       const myBluetooth = await this.db
         .collection$(`bluetooth`, ref => ref.where('userId', '==', this.userId))
         .pipe(first())
         .toPromise();
-      console.log(myBluetooth);
 
-      // 로그인 사용자의 일기장 데이터 삭제
+      // 로그인 사용자의 일기장 데이터 보이지 않도록
       if (myDiary.length > 0) {
         myDiary.forEach(async (data: any) => {
-          await this.db.delete(`diary/${data.id}`);
+          await this.db.updateAt(`diary/${data.id}`, {
+            deleteSwitch: true,
+          });
         });
       }
 
-      // 로그인 사용자의 등록된 식물 삭제
+      // 로그인 사용자의 등록된 식물 데이터 보이지 않도록 처리
       if (myPlantData.length > 0) {
         await this.db.updateAt(`users/${this.userId}`, {
           plantSwitch: false,
@@ -135,18 +133,22 @@ export class SettingPage implements OnInit {
         });
 
         myPlantData.forEach(async (data: any) => {
-          await this.db.delete(`myPlant/${data.id}`);
+          await this.db.updateAt(`myPlant/${data.id}`, {
+            deleteSwitch: true,
+          });
         });
       }
 
-      // 로그인 사용자의 채팅 내용 삭제
+      // 로그인 사용자의 채팅 데이터 보이지 않도록
       if (myChat.length > 0) {
         myChat.forEach(async (data: any) => {
-          await this.db.delete(`chats/${data.id}`);
+          await this.db.updateAt(`chats/${data.id}`, {
+            deleteSwitch: true,
+          });
         });
       }
 
-      // 로그인 사용자의 블루투스 연동 삭제
+      // 로그인 사용자의 블루투스 연동 데이터 보이지 않도록
       if (myBluetooth.length > 0) {
         await this.db.updateAt(`users/${this.userId}`, {
           connectSwitch: false,
@@ -154,7 +156,9 @@ export class SettingPage implements OnInit {
         });
 
         myBluetooth.forEach(async (data: any) => {
-          await this.db.delete(`bluetooth/${data.id}`);
+          await this.db.updateAt(`bluetooth/${data.id}`, {
+            deleteSwitch: true,
+          });
         });
       }
     }
