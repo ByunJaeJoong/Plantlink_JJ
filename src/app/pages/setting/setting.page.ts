@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, NavController } from '@ionic/angular';
+import * as firebase from 'firebase';
 import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
 import { DbService } from 'src/app/services/db.service';
 import { ImageService } from 'src/app/services/image.service';
@@ -14,6 +16,7 @@ export class SettingPage implements OnInit {
   userId: string = localStorage.getItem('userId');
 
   user$: Observable<any>;
+  user: any = [];
   constructor(
     private navController: NavController,
     private alertService: AlertService,
@@ -29,9 +32,8 @@ export class SettingPage implements OnInit {
   // 사용자의 프로필 사진이 계속 변경될 수 있기 때문에 옵저버로 확인
   async getData() {
     this.user$ = this.db.doc$(`users/${this.userId}`);
-    this.user$.subscribe(data => {
-      console.log(data);
-    });
+    this.user = await this.db.doc$(`users/${this.userId}`).pipe(first()).toPromise();
+    console.log(this.user);
   }
 
   // 카메라 또는 갤러리 선택
@@ -42,14 +44,18 @@ export class SettingPage implements OnInit {
           text: '카메라',
           handler: async () => {
             const url = await this.image.getCamera('userProfile');
-            // this.diary.images.push(url);
+            await this.db.updateAt(`users/${this.userId}`, {
+              profileImage: url,
+            });
           },
         },
         {
           text: '갤러리',
           handler: async () => {
             const url = await this.image.getGallery('userProfile');
-            // this.diary.images.push(url);
+            await this.db.updateAt(`users/${this.userId}`, {
+              profileImage: url,
+            });
           },
         },
         {
@@ -88,10 +94,72 @@ export class SettingPage implements OnInit {
   }
 
   //캐시 삭제 alert
-  deleteCashAlert() {
-    const ok = this.alertService.cancelOkBtn('two-btn-header', '크기 0.1M', '캐시를 삭제하시겠어요?', '취소', '확인');
+  async deleteCashAlert() {
+    const ok = await this.alertService.cancelOkBtn('two-btn-header', '크기 0.1M', '캐시를 삭제하시겠어요?', '취소', '확인');
+
+    console.log(ok);
 
     if (ok) {
+      const myDiary = await this.db
+        .collection$(`diary`, ref => ref.where('userId', '==', this.userId))
+        .pipe(first())
+        .toPromise();
+
+      const myPlantData = await this.db
+        .collection$(`myPlant`, ref => ref.where('userId', '==', this.userId))
+        .pipe(first())
+        .toPromise();
+
+      const myChat = await this.db
+        .collection$(`chats`, ref => ref.where('userId', '==', this.userId))
+        .pipe(first())
+        .toPromise();
+
+      const myBluetooth = await this.db
+        .collection$(`bluetooth`, ref => ref.where('userId', '==', this.userId))
+        .pipe(first())
+        .toPromise();
+      console.log(myBluetooth);
+
+      // 로그인 사용자의 일기장 데이터 삭제
+      if (myDiary.length > 0) {
+        myDiary.forEach(async (data: any) => {
+          await this.db.delete(`diary/${data.id}`);
+        });
+      }
+
+      // 로그인 사용자의 등록된 식물 삭제
+      if (myPlantData.length > 0) {
+        await this.db.updateAt(`users/${this.userId}`, {
+          plantSwitch: false,
+          myPlant: [],
+        });
+
+        console.log(this.user);
+
+        myPlantData.forEach(async (data: any) => {
+          await this.db.delete(`myPlant/${data.id}`);
+        });
+      }
+
+      // 로그인 사용자의 채팅 내용 삭제
+      if (myChat.length > 0) {
+        myChat.forEach(async (data: any) => {
+          await this.db.delete(`chats/${data.id}`);
+        });
+      }
+
+      // 로그인 사용자의 블루투스 연동 삭제
+      if (myBluetooth.length > 0) {
+        await this.db.updateAt(`users/${this.userId}`, {
+          connectSwitch: false,
+          bluetooth: [],
+        });
+        console.log(this.user);
+        myBluetooth.forEach(async (data: any) => {
+          await this.db.delete(`bluetooth/${data.id}`);
+        });
+      }
     }
   }
 }
