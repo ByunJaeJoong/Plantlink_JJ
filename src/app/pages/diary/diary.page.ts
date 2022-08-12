@@ -51,19 +51,21 @@ export class DiaryPage implements OnInit {
   async getData() {
     const defaultColor: string = '#ff6d42';
 
-    this.diaryData$ = this.db.collection$(`diary`).pipe(
-      map(diarys => {
-        diarys.map((diary: any) => {
-          (diary.color = defaultColor),
-            (diary.end = diary.postDate),
-            (diary.id = diary.diaryId),
-            (diary.start = diary.postDate),
-            (diary.title = diary.content),
-            (diary.image = diary.images?.[0]);
-        });
-        return diarys;
-      })
-    );
+    this.diaryData$ = this.db
+      .collection$(`diary`, ref => ref.where('userId', '==', this.userId))
+      .pipe(
+        map(diarys => {
+          diarys.map((diary: any) => {
+            (diary.color = defaultColor),
+              (diary.end = diary.postDate),
+              (diary.id = diary.diaryId),
+              (diary.start = diary.postDate),
+              (diary.title = diary.content),
+              (diary.image = diary.images?.[0]);
+          });
+          return diarys;
+        })
+      );
   }
 
   test(ev: any) {
