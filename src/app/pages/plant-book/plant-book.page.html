@@ -35,7 +35,7 @@
       <div class="popular" *ngIf="!keyword">
         <h2>인기 식물</h2>
         <ng-container *ngFor="let topList of plant | slice: 0:10">
-          <ion-item (click)="goPlantBookDetail(item.id)">
+          <ion-item (click)="goPlantBookDetail(topList.id)">
             <ion-card>
               <img src="assets/samples/plant-sample02.jpeg" alt="" />
             </ion-card>
