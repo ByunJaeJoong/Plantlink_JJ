@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import * as firebase from 'firebase';
+import { DbService } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-plant-detail',
@@ -7,7 +10,12 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./plant-detail.page.scss'],
 })
 export class PlantDetailPage implements OnInit {
-  constructor(private navController: NavController) {}
+  plantInfo: any;
+  constructor(private navController: NavController, private route: ActivatedRoute, private db: DbService) {
+    this.route.queryParams.subscribe(data => {
+      this.plantInfo = data;
+    });
+  }
   slideOpts = {
     initialSlide: 0,
     speed: 1000,
@@ -34,6 +42,6 @@ export class PlantDetailPage implements OnInit {
 
   //홈으로
   goHome() {
-    this.navController.navigateForward(['/tabs/home']);
+    this.navController.navigateForward(['/tabs/plant']);
   }
 }

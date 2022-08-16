@@ -12,23 +12,24 @@
     </div>
 
     <!-- 식물이 있는 경우! 없는 경우는 class="plant-wrap" 묶음 전체 지웁니다-->
-    <div class="plant-wrap">
+    <div class="plant-wrap" *ngIf="userInfo$ | async as userInfo">
       <span></span>
-      <ion-item (click)="goPlantDetail()" class="chat-list">
-        <ion-avatar>
-          <img src="assets/samples/plant-sample01.jpeg" alt="" />
-        </ion-avatar>
-        <ion-label> 금목서 </ion-label>
-        <p>디바이스와 연결됨</p>
-      </ion-item>
-
-      <ion-item (click)="goPlantDetail()" class="chat-list">
+      <ng-container *ngFor="let item of userInfo.myPlant; let i = index">
+        <ion-item (click)="goPlantDetail(item)" class="chat-list">
+          <ion-avatar>
+            <img src="assets/samples/plant-sample01.jpeg" alt="" />
+          </ion-avatar>
+          <ion-label> {{item.name}} </ion-label>
+          <p>디바이스와 연결됨</p>
+        </ion-item>
+      </ng-container>
+      <!-- <ion-item (click)="goPlantDetail()" class="chat-list">
         <ion-avatar>
           <img src="assets/samples/plant-sample02.jpeg" alt="" />
         </ion-avatar>
         <ion-label> 스킨답서스 </ion-label>
         <p>디바이스와 연결됨</p>
-      </ion-item>
+      </ion-item> -->
     </div>
 
     <!-- 이름 수정시 나타나는 input창 -->

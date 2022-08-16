@@ -120,7 +120,7 @@ export class JoinPage implements OnInit {
       const verificationId: string = await this.pa.authentication('+82' + Number(this.users.phone));
       this.verificationId = verificationId;
       this.sendSwitch = true;
-      this.alert.okBtn('', '인증번호가 발송되었습니다.');
+      this.alert.okBtn('alert', '인증번호가 발송되었습니다.');
       this.timerStart();
       console.log('send');
     } catch (error) {
@@ -132,7 +132,7 @@ export class JoinPage implements OnInit {
     await this.loading.hide();
   }
   wrongNumber() {
-    this.alert.okBtn('', `인증번호 확인 후<br>다시 인증번호를 입력해주세요.`);
+    this.alert.okBtn('alert', `인증번호 확인 후<br>다시 인증번호를 입력해주세요.`);
   }
 
   // 인증번호 유효시간
@@ -148,7 +148,7 @@ export class JoinPage implements OnInit {
       });
   }
   timeOverAlert() {
-    this.alert.okBtn('', `${this.timerStr} 뒤에 재요청이 가능합니다.`);
+    this.alert.okBtn('alert', `${this.timerStr} 뒤에 재요청이 가능합니다.`);
   }
 
   // 인증번호 일치하는지 확인
@@ -160,7 +160,7 @@ export class JoinPage implements OnInit {
       .then(async () => {
         this.completeProcess();
         this.loading.hide();
-        this.alert.okBtn('', '인증번호가 확인되었습니다.');
+        this.alert.okBtn('alert', '인증번호가 확인되었습니다.');
       })
       .catch(error => {
         this.completeErrorProcess(error);
@@ -178,7 +178,7 @@ export class JoinPage implements OnInit {
       this.failAuth = true;
       this.wrongNumber();
     } else {
-      this.alert.okBtn('', '다시 한번 시도해 주세요.');
+      this.alert.okBtn('alert', '다시 한번 시도해 주세요.');
     }
   }
   phoneChange() {
@@ -221,19 +221,19 @@ export class JoinPage implements OnInit {
   //회원가입 완료 화면으로
   goCom() {
     if (!this.emailOverlap) {
-      this.alert.okBtn('', '아이디 중복검사를 진행해 주세요.');
+      this.alert.okBtn('alert', '아이디 중복검사를 진행해 주세요.');
       return;
     }
     if (!this.passwordCheck) {
-      this.alert.okBtn('', '비밀번호가 일치하지 않습니다.');
+      this.alert.okBtn('alert', '비밀번호가 일치하지 않습니다.');
       return;
     }
     if (!this.certifiedSwitch) {
-      this.alert.okBtn('', '휴대폰 인증을 진행해 주세요.');
+      this.alert.okBtn('alert', '휴대폰 인증을 진행해 주세요.');
       return;
     }
     if (!this.agree) {
-      this.alert.okBtn('', '개인 정보 이용에 동의해 주세요.');
+      this.alert.okBtn('alert', '개인 정보 이용에 동의해 주세요.');
       return;
     }
     if (this.emailOverlap && this.passwordCheck && this.certifiedSwitch && this.agree) {

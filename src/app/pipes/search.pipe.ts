@@ -2,20 +2,25 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'search',
-  pure: false,
 })
 export class SearchPipe implements PipeTransform {
-  constructor() {}
-  /** ngFor를 통한 구성 중 필터링 처리를 도와줄 파이프
-   * items는 필터를 하게 될 리스트 Array를 보내고 filter값이 들어있는 값만 return
-   */
-  transform(items: any[], filter: string) {
-    if (!items || items === undefined || !filter) {
-      return items;
-    } else {
-      return items.filter(
-        item => item.content.toUpperCase().indexOf(filter.toUpperCase()) !== -1 || item.name.toUpperCase().indexOf(filter.toUpperCase()) !== -1
-      );
+  transform(items: any, keyword: string) {
+    if (keyword) {
+      items = items.filter(ele => ele.name.indexOf(keyword) > -1);
     }
+    // return items.sort(this.dynamicSort('nickname'));
+    return items;
+  }
+
+  dynamicSort(property) {
+    var sortOrder = 1;
+    if (property[0] === '-') {
+      sortOrder = -1;
+      property = property.substr(1);
+    }
+    return function (a, b) {
+      var result = a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+      return result * sortOrder;
+    };
   }
 }

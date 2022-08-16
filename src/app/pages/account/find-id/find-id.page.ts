@@ -65,7 +65,7 @@ export class FindIdPage implements OnInit {
     await this.userCheck();
 
     if (!this.userSwitch) {
-      this.alert.okBtn('', '일치하는 회원 정보가 없습니다.');
+      this.alert.okBtn('alert', '일치하는 회원 정보가 없습니다.');
     } else {
       this.timer.stop();
       try {
@@ -88,7 +88,7 @@ export class FindIdPage implements OnInit {
     this.alert.toast('인증번호를 발송했습니다.', 'toast-style', 2000);
   }
   wrongNumber() {
-    this.alert.okBtn('', `인증번호 확인 후<br>다시 인증번호를 입력해주세요.`);
+    this.alert.okBtn('alert', `인증번호 확인 후<br>다시 인증번호를 입력해주세요.`);
   }
 
   // 인증번호 유효시간
@@ -104,7 +104,7 @@ export class FindIdPage implements OnInit {
       });
   }
   timeOverAlert() {
-    this.alert.okBtn('', `${this.timerStr} 뒤에 재요청이 가능합니다.`);
+    this.alert.okBtn('alert', `${this.timerStr} 뒤에 재요청이 가능합니다.`);
   }
 
   // 인증번호 일치하는지 확인
@@ -138,7 +138,7 @@ export class FindIdPage implements OnInit {
       this.failAuth = true;
       this.wrongNumber();
     } else {
-      this.alert.okBtn('', '다시 한번 시도해 주세요.');
+      this.alert.okBtn('alert', '다시 한번 시도해 주세요.');
     }
   }
 

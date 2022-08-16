@@ -7,14 +7,10 @@ import { IonicModule } from '@ionic/angular';
 import { ChattingPageRoutingModule } from './chatting-routing.module';
 
 import { ChattingPage } from './chatting.page';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    ChattingPageRoutingModule
-  ],
-  declarations: [ChattingPage]
+  imports: [CommonModule, FormsModule, IonicModule, ChattingPageRoutingModule, PipesModule],
+  declarations: [ChattingPage],
 })
 export class ChattingPageModule {}

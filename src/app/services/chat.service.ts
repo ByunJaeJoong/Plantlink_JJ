@@ -9,6 +9,7 @@ import * as firebase from 'firebase';
 import { Chat, ChatList, ChatMessage, ChatUser, User } from '../models/chat.model';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { CommonService } from './common.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,8 @@ export class ChatService {
     public db: DbService,
     private router: Router,
     public afAuth: AngularFireAuth,
-    private common: CommonService
+    private common: CommonService,
+    private auth: AuthService
   ) {}
 
   subscribeSwitch: boolean = false;
@@ -244,6 +246,37 @@ export class ChatService {
         })
       );
   }
+  // 누구랑 채팅했는지에 대한 정보
+  getUserChats() {
+    // let myid = this.auth.userDetails().uid;
+    let myid = localStorage.getItem('userId');
+
+    return this.auth.user$.pipe(
+      switchMap(user => {
+        return this.afs
+          .collection('chats', ref => ref.where('chatGroup', 'array-contains', myid))
+          .snapshotChanges()
+          .pipe(
+            map(actions => {
+              return actions.map(a => {
+                const data: any = a.payload.doc.data();
+                // console.log(data);
+
+                if (data[`exit${myid}`]) {
+                  // 채팅방 나감
+                  let exitedAt = data[`exit${myid}`];
+                  data.messages = data.messages.filter(ele => ele.createdAt > exitedAt);
+                }
+
+                const id = a.payload.doc.id;
+                const userId = data['chatGroup'][0] == myid ? data['chatGroup'][1] : data['chatGroup'][0];
+                return { id, userId, ...data };
+              });
+            })
+          );
+      })
+    );
+  }
 
   /**
    *
@@ -321,18 +354,20 @@ export class ChatService {
    * @param type 보내는 채팅의 종류 (text | image)
    * @returns
    */
-  async sendMessage(chatId: string, content: string, type: string): Promise<void> {
-    let myUid = await this.init();
+  // 채팅 메시지 전송
+  async sendMessage(chatId, chatContent, partnerId: string, pushId: string) {
+    // const uid = await this.auth.userDetails().uid;
+    const uid = localStorage.getItem('userId');
 
-    const data: ChatMessage = {
-      uid: myUid,
-      content,
-      dateCreated: new Date().toISOString(),
-      type: type,
+    const data = {
+      chatContent,
+      createdAt: Date.now(),
+      uid,
     };
 
-    if (myUid) {
+    if (uid) {
       const ref = this.afs.collection('chats').doc(chatId);
+
       return ref.update({
         messages: firebase.default.firestore.FieldValue.arrayUnion(data),
       });

@@ -9,135 +9,66 @@
     <ion-title>식물 도감</ion-title>
   </ion-toolbar>
   <ion-item class="book-searchbar-item">
-    <ion-searchbar placeholder="식물을 검색해주세요." inputmode="search" type="search" [debounce]="250" clearIcon></ion-searchbar>
+    <ion-searchbar
+      [(ngModel)]="keyword"
+      placeholder="식물을 검색해주세요."
+      inputmode="search"
+      type="search"
+      [debounce]="250"
+      (ionChange)="searchChange()"
+      (search)="search()"
+      clearIcon
+    ></ion-searchbar>
   </ion-item>
 </ion-header>
 
 <ion-content>
-  <div id="plant-book-wrap">
-    <!-- 검색 결과가 없을 때 -->
-    <!-- <div class="empty">
+  <ng-container *ngIf="plant$ | async as plant">
+    <div id="plant-book-wrap">
+      <!-- 검색 결과가 없을 때 -->
+      <!-- <div class="empty">
       <img src="assets/images/empty-icon.png" alt="" />
       <p>식물의 종류를 찾을 수 없어요.</p>
     </div> -->
 
-    <!-- 인기 식물 리스트 -->
-    <!-- <div class="popular">
-      <h2>인기 식물</h2>
-      <ion-item (click)="goPlantBookDetail()">
-        <ion-card>
-          <img src="assets/samples/plant-sample01.jpeg" alt="" />
-        </ion-card>
-        <ion-label>
-          <p class="title">스킨답서스</p>
-          <p class="name">별칭</p>
-        </ion-label>
-      </ion-item>
-      <ion-item (click)="goPlantBookDetail()">
-        <ion-card>
-          <img src="assets/samples/plant-sample02.jpeg" alt="" />
-        </ion-card>
-        <ion-label>
-          <p class="title">스킨답서스</p>
-          <p class="name">별칭</p>
-        </ion-label>
-      </ion-item>
-      <ion-item (click)="goPlantBookDetail()">
-        <ion-card>
-          <img src="assets/samples/plant-sample03.png" alt="" />
-        </ion-card>
-        <ion-label>
-          <p class="title">스킨답서스</p>
-          <p class="name">별칭</p>
-        </ion-label>
-      </ion-item>
-      <ion-item (click)="goPlantBookDetail()">
-        <ion-card>
-          <img src="assets/samples/plant-sample01.jpeg" alt="" />
-        </ion-card>
-        <ion-label>
-          <p class="title">스킨답서스</p>
-          <p class="name">별칭</p>
-        </ion-label>
-      </ion-item>
-      <ion-item (click)="goPlantBookDetail()">
-        <ion-card>
-          <img src="assets/samples/plant-sample02.jpeg" alt="" />
-        </ion-card>
-        <ion-label>
-          <p class="title">스킨답서스</p>
-          <p class="name">별칭</p>
-        </ion-label>
-      </ion-item>
-      <ion-item (click)="goPlantBookDetail()">
-        <ion-card>
-          <img src="assets/samples/plant-sample03.png" alt="" />
-        </ion-card>
-        <ion-label>
-          <p class="title">스킨답서스</p>
-          <p class="name">별칭</p>
-        </ion-label>
-      </ion-item>
-      <ion-item (click)="goPlantBookDetail()">
-        <ion-card>
-          <img src="assets/samples/plant-sample01.jpeg" alt="" />
-        </ion-card>
-        <ion-label>
-          <p class="title">스킨답서스</p>
-          <p class="name">별칭</p>
-        </ion-label>
-      </ion-item>
-      <ion-item (click)="goPlantBookDetail()">
-        <ion-card>
-          <img src="assets/samples/plant-sample02.jpeg" alt="" />
-        </ion-card>
-        <ion-label>
-          <p class="title">스킨답서스</p>
-          <p class="name">별칭</p>
-        </ion-label>
-      </ion-item>
-      <ion-item (click)="goPlantBookDetail()">
-        <ion-card>
-          <img src="assets/samples/plant-sample03.png" alt="" />
-        </ion-card>
-        <ion-label>
-          <p class="title">스킨답서스</p>
-          <p class="name">별칭</p>
-        </ion-label>
-      </ion-item>
-      <ion-item (click)="goPlantBookDetail()">
-        <ion-card>
-          <img src="assets/samples/plant-sample03.png" alt="" />
-        </ion-card>
-        <ion-label>
-          <p class="title">스킨답서스</p>
-          <p class="name">별칭</p>
-        </ion-label>
-      </ion-item>
-    </div> -->
+      <!-- 인기 식물 리스트 -->
+      <div class="popular" *ngIf="!keyword">
+        <h2>인기 식물</h2>
+        <ng-container *ngFor="let topList of plantTmp">
+          <ion-item (click)="goPlantBookDetail(item.id)">
+            <ion-card>
+              <img src="assets/samples/plant-sample02.jpeg" alt="" />
+            </ion-card>
+            <ion-label>
+              <p class="title">{{topList.name}}</p>
+              <p class="name">{{topList.secondName}}</p>
+            </ion-label>
+          </ion-item>
+        </ng-container>
+      </div>
+      <!-- 검색결과 입니다 -->
+      <div class="search-result" *ngIf="keyword && searchMode">
+        <ng-container *ngFor="let item of plant">
+          <ion-item (click)="goPlantBookDetail(item.id)">
+            <ion-card>
+              <img src="assets/samples/plant-sample03.png" alt="" />
+            </ion-card>
+            <ion-label>
+              <p class="title">{{item.name}}</p>
+              <p class="name">{{item.secondName}}</p>
+            </ion-label>
+          </ion-item>
+        </ng-container>
+      </div>
 
-    <!-- 검색결과 입니다 -->
-    <div class="search-result">
-      <ion-item (click)="goPlantBookDetail()">
-        <ion-card>
-          <img src="assets/samples/plant-sample03.png" alt="" />
-        </ion-card>
-        <ion-label>
-          <p class="title">스킨답서스</p>
-          <p class="name">별칭</p>
-        </ion-label>
-      </ion-item>
+      <!-- 검색어 입력시 나오는 입력폼입니다 -->
+      <div class="search-form" *ngIf="keyword && !searchMode">
+        <ng-container *ngFor="let item of plant">
+          <p>{{item.name}}</p>
+        </ng-container>
+      </div>
     </div>
-
-    <!-- 검색어 입력시 나오는 입력폼입니다 -->
-    <!-- <div class="search-form">
-      <p><span>스킨</span>답서스 픽투스</p>
-      <p><span>스킨</span>답서스</p>
-      <p>엔조이 <span>스킨</span>답서스</p>
-      <p><span>스킨</span>답서스 오래우스</p>
-      <p><span>스킨</span>답서스 실버레이</p>
-    </div> -->
-  </div>
+  </ng-container>
 </ion-content>
 
 <ion-footer class="fake-tab">

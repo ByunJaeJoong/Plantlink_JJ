@@ -10,19 +10,19 @@
 </ion-header>
 
 <ion-content>
-  <div id="plant-info-wrap">
+  <div id="plant-info-wrap" *ngIf="plant">
     <div class="top">
-      <h2>스킨답서스</h2>
+      <h2>{{plant.name}}</h2>
       <!-- 식물 등록하기 버튼 -->
-      <ion-button (click)="noDevice()" fill="clear" class="add-plant">
+      <ion-button *ngIf="!plantSwitch" (click)="completeAlert()" fill="clear" class="add-plant">
         <div class="icon"></div>
         나의 식물 등록하기
       </ion-button>
       <!-- 식물 해제하기 버튼 -->
-      <!-- <ion-button (click)="disconnectAlert()" fill="clear" class="remove-plant">
+      <ion-button *ngIf="plantSwitch" (click)="disconnectAlert()" fill="clear" class="remove-plant">
         <div class="icon"></div>
         나의 식물 해제하기
-      </ion-button> -->
+      </ion-button>
     </div>
 
     <ion-card>
@@ -36,15 +36,15 @@
     <ion-grid class="info">
       <ion-row>
         <ion-col class="row-title">원산지</ion-col>
-        <ion-col class="con" size="8.5">정보</ion-col>
+        <ion-col class="con" size="8.5">{{plant.origin}}</ion-col>
       </ion-row>
       <ion-row>
         <ion-col class="row-title">꽃피는 계절</ion-col>
-        <ion-col class="con" size="8.5">정보</ion-col>
+        <ion-col class="con" size="8.5">{{plant.flowerSeason}}</ion-col>
       </ion-row>
       <ion-row>
         <ion-col class="row-title">열매맺는 계절</ion-col>
-        <ion-col class="con" size="8.5">정보</ion-col>
+        <ion-col class="con" size="8.5">{{plant.fruitSeason}}</ion-col>
       </ion-row>
     </ion-grid>
 
@@ -55,19 +55,19 @@
     <ion-grid class="info">
       <ion-row>
         <ion-col class="row-title">적정온도</ion-col>
-        <ion-col class="con" size="8.5">보통 (약간 잘 견딤)</ion-col>
+        <ion-col class="con" size="8.5">{{plant.temperature}}</ion-col>
       </ion-row>
       <ion-row>
         <ion-col class="row-title">적정조도</ion-col>
-        <ion-col class="con" size="8.5">낮은 광도 (300~800lux) </ion-col>
+        <ion-col class="con" size="8.5">{{plant.light}}</ion-col>
       </ion-row>
       <ion-row>
-        <ion-col class="row-title">토양수분</ion-col>
-        <ion-col class="con" size="8.5">정보</ion-col>
+        <ion-col class="row-title">토양습도</ion-col>
+        <ion-col class="con" size="8.5">{{plant.soil}}</ion-col>
       </ion-row>
       <ion-row>
-        <ion-col class="row-title">물주기</ion-col>
-        <ion-col class="con" size="8.5">정보</ion-col>
+        <ion-col class="row-title">난이도</ion-col>
+        <ion-col class="con" size="8.5">{{plant.level}}</ion-col>
       </ion-row>
     </ion-grid>
   </div>

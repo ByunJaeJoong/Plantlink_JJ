@@ -3,7 +3,6 @@ import { ModalController, NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { DbService } from 'src/app/services/db.service';
-import { FindIdPage } from '../find-id/find-id.page';
 
 @Component({
   selector: 'app-login',
@@ -53,15 +52,13 @@ export class LoginPage implements OnInit {
       .loginUser(this.email, this.password)
       .then(result => {
         localStorage.setItem('userId', result.user.uid);
-        this.navc.navigateRoot('/tabs/home').then(() => {
-          this.alert.okBtn('', '로그인에 성공하였습니다.');
-        });
+        this.navc.navigateRoot('/tabs/home');
       })
       .catch(err => {
         if (err.code == 'auth/user-not-found') {
-          this.alert.okBtn('', '가입되지 않은 이메일입니다.');
+          this.alert.okBtn('alert', '가입되지 않은 이메일입니다.');
         } else if (err.code == 'auth/wrong-password') {
-          this.alert.okBtn('', '비밀번호를 다시 한번 확인해주세요.');
+          this.alert.okBtn('alert', '비밀번호를 다시 한번 확인해주세요.');
         } else {
           this.alert.showErrorMessage(err.code);
         }

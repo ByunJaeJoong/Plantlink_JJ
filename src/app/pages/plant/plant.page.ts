@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
+import { DbService, docJoin, docListJoin, leftJoinDocument, listJoin } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-plant',
@@ -8,10 +11,28 @@ import { AlertService } from 'src/app/services/alert.service';
   styleUrls: ['./plant.page.scss'],
 })
 export class PlantPage implements OnInit {
-  constructor(private alertService: AlertService, private navController: NavController) {}
+  userId: any;
+  userInfo$: Observable<any>;
+  userInfo: any;
+  userPlantList: any;
+  constructor(private alertService: AlertService, private navController: NavController, private db: DbService) {
+    this.userId = localStorage.getItem('userId');
+  }
   panelOpenState = '';
-  ngOnInit() {}
+  ngOnInit() {
+    this.getData();
+  }
+  async getData() {
+    // this.userInfo = await this.db.doc$(`users/${this.userId}`).pipe(docListJoin(this.db.afs, 'myPlant', 'plantBook')).pipe(first()).toPromise();
+    // this.userPlantList = this.userInfo.myPlant;
+    this.userInfo$ = await this.db.doc$(`users/${this.userId}`).pipe(docListJoin(this.db.afs, 'myPlant', 'plantBook'));
+    this.userInfo = await this.userInfo$.pipe(first()).toPromise();
+    console.log(this.userInfo);
 
+    if (this.userInfo.myPlant?.length <= 0) {
+      this.emptyAlert();
+    }
+  }
   //식물목록이 없을 때 뜨는 alert
   emptyAlert() {
     this.alertService
@@ -42,7 +63,9 @@ export class PlantPage implements OnInit {
   }
 
   //식물 현재 상태
-  goPlantDetail() {
-    this.navController.navigateForward(['/plant-detail']);
+  goPlantDetail(plantInfo) {
+    this.navController.navigateForward(['/plant-detail'], {
+      queryParams: plantInfo,
+    });
   }
 }

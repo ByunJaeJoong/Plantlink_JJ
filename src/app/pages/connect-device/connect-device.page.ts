@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { DbService } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-connect-device',
@@ -7,7 +8,8 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./connect-device.page.scss'],
 })
 export class ConnectDevicePage implements OnInit {
-  constructor(private navController: NavController) {}
+  userId: any;
+  constructor(private navController: NavController, private db: DbService) {}
 
   ngOnInit() {}
 
