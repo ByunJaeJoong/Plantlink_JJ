@@ -11,7 +11,7 @@ import { DbService } from 'src/app/services/db.service';
 export class PlantBookPage implements OnInit {
   keyword: string = '';
   plant$: any;
-  plantTopList: any;
+  plantList: any;
   plantTmp: any;
 
   searchMode: boolean = false;
@@ -33,8 +33,8 @@ export class PlantBookPage implements OnInit {
         });
       })
     );
-    this.plantTopList = await this.plant$.pipe(first()).toPromise();
-    this.plantTmp = this.plantTopList.splice(0, 10);
+    this.plantList = await this.plant$.pipe(first()).toPromise();
+    console.log(this.plantList);
   }
   search() {
     this.searchMode = true;
