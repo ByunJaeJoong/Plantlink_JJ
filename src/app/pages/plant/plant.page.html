@@ -12,9 +12,9 @@
     </div>
 
     <!-- 식물이 있는 경우! 없는 경우는 class="plant-wrap" 묶음 전체 지웁니다-->
-    <div class="plant-wrap" *ngIf="userInfo$ | async as userInfo">
+    <div class="plant-wrap" *ngIf="plantInfo$ | async as plantInfo">
       <span></span>
-      <ng-container *ngFor="let item of userInfo.myPlant; let i = index">
+      <ng-container *ngFor="let item of plantInfo let i = index">
         <ion-item (click)="goPlantDetail(item)" class="chat-list">
           <ion-avatar>
             <img src="assets/samples/plant-sample01.jpeg" alt="" />

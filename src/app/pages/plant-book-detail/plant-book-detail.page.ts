@@ -3,7 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import * as firebase from 'firebase';
 import { first } from 'rxjs/operators';
+import { myPlant } from 'src/app/models/myPlant.model';
 import { AlertService } from 'src/app/services/alert.service';
+import { CommonService } from 'src/app/services/common.service';
 import { DbService } from 'src/app/services/db.service';
 
 @Component({
@@ -18,7 +20,24 @@ export class PlantBookDetailPage implements OnInit {
   userInfo: any;
   userPlant: any;
   plantSwitch: boolean = false;
-  constructor(private alertService: AlertService, private navController: NavController, private route: ActivatedRoute, private db: DbService) {
+  myPlant: myPlant = {
+    myPlantId: '',
+    dateCreated: new Date().toISOString(),
+    name: '',
+    temperature: '',
+    light: '',
+    soil: '',
+    plantBookId: '',
+    userId: '',
+    deleteSwitch: false,
+  };
+  constructor(
+    private alertService: AlertService,
+    private navController: NavController,
+    private route: ActivatedRoute,
+    private db: DbService,
+    private common: CommonService
+  ) {
     this.plantBookId = this.route.snapshot.queryParams.plantBookId;
     this.userId = localStorage.getItem('userId');
   }
@@ -66,6 +85,14 @@ export class PlantBookDetailPage implements OnInit {
   //2. 등록완료
   completeAlert() {
     if (this.userInfo.connectSwitch) {
+      this.myPlant.myPlantId = this.common.generateFilename();
+      this.myPlant.name = this.plant.name;
+      this.myPlant.temperature = this.plant.temperature;
+      this.myPlant.light = this.plant.light;
+      this.myPlant.soil = this.plant.soil;
+      this.myPlant.plantBookId = this.plantBookId;
+      this.myPlant.userId = this.userId;
+      this.db.updateAt(`myPlant/${this.myPlant.myPlantId}`, this.myPlant);
       this.db
         .updateAt(`users/${this.userId}`, {
           myPlant: firebase.default.firestore.FieldValue.arrayUnion(this.plantBookId),
@@ -84,10 +111,21 @@ export class PlantBookDetailPage implements OnInit {
     }
   }
 
+  // myPlant 컬렉션에서 삭제
+  async deleteMyPlant() {
+    const deletePlant = await this.db
+      .collection$(`myPlant`, ref => ref.where('plantBookId', '==', this.plantBookId))
+      .pipe(first())
+      .toPromise();
+    const plantBookId = deletePlant[0].myPlantId;
+    this.db.delete(`myPlant/${plantBookId}`);
+  }
+
   //3.식물 해제하기
   disconnectAlert() {
     this.alertService.cancelOkBtn('two-btn', '나의 식물을 해제하면 장치 연결도 해제됩니다.<br>해제하시겠어요?', '', '취소', '확인').then(ok => {
       if (ok) {
+        this.deleteMyPlant();
         this.db
           .updateAt(`users/${this.userId}`, {
             myPlant: firebase.default.firestore.FieldValue.arrayRemove(this.plantBookId),

@@ -3,7 +3,7 @@ import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
-import { DbService, docJoin, docListJoin, leftJoinDocument, listJoin } from 'src/app/services/db.service';
+import { DbService } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-plant',
@@ -12,9 +12,8 @@ import { DbService, docJoin, docListJoin, leftJoinDocument, listJoin } from 'src
 })
 export class PlantPage implements OnInit {
   userId: any;
-  userInfo$: Observable<any>;
-  userInfo: any;
-  userPlantList: any;
+  plantInfo$: Observable<any>;
+  plantInfo: any;
   constructor(private alertService: AlertService, private navController: NavController, private db: DbService) {
     this.userId = localStorage.getItem('userId');
   }
@@ -23,13 +22,10 @@ export class PlantPage implements OnInit {
     this.getData();
   }
   async getData() {
-    // this.userInfo = await this.db.doc$(`users/${this.userId}`).pipe(docListJoin(this.db.afs, 'myPlant', 'plantBook')).pipe(first()).toPromise();
-    // this.userPlantList = this.userInfo.myPlant;
-    this.userInfo$ = await this.db.doc$(`users/${this.userId}`).pipe(docListJoin(this.db.afs, 'myPlant', 'plantBook'));
-    this.userInfo = await this.userInfo$.pipe(first()).toPromise();
-    console.log(this.userInfo);
+    this.plantInfo$ = await this.db.collection$(`myPlant`, ref => ref.where('userId', '==', this.userId));
+    this.plantInfo = await this.plantInfo$.pipe(first()).toPromise();
 
-    if (this.userInfo.myPlant?.length <= 0) {
+    if (this.plantInfo?.length <= 0) {
       this.emptyAlert();
     }
   }
@@ -65,7 +61,9 @@ export class PlantPage implements OnInit {
   //식물 현재 상태
   goPlantDetail(plantInfo) {
     this.navController.navigateForward(['/plant-detail'], {
-      queryParams: plantInfo,
+      queryParams: {
+        myPlantId: plantInfo.myPlantId,
+      },
     });
   }
 }
