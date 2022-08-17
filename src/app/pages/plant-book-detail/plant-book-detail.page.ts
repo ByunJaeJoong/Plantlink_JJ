@@ -30,6 +30,7 @@ export class PlantBookDetailPage implements OnInit {
     plantBookId: '',
     userId: '',
     deleteSwitch: false,
+    cancelSwitch: false,
   };
   constructor(
     private alertService: AlertService,
@@ -47,7 +48,6 @@ export class PlantBookDetailPage implements OnInit {
     this.userInfo = await this.db.doc$(`users/${this.userId}`).pipe(first()).toPromise();
     this.userPlant = this.userInfo.myPlant;
     await this.checkMyPlant();
-
     setTimeout(() => {
       this.addHitList();
     }, 200);
@@ -64,8 +64,12 @@ export class PlantBookDetailPage implements OnInit {
       }),
     });
   }
-  checkMyPlant() {
-    if (this.userPlant.includes(this.plantBookId)) {
+  async checkMyPlant() {
+    const connectCheck = await this.db
+      .collection$(`myPlant`, ref => ref.where('plantBookId', '==', this.plantBookId).where('cancelSwitch', '==', false))
+      .pipe(first())
+      .toPromise();
+    if (connectCheck?.length > 0) {
       this.plantSwitch = true;
     } else {
       this.plantSwitch = false;
@@ -92,6 +96,7 @@ export class PlantBookDetailPage implements OnInit {
       this.myPlant.soil = this.plant.soil;
       this.myPlant.plantBookId = this.plantBookId;
       this.myPlant.userId = this.userId;
+      this.myPlant.cancelSwitch = false;
       this.db.updateAt(`myPlant/${this.myPlant.myPlantId}`, this.myPlant);
       this.db
         .updateAt(`users/${this.userId}`, {
@@ -118,23 +123,20 @@ export class PlantBookDetailPage implements OnInit {
       .pipe(first())
       .toPromise();
     const plantBookId = deletePlant[0].myPlantId;
-    this.db.delete(`myPlant/${plantBookId}`);
+    this.db.updateAt(`myPlant/${plantBookId}`, {
+      cancelSwitch: true,
+    });
   }
 
   //3.식물 해제하기
   disconnectAlert() {
     this.alertService.cancelOkBtn('two-btn', '나의 식물을 해제하면 장치 연결도 해제됩니다.<br>해제하시겠어요?', '', '취소', '확인').then(ok => {
       if (ok) {
-        this.deleteMyPlant();
-        this.db
-          .updateAt(`users/${this.userId}`, {
-            myPlant: firebase.default.firestore.FieldValue.arrayRemove(this.plantBookId),
-          })
-          .then(() => {
-            const index = this.userPlant.indexOf(this.plantBookId);
-            this.userPlant.splice(index, 1);
-            this.checkMyPlant();
-          });
+        this.deleteMyPlant().then(() => {
+          const index = this.userPlant.indexOf(this.plantBookId);
+          this.userPlant.splice(index, 1);
+          this.checkMyPlant();
+        });
       }
     });
   }

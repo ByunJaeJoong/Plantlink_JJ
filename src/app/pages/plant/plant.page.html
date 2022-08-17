@@ -14,13 +14,18 @@
     <!-- 식물이 있는 경우! 없는 경우는 class="plant-wrap" 묶음 전체 지웁니다-->
     <div class="plant-wrap" *ngIf="plantInfo$ | async as plantInfo">
       <span></span>
-      <ng-container *ngFor="let item of plantInfo let i = index">
+      <ng-container *ngFor="let item of plantInfo.myPlant; let i = index">
         <ion-item (click)="goPlantDetail(item)" class="chat-list">
-          <ion-avatar>
-            <img src="assets/samples/plant-sample01.jpeg" alt="" />
-          </ion-avatar>
-          <ion-label> {{item.name}} </ion-label>
-          <p>디바이스와 연결됨</p>
+          <ng-container *ngIf="('plantBook/' + item | doc | async ) as myPlant">
+            <ion-avatar>
+              <img src="assets/samples/plant-sample01.jpeg" alt="" />
+            </ion-avatar>
+            <ion-label> {{myPlant.name}} </ion-label>
+            <ng-container *ngIf="currentPlant$ | async as currentPlant">
+              <p *ngIf="currentPlant?.length > 0">{{myPlant.name == currentPlant[0].name ? '디바이스와 연결됨' : '나의 식물로 추가됨'}}</p>
+              <p *ngIf="currentPlant?.length <= 0">나의 식물로 추가됨</p>
+            </ng-container>
+          </ng-container>
         </ion-item>
       </ng-container>
       <!-- <ion-item (click)="goPlantDetail()" class="chat-list">

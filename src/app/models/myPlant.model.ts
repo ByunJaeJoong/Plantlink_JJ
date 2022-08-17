@@ -8,4 +8,5 @@ export interface myPlant {
   plantBookId: string;
   userId: string;
   deleteSwitch: boolean;
+  cancelSwitch: boolean;
 }

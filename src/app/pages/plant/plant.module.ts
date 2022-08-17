@@ -8,9 +8,10 @@ import { PlantPageRoutingModule } from './plant-routing.module';
 
 import { PlantPage } from './plant.page';
 import { SharedModule } from '../shared/fake-tab/shared.moduls';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, PlantPageRoutingModule, SharedModule],
+  imports: [CommonModule, FormsModule, IonicModule, PlantPageRoutingModule, SharedModule, PipesModule],
   declarations: [PlantPage],
 })
 export class PlantPageModule {}
