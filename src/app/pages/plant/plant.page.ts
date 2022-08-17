@@ -3,7 +3,7 @@ import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
-import { DbService } from 'src/app/services/db.service';
+import { DbService, docListJoin, leftJoinDocument } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-plant',
@@ -14,6 +14,9 @@ export class PlantPage implements OnInit {
   userId: any;
   plantInfo$: Observable<any>;
   plantInfo: any;
+  currentPlant$: Observable<any>;
+  currentPlant: any;
+
   constructor(private alertService: AlertService, private navController: NavController, private db: DbService) {
     this.userId = localStorage.getItem('userId');
   }
@@ -22,8 +25,12 @@ export class PlantPage implements OnInit {
     this.getData();
   }
   async getData() {
-    this.plantInfo$ = await this.db.collection$(`myPlant`, ref => ref.where('userId', '==', this.userId));
+    // this.plantInfo$ = await this.db.doc$(`users/${this.userId}`).pipe(docListJoin(this.db.afs, 'myPlant', 'plantBook'));
+    this.plantInfo$ = await this.db.doc$(`users/${this.userId}`);
     this.plantInfo = await this.plantInfo$.pipe(first()).toPromise();
+    this.currentPlant$ = await this.db.collection$(`myPlant`, ref => ref.where('userId', '==', this.userId).where('cancelSwitch', '==', false));
+    this.currentPlant = await this.currentPlant$.pipe(first()).toPromise();
+    console.log(this.currentPlant);
 
     if (this.plantInfo?.length <= 0) {
       this.emptyAlert();
@@ -59,10 +66,10 @@ export class PlantPage implements OnInit {
   }
 
   //식물 현재 상태
-  goPlantDetail(plantInfo) {
+  goPlantDetail(plantId) {
     this.navController.navigateForward(['/plant-detail'], {
       queryParams: {
-        myPlantId: plantInfo.myPlantId,
+        plantId: plantId,
       },
     });
   }
