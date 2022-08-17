@@ -43,6 +43,14 @@ export class PlantBookPage implements OnInit {
     this.searchMode = false;
     console.log(this.keyword);
   }
+
+  checkWord(item: any) {
+    if (item.name.includes(this.keyword)) {
+      const matchWord = item.name.match(this.keyword);
+      return matchWord;
+    }
+  }
+
   //홈화면으로
   goHome() {
     this.navController.navigateForward(['/tabs/home']);

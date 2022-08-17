@@ -64,7 +64,7 @@
       <!-- 검색어 입력시 나오는 입력폼입니다 -->
       <div class="search-form" *ngIf="keyword && !searchMode">
         <ng-container *ngFor="let item of plant | plantSearch : keyword">
-          <p>{{item.name}}</p>
+          <p>{{item.name.split(keyword)[0]}}<span>{{ checkWord(item) }}</span>{{item.name.split(keyword)[1]}}</p>
         </ng-container>
       </div>
     </div>
