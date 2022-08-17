@@ -31,6 +31,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PopCalendarComponent } from './pages/pop-calendar/pop-calendar.component';
+import { GooglePlus } from '@awesome-cordova-plugins/google-plus/ngx';
 
 // firebase.default.initializeApp(environment.firebaseConfig);
 
@@ -66,6 +67,7 @@ import { PopCalendarComponent } from './pages/pop-calendar/pop-calendar.componen
     AndroidPermissions,
     VideoEditor,
     File,
+    GooglePlus,
   ],
   bootstrap: [AppComponent],
 })

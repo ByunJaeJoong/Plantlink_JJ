@@ -43,7 +43,7 @@ export class ChattingDetailPage implements OnInit {
     );
   }
 
-  sendMessage(type: string) {
+  sendMessage() {
     this.cs.sendMessage(this.chatId, this.message, this.botId, '');
     this.message = '';
   }
