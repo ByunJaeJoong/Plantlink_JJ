@@ -20,6 +20,18 @@ export interface ChatMessage {
   content: string;
   uid: string;
 }
+export interface Chats {
+  bluetoothId: string;
+  chatGroup: Array<any>;
+  chatId: string;
+  count: number;
+  createdAt: number;
+  deleteSwitch: boolean;
+  exitSwitch: boolean;
+  messages: Array<any>;
+  plantId: string;
+  userId: string;
+}
 
 export interface ChatList {
   id: string;

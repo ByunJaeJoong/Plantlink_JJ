@@ -13,13 +13,13 @@
     <ng-container *ngIf="userTutorial && chat$ | async as list">
       <div id="chatting-list" *ngIf="list?.length > 0">
         <ng-container *ngFor="let chat of list">
-          <ion-item (click)="goChatDetail(chat)" *ngIf="('plantBook/' + chat.plantId | doc | async) as plant">
+          <ion-item (click)="goChatDetail(chat)">
             <ion-avatar>
               <img src="assets/images/plant-name-icon.png" alt="" />
             </ion-avatar>
             <ng-container *ngIf="chat.messages[chat.messages.length - 1] as lastMsg">
               <ion-label>
-                <p class="title">{{plant.name}}</p>
+                <p class="title">화분 친구</p>
                 <p class="con">{{ lastMsg.chatContent}}</p>
               </ion-label>
               <span>{{ lastMsg.createdAt | dateFormat }}</span>
