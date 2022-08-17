@@ -50,6 +50,7 @@
     "@mobiscroll/angular": "^5.17.2",
     "chart.js": "^3.8.0",
     "cordova-ios": "6.2.0",
+    "cordova-plugin-ble-central": "^1.5.2",
     "cordova-plugin-firebasex": "^14.2.1",
     "cordova-plugin-googleplus": "^8.5.2",
     "firebase": "^8.10.1",
