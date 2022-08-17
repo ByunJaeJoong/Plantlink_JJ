@@ -28,6 +28,7 @@
     "@awesome-cordova-plugins/core": "^5.44.0",
     "@awesome-cordova-plugins/file": "^5.44.0",
     "@awesome-cordova-plugins/firebase-x": "^5.44.0",
+    "@awesome-cordova-plugins/google-plus": "^5.44.0",
     "@awesome-cordova-plugins/image-picker": "^5.44.0",
     "@awesome-cordova-plugins/media": "^5.44.0",
     "@awesome-cordova-plugins/media-capture": "^5.44.0",
@@ -41,12 +42,14 @@
     "@capacitor/keyboard": "4.0.1",
     "@capacitor/status-bar": "4.0.1",
     "@ionic-native/core": "^5.0.0",
+    "@ionic-native/google-plus": "^5.36.0",
     "@ionic-native/mobile-accessibility": "^5.36.0",
     "@ionic/angular": "^5.0.0",
     "@mobiscroll/angular": "^5.17.2",
     "chart.js": "^3.8.0",
     "cordova-ios": "6.2.0",
     "cordova-plugin-firebasex": "^14.2.1",
+    "cordova-plugin-googleplus": "^8.5.2",
     "firebase": "^8.10.1",
     "install": "^0.13.0",
     "moment": "^2.29.3",
@@ -124,7 +127,10 @@
       "cordova-plugin-android-permissions": {},
       "cordova-plugin-video-editor": {},
       "cordova-plugin-file": {},
-      "phonegap-plugin-mobile-accessibility": {}
+      "phonegap-plugin-mobile-accessibility": {},
+      "cordova-plugin-googleplus": {
+        "REVERSED_CLIENT_ID": "AIzaSyDVyB75vQ6kwgkwHIPOlf6V-UGycktB8B0"
+      }
     },
     "platforms": [
       "ios",
