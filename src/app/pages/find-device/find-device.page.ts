@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { BLE } from '@ionic-native/ble/ngx';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
 import { NavController } from '@ionic/angular';
@@ -10,7 +10,7 @@ import { LoadingService } from 'src/app/services/loading.service';
   templateUrl: './find-device.page.html',
   styleUrls: ['./find-device.page.scss'],
 })
-export class FindDevicePage implements OnInit, OnDestroy {
+export class FindDevicePage implements OnInit {
   deviceList: any = [];
   isValid = false;
 
@@ -29,11 +29,6 @@ export class FindDevicePage implements OnInit, OnDestroy {
 
   ngOnInit() {}
 
-  // 블루투스 장치 구독을 페이지 나가면 끊기
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
-
   // 처음 또는 새로고침을 할 때
   async main() {
     // 장치를 찾았는지를 확인하는 블리언값
@@ -44,23 +39,14 @@ export class FindDevicePage implements OnInit, OnDestroy {
     this.bluetoothSerial.disconnect();
 
     // 블루투스가 활성화 되어 있는지 확인
-    const isEnabled = await this.bluetoothSerial.isEnabled();
-    if (isEnabled) {
+    try {
+      const isEnabled = await this.bluetoothSerial.isEnabled();
+      if (isEnabled) {
+        console.log('블루투스 활성화');
+        this.searchDevices();
+      }
+    } catch (error) {
       console.log('블루투스 활성화');
-      this.searchDevices();
-    } else {
-      console.log('블루투스 비활성화');
-      this.enableBluetooth();
-    }
-  }
-
-  // 사용자에게 블루투스를 활성화하라는 메시지 표시
-  async enableBluetooth() {
-    const enable = await this.bluetoothSerial.enable();
-    if (enable) {
-      console.log('블루투스 활성화 => 장치검색');
-      this.searchDevices();
-    } else {
       this.alertService.okBtn('', '블루투스가 켜져있는지 확인해주세요.');
     }
   }
