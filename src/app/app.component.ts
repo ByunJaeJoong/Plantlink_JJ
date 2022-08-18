@@ -7,6 +7,8 @@ import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { LoadingService } from './services/loading.service';
 import { DbService } from './services/db.service';
+import { Router } from '@angular/router';
+import { AlertService } from './services/alert.service';
 declare const cordova: any;
 
 @Component({
@@ -22,7 +24,10 @@ export class AppComponent {
     private screenOrientation: ScreenOrientation,
     private mobileAccessibility: MobileAccessibility,
     private navController: NavController,
-    private menu: MenuController
+    private menu: MenuController,
+    private router: Router,
+    private navc: NavController,
+    private alertService: AlertService
   ) {
     this.initializeApp();
   }
@@ -66,6 +71,28 @@ export class AppComponent {
       }
 
       this.splashScreen.hide();
+    });
+  }
+
+  lastTimeBackPress = 0;
+  timePeriodToExit = 1000;
+  backbutton() {
+    this.platform.backButton.subscribeWithPriority(0, async () => {
+      let url = this.router.url;
+      if (url.indexOf('/tabs') > -1) {
+        if (new Date().getTime() - this.lastTimeBackPress < this.timePeriodToExit) {
+          // 앱종료;
+          // localStorage.removeItem('lat');
+          // localStorage.removeItem('lng');
+
+          navigator['app'].exitApp();
+        } else {
+          this.alertService.toast('Press again to exit.');
+          this.lastTimeBackPress = new Date().getTime();
+        }
+      } else {
+        this.navc.pop();
+      }
     });
   }
 
