@@ -355,7 +355,7 @@ export class ChatService {
    * @returns
    */
   // 채팅 메시지 전송
-  async sendMessage(chatId, chatContent, partnerId: string, pushId: string) {
+  async sendMessage(chatId, chatContent) {
     // const uid = await this.auth.userDetails().uid;
     const uid = localStorage.getItem('userId');
 

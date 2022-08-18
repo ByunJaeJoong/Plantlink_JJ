@@ -44,7 +44,7 @@ export class ChattingDetailPage implements OnInit {
   }
 
   sendMessage() {
-    this.cs.sendMessage(this.chatId, this.message, this.botId, '');
+    this.cs.sendMessage(this.chatId, this.message);
     this.message = '';
   }
   // 자동 스크롤

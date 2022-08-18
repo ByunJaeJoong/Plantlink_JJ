@@ -44,12 +44,12 @@ export class PlantBookPage implements OnInit {
     console.log(this.keyword);
   }
 
-  checkWord(item: any) {
-    if (item.name.includes(this.keyword)) {
-      const matchWord = item.name.match(this.keyword);
-      return matchWord;
-    }
-  }
+  // checkWord(item: any) {
+  //   if (item.name.includes(this.keyword)) {
+  //     const matchWord = item.name.match(this.keyword);
+  //     return matchWord;
+  //   }
+  // }
 
   //홈화면으로
   goHome() {

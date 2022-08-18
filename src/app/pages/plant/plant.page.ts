@@ -21,18 +21,19 @@ export class PlantPage implements OnInit {
     this.userId = localStorage.getItem('userId');
   }
   panelOpenState = '';
-  ngOnInit() {
+
+  async ngOnInit() {
+    this.plantInfo$ = await this.db.doc$(`users/${this.userId}`);
+    this.plantInfo = await this.plantInfo$.pipe(first()).toPromise();
     this.getData();
   }
   async getData() {
     // this.plantInfo$ = await this.db.doc$(`users/${this.userId}`).pipe(docListJoin(this.db.afs, 'myPlant', 'plantBook'));
-    this.plantInfo$ = await this.db.doc$(`users/${this.userId}`);
-    this.plantInfo = await this.plantInfo$.pipe(first()).toPromise();
+
     this.currentPlant$ = await this.db.collection$(`myPlant`, ref => ref.where('userId', '==', this.userId).where('cancelSwitch', '==', false));
     this.currentPlant = await this.currentPlant$.pipe(first()).toPromise();
-    console.log(this.currentPlant);
 
-    if (this.plantInfo?.length <= 0) {
+    if (this.plantInfo.myPlant?.length <= 0) {
       this.emptyAlert();
     }
   }
