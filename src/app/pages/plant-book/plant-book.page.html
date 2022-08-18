@@ -15,7 +15,7 @@
       inputmode="search"
       type="search"
       [debounce]="250"
-      (ionChange)="searchChange()"
+      (ionInput)="searchChange()"
       (search)="search()"
       clearIcon
     ></ion-searchbar>
@@ -26,11 +26,6 @@
   <ng-container *ngIf="plant$ | async as plant">
     <div id="plant-book-wrap">
       <!-- 검색 결과가 없을 때 -->
-      <!-- <div class="empty">
-      <img src="assets/images/empty-icon.png" alt="" />
-      <p>식물의 종류를 찾을 수 없어요.</p>
-    </div> -->
-
       <!-- 인기 식물 리스트 -->
       <div class="popular" *ngIf="!keyword">
         <h2>인기 식물</h2>
@@ -47,9 +42,13 @@
         </ng-container>
       </div>
       <!-- 검색결과 입니다 -->
-      <div class="search-result" *ngIf="keyword && searchMode">
-        <ng-container *ngFor="let item of plant | plantSearch : keyword">
-          <ion-item (click)="goPlantBookDetail(item.id)">
+      <div class="search-result" *ngIf="searchMode ? (plant | plantSearch : keyword) : plant as plant">
+        <div class="empty" *ngIf="plant?.length == 0">
+          <img src="assets/images/empty-icon.png" alt="" />
+          <p>식물의 종류를 찾을 수 없어요.</p>
+        </div>
+        <ng-container *ngIf="searchMode && plant?.length > 0">
+          <ion-item *ngFor="let item of plant | plantSearch : keyword" (click)="goPlantBookDetail(item.id)">
             <ion-card>
               <img src="assets/samples/plant-sample03.png" alt="" />
             </ion-card>
@@ -64,7 +63,9 @@
       <!-- 검색어 입력시 나오는 입력폼입니다 -->
       <div class="search-form" *ngIf="keyword && !searchMode">
         <ng-container *ngFor="let item of plant | plantSearch : keyword">
-          <p>{{item.name.split(keyword)[0]}}<span>{{ item.name.match(keyword) }}</span>{{item.name.split(keyword)[1]}}</p>
+          <div (click)="keywordClick(item)" *ngIf="item">
+            <p>{{item.name.split(keyword)[0]}}<span>{{ item.name.match(keyword) }}</span>{{item.name.split(keyword)[1]}}</p>
+          </div>
         </ng-container>
       </div>
     </div>
