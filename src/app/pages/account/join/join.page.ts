@@ -101,8 +101,8 @@ export class JoinPage implements OnInit {
 
   // 비밀번호 유효성 검사
   passwordExpression() {
-    let reg = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,12}$/;
-    return reg.test(this.password);
+    let regExp = /^(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()+|=])[a-zA-Z\d~!@#$%^&*()+|=]{6,12}$/;
+    return regExp.test(this.password);
   }
   passwordCheck() {
     if (this.password != this.confirmPassword) {
