@@ -11,7 +11,7 @@
   <div class="device-list">
     <ng-container *ngIf="deviceList[0]?.length > 0">
       <ion-item *ngFor="let item of deviceList[0]">
-        <ion-label>
+        <ion-label (click)="connect(item.id)">
           <p class="name">{{item.name || 'Unnamed'}}</p>
           <p class="name">{{item.id}}</p>
           <p class="connect">연결됨</p>
