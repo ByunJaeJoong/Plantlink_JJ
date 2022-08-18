@@ -34,7 +34,7 @@ export class PlantBookPage implements OnInit {
       })
     );
     this.plantList = await this.plant$.pipe(first()).toPromise();
-    console.log(this.plantList);
+    // console.log(this.plantList);
   }
   search() {
     this.searchMode = true;
@@ -56,6 +56,16 @@ export class PlantBookPage implements OnInit {
     this.navController.navigateForward(['/tabs/home']);
   }
 
+  keywordClick(item) {
+    // if (name) {
+    //   this.keyword = name;
+    //   console.log(name);
+    // }
+    // console.log(item);
+
+    // this.searchMode = true;
+    console.log(item);
+  }
   //식물 정보 디테일
   goPlantBookDetail(plantBookId) {
     this.navController.navigateForward(['/plant-book-detail'], {
