@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { DbService } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-connect-device',
@@ -8,8 +8,15 @@ import { DbService } from 'src/app/services/db.service';
   styleUrls: ['./connect-device.page.scss'],
 })
 export class ConnectDevicePage implements OnInit {
-  userId: any;
-  constructor(private navController: NavController, private db: DbService) {}
+  deviceList: any = [];
+
+  constructor(private navController: NavController, private route: ActivatedRoute) {
+    this.route.queryParams.subscribe(data => {
+      for (let ob in data) {
+        this.deviceList.push(JSON.parse(data[ob]));
+      }
+    });
+  }
 
   ngOnInit() {}
 

@@ -9,12 +9,15 @@
 
 <ion-content>
   <div class="device-list">
-    <ion-item>
-      <ion-label>
-        <p class="name">PLANT LINK</p>
-        <p class="connect">연결됨</p>
-      </ion-label>
-    </ion-item>
+    <ng-container *ngIf="deviceList[0]?.length > 0">
+      <ion-item *ngFor="let item of deviceList[0]">
+        <ion-label>
+          <p class="name">{{item.name || 'Unnamed'}}</p>
+          <p class="name">{{item.id}}</p>
+          <p class="connect">연결됨</p>
+        </ion-label>
+      </ion-item>
+    </ng-container>
   </div>
   <ion-button (click)="findDevice()" fill="clear"> 장치 추가하기 </ion-button>
 </ion-content>

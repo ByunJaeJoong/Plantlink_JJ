@@ -14,8 +14,6 @@ export class FindDevicePage implements OnInit {
   deviceList: any = [];
   isValid = false;
 
-  sub: any;
-
   constructor(
     private navController: NavController,
     private bluetoothSerial: BluetoothSerial,
@@ -56,7 +54,7 @@ export class FindDevicePage implements OnInit {
     console.log('진행확인 장치 검색');
 
     // 1초 동안 주변 블루투스 스캔
-    this.sub = this.ble.scan([], 1).subscribe(device => this.onDeviceDiscovered(device));
+    this.ble.scan([], 1).subscribe(device => this.onDeviceDiscovered(device));
   }
 
   // 스캔된 블루투스 장치들을 List안에 push하는 함수
@@ -65,7 +63,6 @@ export class FindDevicePage implements OnInit {
     this.ngZone.run(() => {
       this.deviceList.push(device);
     });
-
     if (this.deviceList.length > 0) {
       this.isValid = true;
     } else {
@@ -77,7 +74,6 @@ export class FindDevicePage implements OnInit {
   goHome() {
     this.navController.navigateForward(['/connect-device']);
   }
-
   // 장치 추가 페이지로 가서 연동
   async goSearch() {
     const ok = await this.alertService.cancelOkBtn(
@@ -87,12 +83,11 @@ export class FindDevicePage implements OnInit {
       '취소',
       '확인'
     );
-
     if (ok) {
+      const devices = [JSON.stringify(this.deviceList)];
       this.navController.navigateRoot(['/connect-device'], {
-        queryParams: {
-          devices: this.deviceList,
-        },
+        queryParams: devices,
+        skipLocationChange: true,
       });
     }
   }
