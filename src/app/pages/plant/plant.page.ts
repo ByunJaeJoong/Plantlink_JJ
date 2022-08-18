@@ -30,7 +30,9 @@ export class PlantPage implements OnInit {
   async getData() {
     // this.plantInfo$ = await this.db.doc$(`users/${this.userId}`).pipe(docListJoin(this.db.afs, 'myPlant', 'plantBook'));
 
-    this.currentPlant$ = await this.db.collection$(`myPlant`, ref => ref.where('userId', '==', this.userId).where('cancelSwitch', '==', false));
+    this.currentPlant$ = await this.db.collection$(`myPlant`, ref =>
+      ref.where('userId', '==', this.userId).where('cancelSwitch', '==', false).where('deleteSwitch', '==', false)
+    );
     this.currentPlant = await this.currentPlant$.pipe(first()).toPromise();
 
     if (this.plantInfo.myPlant?.length <= 0) {
