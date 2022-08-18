@@ -66,7 +66,9 @@ export class PlantBookDetailPage implements OnInit {
   }
   async checkMyPlant() {
     const connectCheck = await this.db
-      .collection$(`myPlant`, ref => ref.where('plantBookId', '==', this.plantBookId).where('cancelSwitch', '==', false))
+      .collection$(`myPlant`, ref =>
+        ref.where('plantBookId', '==', this.plantBookId).where('cancelSwitch', '==', false).where('deleteSwitch', '==', false)
+      )
       .pipe(first())
       .toPromise();
     if (connectCheck?.length > 0) {
@@ -76,6 +78,20 @@ export class PlantBookDetailPage implements OnInit {
     }
   }
 
+  async checkOverlap() {
+    const connectCheck = await this.db
+      .collection$(`myPlant`, ref => ref.where('userId', '==', this.userId).where('cancelSwitch', '==', false).where('deleteSwitch', '==', false))
+      .pipe(first())
+      .toPromise();
+    if (connectCheck?.length > 0) {
+      this.db.updateAt(`myPlant/${connectCheck[0].myPlantId}`, {
+        cancelSwitch: true,
+      });
+      console.log(connectCheck);
+    } else {
+      console.log(connectCheck);
+    }
+  }
   //나의 식물 등록하기 - 해제하기
   //1. 연결된 장치가 없을 때
   noDevice() {
@@ -87,29 +103,31 @@ export class PlantBookDetailPage implements OnInit {
   }
 
   //2. 등록완료
-  completeAlert() {
+  async completeAlert() {
     if (this.userInfo.connectSwitch) {
-      this.myPlant.myPlantId = this.common.generateFilename();
-      this.myPlant.name = this.plant.name;
-      this.myPlant.temperature = this.plant.temperature;
-      this.myPlant.light = this.plant.light;
-      this.myPlant.soil = this.plant.soil;
-      this.myPlant.plantBookId = this.plantBookId;
-      this.myPlant.userId = this.userId;
-      this.myPlant.cancelSwitch = false;
-      this.db.updateAt(`myPlant/${this.myPlant.myPlantId}`, this.myPlant);
-      this.db
-        .updateAt(`users/${this.userId}`, {
-          myPlant: firebase.default.firestore.FieldValue.arrayUnion(this.plantBookId),
-        })
-        .then(() => {
-          this.userPlant.push(this.plantBookId);
-          this.checkMyPlant();
+      this.checkOverlap().then(() => {
+        this.myPlant.myPlantId = this.common.generateFilename();
+        this.myPlant.name = this.plant.name;
+        this.myPlant.temperature = this.plant.temperature;
+        this.myPlant.light = this.plant.light;
+        this.myPlant.soil = this.plant.soil;
+        this.myPlant.plantBookId = this.plantBookId;
+        this.myPlant.userId = this.userId;
+        this.myPlant.cancelSwitch = false;
+        this.db.updateAt(`myPlant/${this.myPlant.myPlantId}`, this.myPlant);
+        this.db
+          .updateAt(`users/${this.userId}`, {
+            myPlant: firebase.default.firestore.FieldValue.arrayUnion(this.plantBookId),
+          })
+          .then(() => {
+            this.userPlant.push(this.plantBookId);
+            this.checkMyPlant();
+          });
+        this.alertService.cancelOkBtn('two-btn', '나의 식물로 등록되었습니다:)<br>식물 메뉴로 가서 확인하시겠어요?', '', '취소', '확인').then(ok => {
+          if (ok) {
+            this.navController.navigateForward(['/tabs/plant']);
+          }
         });
-      this.alertService.cancelOkBtn('two-btn', '나의 식물로 등록되었습니다:)<br>식물 메뉴로 가서 확인하시겠어요?', '', '취소', '확인').then(ok => {
-        if (ok) {
-          this.navController.navigateForward(['/tabs/plant']);
-        }
       });
     } else {
       this.noDevice();
