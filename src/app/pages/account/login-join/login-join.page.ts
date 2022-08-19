@@ -67,7 +67,7 @@ export class LoginJoinPage implements OnInit {
 
           console.log('credential', credential);
 
-          this.fireAuthSignInWithCredential(credential, idToken);
+          this.fireAuthSignInWithCredential(credential);
         })
         .catch(err => {
           console.log('google login error', err);
@@ -96,10 +96,8 @@ export class LoginJoinPage implements OnInit {
     }
     this.loadingService.hide();
   }
-  fireAuthSignInWithCredential(credential, idToken) {
+  fireAuthSignInWithCredential(credential) {
     this.loadingService.load();
-
-    this.sociaLoginLink(credential, idToken);
     firebase.default
       .auth()
       .signInWithCredential(credential)
@@ -119,29 +117,28 @@ export class LoginJoinPage implements OnInit {
       });
   }
 
-  sociaLoginLink(credential, tokenId?, type?) {
-    const newCredential = firebase.default.auth.GoogleAuthProvider.credential(tokenId);
-    firebase.default
-      .auth()
-      .currentUser.linkWithCredential(newCredential)
-      .then(data => {
-        // switch (type) {
+  // sociaLoginLink(credential, tokenId?, type?) {
+  //   firebase.default
+  //     .auth()
+  //     .currentUser.linkWithCredential(credential)
+  //     .then(data => {
+  //       // switch (type) {
 
-        //   case 'google':
-        //     this.db.updateAt(`users/${data.user.uid}`, {
-        //       loginType: firebase.default.firestore.FieldValue.arrayUnion('google'),
-        //       googleToken: tokenId,
-        //     });
-        //     break;
-        // }
+  //       //   case 'google':
+  //       //     this.db.updateAt(`users/${data.user.uid}`, {
+  //       //       loginType: firebase.default.firestore.FieldValue.arrayUnion('google'),
+  //       //       googleToken: tokenId,
+  //       //     });
+  //       //     break;
+  //       // }
 
-        //로그인할때 처리하는 것들 담아준다.
-        var uid = data.user.uid;
-        localStorage.setItem('userId', uid);
-        this.loadingService.hide();
-        ////////////////////////////////////
-      });
-  }
+  //       //로그인할때 처리하는 것들 담아준다.
+  //       var uid = data.user.uid;
+  //       localStorage.setItem('userId', uid);
+  //       this.loadingService.hide();
+  //       ////////////////////////////////////
+  //     });
+  // }
 
   // 유저 데이터 가져오는 함수
   getUserData(uid) {
@@ -169,7 +166,7 @@ export class LoginJoinPage implements OnInit {
 
     console.log('멤버 타입 : ', user.memberType);
 
-    this.navController.navigateForward(['/tabs/home']);
+    this.navController.navigateRoot(['/tabs/home']);
     this.loadingService.hide();
   }
 
@@ -193,7 +190,7 @@ export class LoginJoinPage implements OnInit {
 
     this.db.updateAt(`users/${this.user.uid}`, { ...userData, email: this.user.email, name: this.user.name, phone: this.user.phone }).then(() => {
       if (users.length > 0) this.loginUser(user.uid, email);
-      else this.navController.navigateForward(['/tabs/home']);
+      else this.navController.navigateRoot(['/tabs/home']);
     });
 
     this.loadingService.hide();
