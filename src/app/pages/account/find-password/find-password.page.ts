@@ -37,7 +37,7 @@ export class FindPasswordPage implements OnInit {
     private db: DbService,
     private auth: AuthService,
     private alert: AlertService,
-    private loading: LoadingService,
+    private loadingService: LoadingService,
     private pa: PhoneAuthService,
     private timer: TimerService,
     private route: ActivatedRoute
@@ -63,7 +63,7 @@ export class FindPasswordPage implements OnInit {
 
   // 회원정보 확인 후 인증번호 발송
   async authenticate() {
-    await this.loading.load();
+    await this.loadingService.load();
 
     await this.userCheck();
 
@@ -85,7 +85,7 @@ export class FindPasswordPage implements OnInit {
         console.log(error);
       }
     }
-    await this.loading.hide();
+    await this.loadingService.hide();
   }
   prove() {
     this.alert.toast('인증번호를 발송했습니다.', 'toast-style', 2000);
@@ -112,19 +112,19 @@ export class FindPasswordPage implements OnInit {
 
   // 인증번호 일치하는지 확인
   async complete(): Promise<void> {
-    this.loading.load();
+    this.loadingService.load();
 
     this.pa
       .complete(this.verificationId, String(this.certifyNum))
       .then(async () => {
         this.completeProcess();
-        this.loading.hide();
+        this.loadingService.hide();
         this.auth.sendPasswordReset(this.email);
         this.navController.navigateRoot(['/login']);
       })
       .catch(error => {
         this.completeErrorProcess(error);
-        this.loading.hide();
+        this.loadingService.hide();
       });
   }
   completeProcess(): void {

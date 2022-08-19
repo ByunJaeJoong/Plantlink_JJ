@@ -17,7 +17,7 @@ export class FindDevicePage implements OnInit {
   constructor(
     private navController: NavController,
     private bluetoothSerial: BluetoothSerial,
-    public loading: LoadingService,
+    public loadingService: LoadingService,
     private alertService: AlertService,
     private ble: BLE,
     private ngZone: NgZone

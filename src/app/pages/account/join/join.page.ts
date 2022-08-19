@@ -66,7 +66,6 @@ export class JoinPage implements OnInit {
     private auth: AuthService,
     private db: DbService,
     private pa: PhoneAuthService,
-    private loading: LoadingService,
     private timer: TimerService,
     private renderer: Renderer2,
     private moveParamsService: MoveParamsService,
@@ -116,7 +115,7 @@ export class JoinPage implements OnInit {
 
   // 휴대폰 인증
   async authenticate() {
-    await this.loading.load();
+    await this.loadingService.load();
     this.timer.stop();
     try {
       const verificationId: string = await this.pa.authentication('+82' + Number(this.users.phone));
@@ -131,7 +130,7 @@ export class JoinPage implements OnInit {
       }
       console.log(error);
     }
-    await this.loading.hide();
+    await this.loadingService.hide();
   }
   wrongNumber() {
     this.alert.okBtn('alert', `인증번호 확인 후<br>다시 인증번호를 입력해주세요.`);
@@ -155,18 +154,18 @@ export class JoinPage implements OnInit {
 
   // 인증번호 일치하는지 확인
   async checkedNumber(): Promise<void> {
-    this.loading.load();
+    this.loadingService.load();
 
     this.pa
       .complete(this.verificationId, String(this.certifyNum))
       .then(async () => {
         this.completeProcess();
-        this.loading.hide();
+        this.loadingService.hide();
         this.alert.okBtn('alert', '인증번호가 확인되었습니다.');
       })
       .catch(error => {
         this.completeErrorProcess(error);
-        this.loading.hide();
+        this.loadingService.hide();
       });
   }
   completeProcess(): void {
@@ -251,7 +250,7 @@ export class JoinPage implements OnInit {
         this.users.address = `${this.address} ${this.address2}`;
         this.db.updateAt(`users/${result.user.uid}`, this.users).then(() => {
           console.log('성공!');
-          this.loading.hide();
+          this.loadingService.hide();
           this.navController.navigateForward(['/complete-join']);
         });
       });
