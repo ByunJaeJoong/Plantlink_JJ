@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "1017905341794-9v1hk6vul1n7c13acua1ov8k7qcms8vn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.plantlink.knc",
+            "certificate_hash": "385ae4173e075e1ba092da638a065bf9be6bfe6e"
+          }
+        },
+        {
           "client_id": "1017905341794-ip3o0gv6e4dcq8is4mq1q078cm1sv1m9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

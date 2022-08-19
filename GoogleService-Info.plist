@@ -22,7 +22,7 @@
 	<string>plantlink-beb65.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
-	<key>IS_ANALYTICS_ENABLED</key>
+	<key>IS_ANALYTICS_ENABLED</key> 
 	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
 	<true></true>
