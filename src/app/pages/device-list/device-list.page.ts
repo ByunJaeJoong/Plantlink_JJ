@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-device-list',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./device-list.page.scss'],
 })
 export class DeviceListPage implements OnInit {
+  constructor(private modalController: ModalController) {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  //장치연결
+  close() {
+    this.modalController.dismiss();
   }
-
 }
