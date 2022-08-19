@@ -22,7 +22,7 @@
       <ion-button (click)="checkEmail()" fill="clear" class="border-btn" [disabled]="!emailExpression()"> 중복확인 </ion-button>
     </ion-item>
     <!-- validation -->
-    <h4 class="error" *ngIf="users.email && !emailExpression()">2자 이상 8자 이하의 영문만 허용</h4>
+    <h4 class="error" *ngIf="users.email && !emailExpression()">이메일 형식을 맞춰주세요.</h4>
   </div>
 
   <!-- 비밀번호 -->
@@ -100,7 +100,7 @@
       <ion-checkbox [(ngModel)]="agree"></ion-checkbox>
       <ion-label class="all-agree">개인 정보 이용에 동의합니다.</ion-label>
     </ion-item>
-    <ion-button (click)="goCom()" fill="clear" class="basic-btn" [disabled]="!users.email || !users.name || !address"> 가입하기 </ion-button>
+    <ion-button (click)="goCom()" fill="clear" class="basic-btn"> 가입하기 </ion-button>
   </ion-toolbar>
   <div id="recaptcha-container"></div>
 </ion-footer>

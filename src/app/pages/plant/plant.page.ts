@@ -20,7 +20,6 @@ export class PlantPage implements OnInit {
   constructor(private alertService: AlertService, private navController: NavController, private db: DbService) {
     this.userId = localStorage.getItem('userId');
   }
-  panelOpenState = '';
 
   async ngOnInit() {
     this.plantInfo$ = await this.db.doc$(`users/${this.userId}`);
@@ -36,7 +35,7 @@ export class PlantPage implements OnInit {
     this.currentPlant = await this.currentPlant$.pipe(first()).toPromise();
 
     if (this.plantInfo.myPlant?.length <= 0) {
-      this.emptyAlert();
+      await this.emptyAlert();
     }
   }
   //식물목록이 없을 때 뜨는 alert
