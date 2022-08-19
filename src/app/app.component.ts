@@ -30,6 +30,7 @@ export class AppComponent {
     private alertService: AlertService
   ) {
     this.initializeApp();
+    this.backbutton();
   }
 
   initializeApp() {
@@ -87,7 +88,7 @@ export class AppComponent {
 
           navigator['app'].exitApp();
         } else {
-          this.alertService.toast('Press again to exit.');
+          this.alertService.toast('한번 더 누르면 종료됩니다.');
           this.lastTimeBackPress = new Date().getTime();
         }
       } else {
