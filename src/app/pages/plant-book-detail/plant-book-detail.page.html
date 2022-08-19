@@ -26,7 +26,7 @@
     </div>
 
     <ion-card>
-      <img src="assets/samples/plant-sample02.jpeg" alt="" />
+      <img [src]="plant.plantImage ? plant.plantImage : 'assets/images/default-img.png'" alt="" />
     </ion-card>
 
     <div class="title">

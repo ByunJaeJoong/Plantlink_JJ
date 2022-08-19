@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1017905341794:android:3c6b88711f65d1a5ec783b",
+        "mobilesdk_app_id": "1:1017905341794:android:052746286337b5d7ec783b",
         "android_client_info": {
           "package_name": "com.plantlink.knc"
         }
@@ -45,6 +45,13 @@
             {
               "client_id": "1017905341794-pq01l3btsdl5k30gth7cdctfh50kh0sf.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1017905341794-th0tvef4ngeqpukukob3j0415ms2bkuk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.plantlink.knc"
+              }
             }
           ]
         }

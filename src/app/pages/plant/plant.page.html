@@ -18,7 +18,7 @@
         <ion-item (click)="goPlantDetail(item)" class="chat-list">
           <ng-container *ngIf="('plantBook/' + item | doc | async ) as myPlant">
             <ion-avatar>
-              <img src="assets/samples/plant-sample01.jpeg" alt="" />
+              <img [src]="myPlant.plantImage ? myPlant.plantImage : 'assets/images/default-img.png'" alt="" />
             </ion-avatar>
             <ion-label> {{myPlant.name}} </ion-label>
             <ng-container *ngIf="currentPlant$ | async as currentPlant">

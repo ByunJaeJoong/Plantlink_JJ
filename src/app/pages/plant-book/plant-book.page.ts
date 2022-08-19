@@ -57,13 +57,10 @@ export class PlantBookPage implements OnInit {
   }
 
   keywordClick(item) {
-    // if (name) {
-    //   this.keyword = name;
-    //   console.log(name);
-    // }
-    // console.log(item);
-
-    // this.searchMode = true;
+    if (item) {
+      this.keyword = item.name;
+      this.searchMode = true;
+    }
     console.log(item);
   }
   //식물 정보 디테일

@@ -32,7 +32,7 @@
         <ng-container *ngFor="let topList of plant | slice: 0:10">
           <ion-item (click)="goPlantBookDetail(topList.id)">
             <ion-card>
-              <img src="assets/samples/plant-sample02.jpeg" alt="" />
+              <img [src]="topList.plantImage ? topList.plantImage : 'assets/images/default-img.png'" alt="" />
             </ion-card>
             <ion-label>
               <p class="title">{{topList.name}}</p>
@@ -44,13 +44,13 @@
       <!-- 검색결과 입니다 -->
       <div class="search-result" *ngIf="searchMode ? (plant | plantSearch : keyword) : plant as plant">
         <div class="empty" *ngIf="plant?.length == 0">
-          <img src="assets/images/empty-icon.png" alt="" />
+          <img [src]="item.plantImage ? item.plantImage : 'assets/images/default-img.png'" alt="" />
           <p>식물의 종류를 찾을 수 없어요.</p>
         </div>
         <ng-container *ngIf="searchMode && plant?.length > 0">
           <ion-item *ngFor="let item of plant | plantSearch : keyword" (click)="goPlantBookDetail(item.id)">
             <ion-card>
-              <img src="assets/samples/plant-sample03.png" alt="" />
+              <img [src]="item.plantImage ? item.plantImage : 'assets/images/default-img.png'" alt="" />
             </ion-card>
             <ion-label>
               <p class="title">{{item.name}}</p>

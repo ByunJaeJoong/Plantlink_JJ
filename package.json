@@ -54,6 +54,7 @@
     "cordova-plugin-googleplus": "^8.5.2",
     "firebase": "^8.10.1",
     "install": "^0.13.0",
+    "ios-deploy": "^1.11.4",
     "moment": "^2.29.3",
     "npm": "^8.13.2",
     "rxjs": "^6.5.5",
@@ -141,7 +142,8 @@
       }
     },
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ]
   }
 }

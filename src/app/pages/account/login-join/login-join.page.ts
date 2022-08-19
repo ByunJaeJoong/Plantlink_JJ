@@ -67,7 +67,7 @@ export class LoginJoinPage implements OnInit {
 
           console.log('credential', credential);
 
-          this.fireAuthSignInWithCredential(credential);
+          this.fireAuthSignInWithCredential(credential, idToken);
         })
         .catch(err => {
           console.log('google login error', err);
@@ -96,9 +96,10 @@ export class LoginJoinPage implements OnInit {
     }
     this.loadingService.hide();
   }
-  fireAuthSignInWithCredential(credential) {
+  fireAuthSignInWithCredential(credential, idToken) {
     this.loadingService.load();
 
+    this.sociaLoginLink(credential, idToken);
     firebase.default
       .auth()
       .signInWithCredential(credential)
@@ -117,6 +118,31 @@ export class LoginJoinPage implements OnInit {
         this.loadingService.hide();
       });
   }
+
+  sociaLoginLink(credential, tokenId?, type?) {
+    const newCredential = firebase.default.auth.GoogleAuthProvider.credential(tokenId);
+    firebase.default
+      .auth()
+      .currentUser.linkWithCredential(newCredential)
+      .then(data => {
+        // switch (type) {
+
+        //   case 'google':
+        //     this.db.updateAt(`users/${data.user.uid}`, {
+        //       loginType: firebase.default.firestore.FieldValue.arrayUnion('google'),
+        //       googleToken: tokenId,
+        //     });
+        //     break;
+        // }
+
+        //로그인할때 처리하는 것들 담아준다.
+        var uid = data.user.uid;
+        localStorage.setItem('userId', uid);
+        this.loadingService.hide();
+        ////////////////////////////////////
+      });
+  }
+
   // 유저 데이터 가져오는 함수
   getUserData(uid) {
     return this.db.doc$(`users/${uid}`).pipe(first()).toPromise();

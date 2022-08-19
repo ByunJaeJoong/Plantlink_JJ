@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import * as firebase from 'firebase';
 import { first } from 'rxjs/operators';
 import { Users } from 'src/app/models/users.model';
 import { AlertService } from 'src/app/services/alert.service';
@@ -68,7 +69,8 @@ export class JoinPage implements OnInit {
     private loading: LoadingService,
     private timer: TimerService,
     private renderer: Renderer2,
-    private moveParamsService: MoveParamsService
+    private moveParamsService: MoveParamsService,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit() {
@@ -219,7 +221,7 @@ export class JoinPage implements OnInit {
   }
 
   //회원가입 완료 화면으로
-  goCom() {
+  async goCom() {
     if (!this.users.email || !this.password || !this.users.name || !this.users.phone || !this.address) {
       this.alert.okBtn('alert', '필수사항을 입력해 주세요.');
       return;
@@ -242,6 +244,7 @@ export class JoinPage implements OnInit {
     }
 
     if (this.emailOverlap && this.passwordCheck() && this.certifiedSwitch && this.agree) {
+      // await this.sociaLoginLink(this.users.email);
       this.auth.registerUser(this.users.email, this.confirmPassword).then(result => {
         this.users.uid = result.user.uid;
         if (!this.address2) this.address2 = '';
@@ -253,6 +256,19 @@ export class JoinPage implements OnInit {
         });
       });
     }
+  }
+
+  async sociaLoginLink(credential, tokenId?, type?) {
+    firebase.default
+      .auth()
+      .currentUser.linkWithCredential(credential)
+      .then(data => {
+        //로그인할때 처리하는 것들 담아준다.
+        var uid = data.user.uid;
+        localStorage.setItem('userId', uid);
+        this.loadingService.hide();
+        ////////////////////////////////////
+      });
   }
 
   // 닫기
