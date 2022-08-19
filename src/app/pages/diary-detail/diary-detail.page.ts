@@ -29,7 +29,7 @@ export class DiaryDetailPage implements OnInit {
 
   //달력화면으로 !
   goDiary() {
-    this.navController.navigateForward(['/diary']);
+    this.navController.navigateBack(['/diary']);
   }
 
   //일기수정하기

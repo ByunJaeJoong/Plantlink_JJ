@@ -23,6 +23,6 @@ export class ContractPage implements OnInit {
 
   //설정화면으로
   goSetting() {
-    this.navController.navigateForward(['/setting']);
+    this.navController.navigateBack(['/setting']);
   }
 }

@@ -78,7 +78,7 @@ export class DiaryWritePage implements OnInit {
 
   //뒤로가기버튼
   goHome() {
-    this.navController.navigateForward(['/diary']);
+    this.navController.navigateBack(['/diary']);
     this.modalController.dismiss();
   }
 

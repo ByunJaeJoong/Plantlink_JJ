@@ -22,6 +22,6 @@ export class FaqPage implements OnInit {
   }
 
   goSetting() {
-    this.navController.navigateForward(['/setting']);
+    this.navController.navigateBack(['/setting']);
   }
 }

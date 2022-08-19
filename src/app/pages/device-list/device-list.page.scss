@@ -1,0 +1,52 @@
+@import '../../../theme/mixin.scss';
+//@include font(#161616, 300, 0.875rem, 1.0625rem);
+
+ion-header {
+  ion-toolbar {
+    .back-btn {
+      width: 1.875rem;
+      height: 1.875rem;
+      background: url(../../../assets/images/back-icon.png) no-repeat center center/ 100%;
+    }
+  }
+}
+
+ion-content {
+  --padding-top: 1rem;
+  --padding-start: 1.25rem;
+  --padding-end: 1.25rem;
+  position: relative;
+
+  .device-list {
+    .device {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6875rem 0.5rem;
+      border-top: 0.5px solid #e4e4e5;
+      .name {
+        margin-bottom: 4px;
+        @include font(#161616, 500, 1rem, 1.1875rem);
+      }
+
+      .id {
+        @include font(#d1d4d9, 500, 0.875rem, 1.0625rem);
+      }
+
+      ion-button {
+        width: 3.875rem;
+        height: 1.8125rem;
+        border-radius: 4px;
+        background-color: #afd365;
+        --color: #fff;
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
+    }
+
+    &:last-child {
+      border-bottom: 0.5px solid #e4e4e5;
+    }
+  }
+}

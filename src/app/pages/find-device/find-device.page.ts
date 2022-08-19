@@ -74,7 +74,7 @@ export class FindDevicePage implements OnInit {
 
   //홈화면으로 가기
   goHome() {
-    this.navController.navigateForward(['/connect-device']);
+    this.navController.navigateBack(['/connect-device']);
   }
   // 장치 추가 페이지로 가서 연동
   async goSearch() {

@@ -38,8 +38,8 @@ export class InfoPage implements OnInit {
     }
   }
 
-  //식물 현재 상태
+  //세팅으로
   goSetting() {
-    this.navController.navigateForward(['/setting']);
+    this.navController.navigateBack(['/setting']);
   }
 }

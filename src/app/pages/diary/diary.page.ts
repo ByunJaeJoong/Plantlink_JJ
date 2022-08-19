@@ -83,7 +83,7 @@ export class DiaryPage implements OnInit {
 
   //홈으로
   goHome() {
-    this.navController.navigateForward(['/tabs/home']);
+    this.navController.navigateBack(['/tabs/home']);
   }
 
   //일기쓰러가기

@@ -73,7 +73,7 @@ export class ConnectDevicePage implements OnInit {
 
   //홈화면으로 가기
   goHome() {
-    this.navController.navigateForward(['/tabs/home']);
+    this.navController.navigateBack(['/tabs/home']);
   }
 
   //장치찾기로
