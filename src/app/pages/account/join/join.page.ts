@@ -220,11 +220,15 @@ export class JoinPage implements OnInit {
 
   //회원가입 완료 화면으로
   goCom() {
+    if (!this.users.email || !this.password || !this.users.name || !this.users.phone || !this.address) {
+      this.alert.okBtn('alert', '필수사항을 입력해 주세요.');
+      return;
+    }
     if (!this.emailOverlap) {
       this.alert.okBtn('alert', '아이디 중복검사를 진행해 주세요.');
       return;
     }
-    if (!this.passwordCheck) {
+    if (!this.passwordCheck()) {
       this.alert.okBtn('alert', '비밀번호가 일치하지 않습니다.');
       return;
     }
@@ -236,9 +240,11 @@ export class JoinPage implements OnInit {
       this.alert.okBtn('alert', '개인 정보 이용에 동의해 주세요.');
       return;
     }
-    if (this.emailOverlap && this.passwordCheck && this.certifiedSwitch && this.agree) {
+
+    if (this.emailOverlap && this.passwordCheck() && this.certifiedSwitch && this.agree) {
       this.auth.registerUser(this.users.email, this.confirmPassword).then(result => {
         this.users.uid = result.user.uid;
+        if (!this.address2) this.address2 = '';
         this.users.address = `${this.address} ${this.address2}`;
         this.db.updateAt(`users/${result.user.uid}`, this.users).then(() => {
           console.log('성공!');
@@ -252,10 +258,5 @@ export class JoinPage implements OnInit {
   // 닫기
   closeAddressPopup() {
     this.renderer.setStyle(this.popup.nativeElement, 'display', 'none');
-  }
-  //나머지 주소 입력하기
-  addAddress() {
-    this.moveParamsService.setData(this.users);
-    this.navController.navigateForward(['/join-address']);
   }
 }

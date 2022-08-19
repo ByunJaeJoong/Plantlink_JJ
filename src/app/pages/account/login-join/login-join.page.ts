@@ -68,7 +68,6 @@ export class LoginJoinPage implements OnInit {
           console.log('credential', credential);
 
           this.fireAuthSignInWithCredential(credential);
-          this.loadingService.hide();
         })
         .catch(err => {
           console.log('google login error', err);
@@ -98,6 +97,8 @@ export class LoginJoinPage implements OnInit {
     this.loadingService.hide();
   }
   fireAuthSignInWithCredential(credential) {
+    this.loadingService.load();
+
     firebase.default
       .auth()
       .signInWithCredential(credential)
@@ -105,14 +106,15 @@ export class LoginJoinPage implements OnInit {
         console.log('fireAuthSignInWithCredential success : ', success);
         const user = success.user;
         const uid = user.uid;
-        const name = user.displayName;
 
         const isLogin = await this.isLoginOrSignUp(uid);
         if (isLogin) this.loginUser(uid);
         else this.registerUser(user);
+        this.loadingService.hide();
       })
       .catch(error => {
         console.error('fireAuthSignInWithCredential Error: ', error);
+        this.loadingService.hide();
       });
   }
   // 유저 데이터 가져오는 함수
