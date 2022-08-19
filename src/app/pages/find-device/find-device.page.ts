@@ -1,9 +1,10 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { BLE } from '@ionic-native/ble/ngx';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert.service';
 import { LoadingService } from 'src/app/services/loading.service';
+import { DeviceListPage } from '../device-list/device-list.page';
 
 @Component({
   selector: 'app-find-device',
@@ -15,6 +16,7 @@ export class FindDevicePage implements OnInit {
   isValid = false;
 
   constructor(
+    private modalController: ModalController,
     private navController: NavController,
     private bluetoothSerial: BluetoothSerial,
     public loadingService: LoadingService,
@@ -45,7 +47,7 @@ export class FindDevicePage implements OnInit {
       }
     } catch (error) {
       console.log('블루투스 활성화');
-      this.alertService.okBtn('', '블루투스가 켜져있는지 확인해주세요.');
+      this.alertService.okBtn('alert', '블루투스가 켜져있는지 확인해주세요.');
     }
   }
 
@@ -100,4 +102,12 @@ export class FindDevicePage implements OnInit {
   //     }
   //   });
   // }
+
+  //블루투스 리스트 모달창
+  async imgDetail() {
+    const modal = await this.modalController.create({
+      component: DeviceListPage,
+    });
+    return await modal.present();
+  }
 }
