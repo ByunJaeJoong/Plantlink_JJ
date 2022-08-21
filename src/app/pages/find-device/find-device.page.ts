@@ -76,8 +76,27 @@ export class FindDevicePage implements OnInit {
   goHome() {
     this.navController.navigateBack(['/connect-device']);
   }
+
   // 장치 추가 페이지로 가서 연동
-  async goSearch() {
+  // async goSearch() {
+  //   const ok = await this.alertService.cancelOkBtn(
+  //     'two-btn',
+  //     `${this.deviceList.length}개의 장치가 발견되었습니다:)<br>연결페이지로 이동하시겠어요?`,
+  //     '',
+  //     '취소',
+  //     '확인'
+  //   );
+  //   if (ok) {
+  //     const devices = [JSON.stringify(this.deviceList)];
+  //     this.navController.navigateRoot(['/connect-device'], {
+  //       queryParams: devices,
+  //       skipLocationChange: true,
+  //     });
+  //   }
+  // }
+
+  // 블루투스 리스트 모달창
+  async imgDetail() {
     const ok = await this.alertService.cancelOkBtn(
       'two-btn',
       `${this.deviceList.length}개의 장치가 발견되었습니다:)<br>연결페이지로 이동하시겠어요?`,
@@ -87,27 +106,14 @@ export class FindDevicePage implements OnInit {
     );
     if (ok) {
       const devices = [JSON.stringify(this.deviceList)];
-      this.navController.navigateRoot(['/connect-device'], {
-        queryParams: devices,
-        skipLocationChange: true,
+
+      const modal = await this.modalController.create({
+        component: DeviceListPage,
+        componentProps: {
+          devices,
+        },
       });
+      return await modal.present();
     }
-  }
-
-  //장치 없을 때 뜨는 alert
-  // goSearch() {
-  //   this.alertService.cancelOkBtn('two-btn', '1개의 장치를 연결했습니다:)<br>식물의 종류를 선택하시겠어요?', '', '취소', '확인').then(ok => {
-  //     if (ok) {
-  //       this.navController.navigateRoot(['/connect-device']);
-  //     }
-  //   });
-  // }
-
-  //블루투스 리스트 모달창
-  async imgDetail() {
-    const modal = await this.modalController.create({
-      component: DeviceListPage,
-    });
-    return await modal.present();
   }
 }

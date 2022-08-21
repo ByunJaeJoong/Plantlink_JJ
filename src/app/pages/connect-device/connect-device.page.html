@@ -9,11 +9,10 @@
 
 <ion-content>
   <div class="device-list">
-    <ng-container *ngIf="deviceList[0]?.length > 0">
-      <ion-item *ngFor="let item of deviceList[0]">
-        <ion-label (click)="connect(item.id)">
-          <p class="name">{{item.name || 'Unnamed'}}</p>
-          <p class="name">{{item.id}}</p>
+    <ng-container>
+      <ion-item>
+        <ion-label>
+          <p class="name"></p>
           <p class="connect">연결됨</p>
         </ion-label>
       </ion-item>
