@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { BLE } from '@ionic-native/ble/ngx';
 import { NavParams } from '@ionic/angular';
+=======
+import { ModalController, NavController } from '@ionic/angular';
+>>>>>>> 360a2891b1f0626e0682b55c8a030bbd077b804f
 
 @Component({
   selector: 'app-device-list',
@@ -8,6 +12,7 @@ import { NavParams } from '@ionic/angular';
   styleUrls: ['./device-list.page.scss'],
 })
 export class DeviceListPage implements OnInit {
+<<<<<<< HEAD
   devices: any;
   deviceList: any = [];
   isConnect: boolean = false;
@@ -69,4 +74,14 @@ export class DeviceListPage implements OnInit {
   bufferData() {
     console.log(this.arduinoData, typeof this.arduinoData);
   }
+=======
+  constructor(private modalController: ModalController) {}
+
+  ngOnInit() {}
+
+  //장치연결
+  close() {
+    this.modalController.dismiss();
+  }
+>>>>>>> 360a2891b1f0626e0682b55c8a030bbd077b804f
 }
