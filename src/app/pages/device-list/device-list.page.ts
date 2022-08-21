@@ -28,6 +28,7 @@ export class DeviceListPage implements OnInit {
 
   ngOnInit() {}
 
+  // 깃 수정
   // 블루투스 장치를 클릭하여 그 장치와 연결시킴
   connect(id: string) {
     try {
