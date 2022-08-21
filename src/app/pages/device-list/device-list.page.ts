@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
 import { BLE } from '@ionic-native/ble/ngx';
-import { NavParams } from '@ionic/angular';
-
-import { ModalController, NavController } from '@ionic/angular';
+import { NavParams, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-device-list',
@@ -16,7 +13,7 @@ export class DeviceListPage implements OnInit {
   isConnect: boolean = false;
   arduinoData: any = [];
 
-  constructor(private navParams: NavParams, private ble: BLE) {
+  constructor(private navParams: NavParams, private ble: BLE, private modalController: ModalController) {
     this.devices = this.navParams.get('devices');
 
     for (let ob in this.devices) {
@@ -26,7 +23,6 @@ export class DeviceListPage implements OnInit {
 
   ngOnInit() {}
 
-  // 깃 수정
   // 블루투스 장치를 클릭하여 그 장치와 연결시킴
   connect(id: string) {
     try {
@@ -72,5 +68,9 @@ export class DeviceListPage implements OnInit {
 
   bufferData() {
     console.log(this.arduinoData, typeof this.arduinoData);
+  }
+
+  close() {
+    this.modalController.dismiss();
   }
 }

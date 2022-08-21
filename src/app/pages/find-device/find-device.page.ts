@@ -77,24 +77,6 @@ export class FindDevicePage implements OnInit {
     this.navController.navigateBack(['/connect-device']);
   }
 
-  // 장치 추가 페이지로 가서 연동
-  // async goSearch() {
-  //   const ok = await this.alertService.cancelOkBtn(
-  //     'two-btn',
-  //     `${this.deviceList.length}개의 장치가 발견되었습니다:)<br>연결페이지로 이동하시겠어요?`,
-  //     '',
-  //     '취소',
-  //     '확인'
-  //   );
-  //   if (ok) {
-  //     const devices = [JSON.stringify(this.deviceList)];
-  //     this.navController.navigateRoot(['/connect-device'], {
-  //       queryParams: devices,
-  //       skipLocationChange: true,
-  //     });
-  //   }
-  // }
-
   // 블루투스 리스트 모달창
   async imgDetail() {
     const ok = await this.alertService.cancelOkBtn(
