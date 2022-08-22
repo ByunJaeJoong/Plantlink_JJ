@@ -80,51 +80,51 @@ const routes: Routes = [
   },
   {
     path: 'diary',
-    loadChildren: () => import('./pages/diary/diary.module').then( m => m.DiaryPageModule)
+    loadChildren: () => import('./pages/diary/diary.module').then(m => m.DiaryPageModule),
   },
   {
     path: 'plant-report',
-    loadChildren: () => import('./pages/plant-report/plant-report.module').then( m => m.PlantReportPageModule)
+    loadChildren: () => import('./pages/plant-report/plant-report.module').then(m => m.PlantReportPageModule),
   },
   {
     path: 'plant-book',
-    loadChildren: () => import('./pages/plant-book/plant-book.module').then( m => m.PlantBookPageModule)
+    loadChildren: () => import('./pages/plant-book/plant-book.module').then(m => m.PlantBookPageModule),
   },
   {
     path: 'diary-write',
-    loadChildren: () => import('./pages/diary-write/diary-write.module').then( m => m.DiaryWritePageModule)
+    loadChildren: () => import('./pages/diary-write/diary-write.module').then(m => m.DiaryWritePageModule),
   },
   {
     path: 'diary-detail',
-    loadChildren: () => import('./pages/diary-detail/diary-detail.module').then( m => m.DiaryDetailPageModule)
+    loadChildren: () => import('./pages/diary-detail/diary-detail.module').then(m => m.DiaryDetailPageModule),
   },
   {
     path: 'diary-write-camera',
-    loadChildren: () => import('./pages/diary-write-camera/diary-write-camera.module').then( m => m.DiaryWriteCameraPageModule)
+    loadChildren: () => import('./pages/diary-write-camera/diary-write-camera.module').then(m => m.DiaryWriteCameraPageModule),
   },
   {
     path: 'plant-book-detail',
-    loadChildren: () => import('./pages/plant-book-detail/plant-book-detail.module').then( m => m.PlantBookDetailPageModule)
+    loadChildren: () => import('./pages/plant-book-detail/plant-book-detail.module').then(m => m.PlantBookDetailPageModule),
   },
   {
     path: 'find-device',
-    loadChildren: () => import('./pages/find-device/find-device.module').then( m => m.FindDevicePageModule)
-  },
-  {
-    path: 'join',
-    loadChildren: () => import('./pages/account/join/join.module').then( m => m.JoinPageModule)
-  },
-  {
-    path: 'complete-join',
-    loadChildren: () => import('./pages/account/complete-join/complete-join.module').then( m => m.CompleteJoinPageModule)
-  },
-  {
-    path: 'join-address',
-    loadChildren: () => import('./pages/account/join-address/join-address.module').then( m => m.JoinAddressPageModule)
+    loadChildren: () => import('./pages/find-device/find-device.module').then(m => m.FindDevicePageModule),
   },
   {
     path: 'device-list',
-    loadChildren: () => import('./pages/device-list/device-list.module').then( m => m.DeviceListPageModule)
+    loadChildren: () => import('./pages/device-list/device-list.module').then(m => m.DeviceListPageModule),
+  },
+  {
+    path: 'join',
+    loadChildren: () => import('./pages/account/join/join.module').then(m => m.JoinPageModule),
+  },
+  {
+    path: 'complete-join',
+    loadChildren: () => import('./pages/account/complete-join/complete-join.module').then(m => m.CompleteJoinPageModule),
+  },
+  {
+    path: 'join-address',
+    loadChildren: () => import('./pages/account/join-address/join-address.module').then(m => m.JoinAddressPageModule),
   },
 ];
 @NgModule({

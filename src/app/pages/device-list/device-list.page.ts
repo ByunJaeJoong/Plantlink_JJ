@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BLE } from '@ionic-native/ble/ngx';
-import { NavParams, ModalController } from '@ionic/angular';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
+import { NavParams, ModalController, NavController } from '@ionic/angular';
+
 @Component({
   selector: 'app-device-list',
   templateUrl: './device-list.page.html',
@@ -10,31 +12,58 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 export class DeviceListPage implements OnInit {
   devices: any;
   deviceList: any = [];
-  isConnect: boolean = false;
   arduinoData: any = [];
 
-  constructor(private navParams: NavParams, private ble: BLE, private modalController: ModalController) {
-    this.devices = this.navParams.get('devices');
+  constructor(private ble: BLE, private navController: NavController, private bluetoothSerial: BluetoothSerial, private route: ActivatedRoute) {
+    this.route.queryParams.subscribe(data => {
+      console.log(data);
 
-    for (let ob in this.devices) {
-      this.deviceList.push(JSON.parse(this.devices[ob]));
-    }
+      // for (let ob in data) {
+      //   this.deviceList.push(JSON.parse(data[ob]));
+      // }
+    });
   }
 
   ngOnInit() {}
 
   // 블루투스 장치를 클릭하여 그 장치와 연결시킴
-  connect(id: string) {
+  async connect(id: string) {
+    this.bluetoothSerial.disconnect();
+
     try {
-      this.ble.connect(id).subscribe(data => {
-        // 연결시킨 장치 안에 데이터를 보냄
-        this.read(data);
-        // 연결됨을 표시하기 위한 불리언 값
-        this.isConnect = true;
-      });
+      console.log('클릭한 id', id);
+      this.successConnect(id);
     } catch (error) {
-      console.log(error);
+      console.log('error', error);
+      let code = error.errorMessage;
+      let errorId = error.id;
+
+      switch (code) {
+        case 'Peripheral Disconnected': {
+          this.reconnectDevice(errorId);
+          break;
+        }
+      }
     }
+  }
+
+  successConnect(id: string) {
+    this.ble.connect(id).subscribe(data => {
+      console.log('클릭한 데이터', data);
+      // 연결시킨 장치 안에 데이터를 보냄
+      this.read(data);
+
+      this.navController.navigateForward(['/connect-device'], {
+        queryParams: data,
+        skipLocationChange: true,
+      });
+    });
+  }
+
+  reconnectDevice(id: string) {
+    this.ble.disconnect(id).then(() => {
+      this.successConnect(id);
+    });
   }
 
   async read(data: any) {
@@ -59,18 +88,12 @@ export class DeviceListPage implements OnInit {
           }
         });
       });
-
-      this.bufferData();
     } catch (error) {
       console.log(error);
     }
   }
 
-  bufferData() {
-    console.log(this.arduinoData, typeof this.arduinoData);
-  }
-
   close() {
-    this.modalController.dismiss();
+    this.navController.navigateBack(['/connect-device']);
   }
 }
