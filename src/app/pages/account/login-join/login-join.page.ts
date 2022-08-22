@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, Platform } from '@ionic/angular';
+import { AlertController, NavController, Platform } from '@ionic/angular';
 import * as firebase from 'firebase';
 import { Users } from 'src/app/models/users.model';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -38,7 +38,8 @@ export class LoginJoinPage implements OnInit {
     private google: GooglePlus,
     private db: DbService,
     private auth: AuthService,
-    private fireAuth: AngularFireAuth
+    private fireAuth: AngularFireAuth,
+    private alertController: AlertController
   ) {}
 
   ngOnInit() {}
@@ -55,45 +56,68 @@ export class LoginJoinPage implements OnInit {
     if (this.platform.is('cordova')) {
       this.google
         .login(params)
-        .then((response: any) => {
+        .then(async (response: any) => {
           console.log('google login response', response);
           const { idToken, accessToken } = response;
 
           this.user.email = response.email;
-
+          console.log('this.user.email', this.user.email, response);
           const credential = accessToken
             ? firebase.default.auth.GoogleAuthProvider.credential(idToken, accessToken)
             : firebase.default.auth.GoogleAuthProvider.credential(idToken);
 
-          console.log('credential', credential);
+          console.log(this.user.email, credential);
 
-          this.fireAuthSignInWithCredential(credential);
+          const emailCheck = await this.db
+            .collection$(`users`, ref => ref.where('email', '==', this.user.email))
+            .pipe(first())
+            .toPromise();
+          // email 있는지?
+          console.log('emailCheck', emailCheck);
+
+          if (emailCheck) {
+            this.emailAlreadyCheck(this.user.email, credential, accessToken, 'google');
+          } else {
+            firebase.default
+              .auth()
+              .signInWithCredential(credential)
+              .then(async (success: any) => {
+                console.log('fireAuthSignInWithCredential success : ', success);
+                const user = success.user;
+                const uid = user.uid;
+                const isLogin = await this.isLoginOrSignUp(uid);
+                if (isLogin) this.loginUser(uid);
+                else this.registerUser(user, credential, 'google');
+                // this.registerUser(user, credential, 'google');
+              });
+          }
         })
         .catch(err => {
           console.log('google login error', err);
           this.loadingService.hide();
         });
-    } // web일 때
-    else {
-      params = {};
-      await this.fireAuth
-        .signInWithPopup(new firebase.default.auth.GoogleAuthProvider())
-        .then(async (success: any) => {
-          console.log('google Success', success);
-
-          const user = success.user;
-          const uid = user.uid;
-          const email = user.email;
-          const isLogin = await this.isLoginOrSignUp(uid);
-          if (isLogin) this.loginUser(uid, email);
-          else this.registerUser(user, email);
-          this.loadingService.hide();
-        })
-        .catch((err: any) => {
-          console.log('google login error', err);
-          this.loadingService.hide();
-        });
     }
+    // // web일 때
+    // else {
+    //   params = {};
+    //   await this.fireAuth
+    //     .signInWithPopup(new firebase.default.auth.GoogleAuthProvider())
+    //     .then(async (success: any) => {
+    //       console.log('google Success', success);
+
+    //       const user = success.user;
+    //       const uid = user.uid;
+    //       const email = user.email;
+    //       const isLogin = await this.isLoginOrSignUp(uid);
+    //       if (isLogin) this.loginUser(uid, email);
+    //       else this.registerUser(user, email);
+    //       this.loadingService.hide();
+    //     })
+    //     .catch((err: any) => {
+    //       console.log('google login error', err);
+    //       this.loadingService.hide();
+    //     });
+    // }
     this.loadingService.hide();
   }
   fireAuthSignInWithCredential(credential) {
@@ -107,8 +131,8 @@ export class LoginJoinPage implements OnInit {
         const uid = user.uid;
 
         const isLogin = await this.isLoginOrSignUp(uid);
-        if (isLogin) this.loginUser(uid);
-        else this.registerUser(user);
+        if (isLogin) this.loginUser(uid, credential);
+        else this.registerUser(user, credential);
         this.loadingService.hide();
       })
       .catch(error => {
@@ -117,28 +141,27 @@ export class LoginJoinPage implements OnInit {
       });
   }
 
-  // sociaLoginLink(credential, tokenId?, type?) {
-  //   firebase.default
-  //     .auth()
-  //     .currentUser.linkWithCredential(credential)
-  //     .then(data => {
-  //       // switch (type) {
+  sociaLoginLink(credential, tokenId?, type?) {
+    firebase.default
+      .auth()
+      .currentUser.linkWithCredential(credential)
+      .then(data => {
+        switch (type) {
+          case 'google':
+            this.db.updateAt(`users/${data.user.uid}`, {
+              loginType: firebase.default.firestore.FieldValue.arrayUnion('google'),
+              googleToken: tokenId,
+            });
+            break;
+        }
 
-  //       //   case 'google':
-  //       //     this.db.updateAt(`users/${data.user.uid}`, {
-  //       //       loginType: firebase.default.firestore.FieldValue.arrayUnion('google'),
-  //       //       googleToken: tokenId,
-  //       //     });
-  //       //     break;
-  //       // }
-
-  //       //로그인할때 처리하는 것들 담아준다.
-  //       var uid = data.user.uid;
-  //       localStorage.setItem('userId', uid);
-  //       this.loadingService.hide();
-  //       ////////////////////////////////////
-  //     });
-  // }
+        //로그인할때 처리하는 것들 담아준다.
+        var uid = data.user.uid;
+        localStorage.setItem('userId', uid);
+        this.loadingService.hide();
+        ////////////////////////////////////
+      });
+  }
 
   // 유저 데이터 가져오는 함수
   getUserData(uid) {
@@ -151,9 +174,12 @@ export class LoginJoinPage implements OnInit {
 
     return user && user.uid && user.uid == uid && user.dateCreated && user.dateCreated.length > 0 ? true : false;
   }
+
   // 로그인 함수
   async loginUser(uid: string, email?: string): Promise<void> {
     console.log('login uid : ', uid);
+
+    let pushId: string = '';
 
     const userTmp = await this.db.doc$(`users/${uid}`).pipe(first()).toPromise();
     if (userTmp && userTmp.anotherAccountId) uid = userTmp.anotherAccountId;
@@ -171,8 +197,9 @@ export class LoginJoinPage implements OnInit {
   }
 
   // 회원가입 함수
-  async registerUser(user: any, email?: string): Promise<void> {
-    console.debug('registerUser');
+  async registerUser(user: any, credential, type?, email?: string): Promise<void> {
+    console.log('registerUser, registerUser');
+    await this.socialFirebase(credential, type);
 
     localStorage.setItem('email', email);
 
@@ -196,8 +223,138 @@ export class LoginJoinPage implements OnInit {
     this.loadingService.hide();
   }
 
+  socialFirebase(credential, type) {
+    firebase.default
+      .auth()
+      .currentUser.linkWithCredential(credential)
+      .then(data => {
+        switch (type) {
+          case 'google':
+            this.db.updateAt(`users/${data.user.uid}`, {
+              loginType: firebase.default.firestore.FieldValue.arrayUnion('google'),
+              // googleToken: tokenId,
+            });
+            break;
+        }
+
+        var uid = data.user.uid;
+      });
+  }
+
   //로그인하기
   goLogin() {
     this.navController.navigateForward(['/login']);
+  }
+
+  // 해당 계정 존재
+  async emailAlreadyCheck(email, credential, accessToken, type) {
+    const alert = await this.alertController.create({
+      cssClass: 'alert',
+      header: '해당 계정 존재',
+      message: '해당 계정이 존재합니다. <br />연동을 원하실 경우 "예" 원하지 않으실 경우 "아니요"를 눌러주세요.',
+      buttons: [
+        {
+          text: '예',
+          handler: () => {
+            // 비밀번호 입력
+            this.accessEmail(email, credential, accessToken, type);
+          },
+        },
+        {
+          text: '아니요',
+          role: 'cancel',
+          handler: () => {},
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  // 연동할 경우
+  async accessEmail(email, credential, tokenId, type) {
+    const alert = await this.alertController.create({
+      cssClass: 'alert',
+      header: '비밀번호 입력',
+      message: '비밀번호를 입력해주세요',
+      inputs: [{ name: 'password', type: 'password', placeholder: '비밀번호를 입력해주세요.' }],
+      buttons: [
+        {
+          text: '확인',
+          handler: data => {
+            // 로딩 바
+            this.loadingService.load();
+            console.log('비밀번호', data.password);
+            firebase.default
+              .auth()
+              .signInWithEmailAndPassword(email, data.password)
+              .then(data => {
+                console.log('data: ', data);
+
+                if (type == 'google') {
+                  this.socialShareLogin(credential, tokenId, type);
+                }
+              })
+              .catch(error => {
+                console.log('Error', error);
+                this.loadingService.hide();
+                if (error.code == 'auth/wrong-password') {
+                  this.invalidPassword();
+                }
+              });
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  socialShareLogin(credential, tokenId, type) {
+    firebase.default
+      .auth()
+      .currentUser.linkWithCredential(credential)
+      .then(data => {
+        firebase.default
+          .auth()
+          .signInWithCredential(credential)
+          .then(async (success: any) => {
+            console.log('fireAuthSignInWithCredential success : ', success);
+            const user = success.user;
+            const uid = user.uid;
+            const isLogin = await this.isLoginOrSignUp(uid);
+            if (isLogin) this.loginUser(uid);
+            else this.registerUser(user, credential, 'google');
+            // this.registerUser(user, credential, 'google');
+          });
+        switch (type) {
+          case 'google':
+            this.db.updateAt(`users/${data.user.uid}`, {
+              loginType: firebase.default.firestore.FieldValue.arrayUnion('apple'),
+              appleToken: tokenId,
+            });
+            break;
+        }
+
+        var uid = data.user.uid;
+
+        this.loadingService.hide();
+      });
+  }
+
+  // 유효한 이메일, 잘못된 비밀번호일 경우
+  async invalidPassword() {
+    const alert = await this.alertController.create({
+      cssClass: 'alert',
+      header: '틀린 비밀번호',
+      message: '입력하신 비밀번호가 틀립니다.<br />확인 후 다시 입력해주세요.',
+      buttons: [
+        {
+          text: '확인',
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }
