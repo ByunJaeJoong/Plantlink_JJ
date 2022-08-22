@@ -10,13 +10,13 @@
 <ion-content>
   <div class="loading circle">
     <!--1. 장치 찾는 중 화면 -->
-    <div class="find-device" *ngIf="devices?.length > 0 && isValid">
+    <div class="find-device" *ngIf="deviceList?.length > 0 && isValid">
       <img src="assets/images/flowerpot-icon.png" alt="" />
       <p>블루투스를 켠 상태에서<br />장치와 가까이 놓아주세요</p>
     </div>
 
     <!--2. 장치를 찾을 수 없을 때 화면-->
-    <div class="not-find-device" *ngIf="devices?.length == 0 && !isValid">
+    <div class="not-find-device" *ngIf="deviceList?.length == 0 && !isValid">
       <img src="assets/images/not-find-pot-icon.png" alt="" />
       <p>블루투스를 켠 상태에서<br />장치와 가까이 놓아주세요</p>
     </div>
@@ -28,11 +28,11 @@
   <!-- <div class="loader-circle"></div> -->
 
   <!-- 1. 장치 찾는 화면일 때 함께 보입니다. 장치를 찾지 않을 때는 안보입니다 -->
-  <ng-container *ngIf="devices?.length > 0 && isValid">
-    <p class="find">{{devices?.length}}개의 장치 발견</p>
+  <ng-container *ngIf="deviceList?.length > 0 && isValid">
+    <p class="find">{{deviceList?.length}}개의 장치 발견</p>
     <ion-button fill="clear" (click)="imgDetail()"> 기기 연결하기 </ion-button>
   </ng-container>
 
   <!-- 2. 장치를 찾을 수 없을 때 함께 뜨는 버튼입니다 -->
-  <ion-button fill="clear" (click)="main()" *ngIf="devices?.length == 0 && !isValid"> 다시 찾기 </ion-button>
+  <ion-button fill="clear" (click)="main()" *ngIf="deviceList?.length == 0 && !isValid"> 다시 찾기 </ion-button>
 </ion-content>

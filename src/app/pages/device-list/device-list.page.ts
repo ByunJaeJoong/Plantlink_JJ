@@ -16,11 +16,9 @@ export class DeviceListPage implements OnInit {
 
   constructor(private ble: BLE, private navController: NavController, private bluetoothSerial: BluetoothSerial, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(data => {
-      console.log(data);
-
-      // for (let ob in data) {
-      //   this.deviceList.push(JSON.parse(data[ob]));
-      // }
+      for (let ob in data) {
+        this.deviceList.push(JSON.parse(data[ob]));
+      }
     });
   }
 
@@ -28,7 +26,7 @@ export class DeviceListPage implements OnInit {
 
   // 블루투스 장치를 클릭하여 그 장치와 연결시킴
   async connect(id: string) {
-    this.bluetoothSerial.disconnect();
+    // this.bluetoothSerial.disconnect();
 
     try {
       console.log('클릭한 id', id);

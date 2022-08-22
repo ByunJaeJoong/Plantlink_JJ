@@ -1,11 +1,9 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { BLE } from '@ionic-native/ble/ngx';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
-import { ModalController, NavController } from '@ionic/angular';
-import { TouchSequence } from 'selenium-webdriver';
+import { NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert.service';
 import { LoadingService } from 'src/app/services/loading.service';
-import { DeviceListPage } from '../device-list/device-list.page';
 
 @Component({
   selector: 'app-find-device',
@@ -15,10 +13,8 @@ import { DeviceListPage } from '../device-list/device-list.page';
 export class FindDevicePage implements OnInit {
   deviceList: any = [];
   isValid = false;
-  devices: any;
 
   constructor(
-    private modalController: ModalController,
     private navController: NavController,
     private bluetoothSerial: BluetoothSerial,
     public loadingService: LoadingService,
@@ -51,59 +47,51 @@ export class FindDevicePage implements OnInit {
       console.log('블루투스 활성화');
       this.alertService.okBtn('alert', '블루투스가 켜져있는지 확인해주세요.');
     }
-    // this.bluetoothSerial.isEnabled()
-    // .then((response: BluetoothEnabledResult) => {
-    //   const message = response.enabled ? 'enabled' : 'disabled';
-    //   console.log(`Bluetooth is ${message}`);
-    // })
-    // .catch(() => {
-    //   console.log('Error checking bluetooth status');
-    // });
   }
 
   // 블루투스 장치 검색
   async searchDevices() {
     console.log('진행확인 장치 검색');
 
-    this.bluetoothSerial.discoverUnpaired().then(data => {
-      this.devices = data;
-      console.log('discoverUnpaired', data);
-      // data.forEach(e => {
-      //   console.log('id:', e.id);
-      //   this.bluetoothSerial.connect(e.id).subscribe(data => {
-      //     console.log('connect', data);
-      //   });
-      //   // const decoder = new TextDecoder('utf-8');
-      //   // this.bluetoothSerial.disconnect();
+    // this.bluetoothSerial.discoverUnpaired().then(data => {
+    //   this.devices = data;
+    //   console.log('discoverUnpaired', data);
+    //   data.forEach(e => {
+    //     console.log('id:', e.id);
+    //     this.bluetoothSerial.connect(e.id).subscribe(data => {
+    //       console.log('connect', data);
+    //     });
+    //     // const decoder = new TextDecoder('utf-8');
+    //     // this.bluetoothSerial.disconnect();
 
-      //   // this.bluetoothSerial.connect(e.id).subscribe(() => {
-      //   //   console.log('connected to:', e.id);
-      //   //   this.bluetoothSerial.subscribeRawData().subscribe(data => console.log(decoder.decode(data)));
-      //   // });
-      // });
+    //     // this.bluetoothSerial.connect(e.id).subscribe(() => {
+    //     //   console.log('connected to:', e.id);
+    //     //   this.bluetoothSerial.subscribeRawData().subscribe(data => console.log(decoder.decode(data)));
+    //     // });
+    //   });
+    // });
+    // if (this.devices?.length > 0) {
+    //   this.isValid = true;
+    // } else {
+    //   this.isValid = false;
+    // }
+
+    // 1초 동안 주변 블루투스 스캔
+    this.ble.scan([], 1).subscribe(device => this.onDeviceDiscovered(device));
+  }
+
+  // 스캔된 블루투스 장치들을 List안에 push하는 함수
+  onDeviceDiscovered(device: object) {
+    // 값이 변화할 때마다 체크하면서 push 진행
+    this.ngZone.run(() => {
+      this.deviceList.push(device);
     });
-    if (this.devices?.length > 0) {
+    if (this.deviceList.length > 0) {
       this.isValid = true;
     } else {
       this.isValid = false;
     }
-
-    // 1초 동안 주변 블루투스 스캔
-    //this.ble.scan([], 1).subscribe(device => this.onDeviceDiscovered(device));
   }
-
-  // 스캔된 블루투스 장치들을 List안에 push하는 함수
-  // onDeviceDiscovered(device: object) {
-  //   // 값이 변화할 때마다 체크하면서 push 진행
-  //   this.ngZone.run(() => {
-  //     this.deviceList.push(device);
-  //   });
-  //   if (this.deviceList.length > 0) {
-  //     this.isValid = true;
-  //   } else {
-  //     this.isValid = false;
-  //   }
-  // }
 
   //홈화면으로 가기
   goHome() {
@@ -114,26 +102,18 @@ export class FindDevicePage implements OnInit {
   async imgDetail() {
     const ok = await this.alertService.cancelOkBtn(
       'two-btn',
-      `${this.devices.length}개의 장치가 발견되었습니다:)<br>연결페이지로 이동하시겠어요?`,
+      `${this.deviceList.length}개의 장치가 발견되었습니다:)<br>연결페이지로 이동하시겠어요?`,
       '',
       '취소',
       '확인'
     );
     if (ok) {
-      //const devices = [JSON.stringify(this.deviceList)];
+      const devices = [JSON.stringify(this.deviceList)];
 
       this.navController.navigateRoot(['/device-list'], {
-        queryParams: this.devices,
+        queryParams: devices,
         skipLocationChange: true,
       });
-
-      // const modal = await this.modalController.create({
-      //   component: DeviceListPage,
-      //   componentProps: {
-      //     devices,
-      //   },
-      // });
-      // return await modal.present();
     }
   }
 }
