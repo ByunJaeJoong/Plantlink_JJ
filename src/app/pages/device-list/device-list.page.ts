@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BLE } from '@ionic-native/ble/ngx';
 import { NavParams, ModalController } from '@ionic/angular';
-
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 @Component({
   selector: 'app-device-list',
   templateUrl: './device-list.page.html',

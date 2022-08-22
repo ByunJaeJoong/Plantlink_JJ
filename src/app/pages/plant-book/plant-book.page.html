@@ -44,7 +44,7 @@
       <!-- 검색결과 입니다 -->
       <div class="search-result" *ngIf="searchMode ? (plant | plantSearch : keyword) : plant as plant">
         <div class="empty" *ngIf="plant?.length == 0">
-          <img [src]="item.plantImage ? item.plantImage : 'assets/images/default-img.png'" alt="" />
+          <img src="assets/images/default-img.png" alt="" />
           <p>식물의 종류를 찾을 수 없어요.</p>
         </div>
         <ng-container *ngIf="searchMode && plant?.length > 0">
