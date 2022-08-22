@@ -9,14 +9,12 @@
 
 <ion-content>
   <div class="device-list">
-    <ng-container>
-      <ion-item>
-        <ion-label>
-          <p class="name"></p>
-          <p class="connect">연결됨</p>
-        </ion-label>
-      </ion-item>
-    </ng-container>
+    <ion-item>
+      <ion-label *ngIf="deviceName">
+        <p class="name">{{deviceData.name}}</p>
+        <p class="connect">연결됨</p>
+      </ion-label>
+    </ion-item>
   </div>
   <ion-button (click)="findDevice()" fill="clear"> 장치 추가하기 </ion-button>
 </ion-content>
