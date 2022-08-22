@@ -161,6 +161,6 @@ export class PlantBookDetailPage implements OnInit {
 
   //홈화면으로
   goHome() {
-    this.navController.navigateForward(['/plant-book']);
+    this.navController.navigateBack(['/plant-book']);
   }
 }

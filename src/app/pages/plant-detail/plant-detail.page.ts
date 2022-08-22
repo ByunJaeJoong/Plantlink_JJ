@@ -45,6 +45,6 @@ export class PlantDetailPage implements OnInit {
 
   //홈으로
   goHome() {
-    this.navController.navigateForward(['/tabs/plant']);
+    this.navController.navigateBack(['/tabs/plant']);
   }
 }

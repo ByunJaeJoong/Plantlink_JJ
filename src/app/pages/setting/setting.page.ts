@@ -68,7 +68,7 @@ export class SettingPage implements OnInit {
 
   //홈으로
   goHome() {
-    this.navController.navigateForward(['/tabs/home']);
+    this.navController.navigateBack(['/tabs/home']);
   }
   //faq로
   goFaq() {
