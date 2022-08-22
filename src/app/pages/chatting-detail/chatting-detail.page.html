@@ -6,7 +6,7 @@
     <ion-buttons slot="start">
       <ion-button (click)="goChatList()" fill="clear" class="back-btn"> </ion-button>
     </ion-buttons>
-    <h2>화분친구</h2>
+    <h2>분구</h2>
     <div class="left"></div>
   </div>
 
@@ -19,6 +19,7 @@
         <ion-label>
           <p class="content">{{chat.chatContent}}</p>
         </ion-label>
+        <!-- <p class="time">{{chat.createdAt | date : 'HH:mm'}}</p> -->
         <p class="time">{{chat.createdAt | date : 'HH:mm'}}</p>
       </ion-item>
 
