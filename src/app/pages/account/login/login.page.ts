@@ -3,6 +3,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { DbService } from 'src/app/services/db.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,8 @@ export class LoginPage implements OnInit {
     private db: DbService,
     private auth: AuthService,
     private alert: AlertService,
-    private navc: NavController
+    private navc: NavController,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit() {}
@@ -38,13 +40,16 @@ export class LoginPage implements OnInit {
 
   //홈으로
   login() {
+    this.loadingService.load();
     if (!this.email) {
       this.emailValidate = false;
+      return;
     } else {
       this.emailValidate = true;
     }
     if (!this.password) {
       this.passwordValidate = false;
+      return;
     } else {
       this.passwordValidate = true;
     }
@@ -53,6 +58,7 @@ export class LoginPage implements OnInit {
       .then(result => {
         localStorage.setItem('userId', result.user.uid);
         this.navc.navigateRoot('/tabs/home');
+        this.loadingService.hide();
       })
       .catch(err => {
         if (err.code == 'auth/user-not-found') {
