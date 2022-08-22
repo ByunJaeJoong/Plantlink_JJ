@@ -51,8 +51,8 @@ export class LoginJoinPage implements OnInit {
       offline: true,
     };
 
-    // android 일 때
-    if (this.platform.is('cordova') && this.platform.is('android')) {
+    //
+    if (this.platform.is('cordova')) {
       this.google
         .login(params)
         .then((response: any) => {
