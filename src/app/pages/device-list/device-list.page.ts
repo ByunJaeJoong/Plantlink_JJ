@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BLE } from '@ionic-native/ble/ngx';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
-import { NavParams, ModalController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-device-list',
@@ -14,7 +14,7 @@ export class DeviceListPage implements OnInit {
   deviceList: any = [];
   arduinoData: any = [];
 
-  constructor(private ble: BLE, private navController: NavController, private bluetoothSerial: BluetoothSerial, private route: ActivatedRoute) {
+  constructor(private ble: BLE, private navController: NavController, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(data => {
       for (let ob in data) {
         this.deviceList.push(JSON.parse(data[ob]));
@@ -26,8 +26,6 @@ export class DeviceListPage implements OnInit {
 
   // 블루투스 장치를 클릭하여 그 장치와 연결시킴
   async connect(id: string) {
-    // this.bluetoothSerial.disconnect();
-
     try {
       console.log('클릭한 id', id);
       this.successConnect(id);

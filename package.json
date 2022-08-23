@@ -138,7 +138,7 @@
       },
       "cordova-plugin-bluetooth-serial": {},
       "cordova-plugin-ble-central": {
-        "ACCESS_BACKGROUND_LOCATION": "false"
+        "BLUETOOTH_USAGE_DESCRIPTION": "Your description here"
       }
     },
     "platforms": [

@@ -9,20 +9,15 @@ import { NavController } from '@ionic/angular';
 })
 export class ConnectDevicePage implements OnInit {
   deviceData: any;
-  deviceName: string = localStorage.getItem('deviceName');
+  //deviceName: string = localStorage.getItem('deviceName');
 
   constructor(private navController: NavController, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.deviceData = params;
-      this.getData();
     });
   }
 
   ngOnInit() {}
-
-  getData() {
-    localStorage.setItem('deviceName', this.deviceData.name);
-  }
 
   //홈화면으로 가기
   goHome() {

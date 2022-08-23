@@ -33,48 +33,24 @@ export class FindDevicePage implements OnInit {
     this.isValid = false;
     // 장치 리스트를 빈배열로 설정
     this.deviceList = [];
-    // 블루투스 현재 연결을 끊음
+    // 현재 연결되어 있는 블루투스의 연결을 해제
     this.bluetoothSerial.disconnect();
-
     // 블루투스가 활성화 되어 있는지 확인
-    try {
-      const isEnabled = await this.bluetoothSerial.isEnabled();
-      if (isEnabled) {
+    this.ble
+      .isEnabled()
+      .then(data => {
         console.log('블루투스 활성화');
         this.searchDevices();
-      }
-    } catch (error) {
-      console.log('블루투스 활성화');
-      this.alertService.okBtn('alert', '블루투스가 켜져있는지 확인해주세요.');
-    }
+      })
+      .catch(error => {
+        console.log(error);
+        this.alertService.okBtn('alert', '블루투스가 켜져있는지 확인해주세요.');
+      });
   }
 
   // 블루투스 장치 검색
   async searchDevices() {
     console.log('진행확인 장치 검색');
-
-    // this.bluetoothSerial.discoverUnpaired().then(data => {
-    //   this.devices = data;
-    //   console.log('discoverUnpaired', data);
-    //   data.forEach(e => {
-    //     console.log('id:', e.id);
-    //     this.bluetoothSerial.connect(e.id).subscribe(data => {
-    //       console.log('connect', data);
-    //     });
-    //     // const decoder = new TextDecoder('utf-8');
-    //     // this.bluetoothSerial.disconnect();
-
-    //     // this.bluetoothSerial.connect(e.id).subscribe(() => {
-    //     //   console.log('connected to:', e.id);
-    //     //   this.bluetoothSerial.subscribeRawData().subscribe(data => console.log(decoder.decode(data)));
-    //     // });
-    //   });
-    // });
-    // if (this.devices?.length > 0) {
-    //   this.isValid = true;
-    // } else {
-    //   this.isValid = false;
-    // }
 
     // 1초 동안 주변 블루투스 스캔
     this.ble.scan([], 1).subscribe(device => this.onDeviceDiscovered(device));
