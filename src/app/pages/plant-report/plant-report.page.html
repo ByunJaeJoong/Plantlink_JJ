@@ -14,7 +14,8 @@
     <div class="report-wrap" [ngClass]="{'month-padding': segment == '월간'}">
       <div class="top-btn-wrap">
         <ion-button fill="clear" class="calendar-btn" (click)="openPopCalendar()">
-          2022.07
+          <ng-container *ngIf="!selectedDate"> {{ now | date: 'yyyy.MM' }}</ng-container>
+          <ng-container *ngIf="selectedDate"> {{ selectedDate | date: 'yyyy.MM' }}</ng-container>
           <div class="icon"></div>
         </ion-button>
 

@@ -1,10 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import fa from '@mobiscroll/angular/dist/js/i18n/fa';
 import { Chart, registerables } from 'chart.js';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { PopCalendarComponent } from '../pop-calendar/pop-calendar.component';
-import he from '@mobiscroll/angular/dist/js/i18n/he';
 import { NavController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+import { DbService } from 'src/app/services/db.service';
+import { Observable } from 'rxjs';
 Chart.register(...registerables);
 
 @Component({
@@ -19,6 +20,24 @@ export class PlantReportPage implements OnInit {
   @ViewChild('temMonth', { static: false }) temMonth: ElementRef;
   @ViewChild('illuminMonth', { static: false }) illuminMonth: ElementRef;
   @ViewChild('waterMonth', { static: false }) waterMonth: ElementRef;
+
+  userId: string = localStorage.getItem('userId');
+  now: string = new Date().toISOString();
+  selectedDate: string = '';
+  plantData$: Observable<any>;
+
+  // 차트의 값을 받을 변수
+  week: any = {
+    soil: '',
+    light: '',
+    temperature: '',
+  };
+
+  month: any = {
+    soil: '',
+    light: '',
+    temperature: '',
+  };
 
   bar: any;
 
@@ -57,13 +76,43 @@ export class PlantReportPage implements OnInit {
   ];
 
   weekLabel = ['월', '화', '수', '목', '금', '토', '일'];
-  data = [65, 59, 90, 81, 56, 55, 40, 65, 59, 90, 81, 56, 55, 40, 65, 59, 90, 81, 56, 55, 40, 65, 59, 90, 81, 56, 55, 40, 65, 59, 90];
 
   resultSelect = '월간';
   segment = '주간';
-  constructor(private dialog: MatDialog, private navController: NavController) {}
+  constructor(private dialog: MatDialog, private navController: NavController, private route: ActivatedRoute, private db: DbService) {
+    this.route.queryParams.subscribe(params => {
+      this.selectedDate = params.selectedDate;
+      this.getData();
+    });
+  }
 
   ngOnInit() {}
+
+  getData() {
+    this.plantData$ = this.db.collection$(`plantData`, ref => ref.where('userId', '==', this.userId));
+    this.plantData$.subscribe(plantDatas => {
+      console.log(plantDatas);
+
+      plantDatas.forEach((data: any) => {
+        // this.soil = data.soil;
+        // this.temperature = data.temperature;
+        // this.light = data.light;
+      });
+    });
+  }
+
+  //일주일 날짜 계산
+  get getWeekLabels(): Array<number> {
+    let labels: Array<number> = [];
+
+    for (let i = 0; i < 7; i++) {
+      const now: Date = new Date(this.now);
+      now.setDate(now.getDate() - i);
+      labels.unshift(now.getDay());
+    }
+
+    return labels;
+  }
 
   changeSegment() {
     setTimeout(() => {
@@ -76,7 +125,7 @@ export class PlantReportPage implements OnInit {
         this.monthIllumin();
         this.monthWater();
       }
-    }, 500);
+    }, 200);
   }
 
   ionViewDidEnter() {
@@ -100,7 +149,7 @@ export class PlantReportPage implements OnInit {
         datasets: [
           {
             label: '온도',
-            data: this.data,
+            data: this.week.temperature,
             backgroundColor: '#EDC3C9',
             borderColor: '#DB7F8C',
             maxBarThickness: 45,
@@ -228,8 +277,8 @@ export class PlantReportPage implements OnInit {
         labels: this.weekLabel,
         datasets: [
           {
-            label: '온도',
-            data: this.data,
+            label: '조도',
+            data: this.week.light,
             backgroundColor: '#FFF9D5',
             borderColor: '#FFDC30',
             maxBarThickness: 45,
@@ -355,8 +404,8 @@ export class PlantReportPage implements OnInit {
         labels: this.weekLabel,
         datasets: [
           {
-            label: '온도',
-            data: this.data,
+            label: '토양수분',
+            data: this.week.soil,
             backgroundColor: '#5483EF',
             borderColor: '#ACDBFF',
             maxBarThickness: 45,
@@ -483,7 +532,7 @@ export class PlantReportPage implements OnInit {
         datasets: [
           {
             label: '온도',
-            data: this.data,
+            data: this.month.temperature,
             backgroundColor: '#EDC3C9',
             borderColor: '#DB7F8C',
             barThickness: 6,
@@ -682,8 +731,8 @@ export class PlantReportPage implements OnInit {
         labels: this.label,
         datasets: [
           {
-            label: '온도',
-            data: this.data,
+            label: '조도',
+            data: this.month.light,
             backgroundColor: '#FFF9D5',
             borderColor: '#FFDC30',
             barThickness: 6,
@@ -882,8 +931,8 @@ export class PlantReportPage implements OnInit {
         labels: this.label,
         datasets: [
           {
-            label: '온도',
-            data: this.data,
+            label: '토양수분',
+            data: this.month.soil,
             backgroundColor: '#5483EF',
             borderColor: '#ACDBFF',
             barThickness: 6,
@@ -1071,7 +1120,7 @@ export class PlantReportPage implements OnInit {
     });
   }
 
-  //달력
+  // 날짜 클릭시 달력 생성
   openPopCalendar() {
     this.dialog.open(PopCalendarComponent, {
       width: '273px',
