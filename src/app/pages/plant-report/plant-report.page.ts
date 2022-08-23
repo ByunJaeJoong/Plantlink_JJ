@@ -6,6 +6,8 @@ import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { DbService } from 'src/app/services/db.service';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { CommonService } from 'src/app/services/common.service';
 Chart.register(...registerables);
 
 @Component({
@@ -25,6 +27,8 @@ export class PlantReportPage implements OnInit {
   now: string = new Date().toISOString();
   selectedDate: string = '';
   plantData$: Observable<any>;
+  weekPlants$: Observable<any>;
+  monthPlants$: Observable<any>;
 
   // 차트의 값을 받을 변수
   week: any = {
@@ -79,7 +83,13 @@ export class PlantReportPage implements OnInit {
 
   resultSelect = '월간';
   segment = '주간';
-  constructor(private dialog: MatDialog, private navController: NavController, private route: ActivatedRoute, private db: DbService) {
+  constructor(
+    private dialog: MatDialog,
+    private navController: NavController,
+    private route: ActivatedRoute,
+    private db: DbService,
+    private common: CommonService
+  ) {
     this.route.queryParams.subscribe(params => {
       this.selectedDate = params.selectedDate;
       this.getData();
@@ -90,15 +100,37 @@ export class PlantReportPage implements OnInit {
 
   getData() {
     this.plantData$ = this.db.collection$(`plantData`, ref => ref.where('userId', '==', this.userId));
-    this.plantData$.subscribe(plantDatas => {
-      console.log(plantDatas);
+    // 데이터 확인용
+    // this.plantData$.subscribe(plantDatas => {
+    //   console.log(plantDatas);
+    // });
 
-      plantDatas.forEach((data: any) => {
-        // this.soil = data.soil;
-        // this.temperature = data.temperature;
-        // this.light = data.light;
-      });
+    this.weekPlants$ = this.plantData$.pipe(
+      map((dates: any) => {
+        if (this.selectedDate) {
+          return dates.filter((ele: any) => this.common.formatDate(ele.dateCreated) == this.common.formatDate(this.selectedDate));
+        } else {
+          return dates.filter((ele: any) => this.common.formatDate(ele.dateCreated) == this.common.formatDate(this.now));
+        }
+      })
+    );
+
+    this.weekPlants$.subscribe(weekPlants => {
+      console.log(weekPlants);
+
+      if (weekPlants.length == 0) {
+        this.week.soil = '';
+        this.week.temperature = '';
+        this.week.light = '';
+      } else {
+        weekPlants.forEach((data: any) => {
+          this.week.soil = data.soil;
+          this.week.temperature = data.temperature;
+          this.week.light = data.light;
+        });
+      }
     });
+    console.log(this.week.soil, this.week.temperature, this.week.light);
   }
 
   //일주일 날짜 계산
@@ -110,7 +142,6 @@ export class PlantReportPage implements OnInit {
       now.setDate(now.getDate() - i);
       labels.unshift(now.getDay());
     }
-
     return labels;
   }
 
@@ -1131,9 +1162,8 @@ export class PlantReportPage implements OnInit {
   headerBackSwitch = false;
 
   //헤더 스크롤 할 때 색 변하게
-  logScrolling(event) {
+  logScrolling(event: any) {
     let scroll = event.detail.scrollTop;
-    console.log(event);
 
     if (scroll > 46) {
       this.headerBackSwitch = true;
