@@ -28,7 +28,7 @@ export class JoinPage implements OnInit {
     address: '',
     email: '',
     phone: '',
-    loginType: 'email',
+    loginType: ['email'],
     chatEnterSwitch: false,
     connectSwitch: false,
     plantSwitch: false,
@@ -185,6 +185,7 @@ export class JoinPage implements OnInit {
   phoneChange() {
     if (this.certifiedSwitch) {
       this.certifiedSwitch = false;
+      this.sendSwitch = false;
     }
   }
 

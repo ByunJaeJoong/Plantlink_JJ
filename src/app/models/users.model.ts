@@ -6,7 +6,7 @@ export interface Users {
   address: string;
   email: string;
   phone: string;
-  loginType: string;
+  loginType: Array<any>;
   chatEnterSwitch: boolean;
   connectSwitch: boolean;
   plantSwitch: boolean;

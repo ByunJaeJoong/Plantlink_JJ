@@ -72,13 +72,13 @@
   <h3>휴대폰 <span>*</span></h3>
   <ion-item class="join-input-wrap">
     <ion-input (ionChange)="phoneChange()" [(ngModel)]="users.phone" inputmode="numeric" type="tel" placeholder="숫자만 입력하세요."></ion-input>
-    <ion-button (click)="authenticate()" fill="clear" class="border-btn"> 인증번호 받기 </ion-button>
+    <ion-button (click)="authenticate()" fill="clear" class="border-btn" [disabled]="!users.phone"> 인증번호 받기 </ion-button>
   </ion-item>
 
   <!-- 인증번호 확인 -->
   <ion-item class="join-input-wrap m-bottom m-top">
     <ion-input [(ngModel)]="certifyNum" inputmode="text" type="text"></ion-input>
-    <ion-button (click)="checkedNumber()" fill="clear" class="border-btn"> 인증번호 확인 </ion-button>
+    <ion-button (click)="checkedNumber()" fill="clear" class="border-btn" [disabled]="!sendSwtich"> 인증번호 확인 </ion-button>
   </ion-item>
 
   <!-- 주소-->

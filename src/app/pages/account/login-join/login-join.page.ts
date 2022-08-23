@@ -8,6 +8,7 @@ import { DbService } from 'src/app/services/db.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { first } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-login-join',
@@ -22,7 +23,7 @@ export class LoginJoinPage implements OnInit {
     address: '',
     email: '',
     phone: '',
-    loginType: '',
+    loginType: [],
     exitSwitch: false,
     chatEnterSwitch: false,
     connectSwitch: false,
@@ -39,14 +40,15 @@ export class LoginJoinPage implements OnInit {
     private db: DbService,
     private auth: AuthService,
     private fireAuth: AngularFireAuth,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private alert: AlertService
   ) {}
 
   ngOnInit() {}
 
   async googleLogin() {
     this.loadingService.load();
-    this.user.loginType = 'google';
+    this.user.loginType = ['google'];
     let params: any = {
       webClientId: '1017905341794-pq01l3btsdl5k30gth7cdctfh50kh0sf.apps.googleusercontent.com',
       offline: true,
@@ -75,7 +77,7 @@ export class LoginJoinPage implements OnInit {
           // email 있는지?
           console.log('emailCheck', emailCheck);
 
-          if (emailCheck) {
+          if (emailCheck.length > 0 && !emailCheck[0].loginType.includes('google')) {
             this.emailAlreadyCheck(this.user.email, credential, accessToken, 'google');
           } else {
             firebase.default
@@ -177,9 +179,8 @@ export class LoginJoinPage implements OnInit {
 
   // 로그인 함수
   async loginUser(uid: string, email?: string): Promise<void> {
+    this.loadingService.load();
     console.log('login uid : ', uid);
-
-    let pushId: string = '';
 
     const userTmp = await this.db.doc$(`users/${uid}`).pipe(first()).toPromise();
     if (userTmp && userTmp.anotherAccountId) uid = userTmp.anotherAccountId;
@@ -199,7 +200,8 @@ export class LoginJoinPage implements OnInit {
   // 회원가입 함수
   async registerUser(user: any, credential, type?, email?: string): Promise<void> {
     console.log('registerUser, registerUser');
-    await this.socialFirebase(credential, type);
+    // 회원 가입 시 link
+    // await this.socialFirebase(credential, type);
 
     localStorage.setItem('email', email);
 
@@ -222,24 +224,24 @@ export class LoginJoinPage implements OnInit {
 
     this.loadingService.hide();
   }
+  // 회원 가입 시 link
+  // socialFirebase(credential, type) {
+  //   firebase.default
+  //     .auth()
+  //     .currentUser.linkWithCredential(credential)
+  //     .then(data => {
+  //       switch (type) {
+  //         case 'google':
+  //           this.db.updateAt(`users/${data.user.uid}`, {
+  //             loginType: firebase.default.firestore.FieldValue.arrayUnion('google'),
+  //             // googleToken: tokenId,
+  //           });
+  //           break;
+  //       }
 
-  socialFirebase(credential, type) {
-    firebase.default
-      .auth()
-      .currentUser.linkWithCredential(credential)
-      .then(data => {
-        switch (type) {
-          case 'google':
-            this.db.updateAt(`users/${data.user.uid}`, {
-              loginType: firebase.default.firestore.FieldValue.arrayUnion('google'),
-              // googleToken: tokenId,
-            });
-            break;
-        }
-
-        var uid = data.user.uid;
-      });
-  }
+  //       var uid = data.user.uid;
+  //     });
+  // }
 
   //로그인하기
   goLogin() {
@@ -250,8 +252,7 @@ export class LoginJoinPage implements OnInit {
   async emailAlreadyCheck(email, credential, accessToken, type) {
     const alert = await this.alertController.create({
       cssClass: 'alert',
-      header: '해당 계정 존재',
-      message: '해당 계정이 존재합니다. <br />연동을 원하실 경우 "예" 원하지 않으실 경우 "아니요"를 눌러주세요.',
+      message: '해당 이메일로 가입 된 계정이 존재합니다. <br />계정을 연동 하시겠습니까?',
       buttons: [
         {
           text: '예',
@@ -275,7 +276,6 @@ export class LoginJoinPage implements OnInit {
   async accessEmail(email, credential, tokenId, type) {
     const alert = await this.alertController.create({
       cssClass: 'alert',
-      header: '비밀번호 입력',
       message: '비밀번호를 입력해주세요',
       inputs: [{ name: 'password', type: 'password', placeholder: '비밀번호를 입력해주세요.' }],
       buttons: [
@@ -299,7 +299,7 @@ export class LoginJoinPage implements OnInit {
                 console.log('Error', error);
                 this.loadingService.hide();
                 if (error.code == 'auth/wrong-password') {
-                  this.invalidPassword();
+                  this.alert.okBtn('alert', '입력하신 비밀번호가 틀립니다. <br />확인 후 다시 입력해주세요.');
                 }
               });
           },
@@ -325,36 +325,15 @@ export class LoginJoinPage implements OnInit {
             const isLogin = await this.isLoginOrSignUp(uid);
             if (isLogin) this.loginUser(uid);
             else this.registerUser(user, credential, 'google');
-            // this.registerUser(user, credential, 'google');
           });
         switch (type) {
           case 'google':
             this.db.updateAt(`users/${data.user.uid}`, {
-              loginType: firebase.default.firestore.FieldValue.arrayUnion('apple'),
-              appleToken: tokenId,
+              loginType: firebase.default.firestore.FieldValue.arrayUnion('google'),
+              googleToken: tokenId,
             });
             break;
         }
-
-        var uid = data.user.uid;
-
-        this.loadingService.hide();
       });
-  }
-
-  // 유효한 이메일, 잘못된 비밀번호일 경우
-  async invalidPassword() {
-    const alert = await this.alertController.create({
-      cssClass: 'alert',
-      header: '틀린 비밀번호',
-      message: '입력하신 비밀번호가 틀립니다.<br />확인 후 다시 입력해주세요.',
-      buttons: [
-        {
-          text: '확인',
-        },
-      ],
-    });
-
-    await alert.present();
   }
 }
