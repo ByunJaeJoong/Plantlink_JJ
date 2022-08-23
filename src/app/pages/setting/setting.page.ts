@@ -90,9 +90,9 @@ export class SettingPage implements OnInit {
     this.navController.navigateForward(['/setting']);
   }
 
-  //캐시 삭제 alert
+  // 데이터 삭제 alert
   async deleteCashAlert() {
-    const ok = await this.alertService.cancelOkBtn('two-btn-header', '크기 0.1M', '캐시를 삭제하시겠어요?', '취소', '확인');
+    const ok = await this.alertService.cancelOkBtn('two-btn', `데이터를 삭제하시겠어요?`, '', '취소', '확인');
 
     if (ok) {
       const myDiary = await this.db
