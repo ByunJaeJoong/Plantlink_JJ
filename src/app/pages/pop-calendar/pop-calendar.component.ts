@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { localeKo, MbscEventcalendarOptions } from '@mobiscroll/angular';
 
 @Component({
@@ -8,7 +9,9 @@ import { localeKo, MbscEventcalendarOptions } from '@mobiscroll/angular';
 })
 export class PopCalendarComponent implements OnInit {
   date = new Date();
-  constructor() {}
+  selectedDate: string = '';
+
+  constructor(private navController: NavController) {}
 
   eventSettings: MbscEventcalendarOptions = {
     locale: localeKo,
@@ -22,8 +25,15 @@ export class PopCalendarComponent implements OnInit {
 
   ngOnInit() {}
 
-  test(ev) {
-    console.log('ev', ev.month);
+  selectedClickDate() {
+    this.navController.navigateForward(['/plant-report'], {
+      queryParams: {
+        selectedDate: this.selectedDate,
+      },
+    });
+  }
+
+  test(ev: any) {
     this.date = ev.month;
   }
 }

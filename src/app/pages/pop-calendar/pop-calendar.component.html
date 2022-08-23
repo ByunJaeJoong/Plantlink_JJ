@@ -6,6 +6,9 @@
     class="report-calendar"
     (onPageLoaded)="test($event)"
     [options]="eventSettings"
+    [(ngModel)]="selectedDate"
+    returnFormat="iso8601"
+    (click)="selectedClickDate()"
   >
     <ng-template #customTemplate>
       <mbsc-calendar-nav></mbsc-calendar-nav>
