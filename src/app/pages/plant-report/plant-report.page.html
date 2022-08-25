@@ -18,9 +18,8 @@
           <div class="icon"></div>
         </ion-button>
 
-        <!-- ion-segment > (ionChange)="changeSegment()" -->
         <div class="segment_wrap">
-          <ion-segment [(ngModel)]="segment" scrollable="false" mode="md">
+          <ion-segment [(ngModel)]="segment" (click)="segmentChange()" scrollable="false" mode="md">
             <ion-segment-button value="주간">
               <ion-label>주간</ion-label>
             </ion-segment-button>
