@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { FirebaseX } from '@awesome-cordova-plugins/firebase-x';
+import { FirebaseX } from '@ionic-native/firebase-x';
 import { Platform } from '@ionic/angular';
 import * as firebase from 'firebase/app';
 
@@ -27,7 +27,7 @@ export class PhoneAuthService {
   }
 
   async authentication(phone: string): Promise<string> {
-    if (this.platform.is('mobile') || this.platform.is('desktop')) {
+    if (this.isDesktop && !this.platform.is('cordova')) {
       await this.one();
       firebase.default.auth().languageCode = 'ko';
       return this.authenticationDesktop(phone);

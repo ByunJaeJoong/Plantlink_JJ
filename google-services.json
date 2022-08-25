@@ -7,34 +7,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1017905341794:android:052746286337b5d7ec783b",
+        "mobilesdk_app_id": "1:1017905341794:android:a5d6ab704da48548ec783b",
         "android_client_info": {
-          "package_name": "com.plantlink.knc"
+          "package_name": "com.plantlink.kncapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1017905341794-5mngvdgh6vdpcv2ajv2l0idgt70ructi.apps.googleusercontent.com",
+          "client_id": "1017905341794-ktc2eq0fbel9mhit62428fa4k2l8vkud.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.plantlink.knc",
+            "package_name": "com.plantlink.kncapp",
             "certificate_hash": "e8479d47c88c9bc1706012689793ea0bfb725be1"
-          }
-        },
-        {
-          "client_id": "1017905341794-9v1hk6vul1n7c13acua1ov8k7qcms8vn.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.plantlink.knc",
-            "certificate_hash": "385ae4173e075e1ba092da638a065bf9be6bfe6e"
-          }
-        },
-        {
-          "client_id": "1017905341794-ip3o0gv6e4dcq8is4mq1q078cm1sv1m9.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.plantlink.knc",
-            "certificate_hash": "2a451f99239c861fb33a83a2198bf91c576dde30"
           }
         },
         {
@@ -44,7 +28,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBDDIREMOXvndfb6JcDhg_P6VNiVJVRsFo"
+          "current_key": "AIzaSyCVEMLJTl7o7NamIPFqnfKf_ySX_RcWkCU"
         }
       ],
       "services": {
@@ -55,10 +39,10 @@
               "client_type": 3
             },
             {
-              "client_id": "1017905341794-th0tvef4ngeqpukukob3j0415ms2bkuk.apps.googleusercontent.com",
+              "client_id": "1017905341794-0jtq31svd4geju0kat3n4edo5vsghd8k.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.plantlink.knc"
+                "bundle_id": "com.plantlink.kncapp"
               }
             }
           ]

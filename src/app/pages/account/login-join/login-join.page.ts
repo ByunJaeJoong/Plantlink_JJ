@@ -3,12 +3,13 @@ import { AlertController, NavController, Platform } from '@ionic/angular';
 import * as firebase from 'firebase';
 import { Users } from 'src/app/models/users.model';
 import { LoadingService } from 'src/app/services/loading.service';
-import { GooglePlus } from '@awesome-cordova-plugins/google-plus/ngx';
+
 import { DbService } from 'src/app/services/db.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { first } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AlertService } from 'src/app/services/alert.service';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 @Component({
   selector: 'app-login-join',

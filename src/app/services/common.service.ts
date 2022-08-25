@@ -81,4 +81,21 @@ export class CommonService {
     let age = nowYear - birthYear + 1;
     return age;
   }
+
+  /**
+   * date를 포맷하는 함수 (new Date()) => 2020-07-20
+   *
+   * @param date 날짜
+   *
+   * 2020-07-21 정재은
+   */
+  formatDate(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
+  }
 }

@@ -3,26 +3,26 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1017905341794-th0tvef4ngeqpukukob3j0415ms2bkuk.apps.googleusercontent.com</string>
+	<string>1017905341794-0jtq31svd4geju0kat3n4edo5vsghd8k.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1017905341794-th0tvef4ngeqpukukob3j0415ms2bkuk</string>
+	<string>com.googleusercontent.apps.1017905341794-0jtq31svd4geju0kat3n4edo5vsghd8k</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>1017905341794-5mngvdgh6vdpcv2ajv2l0idgt70ructi.apps.googleusercontent.com</string>
+	<string>1017905341794-ktc2eq0fbel9mhit62428fa4k2l8vkud.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAvAIuOoRftxHF0tWVJ70l6ecNP7yeKaLc</string>
+	<string>AIzaSyABBKEL4N9HaNUV_IU8HACkgch5omqSds4</string>
 	<key>GCM_SENDER_ID</key>
 	<string>1017905341794</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.plantlink.knc</string>
+	<string>com.plantlink.kncapp</string>
 	<key>PROJECT_ID</key>
 	<string>plantlink-beb65</string>
 	<key>STORAGE_BUCKET</key>
 	<string>plantlink-beb65.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
-	<key>IS_ANALYTICS_ENABLED</key> 
+	<key>IS_ANALYTICS_ENABLED</key>
 	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
 	<true></true>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1017905341794:ios:c138bdc4ef5085d4ec783b</string>
+	<string>1:1017905341794:ios:78d5a6292ec59ea8ec783b</string>
 </dict>
 </plist>
