@@ -24,7 +24,6 @@ export class PlantReportPage implements OnInit {
   @ViewChild('waterMonth', { static: false }) waterMonth: ElementRef;
 
   userId: string = localStorage.getItem('userId');
-  now: string = new Date().toISOString();
   selectedDate: string = '';
   plantData$: Observable<any>;
   weekPlants$: Observable<any>;
@@ -36,16 +35,21 @@ export class PlantReportPage implements OnInit {
     light: '',
     temperature: '',
   };
-
   month: any = {
     soil: '',
     light: '',
     temperature: '',
   };
 
-  bar: any;
+  // 차트 이름 변수
+  weekTemperature: any;
+  weekLight: any;
+  weekSoil: any;
+  monthTemperature: any;
+  monthLight: any;
+  monthSoil: any;
 
-  label = [
+  label: Array<string> = [
     '1',
     '2',
     '3',
@@ -79,10 +83,10 @@ export class PlantReportPage implements OnInit {
     '31',
   ];
 
-  weekLabel = ['월', '화', '수', '목', '금', '토', '일'];
+  weekLabel: Array<string> = ['월', '화', '수', '목', '금', '토', '일'];
 
-  resultSelect = '월간';
-  segment = '주간';
+  segment: string = '주간';
+
   constructor(
     private dialog: MatDialog,
     private navController: NavController,
@@ -91,7 +95,11 @@ export class PlantReportPage implements OnInit {
     private common: CommonService
   ) {
     this.route.queryParams.subscribe(params => {
-      this.selectedDate = params.selectedDate;
+      if (params.selectedDate) {
+        this.selectedDate = params.selectedDate;
+      } else {
+        this.selectedDate = this.common.formatDate(new Date());
+      }
       this.getData();
     });
   }
@@ -101,23 +109,27 @@ export class PlantReportPage implements OnInit {
   getData() {
     this.plantData$ = this.db.collection$(`plantData`, ref => ref.where('userId', '==', this.userId));
     // 데이터 확인용
-    // this.plantData$.subscribe(plantDatas => {
-    //   console.log(plantDatas);
-    // });
+    this.plantData$.subscribe(plantDatas => {
+      console.log(plantDatas);
+    });
 
+    // 그 주의 월요일부터 일요일까지의 값을 가져온다.
     this.weekPlants$ = this.plantData$.pipe(
       map((dates: any) => {
-        if (this.selectedDate) {
-          return dates.filter((ele: any) => this.common.formatDate(ele.dateCreated) == this.common.formatDate(this.selectedDate));
-        } else {
-          return dates.filter((ele: any) => this.common.formatDate(ele.dateCreated) == this.common.formatDate(this.now));
-        }
+        const startDate: string = this.getMondayDate(this.selectedDate);
+        const endDate: string = this.getSundayDate(startDate);
+
+        return dates.filter((ele: any) => {
+          const plantDate: string = this.common.formatDate(ele.dateCreated);
+          return plantDate >= startDate && plantDate <= endDate;
+        });
       })
     );
 
     this.weekPlants$.subscribe(weekPlants => {
-      console.log(weekPlants);
+      console.log('weekPlants', weekPlants);
 
+      // 데이터 가공 시키면 될 것 같아요!!
       if (weekPlants.length == 0) {
         this.week.soil = '';
         this.week.temperature = '';
@@ -129,20 +141,161 @@ export class PlantReportPage implements OnInit {
           this.week.light = data.light;
         });
       }
+
+      if (this.weekTemperature) {
+        this.addData(this.weekTemperature, this.week.temperature);
+      }
+
+      if (this.weekLight) {
+        this.addData(this.weekLight, this.week.light);
+      }
+
+      if (this.weekSoil) {
+        this.addData(this.weekSoil, this.week.soil);
+      }
+
+      if (this.monthTemperature) {
+        this.addData(this.monthTemperature, this.month.temperature);
+      }
+
+      if (this.monthLight) {
+        this.addData(this.monthLight, this.month.light);
+      }
+
+      if (this.monthSoil) {
+        this.addData(this.monthSoil, this.month.soil);
+      }
     });
-    console.log(this.week.soil, this.week.temperature, this.week.light);
+
+    // 그 값의 한달 전체 값을 가져온다
+    this.monthPlants$ = this.plantData$.pipe(
+      map((dates: any) => {
+        const startDate: string = this.getMonthFirstDate(this.selectedDate);
+        const endDate: string = this.getMonthLastDate(this.selectedDate);
+
+        return dates.filter((ele: any) => {
+          const plantDate: string = this.common.formatDate(ele.dateCreated);
+          return plantDate >= startDate && plantDate <= endDate;
+        });
+      })
+    );
+
+    this.monthPlants$.subscribe(monthPlants => {
+      console.log('monthPlants', monthPlants);
+
+      // 데이터 가공 시키면 될 것 같아요!!
+      if (monthPlants.length == 0) {
+        this.month.soil = '';
+        this.month.temperature = '';
+        this.month.light = '';
+      } else {
+        monthPlants.forEach((data: any) => {
+          this.month.soil = data.soil;
+          this.month.temperature = data.temperature;
+          this.month.light = data.light;
+        });
+      }
+
+      if (this.weekTemperature) {
+        this.addData(this.weekTemperature, this.week.temperature);
+      }
+
+      if (this.weekLight) {
+        this.addData(this.weekLight, this.week.light);
+      }
+
+      if (this.weekSoil) {
+        this.addData(this.weekSoil, this.week.soil);
+      }
+
+      if (this.monthTemperature) {
+        this.addData(this.monthTemperature, this.month.temperature);
+      }
+
+      if (this.monthLight) {
+        this.addData(this.monthLight, this.month.light);
+      }
+
+      if (this.monthSoil) {
+        this.addData(this.monthSoil, this.month.soil);
+      }
+    });
   }
 
-  //일주일 날짜 계산
-  get getWeekLabels(): Array<number> {
-    let labels: Array<number> = [];
-
-    for (let i = 0; i < 7; i++) {
-      const now: Date = new Date(this.now);
-      now.setDate(now.getDate() - i);
-      labels.unshift(now.getDay());
+  // 보고서의 달력의 날이 변할때 마다 차트를 업데이트 하기위해서 사용
+  addData(chart: any, data: string) {
+    if (this.segment == '주간') {
+      chart.options.scales.x1.ticks.callback = function (value: number) {
+        if (this.getLabelForValue(value) == '월') {
+          return `${data[0] ? data[0] : ''}`;
+        }
+        if (this.getLabelForValue(value) == '화') {
+          return `${data[1] ? data[1] : ''}`;
+        }
+        if (this.getLabelForValue(value) == '수') {
+          return `${data[2] ? data[2] : ''}`;
+        }
+        if (this.getLabelForValue(value) == '목') {
+          return `${data[3] ? data[3] : ''}`;
+        }
+        if (this.getLabelForValue(value) == '금') {
+          return `${data[4] ? data[4] : ''}`;
+        }
+        if (this.getLabelForValue(value) == '토') {
+          return `${data[5] ? data[5] : ''}`;
+        }
+        if (this.getLabelForValue(value) == '일') {
+          return `${data[6] ? data[6] : ''}`;
+        } else {
+          return this.getLabelForValue(value);
+        }
+      };
+    } else {
+      // 월간
+      // 일주일이 아니라 한달이 보여져야 함!
+      chart.options.scales.x1.ticks.callback = function (value: number) {
+        for (let i = 0; i < 32; i++) {
+          if (this.getLabelForValue(value) == i) {
+            for (let j = 0; j < 32; i) return `${data[i - 1] ? data[i - 1] : ''}`;
+          }
+        }
+      };
     }
-    return labels;
+
+    chart.data.datasets.forEach((dataset: any) => {
+      dataset.data = data;
+    });
+
+    chart.update();
+  }
+
+  // 특정일자(yyyy-mm-dd)에 해당하는 주차의 월요일 구하기
+  getMondayDate(d: string) {
+    const paramDate = new Date(d);
+    const day = paramDate.getDay();
+    const diff = paramDate.getDate() - day + (day == 0 ? -6 : 1);
+    return new Date(paramDate.setDate(diff)).toISOString().substring(0, 10);
+  }
+
+  // 월요일 기준으로 해당 일요일 구하기
+  getSundayDate(d: string) {
+    const newDate = new Date(d);
+    newDate.setDate(newDate.getDate() + 6);
+    return this.common.formatDate(newDate);
+  }
+
+  // 선택된 달의 첫날 구하기
+  getMonthFirstDate(d: string) {
+    const newDate = new Date(d);
+    const firstDate = new Date(newDate.getFullYear(), newDate.getMonth(), 1);
+    return this.common.formatDate(firstDate);
+  }
+
+  // 선택된 달의 마지막날 구하기
+  getMonthLastDate(d: string) {
+    const newDate = new Date(d);
+    const lastDate = new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0);
+    return this.common.formatDate(lastDate);
   }
 
   changeSegment() {
@@ -171,9 +324,7 @@ export class PlantReportPage implements OnInit {
   // 차트
   //주간 온도 차트
   weekTem() {
-    const that = this;
-
-    this.bar = new Chart(this.temWeek.nativeElement, {
+    this.weekTemperature = new Chart(this.temWeek.nativeElement, {
       type: 'bar',
       data: {
         labels: this.weekLabel,
@@ -252,25 +403,25 @@ export class PlantReportPage implements OnInit {
 
               callback: function (value: number) {
                 if (this.getLabelForValue(value) == '월') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '화') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '수') {
-                  return '40';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '목') {
-                  return '41';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '금') {
-                  return '56';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '토') {
-                  return '55';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '일') {
-                  return '40';
+                  return '';
                 } else {
                   return this.getLabelForValue(value);
                 }
@@ -300,9 +451,7 @@ export class PlantReportPage implements OnInit {
 
   //주간 조도 차트
   weekIllumin() {
-    const that = this;
-
-    this.bar = new Chart(this.illuminWeek.nativeElement, {
+    this.weekLight = new Chart(this.illuminWeek.nativeElement, {
       type: 'bar',
       data: {
         labels: this.weekLabel,
@@ -379,25 +528,25 @@ export class PlantReportPage implements OnInit {
 
               callback: function (value: number) {
                 if (this.getLabelForValue(value) == '월') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '화') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '수') {
-                  return '90';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '목') {
-                  return '81';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '금') {
-                  return '56';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '토') {
-                  return '55';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '일') {
-                  return '40';
+                  return '';
                 } else {
                   return this.getLabelForValue(value);
                 }
@@ -427,9 +576,7 @@ export class PlantReportPage implements OnInit {
 
   //주간 토양수분 차트
   weekWaterChart() {
-    const that = this;
-
-    this.bar = new Chart(this.waterWeek.nativeElement, {
+    this.weekSoil = new Chart(this.waterWeek.nativeElement, {
       type: 'bar',
       data: {
         labels: this.weekLabel,
@@ -507,25 +654,25 @@ export class PlantReportPage implements OnInit {
 
               callback: function (value: number) {
                 if (this.getLabelForValue(value) == '월') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '화') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '수') {
-                  return '90';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '목') {
-                  return '81';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '금') {
-                  return '56';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '토') {
-                  return '55';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '일') {
-                  return '40';
+                  return '';
                 } else {
                   return this.getLabelForValue(value);
                 }
@@ -552,11 +699,10 @@ export class PlantReportPage implements OnInit {
       },
     });
   }
+
   //월간 온도 차트
   monthTem() {
-    const that = this;
-
-    this.bar = new Chart(this.temMonth.nativeElement, {
+    this.monthTemperature = new Chart(this.temMonth.nativeElement, {
       type: 'bar',
       data: {
         labels: this.label,
@@ -633,97 +779,97 @@ export class PlantReportPage implements OnInit {
 
               callback: function (value: number) {
                 if (this.getLabelForValue(value) == '1') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '2') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '3') {
-                  return '90';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '4') {
-                  return '81';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '5') {
-                  return '56';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '6') {
-                  return '55';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '7') {
-                  return '40';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '8') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '9') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '10') {
-                  return '90';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '11') {
-                  return '81';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '12') {
-                  return '56';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '13') {
-                  return '55';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '14') {
-                  return '40';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '15') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '16') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '17') {
-                  return '90';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '18') {
-                  return '81';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '19') {
-                  return '56';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '20') {
-                  return '55';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '21') {
-                  return '40';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '22') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '23') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '24') {
-                  return '90';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '25') {
-                  return '81';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '26') {
-                  return '56';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '27') {
-                  return '55';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '28') {
-                  return '40';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '29') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '30') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '31') {
-                  return '90';
+                  return '';
                 } else {
                   return this.getLabelForValue(value);
                 }
@@ -754,9 +900,7 @@ export class PlantReportPage implements OnInit {
 
   //월간 조도 차트
   monthIllumin() {
-    const that = this;
-
-    this.bar = new Chart(this.illuminMonth.nativeElement, {
+    this.monthLight = new Chart(this.illuminMonth.nativeElement, {
       type: 'bar',
       data: {
         labels: this.label,
@@ -833,97 +977,97 @@ export class PlantReportPage implements OnInit {
 
               callback: function (value: number) {
                 if (this.getLabelForValue(value) == '1') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '2') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '3') {
-                  return '90';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '4') {
-                  return '81';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '5') {
-                  return '56';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '6') {
-                  return '55';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '7') {
-                  return '40';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '8') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '9') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '10') {
-                  return '90';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '11') {
-                  return '81';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '12') {
-                  return '56';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '13') {
-                  return '55';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '14') {
-                  return '40';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '15') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '16') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '17') {
-                  return '90';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '18') {
-                  return '81';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '19') {
-                  return '56';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '20') {
-                  return '55';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '21') {
-                  return '40';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '22') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '23') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '24') {
-                  return '90';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '25') {
-                  return '81';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '26') {
-                  return '56';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '27') {
-                  return '55';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '28') {
-                  return '40';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '29') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '30') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '31') {
-                  return '90';
+                  return '';
                 } else {
                   return this.getLabelForValue(value);
                 }
@@ -954,9 +1098,7 @@ export class PlantReportPage implements OnInit {
 
   //월간 토양수분 차트
   monthWater() {
-    const that = this;
-
-    this.bar = new Chart(this.waterMonth.nativeElement, {
+    this.monthSoil = new Chart(this.waterMonth.nativeElement, {
       type: 'bar',
       data: {
         labels: this.label,
@@ -1032,97 +1174,97 @@ export class PlantReportPage implements OnInit {
 
               callback: function (value: number) {
                 if (this.getLabelForValue(value) == '1') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '2') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '3') {
-                  return '90';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '4') {
-                  return '81';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '5') {
-                  return '56';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '6') {
-                  return '55';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '7') {
-                  return '40';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '8') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '9') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '10') {
-                  return '90';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '11') {
-                  return '81';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '12') {
-                  return '56';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '13') {
-                  return '55';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '14') {
-                  return '40';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '15') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '16') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '17') {
-                  return '90';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '18') {
-                  return '81';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '19') {
-                  return '56';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '20') {
-                  return '55';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '21') {
-                  return '40';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '22') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '23') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '24') {
-                  return '90';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '25') {
-                  return '81';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '26') {
-                  return '56';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '27') {
-                  return '55';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '28') {
-                  return '40';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '29') {
-                  return '65';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '30') {
-                  return '59';
+                  return '';
                 }
                 if (this.getLabelForValue(value) == '31') {
-                  return '90';
+                  return '';
                 } else {
                   return this.getLabelForValue(value);
                 }
