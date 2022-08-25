@@ -14,13 +14,12 @@
     <div class="report-wrap" [ngClass]="{'month-padding': segment == '월간'}">
       <div class="top-btn-wrap">
         <ion-button fill="clear" class="calendar-btn" (click)="openPopCalendar()">
-          <ng-container *ngIf="!selectedDate"> {{ now | date: 'yyyy.MM' }}</ng-container>
-          <ng-container *ngIf="selectedDate"> {{ selectedDate | date: 'yyyy.MM' }}</ng-container>
+          <ng-container> {{ selectedDate | date: 'yyyy.MM' }}</ng-container>
           <div class="icon"></div>
         </ion-button>
 
         <div class="segment_wrap">
-          <ion-segment [(ngModel)]="segment" (ionChange)="changeSegment()" scrollable="false" mode="md">
+          <ion-segment [(ngModel)]="segment" (click)="segmentChange()" scrollable="false" mode="md">
             <ion-segment-button value="주간">
               <ion-label>주간</ion-label>
             </ion-segment-button>
@@ -33,9 +32,10 @@
 
       <!-- 주간/ 월간 세그먼트 -->
 
-      <div [ngSwitch]="segment">
+      <div>
         <div class="padding-wrap">
-          <div *ngSwitchCase="'주간'">
+          <!-- 주간만 보이게 하려고 월간을 가림! -->
+          <div [hidden]="segment == '월간'">
             <div class="chart-wrap week">
               <!-- 주간 온도 -->
               <div class="title-wrap">
@@ -67,7 +67,8 @@
           </div>
         </div>
 
-        <div *ngSwitchCase="'월간'">
+        <!-- 월간만 보이게 하려고 주간을 가림! -->
+        <div [hidden]="segment == '주간'">
           <div class="chart-wrap month">
             <!-- 월간 온도 -->
             <div class="title-wrap">
