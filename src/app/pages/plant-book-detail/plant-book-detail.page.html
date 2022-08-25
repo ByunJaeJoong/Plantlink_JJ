@@ -47,17 +47,6 @@
         <ion-col class="con" size="8.5">{{plant.fruitSeason}}</ion-col>
       </ion-row>
       <ion-row>
-        <ion-col class="row-title">설명</ion-col>
-        <ion-col class="con" size="8.5">{{plant.content}}</ion-col>
-      </ion-row>
-    </ion-grid>
-
-    <div class="title">
-      <img class="icon" src="assets/images/plant-name-icon.png" alt="" />
-      <h3>관리 방법</h3>
-    </div>
-    <ion-grid class="info">
-      <ion-row>
         <ion-col class="row-title">적정온도</ion-col>
         <ion-col class="con" size="8.5">{{plant.temperature}}</ion-col>
       </ion-row>
@@ -72,6 +61,16 @@
       <ion-row>
         <ion-col class="row-title">난이도</ion-col>
         <ion-col class="con" size="8.5">{{plant.level}}</ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div class="title">
+      <img class="icon" src="assets/images/plant-name-icon.png" alt="" />
+      <h3>키우기 Tip</h3>
+    </div>
+    <ion-grid class="info">
+      <ion-row>
+        <ion-col class="con" size="8.5">{{plant.content}}</ion-col>
       </ion-row>
     </ion-grid>
   </div>
