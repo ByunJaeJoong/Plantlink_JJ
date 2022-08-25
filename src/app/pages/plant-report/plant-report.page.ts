@@ -104,7 +104,16 @@ export class PlantReportPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(() => {
+      this.weekTem();
+      this.weekIllumin();
+      this.weekWaterChart();
+      this.monthTem();
+      this.monthIllumin();
+      this.monthWater();
+    }, 10);
+  }
 
   getData() {
     this.plantData$ = this.db.collection$(`plantData`, ref => ref.where('userId', '==', this.userId));
@@ -122,6 +131,33 @@ export class PlantReportPage implements OnInit {
       })
     );
 
+    this.weekPlants$.subscribe(weekPlants => {
+      console.log('weekPlants', weekPlants);
+
+      if (weekPlants.length == 0) {
+        this.week.soil = '';
+        this.week.temperature = '';
+        this.week.light = '';
+      } else {
+        weekPlants.forEach((data: any) => {
+          this.week.soil = data.soil;
+          this.week.temperature = data.temperature;
+          this.week.light = data.light;
+        });
+      }
+      if (this.weekTemperature) {
+        this.addData(this.weekTemperature, this.week.temperature);
+      }
+
+      if (this.weekLight) {
+        this.addData(this.weekLight, this.week.light);
+      }
+
+      if (this.weekSoil) {
+        this.addData(this.weekSoil, this.week.soil);
+      }
+    });
+
     // 그 값의 한달 전체 값을 가져온다
     this.monthPlants$ = this.plantData$.pipe(
       map((dates: any) => {
@@ -135,7 +171,32 @@ export class PlantReportPage implements OnInit {
       })
     );
 
-    this.segmentChange();
+    this.monthPlants$.subscribe(monthPlants => {
+      console.log('monthPlants', monthPlants);
+      if (monthPlants.length == 0) {
+        this.month.soil = '';
+        this.month.temperature = '';
+        this.month.light = '';
+      } else {
+        monthPlants.forEach((data: any) => {
+          this.month.soil = data.soil;
+          this.month.temperature = data.temperature;
+          this.month.light = data.light;
+        });
+      }
+
+      if (this.monthTemperature) {
+        this.addData(this.monthTemperature, this.month.temperature);
+      }
+
+      if (this.monthLight) {
+        this.addData(this.monthLight, this.month.light);
+      }
+
+      if (this.monthSoil) {
+        this.addData(this.monthSoil, this.month.soil);
+      }
+    });
   }
 
   // 날짜 변경없이 주간 월간만 변경되어도 데이터를 받아서 처리
@@ -168,7 +229,8 @@ export class PlantReportPage implements OnInit {
           this.addData(this.weekSoil, this.week.soil);
         }
       });
-    } else {
+    }
+    if (this.segment == '월간') {
       this.monthPlants$.subscribe(monthPlants => {
         console.log('monthPlants', monthPlants);
         if (monthPlants.length == 0) {
@@ -231,7 +293,7 @@ export class PlantReportPage implements OnInit {
       chart.options.scales.x1.ticks.callback = function (value: number) {
         for (let i = 0; i < 32; i++) {
           if (this.getLabelForValue(value) == i) {
-            for (let j = 0; j < 32; i) return `${data[i - 1] ? data[i - 1] : ''}`;
+            return `${data[i - 1] ? data[i - 1] : ''}`;
           }
         }
       };
@@ -273,18 +335,6 @@ export class PlantReportPage implements OnInit {
     return this.common.formatDate(lastDate);
   }
 
-  ionViewDidEnter() {
-    setTimeout(() => {
-      this.weekTem();
-      this.weekIllumin();
-      this.weekWaterChart();
-      this.monthTem();
-      this.monthIllumin();
-      this.monthWater();
-    }, 200);
-  }
-
-  // 차트
   //주간 온도 차트
   weekTem() {
     this.weekTemperature = new Chart(this.temWeek.nativeElement, {
