@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1017905341794-558dbffehugghsi7qp657bmjlqvbf6be.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.plantlink.kncapp",
+            "certificate_hash": "385ae4173e075e1ba092da638a065bf9be6bfe6e"
+          }
+        },
+        {
           "client_id": "1017905341794-ktc2eq0fbel9mhit62428fa4k2l8vkud.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

@@ -6,8 +6,8 @@ import { DeviceListPage } from './device-list.page';
 const routes: Routes = [
   {
     path: '',
-    component: DeviceListPage
-  }
+    component: DeviceListPage,
+  },
 ];
 
 @NgModule({
