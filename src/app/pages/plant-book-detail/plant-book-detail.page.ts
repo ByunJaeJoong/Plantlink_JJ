@@ -64,10 +64,15 @@ export class PlantBookDetailPage implements OnInit {
       }),
     });
   }
+
   async checkMyPlant() {
     const connectCheck = await this.db
       .collection$(`myPlant`, ref =>
-        ref.where('plantBookId', '==', this.plantBookId).where('cancelSwitch', '==', false).where('deleteSwitch', '==', false)
+        ref
+          .where('userId', '==', this.userId)
+          .where('plantBookId', '==', this.plantBookId)
+          .where('cancelSwitch', '==', false)
+          .where('deleteSwitch', '==', false)
       )
       .pipe(first())
       .toPromise();
@@ -134,7 +139,7 @@ export class PlantBookDetailPage implements OnInit {
     }
   }
 
-  // myPlant 컬렉션에서 삭제
+  // db 에서 삭제
   async deleteMyPlant() {
     const deletePlant = await this.db
       .collection$(`myPlant`, ref => ref.where('plantBookId', '==', this.plantBookId))

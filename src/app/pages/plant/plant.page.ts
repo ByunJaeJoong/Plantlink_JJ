@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
 import { DbService, docListJoin, leftJoinDocument } from 'src/app/services/db.service';
 
@@ -12,32 +12,31 @@ import { DbService, docListJoin, leftJoinDocument } from 'src/app/services/db.se
 })
 export class PlantPage implements OnInit {
   userId: any;
-  plantInfo$: Observable<any>;
-  plantInfo: any;
+  userInfo$: Observable<any>;
   currentPlant$: Observable<any>;
-  currentPlant: any;
 
   constructor(private alertService: AlertService, private navController: NavController, private db: DbService) {
     this.userId = localStorage.getItem('userId');
   }
 
-  async ngOnInit() {
-    this.plantInfo$ = await this.db.doc$(`users/${this.userId}`);
-    this.plantInfo = await this.plantInfo$.pipe(first()).toPromise();
+  ngOnInit() {
     this.getData();
   }
+  ionViewWillEnter() {
+    this.userInfo$.pipe(first()).subscribe(async data => {
+      if (data.myPlant.length <= 0) {
+        await this.emptyAlert();
+      }
+    });
+  }
   async getData() {
-    // this.plantInfo$ = await this.db.doc$(`users/${this.userId}`).pipe(docListJoin(this.db.afs, 'myPlant', 'plantBook'));
+    this.userInfo$ = await this.db.doc$(`users/${this.userId}`);
 
     this.currentPlant$ = await this.db.collection$(`myPlant`, ref =>
       ref.where('userId', '==', this.userId).where('cancelSwitch', '==', false).where('deleteSwitch', '==', false)
     );
-    this.currentPlant = await this.currentPlant$.pipe(first()).toPromise();
-
-    if (this.plantInfo.myPlant?.length <= 0) {
-      await this.emptyAlert();
-    }
   }
+
   //식물목록이 없을 때 뜨는 alert
   emptyAlert() {
     this.alertService
@@ -49,8 +48,8 @@ export class PlantPage implements OnInit {
       });
   }
 
-  headerBackSwitch = false;
   //헤더 스크롤 할 때 색 변하게
+  headerBackSwitch = false;
   logScrolling(event) {
     let scroll = event.detail.scrollTop;
     console.log(event);
