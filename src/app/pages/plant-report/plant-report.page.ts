@@ -284,11 +284,10 @@ export class PlantReportPage implements OnInit {
         }
         if (this.getLabelForValue(value) == '일') {
           return `${data[6] ? data[6] : ''}`;
-        } else {
-          return this.getLabelForValue(value);
         }
       };
-    } else {
+    }
+    if (this.segment == '월간') {
       // 월간
       chart.options.scales.x1.ticks.callback = function (value: number) {
         for (let i = 0; i < 32; i++) {
@@ -435,8 +434,6 @@ export class PlantReportPage implements OnInit {
                 }
                 if (this.getLabelForValue(value) == '일') {
                   return '';
-                } else {
-                  return this.getLabelForValue(value);
                 }
               },
             },
@@ -560,8 +557,6 @@ export class PlantReportPage implements OnInit {
                 }
                 if (this.getLabelForValue(value) == '일') {
                   return '';
-                } else {
-                  return this.getLabelForValue(value);
                 }
               },
             },
@@ -686,8 +681,6 @@ export class PlantReportPage implements OnInit {
                 }
                 if (this.getLabelForValue(value) == '일') {
                   return '';
-                } else {
-                  return this.getLabelForValue(value);
                 }
               },
             },
@@ -883,8 +876,6 @@ export class PlantReportPage implements OnInit {
                 }
                 if (this.getLabelForValue(value) == '31') {
                   return '';
-                } else {
-                  return this.getLabelForValue(value);
                 }
               },
             },
@@ -1081,8 +1072,6 @@ export class PlantReportPage implements OnInit {
                 }
                 if (this.getLabelForValue(value) == '31') {
                   return '';
-                } else {
-                  return this.getLabelForValue(value);
                 }
               },
             },
@@ -1278,8 +1267,6 @@ export class PlantReportPage implements OnInit {
                 }
                 if (this.getLabelForValue(value) == '31') {
                   return '';
-                } else {
-                  return this.getLabelForValue(value);
                 }
               },
             },
