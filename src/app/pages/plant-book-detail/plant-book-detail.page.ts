@@ -65,6 +65,7 @@ export class PlantBookDetailPage implements OnInit {
     });
   }
 
+  // 현재 식물로 등록되어 있는 지 확인
   async checkMyPlant() {
     const connectCheck = await this.db
       .collection$(`myPlant`, ref =>
@@ -83,6 +84,7 @@ export class PlantBookDetailPage implements OnInit {
     }
   }
 
+  // 기존에 연결 되어있는 식물 해제.
   async checkOverlap() {
     const connectCheck = await this.db
       .collection$(`myPlant`, ref => ref.where('userId', '==', this.userId).where('cancelSwitch', '==', false).where('deleteSwitch', '==', false))

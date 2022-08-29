@@ -40,7 +40,6 @@ export class LoginPage implements OnInit {
 
   //홈으로
   login() {
-    this.loadingService.load();
     if (!this.email) {
       this.emailValidate = false;
       return;
@@ -53,6 +52,7 @@ export class LoginPage implements OnInit {
     } else {
       this.passwordValidate = true;
     }
+    this.loadingService.load();
     this.auth
       .loginUser(this.email, this.password)
       .then(result => {

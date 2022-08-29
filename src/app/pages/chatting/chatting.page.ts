@@ -30,25 +30,15 @@ export class ChattingPage implements OnInit {
   };
   chat$: Observable<any>;
   userInfo$: Observable<any>;
-  lists: any;
   userInfo: any;
   userTutorial: boolean;
-  constructor(
-    private navController: NavController,
-    private db: DbService,
-    private auth: AuthService,
-    private cs: ChatService,
-    private common: CommonService
-  ) {
-    this.chat$ = this.cs.getUserChats();
-  }
+  constructor(private navController: NavController, private db: DbService, private common: CommonService) {}
 
   async ngOnInit() {
     this.userInfo$ = await this.db.collection$(`users`, ref => ref.where('uid', '==', this.myId));
     this.userInfo = await this.userInfo$.pipe(first()).toPromise();
     this.userTutorial = this.userInfo[0].chatEnterSwitch;
-    this.lists = await this.chat$.pipe(first()).toPromise();
-    console.log(this.lists);
+    this.chat$ = await this.db.collection$(`chats`, ref => ref.where('userId', '==', this.myId).where('deleteSwitch', '==', false));
   }
 
   //홈으로

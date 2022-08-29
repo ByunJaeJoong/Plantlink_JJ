@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { Chats } from 'src/app/models/chat.model';
 import { AlertService } from 'src/app/services/alert.service';
+import { CommonService } from 'src/app/services/common.service';
 import { DbService } from 'src/app/services/db.service';
 import { ImageService } from 'src/app/services/image.service';
 
@@ -13,15 +15,28 @@ import { ImageService } from 'src/app/services/image.service';
 })
 export class SettingPage implements OnInit {
   userId: string = localStorage.getItem('userId');
-
   user$: Observable<any>;
+  botId = 'oerqH5wAqIfOXH1VrGkI7r2PpJa2';
 
+  chats: Chats = {
+    bluetoothId: '',
+    chatGroup: [],
+    chatId: '',
+    count: 0,
+    createdAt: 0,
+    deleteSwitch: false,
+    exitSwitch: false,
+    messages: [],
+    plantId: '',
+    userId: '',
+  };
   constructor(
     private navController: NavController,
     private alertService: AlertService,
     private db: DbService,
     private actionSheetController: ActionSheetController,
-    private image: ImageService
+    private image: ImageService,
+    private common: CommonService
   ) {
     this.getData();
   }
@@ -142,9 +157,18 @@ export class SettingPage implements OnInit {
       // 로그인 사용자의 채팅 데이터 보이지 않도록
       if (myChat.length > 0) {
         myChat.forEach(async (data: any) => {
-          await this.db.updateAt(`chats/${data.id}`, {
-            deleteSwitch: true,
-          });
+          await this.db
+            .updateAt(`chats/${data.id}`, {
+              deleteSwitch: true,
+            })
+            .then(() => {
+              this.chats.chatId = this.common.generateFilename();
+              this.chats.createdAt = Date.now();
+              this.chats.chatGroup = [this.userId, this.botId];
+              this.chats.messages = [{ chatContent: '모든게 다 잘될거야!', createdAt: Date.now(), uid: this.botId }];
+              this.chats.userId = this.userId;
+              this.db.updateAt(`chats/${this.chats.chatId}`, this.chats);
+            });
         });
       }
 

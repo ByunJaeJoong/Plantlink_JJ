@@ -163,7 +163,7 @@ export class AuthService {
         .sendPasswordResetEmail(email)
         .then(success => {
           this.loadingService.hide();
-          this.alertService.okBtn('', '이메일으로 비밀번호 재설정 이메일이 전송되었습니다.<br> 이메일을 확인해 주세요.');
+          this.alertService.okBtn('alert', '비밀번호 재설정 이메일이 전송되었습니다.<br> 이메일을 확인해 주세요.');
           resolve(success);
         })
         .catch(error => {

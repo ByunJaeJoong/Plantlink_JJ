@@ -81,6 +81,7 @@ export class LoginJoinPage implements OnInit {
           if (emailCheck.length > 0 && !emailCheck[0].loginType.includes('google')) {
             this.emailAlreadyCheck(this.user.email, credential, accessToken, 'google');
           } else {
+            this.loadingService.load();
             firebase.default
               .auth()
               .signInWithCredential(credential)
@@ -94,6 +95,7 @@ export class LoginJoinPage implements OnInit {
                 // this.registerUser(user, credential, 'google');
               });
           }
+          this.loadingService.hide();
         })
         .catch(err => {
           console.log('google login error', err);
@@ -180,7 +182,6 @@ export class LoginJoinPage implements OnInit {
 
   // 로그인 함수
   async loginUser(uid: string, email?: string): Promise<void> {
-    this.loadingService.load();
     console.log('login uid : ', uid);
 
     const userTmp = await this.db.doc$(`users/${uid}`).pipe(first()).toPromise();
@@ -200,6 +201,7 @@ export class LoginJoinPage implements OnInit {
 
   // 회원가입 함수
   async registerUser(user: any, credential, type?, email?: string): Promise<void> {
+    this.loadingService.load();
     console.log('registerUser, registerUser');
     // 회원 가입 시 link
     // await this.socialFirebase(credential, type);
