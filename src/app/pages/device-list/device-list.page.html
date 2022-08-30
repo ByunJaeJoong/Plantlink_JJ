@@ -13,9 +13,9 @@
       <div class="device" *ngFor="let item of deviceList[0]">
         <div class="name-wrap">
           <p class="name">{{item.name || 'Unknown'}}</p>
-          <p class="id">{{item.id}}</p>
+          <p class="id">{{item.address}}</p>
         </div>
-        <ion-button (click)="connect(item.id)" fill="clear"> 연결하기 </ion-button>
+        <ion-button (click)="connect(item.address)" fill="clear"> 연결하기 </ion-button>
       </div>
     </ng-container>
   </div>

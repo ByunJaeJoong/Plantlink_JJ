@@ -1,6 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { BLE } from '@ionic-native/ble/ngx';
-import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
+import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 import { NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert.service';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -13,14 +12,14 @@ import { LoadingService } from 'src/app/services/loading.service';
 export class FindDevicePage implements OnInit {
   deviceList: any = [];
   isValid = false;
+  statusMessage: string;
 
   constructor(
     private navController: NavController,
-    private bluetoothSerial: BluetoothSerial,
     public loadingService: LoadingService,
     private alertService: AlertService,
-    private ble: BLE,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private bluetoothle: BluetoothLE
   ) {
     this.main();
   }
@@ -33,27 +32,43 @@ export class FindDevicePage implements OnInit {
     this.isValid = false;
     // 장치 리스트를 빈배열로 설정
     this.deviceList = [];
-    // 현재 연결되어 있는 블루투스의 연결을 해제
-    this.bluetoothSerial.disconnect();
-    // 블루투스가 활성화 되어 있는지 확인
-    this.ble
-      .isEnabled()
-      .then(data => {
-        console.log('블루투스 활성화');
+    // 블루투스의 초기 상태를 확인(활성화)
+    this.bluetoothle.initialize().subscribe(data => {
+      console.log(data);
+      if (data.status == 'enabled') {
         this.searchDevices();
-      })
-      .catch(error => {
-        console.log(error);
+      } else {
         this.alertService.okBtn('alert', '블루투스가 켜져있는지 확인해주세요.');
-      });
+      }
+    });
   }
 
   // 블루투스 장치 검색
   async searchDevices() {
     console.log('진행확인 장치 검색');
-
-    // 1초 동안 주변 블루투스 스캔
-    this.ble.scan([], 1).subscribe(device => this.onDeviceDiscovered(device));
+    let params = {
+      services: [],
+    };
+    // 주변의 기기들을 스캔시작
+    this.bluetoothle.startScan(params).subscribe(
+      success => {
+        console.log('startScan: ' + success);
+        for (var key in success) {
+          console.log('startScankey: ' + key + ' / ' + success[key]);
+        }
+        // 블루투스 이름이 있는 장치만 리스트에 보이도록 저장
+        if (success.name) {
+          this.onDeviceDiscovered(success);
+        }
+        this.setStatus(success.address);
+      },
+      error => {
+        console.log('error: ' + error);
+        for (var key in error) {
+          console.log('error: ' + key + ' / ' + error[key]);
+        }
+      }
+    );
   }
 
   // 스캔된 블루투스 장치들을 List안에 push하는 함수
@@ -69,6 +84,32 @@ export class FindDevicePage implements OnInit {
     }
   }
 
+  // 스캔 중지
+  stopScan() {
+    this.bluetoothle.stopScan().then(resp => {
+      console.log('stopScan: ' + resp);
+      this.setStatus(resp.status);
+    });
+  }
+
+  // 페어링된 bluetooth LE장치 검색
+  retrieveConnected() {
+    let params = {
+      services: [],
+    };
+    this.bluetoothle.retrieveConnected(params).then(resp => {
+      console.log('retrieveConnected: ' + resp);
+      this.setStatus('retrieveConnected');
+    });
+  }
+
+  setStatus(message: string) {
+    console.log('message: ' + message);
+    this.ngZone.run(() => {
+      this.statusMessage = message;
+    });
+  }
+
   //홈화면으로 가기
   goHome() {
     this.navController.navigateBack(['/connect-device']);
@@ -76,6 +117,7 @@ export class FindDevicePage implements OnInit {
 
   // 블루투스 리스트 모달창
   async imgDetail() {
+    this.stopScan();
     const ok = await this.alertService.cancelOkBtn(
       'two-btn',
       `${this.deviceList.length}개의 장치가 발견되었습니다:)<br>연결페이지로 이동하시겠어요?`,

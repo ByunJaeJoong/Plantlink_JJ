@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BLE } from '@ionic-native/ble/ngx';
+import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 import { NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert.service';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -14,14 +14,15 @@ export class DeviceListPage implements OnInit {
   devices: any;
   deviceList: any = [];
   arduinoData: any = [];
+  notifyValue: any;
 
   constructor(
-    private ble: BLE,
     private navController: NavController,
     private route: ActivatedRoute,
     private alert: AlertService,
     private loading: LoadingService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private bluetoothle: BluetoothLE
   ) {
     this.route.queryParams.subscribe(data => {
       for (let ob in data) {
@@ -32,39 +33,58 @@ export class DeviceListPage implements OnInit {
 
   ngOnInit() {}
 
-  // 블루투스 장치를 클릭하여 그 장치와 연결시킴
-  async connect(id: string) {
-    this.loading.load('연결 중입니다.');
-    this.ble.connect(id).subscribe(
-      () => {
-        console.log('연결됨으로 들어옴');
-
-        // this.ngZone.run(() => {
-        //   this.ble.read(id, 'FFE0', 'FFE1').then(data => {
-        //     console.log('readData', data);
-        //     this.arduinoData.push(data);
-        //     console.log('arduinoData', this.arduinoData);
-        //   });
-        // });
-        this.ble.startNotification(id, 'FFE0', 'FFE1').subscribe(buffer => {
-          console.log('제발 작동해라');
-
-          var data = new Uint8Array(buffer);
-          console.log('startNotification', JSON.stringify(data));
-          if (buffer) {
-            this.ble.read(id, 'FFE0', 'FFE1').then(data => {
-              console.log('readData', data);
-
-              this.ngZone.run(() => {
-                this.arduinoData.push(data);
-              });
-              console.log('arduinoData', this.arduinoData);
-            });
-          }
-        });
+  connect(address: string) {
+    let params = {
+      address: address,
+    };
+    this.bluetoothle.connect(params).subscribe(
+      success => {
+        console.log('successConnect: ' + success);
+        for (var key in success) {
+          console.log('successConnect: ' + key + ' / ' + success[key]);
+        }
+        if (success.status == 'connected') {
+          this.discover(success.address);
+        }
       },
       error => {
-        console.log('Peripheral disconnected');
+        console.log('error: ' + error);
+      }
+    );
+  }
+
+  discover(address: string) {
+    let params = {
+      address: address,
+    };
+    this.bluetoothle.discover(params).then(resp => {
+      console.log('discover: ' + resp);
+      for (var key in resp) {
+        console.log('discover: ' + key + ' / ' + resp[key]);
+      }
+      this.subscribe(resp.address);
+    });
+  }
+
+  subscribe(address: string) {
+    let params = {
+      address: address,
+      service: 'FFE0',
+      characteristic: 'FFE1',
+    };
+    this.bluetoothle.subscribe(params).subscribe(
+      success => {
+        console.log('subscribe: ' + success);
+        for (var key in success) {
+          console.log('subscribe: ' + key + ' / ' + success[key]);
+        }
+        if (success.value) {
+          let value = this.bluetoothle.encodedStringToBytes(success.value);
+          console.log('value ', value);
+        }
+      },
+      error => {
+        console.log('error: ' + error);
       }
     );
   }
