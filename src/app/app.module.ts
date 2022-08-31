@@ -20,7 +20,8 @@ import { Media } from '@awesome-cordova-plugins/media/ngx';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { VideoEditor } from '@awesome-cordova-plugins/video-editor/ngx';
 import { File } from '@awesome-cordova-plugins/file/ngx';
-import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
+import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
+import { BLE } from '@ionic-native/ble/ngx';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -69,7 +70,8 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
     VideoEditor,
     File,
     GooglePlus,
-    BluetoothLE,
+    BluetoothSerial,
+    BLE,
   ],
   bootstrap: [AppComponent],
 })
