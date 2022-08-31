@@ -115,9 +115,9 @@ export class PlantBookDetailPage implements OnInit {
       this.checkOverlap().then(() => {
         this.myPlant.myPlantId = this.common.generateFilename();
         this.myPlant.name = this.plant.name;
-        this.myPlant.temperature = this.plant.temperature;
-        this.myPlant.light = this.plant.light;
-        this.myPlant.soil = this.plant.soil;
+        this.myPlant.temperature = '';
+        this.myPlant.light = '';
+        this.myPlant.soil = '';
         this.myPlant.plantBookId = this.plantBookId;
         this.myPlant.userId = this.userId;
         this.myPlant.cancelSwitch = false;

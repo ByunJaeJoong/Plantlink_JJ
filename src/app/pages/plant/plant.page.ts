@@ -13,7 +13,7 @@ import { DbService, docListJoin, leftJoinDocument } from 'src/app/services/db.se
 export class PlantPage implements OnInit {
   userId: any;
   userInfo$: Observable<any>;
-  currentPlant$: Observable<any>;
+  myPlant$: Observable<any>;
 
   constructor(private alertService: AlertService, private navController: NavController, private db: DbService) {
     this.userId = localStorage.getItem('userId');
@@ -32,7 +32,7 @@ export class PlantPage implements OnInit {
   async getData() {
     this.userInfo$ = await this.db.doc$(`users/${this.userId}`);
 
-    this.currentPlant$ = await this.db.collection$(`myPlant`, ref =>
+    this.myPlant$ = await this.db.collection$(`myPlant`, ref =>
       ref.where('userId', '==', this.userId).where('cancelSwitch', '==', false).where('deleteSwitch', '==', false)
     );
   }
