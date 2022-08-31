@@ -23,7 +23,7 @@ export class InfoPage implements OnInit {
   ngOnInit() {}
 
   async getData() {
-    this.master = await this.db.collection$(`master`).pipe(first()).toPromise();
+    this.master = await this.db.doc$(`master/Szxcsgls6gZwP8sa0Gpd8tKga4u1`).pipe(first()).toPromise();
     this.user$ = this.db.doc$(`users/${this.userId}`);
   }
 

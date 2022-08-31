@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { DbService } from 'src/app/services/db.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { DbService } from 'src/app/services/db.service';
   styleUrls: ['./contract.page.scss'],
 })
 export class ContractPage implements OnInit {
-  master$: Observable<any>;
+  master: any = [];
 
   constructor(private navController: NavController, private db: DbService) {
     this.getData();
@@ -17,8 +17,8 @@ export class ContractPage implements OnInit {
 
   ngOnInit() {}
 
-  getData() {
-    this.master$ = this.db.collection$(`master`);
+  async getData() {
+    this.master = await this.db.doc$(`master/Szxcsgls6gZwP8sa0Gpd8tKga4u1`).pipe(first()).toPromise();
   }
 
   //설정화면으로

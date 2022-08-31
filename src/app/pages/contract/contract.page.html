@@ -10,9 +10,7 @@
 </ion-header>
 
 <ion-content>
-  <div id="contract" *ngIf="master$ | async as master">
-    <ng-container *ngFor="let item of master">
-      <p>{{item.terms}}</p>
-    </ng-container>
+  <div id="contract">
+    <p>{{master.terms}}</p>
   </div>
 </ion-content>
