@@ -148,26 +148,21 @@ export const leftJoinDocument = (afs: AngularFirestore, field, collection) => {
     defer(() => {
       // Operator state
       let collectionData;
-      let real: any;
       const cache = new Map();
+
       return source.pipe(
         switchMap(data => {
-          real = data;
-          // Clear mapping on each emitted val ;
           cache.clear();
-
-          // Save the parent data state
-          collectionData = data as any[];
+          collectionData = data as any[]; // array
 
           const reads$ = [];
           let i = 0;
           for (const doc of collectionData) {
-            // Skip if doc field does not exist or is already in cache
             if (!doc[field] || cache.get(doc[field])) {
+              // {} 에 userId filed가 없는경우
               continue;
             }
 
-            // Push doc read to Array
             reads$.push(afs.collection(collection).doc(doc[field]).valueChanges());
             cache.set(doc[field], i);
             i++;
@@ -176,17 +171,9 @@ export const leftJoinDocument = (afs: AngularFirestore, field, collection) => {
           return reads$.length ? combineLatest(reads$) : of([]);
         }),
         map(joins => {
-          return collectionData.map((v, i) => {
-            const joinIdx = cache.get(v[field]);
-            const item = real.find(e => e.id == v[field]);
-            if (field && v[field]) {
-              return {
-                ...v,
-                [field]: { ...joins[joinIdx], id: v[field] } || null,
-              };
-            } else {
-              return v;
-            }
+          return collectionData.map(v => {
+            const joinIdx = cache.get(v[field]); // 고유ID
+            return { ...v, [field]: joins[joinIdx] || null };
           });
         })
       );

@@ -15,14 +15,14 @@
     <div class="plant-wrap" *ngIf="plantInfo$ | async as plantInfo">
       <span></span>
       <ng-container *ngFor="let item of plantInfo.myPlant; let i = index">
-        <ion-item (click)="goPlantDetail(item.plantBookId)" class="chat-list">
+        <ion-item (click)="goPlantDetail(item.myPlantId)" class="chat-list">
           <ng-container *ngIf="('plantBook/' + item.plantBookId | doc | async ) as plant">
             <ion-avatar>
               <img [src]="plant.plantImage ? plant.plantImage : 'assets/images/default-img.png'" alt="" />
             </ion-avatar>
             <ion-label> {{item.name}} </ion-label>
             <p *ngIf="!item.cancelSwitch">디바이스와 연결됨</p>
-            <p *ngIf="item.cancelSwitch">나의 식물로 추가됨</p>
+            <p *ngIf="item.cancelSwitch">나의 식물로 추가됨 {{this.test}}</p>
           </ng-container>
         </ion-item>
       </ng-container>

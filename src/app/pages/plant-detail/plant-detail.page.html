@@ -10,14 +10,14 @@
       <div class="left"></div>
     </div>
 
-    <div id="plant-slider-wrap" *ngIf="plantInfo">
+    <div id="plant-slider-wrap" *ngIf="plantInfo$ | async as plantInfo">
       <ion-slides [options]="slideOpts" class="plant-slide">
         <ion-slide>
           <div class="flex-slide-wrap">
             <div class="wrap">
               <div class="title">
                 <img src="assets/images/plant-name-icon.png" alt="" />
-                <p>{{plantInfo.name}}</p>
+                <p (click)="changeName()">{{plantInfo.name}}</p>
               </div>
 
               <!-- 온도 카드 -->
@@ -30,13 +30,13 @@
                 <ion-item class="con">
                   <div class="left">
                     <p class="top">Best</p>
-                    <p class="bottom">{{plantInfo.temperature}}</p>
+                    <p class="bottom">{{ plantInfo.plantBookId.temperature }}</p>
                   </div>
                   <span></span>
                   <div class="right">
                     <p class="top">Yours</p>
                     <div class="justify-wrap">
-                      <p class="bottom">18 °C</p>
+                      <p class="bottom">{{plantInfo.temperature}}°C</p>
                       <ion-label class="up-down">-</ion-label>
                     </div>
                   </div>
@@ -53,13 +53,13 @@
                 <ion-item class="con">
                   <div class="left">
                     <p class="top">Best</p>
-                    <p class="bottom">{{plantInfo.light}}</p>
+                    <p class="bottom">{{ plantInfo.plantBookId.light }}</p>
                   </div>
                   <span></span>
                   <div class="right">
                     <p class="top">Yours</p>
                     <div class="justify-wrap">
-                      <p class="bottom red">2,000 lux</p>
+                      <p class="bottom red">{{plantInfo.light}} %</p>
                       <ion-label class="up-down">
                         <img src="assets/images/up-icon.png" alt="" />
                         <p class="red">500lux</p>
@@ -79,13 +79,13 @@
                 <ion-item class="con">
                   <div class="left">
                     <p class="top">Best</p>
-                    <p class="bottom">{{plantInfo.soil}}</p>
+                    <p class="bottom">{{ plantInfo.plantBookId.level }}</p>
                   </div>
                   <span></span>
                   <div class="right">
                     <p class="top">Yours</p>
                     <div class="justify-wrap">
-                      <p class="bottom blue">43 %</p>
+                      <p class="bottom blue">{{plantInfo.soil}} %</p>
                       <ion-label class="up-down">
                         <img src="/assets/images/down-icon.png" alt="" />
                         <p class="blue">2%</p>

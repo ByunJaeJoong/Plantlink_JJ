@@ -3,7 +3,7 @@ import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
-import { DbService, docListJoin, leftJoinDocument } from 'src/app/services/db.service';
+import { DbService, docJoin, docListJoin, leftJoinDocument } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-plant',
@@ -15,16 +15,19 @@ export class PlantPage implements OnInit {
   userInfo$: Observable<any>;
   myPlant$: Observable<any>;
 
+  test: any;
+
   plantInfo: any;
   plantInfo$: Observable<any>;
   constructor(private alertService: AlertService, private navController: NavController, private db: DbService) {
     this.userId = localStorage.getItem('userId');
-  }
-
-  ngOnInit() {
     this.getData();
   }
+
+  ngOnInit() {}
+
   ionViewWillEnter() {
+    this.getData();
     this.userInfo$.pipe(first()).subscribe(async data => {
       if (data.myPlant.length <= 0) {
         await this.emptyAlert();
@@ -34,6 +37,9 @@ export class PlantPage implements OnInit {
   async getData() {
     this.userInfo$ = await this.db.doc$(`users/${this.userId}`);
     this.plantInfo$ = await this.userInfo$.pipe(docListJoin(this.db.afs, 'myPlant', 'myPlant'));
+    this.plantInfo$.pipe().subscribe(data => {
+      console.log(data);
+    });
   }
 
   //식물목록이 없을 때 뜨는 alert
