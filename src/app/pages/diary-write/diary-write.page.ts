@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, ModalController, NavController, NavParams } from '@ionic/angular';
+import { Diary } from 'src/app/models/diary.model';
 import { CommonService } from 'src/app/services/common.service';
 import { DbService } from 'src/app/services/db.service';
 import { ImageService } from 'src/app/services/image.service';
@@ -12,7 +13,7 @@ import { ImageService } from 'src/app/services/image.service';
 export class DiaryWritePage implements OnInit {
   userId: string = localStorage.getItem('userId');
 
-  diary: any = {
+  diary: Diary = {
     diaryId: '',
     dateCreated: '',
     content: '',
