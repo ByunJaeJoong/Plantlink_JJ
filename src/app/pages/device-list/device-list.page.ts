@@ -6,6 +6,9 @@ import { AlertService } from 'src/app/services/alert.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { DbService } from 'src/app/services/db.service';
 import { first } from 'rxjs/operators';
+import { plantData } from 'src/app/models/plantData.model';
+import { CommonService } from 'src/app/services/common.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-device-list',
@@ -37,6 +40,19 @@ export class DeviceListPage implements OnInit {
   first: Uint8Array;
   last: Uint8Array;
 
+  now: string;
+
+  plantData: plantData = {
+    plantDataId: '',
+    userId: '',
+    myPlantId: '',
+    bluetoothId: '',
+    soil: 0,
+    light: 0,
+    temperature: 0,
+    dateCreated: '',
+  };
+
   constructor(
     private db: DbService,
     private ble: BLE,
@@ -44,7 +60,8 @@ export class DeviceListPage implements OnInit {
     private route: ActivatedRoute,
     private alert: AlertService,
     private loading: LoadingService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private common: CommonService
   ) {
     this.route.queryParams.subscribe(data => {
       for (let ob in data) {
@@ -58,14 +75,17 @@ export class DeviceListPage implements OnInit {
 
   async getData() {
     this.myPlant = await this.db
-      .collection$(`myPlant`, ref => ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false).where('cancelSwitch', '==', false))
+      .collection$(`myPlant`, (ref: any) =>
+        ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false).where('cancelSwitch', '==', false)
+      )
       .pipe(first())
       .toPromise();
-    console.log(this.myPlant);
   }
 
   // 블루투스 장치를 클릭하여 그 장치와 연결시킴
   async connect(id: string) {
+    this.bluetoothData = [];
+
     this.loading.load('연결 중입니다.');
     this.ble.connect(id).subscribe(
       data => {
@@ -115,8 +135,6 @@ export class DeviceListPage implements OnInit {
           let uint8Data = new Uint8Array(buffer);
           //Uint8 -> ASCII
           this.ascString = new TextDecoder().decode(uint8Data);
-          console.log(this.ascString);
-
           let temperature = this.ascString.split(',')[2];
           let check = this.ascString.indexOf(':');
 
@@ -157,17 +175,53 @@ export class DeviceListPage implements OnInit {
   }
 
   remakeData() {
+    // 중복적인 데이터 가져옴 중복을 제거하는 것
+    const set = new Set(this.bluetoothData);
+    this.bluetoothData = [...set];
     console.log(this.bluetoothData);
+
     this.bluetoothData.forEach((data: any) => {
       this.divisionData = data.split(':');
       this.senserData = this.divisionData[1].split(',');
 
-      console.log(this.divisionData, this.senserData);
+      // 현재상테에 대한 데이터 값을 계산 후 저장
       if (this.divisionData[0].includes('Current')) {
         this.soil = this.percent(this.senserData[0]);
         this.light = this.percent(this.senserData[1]);
         this.temperature = this.temperatureCal(this.senserData[2]);
         this.currentData(this.soil, this.light, this.temperature);
+      }
+
+      // 저장된 값의 평균을 가져오기
+      if (this.divisionData[0].includes('Saved')) {
+        console.log(this.bluetoothData);
+        let saveIdx = this.divisionData[0].split(' ')[2];
+        console.log('idx 갯수', this.bluetoothData.length);
+        console.log('saveIdx', saveIdx);
+
+        for (let i = this.bluetoothData.length; i > -1; i--) {
+          let checkDate = moment().subtract(i, 'hour').format('YYYY-MM-DD hh:mm:ss');
+          console.log(i, checkDate);
+        }
+      }
+
+      const save = [
+        'Saved Data 1',
+        'Saved Data 2',
+        'Saved Data 3',
+        'Saved Data 4',
+        'Saved Data 5',
+        'Saved Data 6',
+        'Saved Data 7',
+        'Saved Data 8',
+        'Saved Data 9',
+      ];
+
+      console.log('idx 갯수', save.length);
+
+      for (let i = save.length; i > -1; i--) {
+        let checkDate = moment().subtract(i, 'hour').format('YYYY-MM-DD hh:mm:ss');
+        console.log(i, checkDate);
       }
     });
   }
@@ -190,14 +244,40 @@ export class DeviceListPage implements OnInit {
     }
   }
 
+  // 센서의 현재 측정값 저장
   currentData(soil: number, light: number, temperature: number) {
-    console.log(soil, light, temperature);
-
     this.db.updateAt(`myPlant/${this.myPlant[0].myPlantId}`, {
       soil,
       light,
       temperature,
     });
+  }
+
+  // 같은 날의 데이터 평균 구하기
+  average(arr: Array<any>) {
+    const result = arr.reduce((sum, currValue) => {
+      return sum + currValue;
+    }, 0);
+
+    const ave = result / arr.length;
+    console.log(ave);
+    return ave;
+  }
+
+  // 저장된 날짜 확인하는 함수
+  getDayLabels() {}
+
+  // 센서에 저장된 측정값 db에 저장
+  savedData(soil: number, light: number, temperature: number, date: string) {
+    this.plantData.plantDataId = this.common.generateFilename();
+    this.plantData.userId = this.userId;
+    this.plantData.myPlantId = this.myPlant[0].myPlantId;
+    this.plantData.soil = soil;
+    this.plantData.light = light;
+    this.plantData.temperature = temperature;
+    this.plantData.dateCreated = date;
+
+    this.db.updateAt(`plantData/${this.plantData.plantDataId}`, this.plantData);
   }
 
   // 연결 도중 에러가 날 경우 경고창
