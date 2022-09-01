@@ -2,9 +2,9 @@ export interface myPlant {
   myPlantId: string;
   dateCreated: string;
   name: string;
-  temperature: string;
-  light: string;
-  soil: string;
+  temperature: number;
+  light: number;
+  soil: number;
   plantBookId: string;
   userId: string;
   deleteSwitch: boolean;

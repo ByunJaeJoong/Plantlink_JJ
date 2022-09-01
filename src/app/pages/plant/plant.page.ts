@@ -15,6 +15,8 @@ export class PlantPage implements OnInit {
   userInfo$: Observable<any>;
   myPlant$: Observable<any>;
 
+  plantInfo: any;
+  plantInfo$: Observable<any>;
   constructor(private alertService: AlertService, private navController: NavController, private db: DbService) {
     this.userId = localStorage.getItem('userId');
   }
@@ -31,19 +33,16 @@ export class PlantPage implements OnInit {
   }
   async getData() {
     this.userInfo$ = await this.db.doc$(`users/${this.userId}`);
-
-    this.myPlant$ = await this.db.collection$(`myPlant`, ref =>
-      ref.where('userId', '==', this.userId).where('cancelSwitch', '==', false).where('deleteSwitch', '==', false)
-    );
+    this.plantInfo$ = await this.userInfo$.pipe(docListJoin(this.db.afs, 'myPlant', 'myPlant'));
   }
 
   //식물목록이 없을 때 뜨는 alert
   emptyAlert() {
     this.alertService
-      .cancelOkBtn('two-btn', '현재 등록된 식물이 없습니다.<br>장치 연결을 통해 식물을 등록하시겠어요?', '', '취소', '확인')
+      .cancelOkBtn('two-btn', '현재 등록된 식물이 없습니다.<br>식물 추가를 통해 식물을 등록하시겠어요?', '', '취소', '확인')
       .then(ok => {
         if (ok) {
-          this.navController.navigateForward(['/connect-device']);
+          this.navController.navigateForward(['/plant-book']);
         }
       });
   }

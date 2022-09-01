@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content>
-  <div id="plant-info-wrap" *ngIf="plant">
+  <div id="plant-info-wrap" *ngIf="plant$ | async plant">
     <div class="top">
       <h2>{{plant.name}}</h2>
       <!-- 식물 등록하기 버튼 -->
