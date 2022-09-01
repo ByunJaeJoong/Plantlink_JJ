@@ -12,7 +12,7 @@ import { LoadingService } from 'src/app/services/loading.service';
 })
 export class FindDevicePage implements OnInit {
   deviceList: any = [];
-  isValid = false;
+  isValid: boolean = false;
 
   constructor(
     private navController: NavController,
