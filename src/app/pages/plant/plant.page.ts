@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { first, map, switchMap } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
 import { DbService, docJoin, docListJoin, leftJoinDocument } from 'src/app/services/db.service';
 
@@ -17,7 +17,7 @@ export class PlantPage implements OnInit {
 
   test: any;
 
-  plantInfo: any;
+  // plantInfo: any;
   plantInfo$: Observable<any>;
   constructor(private alertService: AlertService, private navController: NavController, private db: DbService) {
     this.userId = localStorage.getItem('userId');
@@ -27,7 +27,6 @@ export class PlantPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.getData();
     this.userInfo$.pipe(first()).subscribe(async data => {
       if (data.myPlant.length <= 0) {
         await this.emptyAlert();
@@ -36,10 +35,24 @@ export class PlantPage implements OnInit {
   }
   async getData() {
     this.userInfo$ = await this.db.doc$(`users/${this.userId}`);
-    this.plantInfo$ = await this.userInfo$.pipe(docListJoin(this.db.afs, 'myPlant', 'myPlant'));
-    this.plantInfo$.pipe().subscribe(data => {
-      console.log(data);
-    });
+    //this.plantInfo$ = await this.userInfo$.pipe(docListJoin(this.db.afs, 'myPlant', 'myPlant'));
+    this.plantInfo$ = this.userInfo$.pipe(
+      switchMap(user => {
+        let reads$ = [];
+        console.log(user);
+
+        user.myPlant.forEach(id => {
+          const doc$ = this.db.doc$(`myPlant/${id}`);
+          reads$.push(doc$);
+        });
+
+        if (reads$.length > 0) {
+          return combineLatest(reads$);
+        } else {
+          return of([]);
+        }
+      })
+    );
   }
 
   //식물목록이 없을 때 뜨는 alert
