@@ -19,8 +19,6 @@ export class PlantBookDetailPage implements OnInit {
   plant: any;
   plantBookId: any;
   userId: any;
-  currentPlant: any;
-  currentPlant$: Observable<any>;
   plantSwitch: boolean = false;
   myPlant: myPlant = {
     myPlantId: '',
@@ -48,13 +46,13 @@ export class PlantBookDetailPage implements OnInit {
   async ngOnInit() {
     this.plant$ = await this.db.doc$(`plantBook/${this.plantBookId}`);
     this.plant = await this.plant$.pipe(first()).toPromise();
-    this.currentPlant$ = await this.db.doc$(`users/${this.userId}`).pipe(docListJoin(this.db.afs, 'myPlant', 'myPlant'));
     this.checkMyPlant();
 
     setTimeout(() => {
       this.addHitList();
     }, 200);
   }
+
   // 현재 식물로 등록되어 있는 지 확인
   async checkMyPlant() {
     const connectCheck = await this.db
@@ -98,15 +96,6 @@ export class PlantBookDetailPage implements OnInit {
       });
     }
   }
-  //나의 식물 등록하기 - 해제하기
-  //1. 연결된 장치가 없을 때
-  // noDevice() {
-  //   this.alertService.cancelOkBtn('two-btn', '현재 연결된 장치가 없습니다.<br>장치를 연결하러 가시겠어요?', '', '취소', '확인').then(ok => {
-  //     if (ok) {
-  //       this.navController.navigateForward(['/connect-device']);
-  //     }
-  //   });
-  // }
 
   //2. 등록완료
   async completeAlert() {
@@ -144,8 +133,6 @@ export class PlantBookDetailPage implements OnInit {
       });
     });
   }
-  // db 에서 삭제
-  async deleteMyPlant() {}
 
   //3.식물 해제하기
   disconnectAlert() {
@@ -170,6 +157,15 @@ export class PlantBookDetailPage implements OnInit {
       this.checkMyPlant();
     });
   }
+  //나의 식물 등록하기 - 해제하기
+  //1. 연결된 장치가 없을 때
+  // noDevice() {
+  //   this.alertService.cancelOkBtn('two-btn', '현재 연결된 장치가 없습니다.<br>장치를 연결하러 가시겠어요?', '', '취소', '확인').then(ok => {
+  //     if (ok) {
+  //       this.navController.navigateForward(['/connect-device']);
+  //     }
+  //   });
+  // }
 
   //홈화면으로
   goHome() {

@@ -29,37 +29,40 @@ export class ChattingPage implements OnInit {
     userId: '',
   };
   chat$: Observable<any>;
+  chat: any;
   userInfo$: Observable<any>;
-  userInfo: any;
-  userTutorial: boolean;
   constructor(private navController: NavController, private db: DbService, private common: CommonService) {}
 
   async ngOnInit() {
-    this.userInfo$ = await this.db.collection$(`users`, ref => ref.where('uid', '==', this.myId));
-    this.userInfo = await this.userInfo$.pipe(first()).toPromise();
-    this.userTutorial = this.userInfo[0].chatEnterSwitch;
+    this.userInfo$ = await this.db.doc$(`users/${this.myId}`);
     this.chat$ = await this.db.collection$(`chats`, ref => ref.where('userId', '==', this.myId).where('deleteSwitch', '==', false));
+    this.chat = await this.chat$.pipe(first()).toPromise();
+    this.createChat();
+  }
+
+  async createChat() {
+    if (this.chat?.length <= 0) {
+      this.chats.chatId = this.common.generateFilename();
+      this.chats.createdAt = Date.now();
+      this.chats.chatGroup = [this.myId, this.botId];
+      this.chats.messages = [{ chatContent: '모든게 다 잘될거야!', createdAt: Date.now(), uid: this.botId }];
+      this.chats.userId = this.myId;
+      this.db.updateAt(`chats/${this.chats.chatId}`, this.chats);
+    }
+  }
+
+  // 튜토리얼 체크
+  async tutorialCheck() {
+    await this.db.updateAt(`users/${this.myId}`, {
+      chatEnterSwitch: true,
+    });
   }
 
   //홈으로
   goHome() {
     this.navController.navigateBack(['/tabs/home']);
   }
-  async tutorialCheck() {
-    this.userTutorial = true;
-    await this.db
-      .updateAt(`users/${this.myId}`, {
-        chatEnterSwitch: true,
-      })
-      .then(() => {
-        this.chats.chatId = this.common.generateFilename();
-        this.chats.createdAt = Date.now();
-        this.chats.chatGroup = [this.myId, this.botId];
-        this.chats.messages = [{ chatContent: '모든게 다 잘될거야!', createdAt: Date.now(), uid: this.botId }];
-        this.chats.userId = this.myId;
-        this.db.updateAt(`chats/${this.chats.chatId}`, this.chats);
-      });
-  }
+
   //채팅디테일
   goChatDetail(chat) {
     this.navController.navigateForward(['/chatting-detail'], {
