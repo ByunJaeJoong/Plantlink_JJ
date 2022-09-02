@@ -7,4 +7,5 @@ export interface plantData {
   light: number;
   temperature: number;
   dateCreated: string;
+  senserDate: string;
 }
