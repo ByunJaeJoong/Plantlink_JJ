@@ -27,9 +27,9 @@
     background: url(../../../assets/images/back-icon.png) no-repeat center center/ 100%;
   }
   .exit-btn {
-    width: 1.875rem;
-    height: 1.875rem;
-    background: url(../../../assets/images/setting-delete-icon.png) no-repeat center center/ 100%;
+    text-align: center;
+    margin-left: -1rem;
+    @include font(#161616, 600, 1rem, 1.1875rem);
   }
 
   .left {

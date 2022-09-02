@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Chats } from 'src/app/models/chat.model';
+import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ChatService } from 'src/app/services/chat.service';
 import { CommonService } from 'src/app/services/common.service';
@@ -31,7 +32,13 @@ export class ChattingPage implements OnInit {
   chat$: Observable<any>;
   chat: any;
   userInfo$: Observable<any>;
-  constructor(private navController: NavController, private db: DbService, private common: CommonService) {}
+  constructor(
+    private navController: NavController,
+    private db: DbService,
+    private common: CommonService,
+    private alertController: AlertController,
+    private alert: AlertService
+  ) {}
 
   async ngOnInit() {
     this.userInfo$ = await this.db.doc$(`users/${this.myId}`);
@@ -62,6 +69,35 @@ export class ChattingPage implements OnInit {
   goHome() {
     this.navController.navigateBack(['/tabs/home']);
   }
+  async deleteMessageAlert(chat) {
+    const alert = await this.alertController.create({
+      cssClass: 'alert',
+      header: '채팅방 나가기',
+      message: '대화방을 나가면 대화내용이 모두<br />삭제되고, 대화목록에서도 사라집니다.<br />그래도 나가시겠습니까?',
+      buttons: [
+        {
+          text: '취소',
+          role: 'cancel',
+          handler: () => {},
+        },
+        {
+          text: '나가기',
+          handler: () => {
+            this.db
+              .updateAt(`chats/${chat.id}`, {
+                deleteSwitch: true,
+              })
+              .then(() => {
+                this.deleteMessageToast();
+                this.createChat();
+                this.navController.navigateRoot(['/tabs/home']);
+              });
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
 
   //채팅디테일
   goChatDetail(chat) {
@@ -71,5 +107,8 @@ export class ChattingPage implements OnInit {
         botId: chat.chatGroup[1],
       },
     });
+  }
+  async deleteMessageToast() {
+    this.alert.toast('채팅방을 나갔습니다.', 'toast-style', 2000);
   }
 }

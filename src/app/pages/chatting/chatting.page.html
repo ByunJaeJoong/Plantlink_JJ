@@ -12,7 +12,7 @@
   <ng-container *ngIf="userInfo$ | async as userInfo">
     <ng-container *ngIf="chat$ | async as list">
       <div id="chatting-list" *ngIf="list?.length > 0">
-        <ng-container *ngFor="let chat of list">
+        <ion-item-sliding *ngFor="let chat of list">
           <ion-item (click)="goChatDetail(chat)">
             <ion-avatar>
               <img src="assets/images/plant-name-icon.png" alt="" />
@@ -25,7 +25,10 @@
               <span>{{ lastMsg.createdAt | dateFormat }}</span>
             </ng-container>
           </ion-item>
-        </ng-container>
+          <ion-item-options side="end">
+            <ion-item-option (click)="deleteMessageAlert(chat)">나가기</ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
       </div>
     </ng-container>
 
