@@ -30,8 +30,8 @@ export class ChattingPage implements OnInit {
     userId: '',
   };
   chat$: Observable<any>;
-  chat: any;
   userInfo$: Observable<any>;
+<<<<<<< HEAD
   constructor(
     private navController: NavController,
     private db: DbService,
@@ -39,36 +39,24 @@ export class ChattingPage implements OnInit {
     private alertController: AlertController,
     private alert: AlertService
   ) {}
+=======
+  userInfo: any;
+  userTutorial: boolean;
+  constructor(private navController: NavController, private db: DbService, private common: CommonService) {}
+>>>>>>> cc07c99fbc3e50fda1d88118ae19fe34c0ae75ce
 
   async ngOnInit() {
-    this.userInfo$ = await this.db.doc$(`users/${this.myId}`);
+    this.userInfo$ = await this.db.collection$(`users`, ref => ref.where('uid', '==', this.myId));
+    this.userInfo = await this.userInfo$.pipe(first()).toPromise();
+    this.userTutorial = this.userInfo[0].chatEnterSwitch;
     this.chat$ = await this.db.collection$(`chats`, ref => ref.where('userId', '==', this.myId).where('deleteSwitch', '==', false));
-    this.chat = await this.chat$.pipe(first()).toPromise();
-    this.createChat();
-  }
-
-  async createChat() {
-    if (this.chat?.length <= 0) {
-      this.chats.chatId = this.common.generateFilename();
-      this.chats.createdAt = Date.now();
-      this.chats.chatGroup = [this.myId, this.botId];
-      this.chats.messages = [{ chatContent: '모든게 다 잘될거야!', createdAt: Date.now(), uid: this.botId }];
-      this.chats.userId = this.myId;
-      this.db.updateAt(`chats/${this.chats.chatId}`, this.chats);
-    }
-  }
-
-  // 튜토리얼 체크
-  async tutorialCheck() {
-    await this.db.updateAt(`users/${this.myId}`, {
-      chatEnterSwitch: true,
-    });
   }
 
   //홈으로
   goHome() {
     this.navController.navigateBack(['/tabs/home']);
   }
+<<<<<<< HEAD
   async deleteMessageAlert(chat) {
     const alert = await this.alertController.create({
       cssClass: 'alert',
@@ -99,6 +87,23 @@ export class ChattingPage implements OnInit {
     await alert.present();
   }
 
+=======
+  async tutorialCheck() {
+    this.userTutorial = true;
+    await this.db
+      .updateAt(`users/${this.myId}`, {
+        chatEnterSwitch: true,
+      })
+      .then(() => {
+        this.chats.chatId = this.common.generateFilename();
+        this.chats.createdAt = Date.now();
+        this.chats.chatGroup = [this.myId, this.botId];
+        this.chats.messages = [{ chatContent: '모든게 다 잘될거야!', createdAt: Date.now(), uid: this.botId }];
+        this.chats.userId = this.myId;
+        this.db.updateAt(`chats/${this.chats.chatId}`, this.chats);
+      });
+  }
+>>>>>>> cc07c99fbc3e50fda1d88118ae19fe34c0ae75ce
   //채팅디테일
   goChatDetail(chat) {
     this.navController.navigateForward(['/chatting-detail'], {

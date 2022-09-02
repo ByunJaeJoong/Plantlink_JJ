@@ -10,95 +10,93 @@
       <div class="left"></div>
     </div>
 
-    <div id="plant-slider-wrap" *ngIf="plantInfo$ | async as plantList">
+    <div id="plant-slider-wrap" *ngIf="plantInfo$ | async as plantInfo">
       <ion-slides [options]="slideOpts" class="plant-slide">
-        <ng-container *ngFor="let plantInfo of plantList">
-          <ion-slide>
-            <div class="flex-slide-wrap">
-              <div class="wrap">
-                <div class="title">
-                  <img src="assets/images/plant-name-icon.png" alt="" />
-                  <p (click)="changeName(plantInfo.myPlantId, plantInfo.name)">{{plantInfo.name}}</p>
-                </div>
-
-                <!-- 온도 카드 -->
-                <ion-card class="first">
-                  <ion-item class="sub-title">
-                    <img src="assets/images/plant-temperature-icon.png" alt="" />
-                    <ion-label>온도</ion-label>
-                  </ion-item>
-
-                  <ion-item class="con">
-                    <div class="left">
-                      <p class="top">Best</p>
-                      <p class="bottom">{{ plantInfo.plantBookId.temperature }}</p>
-                    </div>
-                    <span></span>
-                    <div class="right">
-                      <p class="top">Yours</p>
-                      <div class="justify-wrap">
-                        <p class="bottom">{{plantInfo.temperature}}°C</p>
-                        <ion-label class="up-down">-</ion-label>
-                      </div>
-                    </div>
-                  </ion-item>
-                </ion-card>
-
-                <!-- 조도 카드 -->
-                <ion-card class="second">
-                  <ion-item class="sub-title">
-                    <img src="assets/images/plant-illuminance-icon.png" alt="" />
-                    <ion-label>조도</ion-label>
-                  </ion-item>
-
-                  <ion-item class="con">
-                    <div class="left">
-                      <p class="top">Best</p>
-                      <p class="bottom">{{ plantInfo.plantBookId.light }}</p>
-                    </div>
-                    <span></span>
-                    <div class="right">
-                      <p class="top">Yours</p>
-                      <div class="justify-wrap">
-                        <p class="bottom red">{{plantInfo.light}} %</p>
-                        <ion-label class="up-down">
-                          <img src="assets/images/up-icon.png" alt="" />
-                          <p class="red">500lux</p>
-                        </ion-label>
-                      </div>
-                    </div>
-                  </ion-item>
-                </ion-card>
-
-                <!-- 토양수분 카드 -->
-                <ion-card class="third">
-                  <ion-item class="sub-title">
-                    <img src="assets/images/plant-water-icon.png" alt="" />
-                    <ion-label>토양수분</ion-label>
-                  </ion-item>
-
-                  <ion-item class="con">
-                    <div class="left">
-                      <p class="top">Best</p>
-                      <p class="bottom">{{ plantInfo.plantBookId.level }}</p>
-                    </div>
-                    <span></span>
-                    <div class="right">
-                      <p class="top">Yours</p>
-                      <div class="justify-wrap">
-                        <p class="bottom blue">{{plantInfo.soil}} %</p>
-                        <ion-label class="up-down">
-                          <img src="/assets/images/down-icon.png" alt="" />
-                          <p class="blue">2%</p>
-                        </ion-label>
-                      </div>
-                    </div>
-                  </ion-item>
-                </ion-card>
+        <ion-slide>
+          <div class="flex-slide-wrap">
+            <div class="wrap">
+              <div class="title">
+                <img src="assets/images/plant-name-icon.png" alt="" />
+                <p (click)="changeName()">{{plantInfo.name}}</p>
               </div>
+
+              <!-- 온도 카드 -->
+              <ion-card class="first">
+                <ion-item class="sub-title">
+                  <img src="assets/images/plant-temperature-icon.png" alt="" />
+                  <ion-label>온도</ion-label>
+                </ion-item>
+
+                <ion-item class="con">
+                  <div class="left">
+                    <p class="top">Best</p>
+                    <p class="bottom">{{ plantInfo.plantBookId.temperature }}</p>
+                  </div>
+                  <span></span>
+                  <div class="right">
+                    <p class="top">Yours</p>
+                    <div class="justify-wrap">
+                      <p class="bottom">{{plantInfo.temperature}}°C</p>
+                      <ion-label class="up-down">-</ion-label>
+                    </div>
+                  </div>
+                </ion-item>
+              </ion-card>
+
+              <!-- 조도 카드 -->
+              <ion-card class="second">
+                <ion-item class="sub-title">
+                  <img src="assets/images/plant-illuminance-icon.png" alt="" />
+                  <ion-label>조도</ion-label>
+                </ion-item>
+
+                <ion-item class="con">
+                  <div class="left">
+                    <p class="top">Best</p>
+                    <p class="bottom">{{ plantInfo.plantBookId.light }}</p>
+                  </div>
+                  <span></span>
+                  <div class="right">
+                    <p class="top">Yours</p>
+                    <div class="justify-wrap">
+                      <p class="bottom red">{{plantInfo.light}} %</p>
+                      <ion-label class="up-down">
+                        <img src="assets/images/up-icon.png" alt="" />
+                        <p class="red">500lux</p>
+                      </ion-label>
+                    </div>
+                  </div>
+                </ion-item>
+              </ion-card>
+
+              <!-- 토양수분 카드 -->
+              <ion-card class="third">
+                <ion-item class="sub-title">
+                  <img src="assets/images/plant-water-icon.png" alt="" />
+                  <ion-label>토양수분</ion-label>
+                </ion-item>
+
+                <ion-item class="con">
+                  <div class="left">
+                    <p class="top">Best</p>
+                    <p class="bottom">{{ plantInfo.plantBookId.level }}</p>
+                  </div>
+                  <span></span>
+                  <div class="right">
+                    <p class="top">Yours</p>
+                    <div class="justify-wrap">
+                      <p class="bottom blue">{{plantInfo.soil}} %</p>
+                      <ion-label class="up-down">
+                        <img src="/assets/images/down-icon.png" alt="" />
+                        <p class="blue">2%</p>
+                      </ion-label>
+                    </div>
+                  </div>
+                </ion-item>
+              </ion-card>
             </div>
-          </ion-slide>
-        </ng-container>
+          </div>
+        </ion-slide>
       </ion-slides>
     </div>
   </div>

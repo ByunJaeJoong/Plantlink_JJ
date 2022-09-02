@@ -98,4 +98,10 @@ export class CommonService {
     if (day.length < 2) day = '0' + day;
     return [year, month, day].join('-');
   }
+
+  addDays(date, days) {
+    const clone = new Date(date);
+    clone.setDate(date.getDate() + days);
+    return clone.toISOString();
+  }
 }

@@ -12,6 +12,7 @@ export class PlantBookPage implements OnInit {
   keyword: string = '';
   plant$: any;
   plantList: any;
+  plantTmp: any;
 
   searchMode: boolean = false;
 
@@ -24,6 +25,7 @@ export class PlantBookPage implements OnInit {
   async getData() {
     this.plant$ = await this.db.collection$(`plantBook`).pipe(
       map((datas: any) => {
+        // console.log(datas);
         return datas.sort((a, b) => {
           var d1 = a.hitsList?.length;
           var d2 = b.hitsList?.length;
@@ -32,6 +34,7 @@ export class PlantBookPage implements OnInit {
       })
     );
     this.plantList = await this.plant$.pipe(first()).toPromise();
+    // console.log(this.plantList);
   }
   search() {
     this.searchMode = true;
@@ -40,6 +43,13 @@ export class PlantBookPage implements OnInit {
     this.searchMode = false;
     console.log(this.keyword);
   }
+
+  // checkWord(item: any) {
+  //   if (item.name.includes(this.keyword)) {
+  //     const matchWord = item.name.match(this.keyword);
+  //     return matchWord;
+  //   }
+  // }
 
   //홈화면으로
   goHome() {

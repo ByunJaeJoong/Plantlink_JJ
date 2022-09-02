@@ -10,7 +10,7 @@
     <div class="left"></div>
   </div>
   <ng-container *ngIf="userInfo$ | async as userInfo">
-    <ng-container *ngIf="chat$ | async as list">
+    <ng-container *ngIf="userTutorial && chat$ | async as list">
       <div id="chatting-list" *ngIf="list?.length > 0">
         <ion-item-sliding *ngFor="let chat of list">
           <ion-item (click)="goChatDetail(chat)">
@@ -33,7 +33,7 @@
     </ng-container>
 
     <!-- 처음 한번만 보여지는 튜토리얼 -->
-    <div id="tutorial-wrap" *ngIf="!userInfo.chatEnterSwitch">
+    <div id="tutorial-wrap" *ngIf="!userTutorial">
       <ion-button fill="clear" (click)="tutorialCheck()">
         다시보지 않기
         <div class="icon"></div>

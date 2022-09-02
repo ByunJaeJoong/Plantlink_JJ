@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BLE } from '@ionic-native/ble/ngx';
-import { NavController } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { DbService } from 'src/app/services/db.service';
@@ -28,19 +28,16 @@ export class DeviceListPage implements OnInit {
   myPlant: any;
 
   bluetoothData: any = [];
+  saveData: any = [];
+  newDate: any = [];
+  scliceData: any = [];
 
   ascString: string = '';
   divisionData: any;
   senserData: any;
 
-  soil: number;
-  temperature: number;
-  light: number;
-
   first: Uint8Array;
   last: Uint8Array;
-
-  now: string;
 
   plantData: plantData = {
     plantDataId: '',
@@ -51,6 +48,7 @@ export class DeviceListPage implements OnInit {
     light: 0,
     temperature: 0,
     dateCreated: '',
+    senserDate: '',
   };
 
   constructor(
@@ -67,6 +65,12 @@ export class DeviceListPage implements OnInit {
       for (let ob in data) {
         this.deviceList.push(JSON.parse(data[ob]));
       }
+
+      const currentDate: Date = new Date();
+      // const currentHours: number = currentDate.getHours(); // 데이터 당시 시간!
+
+      this.senserTime = currentDate.getHours(); // 현재시간
+      this.senserDate = this.common.formatDate(currentDate); // 현재날짜
       this.getData();
     });
   }
@@ -166,63 +170,62 @@ export class DeviceListPage implements OnInit {
     }
   }
 
+  senserTime: number = null;
+  senserDate: string = '';
+
   // 센서에 변화되는 데이터 값의 List안에 push하는 함수
   onDataDiscovered(data: string) {
-    this.ngZone.run(() => {
-      this.bluetoothData.push(data);
-    });
-    this.remakeData();
+    console.log(data);
+
+    this.divisionData = data.split(':');
+    this.senserData = this.divisionData[1].split(',');
+
+    // 현재상테에 대한 데이터 값을 계산 후 저장
+    if (this.divisionData[0].includes('Current')) {
+      const soil = this.percent(this.senserData[0]);
+      const light = this.percent(this.senserData[1]);
+      const temperature = this.temperatureCal(this.senserData[2]);
+      this.saveCurrentData(soil, light, temperature);
+    }
+
+    // 저장된 값의 평균을 가져오기
+    if (this.divisionData[0].includes('Saved')) {
+      if (this.senserTime == -1) {
+        this.senserDate = moment(this.senserDate).add(-1, 'day').format('YYYY-MM-DD');
+        this.senserTime = 23;
+      }
+
+      const soil = this.percent(this.senserData[0]);
+      const light = this.percent(this.senserData[1]);
+      const temperature = this.temperatureCal(this.senserData[2]);
+
+      this.savedData(soil, light, temperature, this.senserDate);
+    }
+    this.senserTime--;
   }
 
-  remakeData() {
-    // 중복적인 데이터 가져옴 중복을 제거하는 것
-    const set = new Set(this.bluetoothData);
-    this.bluetoothData = [...set];
-    console.log(this.bluetoothData);
+  // 센서에 저장된 측정값 db에 저장
+  savedData(soil: number, light: number, temperature: number, senserDate: string) {
+    // 2. plantData 데이터저장
+    this.plantData.plantDataId = this.common.generateFilename();
+    this.plantData.userId = this.userId;
+    this.plantData.myPlantId = this.myPlant[0].myPlantId;
+    this.plantData.soil = soil;
+    this.plantData.light = light;
+    this.plantData.temperature = temperature;
+    this.plantData.dateCreated = new Date().toISOString();
+    this.plantData.senserDate = senserDate;
 
-    this.bluetoothData.forEach((data: any) => {
-      this.divisionData = data.split(':');
-      this.senserData = this.divisionData[1].split(',');
+    this.db.updateAt(`plantData/${this.plantData.plantDataId}`, this.plantData);
+  }
 
-      // 현재상테에 대한 데이터 값을 계산 후 저장
-      if (this.divisionData[0].includes('Current')) {
-        this.soil = this.percent(this.senserData[0]);
-        this.light = this.percent(this.senserData[1]);
-        this.temperature = this.temperatureCal(this.senserData[2]);
-        this.currentData(this.soil, this.light, this.temperature);
-      }
-
-      // 저장된 값의 평균을 가져오기
-      if (this.divisionData[0].includes('Saved')) {
-        console.log(this.bluetoothData);
-        let saveIdx = this.divisionData[0].split(' ')[2];
-        console.log('idx 갯수', this.bluetoothData.length);
-        console.log('saveIdx', saveIdx);
-
-        for (let i = this.bluetoothData.length; i > -1; i--) {
-          let checkDate = moment().subtract(i, 'hour').format('YYYY-MM-DD hh:mm:ss');
-          console.log(i, checkDate);
-        }
-      }
-
-      const save = [
-        'Saved Data 1',
-        'Saved Data 2',
-        'Saved Data 3',
-        'Saved Data 4',
-        'Saved Data 5',
-        'Saved Data 6',
-        'Saved Data 7',
-        'Saved Data 8',
-        'Saved Data 9',
-      ];
-
-      console.log('idx 갯수', save.length);
-
-      for (let i = save.length; i > -1; i--) {
-        let checkDate = moment().subtract(i, 'hour').format('YYYY-MM-DD hh:mm:ss');
-        console.log(i, checkDate);
-      }
+  // 마지막 현재 데이터 저장!
+  saveCurrentData(soil: number, light: number, temperature: number) {
+    // 3. data의 마지막 current를 나의식물에 저장!'
+    this.db.updateAt(`myPlant/${this.myPlant[0].myPlantId}`, {
+      soil,
+      light,
+      temperature,
     });
   }
 
@@ -242,42 +245,6 @@ export class DeviceListPage implements OnInit {
       let mergeUInt8 = new Uint8Array([...a1, ...a2]);
       return new TextDecoder().decode(mergeUInt8);
     }
-  }
-
-  // 센서의 현재 측정값 저장
-  currentData(soil: number, light: number, temperature: number) {
-    this.db.updateAt(`myPlant/${this.myPlant[0].myPlantId}`, {
-      soil,
-      light,
-      temperature,
-    });
-  }
-
-  // 같은 날의 데이터 평균 구하기
-  average(arr: Array<any>) {
-    const result = arr.reduce((sum, currValue) => {
-      return sum + currValue;
-    }, 0);
-
-    const ave = result / arr.length;
-    console.log(ave);
-    return ave;
-  }
-
-  // 저장된 날짜 확인하는 함수
-  getDayLabels() {}
-
-  // 센서에 저장된 측정값 db에 저장
-  savedData(soil: number, light: number, temperature: number, date: string) {
-    this.plantData.plantDataId = this.common.generateFilename();
-    this.plantData.userId = this.userId;
-    this.plantData.myPlantId = this.myPlant[0].myPlantId;
-    this.plantData.soil = soil;
-    this.plantData.light = light;
-    this.plantData.temperature = temperature;
-    this.plantData.dateCreated = date;
-
-    this.db.updateAt(`plantData/${this.plantData.plantDataId}`, this.plantData);
   }
 
   // 연결 도중 에러가 날 경우 경고창
