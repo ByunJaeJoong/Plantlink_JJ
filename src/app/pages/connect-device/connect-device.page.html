@@ -8,13 +8,16 @@
 </ion-header>
 
 <ion-content>
-  <div class="device-list">
-    <ion-item>
+  <div class="device-list" *ngIf="bluetooth$ | async as bluetooth">
+    <ion-item *ngFor="let item of bluetooth">
       <ion-label>
-        <p class="name"></p>
-        <p class="connect">연결됨</p>
+        <p class="name">{{item.name || 'Unknown'}}</p>
+        <p class="connect" *ngIf="!item.connectSwitch">연결됨</p>
       </ion-label>
     </ion-item>
+    <div class="no-device" *ngIf="bluetooth.length == 0">
+      <p>연결된 디바이스가 없습니다.</p>
+    </div>
   </div>
   <ion-button (click)="findDevice()" fill="clear"> 장치 추가하기 </ion-button>
 </ion-content>

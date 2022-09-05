@@ -1,7 +1,7 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BLE } from '@ionic-native/ble/ngx';
-import { NavController, Platform } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { DbService } from 'src/app/services/db.service';
@@ -9,6 +9,8 @@ import { first } from 'rxjs/operators';
 import { plantData } from 'src/app/models/plantData.model';
 import { CommonService } from 'src/app/services/common.service';
 import * as moment from 'moment';
+import { bluetooth } from 'src/app/models/bluetooth.model';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-device-list',
@@ -26,11 +28,6 @@ export class DeviceListPage implements OnInit {
 
   isValid: boolean = true;
   myPlant: any;
-
-  bluetoothData: any = [];
-  saveData: any = [];
-  newDate: any = [];
-  scliceData: any = [];
 
   ascString: string = '';
   divisionData: any;
@@ -51,6 +48,21 @@ export class DeviceListPage implements OnInit {
     senserDate: '',
   };
 
+  senserTime: number = null;
+  senserDate: string = '';
+
+  bluetooth: bluetooth = {
+    bluetoothId: '',
+    myPlantId: '',
+    userId: '',
+    dateCreated: '',
+    name: '',
+    senserId: '',
+    connectSwitch: false,
+    deleteSwitch: false,
+  };
+  myBluetooth: any;
+
   constructor(
     private db: DbService,
     private ble: BLE,
@@ -58,7 +70,6 @@ export class DeviceListPage implements OnInit {
     private route: ActivatedRoute,
     private alert: AlertService,
     private loading: LoadingService,
-    private ngZone: NgZone,
     private common: CommonService
   ) {
     this.route.queryParams.subscribe(data => {
@@ -67,8 +78,6 @@ export class DeviceListPage implements OnInit {
       }
 
       const currentDate: Date = new Date();
-      // const currentHours: number = currentDate.getHours(); // 데이터 당시 시간!
-
       this.senserTime = currentDate.getHours(); // 현재시간
       this.senserDate = this.common.formatDate(currentDate); // 현재날짜
       this.getData();
@@ -84,21 +93,28 @@ export class DeviceListPage implements OnInit {
       )
       .pipe(first())
       .toPromise();
+
+    this.myBluetooth = await this.db
+      .collection$(`bluetooth`, (ref: any) => ref.where('deleteSwitch', '==', false))
+      .pipe(first())
+      .toPromise();
   }
 
   // 블루투스 장치를 클릭하여 그 장치와 연결시킴
   async connect(id: string) {
-    this.bluetoothData = [];
-
     this.loading.load('연결 중입니다.');
     this.ble.connect(id).subscribe(
       data => {
         console.log('클릭한 데이터', data);
-        // 연결시킨 장치 안에 데이터를 보냄
-        this.navController.navigateForward(['/connect-device'], {
-          queryParams: data,
-          skipLocationChange: true,
-        });
+        if (this.myBluetooth.length > 0) {
+          if (this.myBluetooth[0].senserId != data.id) {
+            this.bluetoothData(data);
+          }
+        } else {
+          this.bluetoothData(data);
+        }
+
+        this.navController.navigateForward(['/connect-device']);
 
         this.read(data);
         this.loading.hide();
@@ -108,6 +124,22 @@ export class DeviceListPage implements OnInit {
         this.peripheralError(error);
       }
     );
+  }
+
+  // 블루투스 장치 저장
+  bluetoothData(data: any) {
+    this.bluetooth.bluetoothId = this.common.generateFilename();
+    this.bluetooth.userId = this.userId;
+    this.bluetooth.myPlantId = this.myPlant[0].myPlantId;
+    this.bluetooth.name = data.name;
+    this.bluetooth.senserId = data.id;
+    this.bluetooth.dateCreated = new Date().toISOString();
+
+    this.db.updateAt(`bluetooth/${this.bluetooth.bluetoothId}`, this.bluetooth);
+
+    this.db.updateAt(`users/${this.userId}`, {
+      bluetooth: firebase.default.firestore.FieldValue.arrayUnion(this.bluetooth.bluetoothId),
+    });
   }
 
   // 재연결 시도
@@ -170,13 +202,8 @@ export class DeviceListPage implements OnInit {
     }
   }
 
-  senserTime: number = null;
-  senserDate: string = '';
-
   // 센서에 변화되는 데이터 값의 List안에 push하는 함수
   onDataDiscovered(data: string) {
-    console.log(data);
-
     this.divisionData = data.split(':');
     this.senserData = this.divisionData[1].split(',');
 
@@ -210,6 +237,7 @@ export class DeviceListPage implements OnInit {
     this.plantData.plantDataId = this.common.generateFilename();
     this.plantData.userId = this.userId;
     this.plantData.myPlantId = this.myPlant[0].myPlantId;
+    this.plantData.bluetoothId = this.bluetooth.bluetoothId;
     this.plantData.soil = soil;
     this.plantData.light = light;
     this.plantData.temperature = temperature;
@@ -260,7 +288,7 @@ export class DeviceListPage implements OnInit {
             this.loading.load('연결시도 중입니다.');
             setTimeout(() => {
               this.reconnectDevice(errorId);
-            }, 20000);
+            }, 15000);
             this.loading.hide();
           }
           break;
