@@ -4,11 +4,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { PopCalendarComponent } from '../pop-calendar/pop-calendar.component';
 import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { DbService } from 'src/app/services/db.service';
+import { DbService, leftJoinDocument } from 'src/app/services/db.service';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { CommonService } from 'src/app/services/common.service';
 import * as moment from 'moment';
+import fa from '@mobiscroll/angular/dist/js/i18n/fa';
 Chart.register(...registerables);
 
 @Component({
@@ -29,6 +30,7 @@ export class PlantReportPage implements OnInit {
   plantData$: Observable<any>;
   weekPlants$: Observable<any>;
   monthPlants$: Observable<any>;
+  myPlantData$: Observable<any>;
 
   // 차트의 값을 받을 변수
   week: any = {
@@ -127,19 +129,23 @@ export class PlantReportPage implements OnInit {
   }
 
   async getData() {
-    this.myPlant = await this.db
-      .collection$(`myPlant`, (ref: any) =>
-        ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false).where('cancelSwitch', '==', false)
-      )
-      .pipe(first())
-      .toPromise();
+    this.plantData$ = this.db
+      .collection$(`plantData`, (ref: any) => ref.where('userId', '==', this.userId).orderBy('senserDate', 'asc'))
+      .pipe(leftJoinDocument(this.db.afs, 'myPlantId', 'myPlant'));
 
-    this.plantData$ = this.db.collection$(`plantData`, (ref: any) =>
-      ref.where('userId', '==', this.userId).where('myPlantId', '==', this.myPlant[0].myPlantId).orderBy('senserDate', 'asc')
+    this.myPlantData$ = this.plantData$.pipe(
+      map(data => {
+        return data.filter((ele: any) => {
+          return ele.myPlantId.deleteSwitch == false && ele.myPlantId.cancelSwitch == false;
+        });
+      })
     );
+    this.myPlantData$.subscribe(data => {
+      console.log(data);
+    });
 
     // 그 주의 월요일부터 일요일까지의 값을 가져온다.
-    this.weekPlants$ = this.plantData$.pipe(
+    this.weekPlants$ = this.myPlantData$.pipe(
       map((dates: any) => {
         const startDate: string = this.getMondayDate(this.selectedDate);
         const endDate: string = this.getSundayDate(startDate);
@@ -200,7 +206,7 @@ export class PlantReportPage implements OnInit {
     });
 
     // 그 값의 한달 전체 값을 가져온다
-    this.monthPlants$ = this.plantData$.pipe(
+    this.monthPlants$ = this.myPlantData$.pipe(
       map((dates: any) => {
         const startDate: string = this.getMonthFirstDate(this.selectedDate);
         const endDate: string = this.getMonthLastDate(this.selectedDate);

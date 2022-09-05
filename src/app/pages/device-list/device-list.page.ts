@@ -98,7 +98,6 @@ export class DeviceListPage implements OnInit {
       .collection$(`bluetooth`, (ref: any) => ref.where('deleteSwitch', '==', false))
       .pipe(first())
       .toPromise();
-    console.log(this.myBluetooth);
   }
 
   // 블루투스 장치를 클릭하여 그 장치와 연결시킴
@@ -107,9 +106,14 @@ export class DeviceListPage implements OnInit {
     this.ble.connect(id).subscribe(
       data => {
         console.log('클릭한 데이터', data);
-        if (this.myBluetooth[0].senserId != data.id) {
+        if (this.myBluetooth.length > 0) {
+          if (this.myBluetooth[0].senserId != data.id) {
+            this.bluetoothData(data);
+          }
+        } else {
           this.bluetoothData(data);
         }
+
         this.navController.navigateForward(['/connect-device']);
 
         this.read(data);
