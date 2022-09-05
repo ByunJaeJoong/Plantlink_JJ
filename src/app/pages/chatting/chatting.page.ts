@@ -83,15 +83,13 @@ export class ChattingPage implements OnInit {
         {
           text: '나가기',
           handler: () => {
-            this.db
-              .updateAt(`chats/${chat.id}`, {
-                deleteSwitch: true,
-              })
-              .then(() => {
-                this.deleteMessageToast();
-                this.createChat();
-                this.navController.navigateRoot(['/tabs/home']);
-              });
+            this.db.updateAt(`chats/${chat.id}`, {
+              deleteSwitch: true,
+            });
+            this.createChat().then(() => {
+              this.deleteMessageToast();
+              this.navController.navigateRoot(['/tabs/home']);
+            });
           },
         },
       ],
