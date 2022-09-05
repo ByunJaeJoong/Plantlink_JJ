@@ -140,9 +140,6 @@ export class PlantReportPage implements OnInit {
         });
       })
     );
-    this.myPlantData$.subscribe(data => {
-      console.log(data);
-    });
 
     // 그 주의 월요일부터 일요일까지의 값을 가져온다.
     this.weekPlants$ = this.myPlantData$.pipe(
