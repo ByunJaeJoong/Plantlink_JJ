@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BLE } from '@ionic-native/ble/ngx';
-import { NavController, Platform } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { DbService } from 'src/app/services/db.service';
@@ -51,6 +51,9 @@ export class DeviceListPage implements OnInit {
     senserDate: '',
   };
 
+  senserTime: number = null;
+  senserDate: string = '';
+
   constructor(
     private db: DbService,
     private ble: BLE,
@@ -67,8 +70,6 @@ export class DeviceListPage implements OnInit {
       }
 
       const currentDate: Date = new Date();
-      // const currentHours: number = currentDate.getHours(); // 데이터 당시 시간!
-
       this.senserTime = currentDate.getHours(); // 현재시간
       this.senserDate = this.common.formatDate(currentDate); // 현재날짜
       this.getData();
@@ -169,9 +170,6 @@ export class DeviceListPage implements OnInit {
       );
     }
   }
-
-  senserTime: number = null;
-  senserDate: string = '';
 
   // 센서에 변화되는 데이터 값의 List안에 push하는 함수
   onDataDiscovered(data: string) {
