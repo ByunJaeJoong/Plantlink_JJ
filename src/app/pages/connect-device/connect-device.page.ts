@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { DbService } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-connect-device',
@@ -8,17 +9,16 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./connect-device.page.scss'],
 })
 export class ConnectDevicePage implements OnInit {
-  deviceData: any;
-  //deviceName: string = localStorage.getItem('deviceName');
-
-  constructor(private navController: NavController, private route: ActivatedRoute) {
-    this.route.queryParams.subscribe(params => {
-      this.deviceData = params;
-    });
+  bluetooth$: Observable<any>;
+  constructor(private navController: NavController, private db: DbService) {
+    this.getData();
   }
 
   ngOnInit() {}
 
+  getData() {
+    this.bluetooth$ = this.db.collection$(`bluetooth`, (ref: any) => ref.where('deleteSwitch', '==', false));
+  }
   //홈화면으로 가기
   goHome() {
     this.navController.navigateBack(['/tabs/home']);
