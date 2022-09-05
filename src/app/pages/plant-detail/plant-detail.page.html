@@ -11,7 +11,7 @@
     </div>
 
     <div id="plant-slider-wrap" *ngIf="plantInfo$ | async as plantList">
-      <ion-slides [options]="slideOpts" class="plant-slide">
+      <ion-slides #slides [options]="slideOpts" class="plant-slide" (ionSlidesDidLoad)="slideChanged()">
         <ng-container *ngFor="let plantInfo of plantList">
           <ion-slide>
             <div class="flex-slide-wrap">

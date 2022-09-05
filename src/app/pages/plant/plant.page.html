@@ -15,7 +15,7 @@
     <div class="plant-wrap" *ngIf="plantInfo$ | async as plantInfo">
       <span></span>
       <ng-container *ngFor="let item of plantInfo; let i = index">
-        <ion-item (click)="goPlantDetail(item.myPlantId)" class="chat-list">
+        <ion-item (click)="goPlantDetail(item.myPlantId, i)" class="chat-list">
           <ng-container *ngIf="('plantBook/' + item.plantBookId | doc | async ) as plant">
             <ion-avatar>
               <img [src]="plant.plantImage ? plant.plantImage : 'assets/images/default-img.png'" alt="" />

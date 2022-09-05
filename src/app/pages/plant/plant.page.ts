@@ -85,10 +85,11 @@ export class PlantPage implements OnInit {
   }
 
   //식물 현재 상태
-  goPlantDetail(plantId) {
+  goPlantDetail(plantId, index) {
     this.navController.navigateForward(['/plant-detail'], {
       queryParams: {
         plantId: plantId,
+        index: index,
       },
     });
   }
