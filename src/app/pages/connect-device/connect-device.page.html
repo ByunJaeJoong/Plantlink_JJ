@@ -16,7 +16,10 @@
       </ion-label>
     </ion-item>
     <div class="no-device" *ngIf="bluetooth.length == 0">
-      <p>연결된 디바이스가 없습니다.</p>
+      <p>
+        연결된 디바이스가<br />
+        없습니다.
+      </p>
     </div>
   </div>
   <ion-button (click)="findDevice()" fill="clear"> 장치 추가하기 </ion-button>

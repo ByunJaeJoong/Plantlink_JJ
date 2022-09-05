@@ -66,4 +66,22 @@ ion-content {
   left: 50%;
   top: 40%;
   transform: translate(-50%, -50%);
+  br {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 358px) {
+  html,
+  body {
+    font-size: 15px;
+  }
+
+  .no-device {
+    text-align: center;
+    line-height: 1.5625rem;
+    br {
+      display: block;
+    }
+  }
 }
