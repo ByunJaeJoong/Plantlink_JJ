@@ -74,7 +74,71 @@ export class PlantDetailPage implements OnInit {
     this.plantInfo = await this.plantInfo$.pipe(first()).toPromise();
     // }
   }
-
+  tempStatus(best, current) {
+    const lowBest = Number(best.split('~')[0]);
+    const hiBest = best.split('~')[1];
+    const highBest = Number(hiBest.split('도')[0]);
+    if (current >= lowBest && current <= highBest) {
+      return false;
+    } else if (current > highBest) {
+      return true;
+    } else if (current < lowBest) {
+      return false;
+    }
+  }
+  lightStatus(best, current) {
+    let lowLight = 0;
+    let highLight = 0;
+    switch (best) {
+      case '음지':
+        lowLight = 0;
+        highLight = 24;
+        break;
+      case '반음지':
+        lowLight = 25;
+        highLight = 49;
+        break;
+      case '반양지':
+        lowLight = 50;
+        highLight = 74;
+        break;
+      case '양지':
+        lowLight = 75;
+        highLight = 100;
+        break;
+    }
+    if (current >= lowLight && current <= highLight) {
+      return false;
+    } else if (current > highLight) {
+      return true;
+    } else if (current < lowLight) {
+      return false;
+    }
+  }
+  soilStatus(best, current) {
+    let lowSoil = 0;
+    let highSoil = 0;
+    if (best.includes('하')) {
+      lowSoil = 0;
+      highSoil = 10;
+      return;
+    } else if (best.includes('중')) {
+      lowSoil = 11;
+      highSoil = 50;
+      return;
+    } else if (best.includes('상')) {
+      lowSoil = 51;
+      highSoil = 100;
+      return;
+    }
+    if (current >= lowSoil && current <= highSoil) {
+      return false;
+    } else if (current > highSoil) {
+      return true;
+    } else if (current < lowSoil) {
+      return false;
+    }
+  }
   async changeName(myPlantId, name) {
     const alert = await this.alertController.create({
       cssClass: 'alert',

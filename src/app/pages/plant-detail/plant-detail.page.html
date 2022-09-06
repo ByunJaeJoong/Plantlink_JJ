@@ -38,7 +38,16 @@
                       <p class="top">Yours</p>
                       <div class="justify-wrap">
                         <p class="bottom">{{plantInfo.temperature}}°C</p>
-                        <ion-label class="up-down">-</ion-label>
+                        <ion-label class="up-down">
+                          <img *ngIf="tempStatus(plantInfo.plantBookId.temperature, plantInfo.temperature)" src="assets/images/up-icon.png" alt="" />
+                          <img
+                            *ngIf="!tempStatus(plantInfo.plantBookId.temperature, plantInfo.temperature)"
+                            src="assets/images/down-icon.png"
+                            alt=""
+                          />
+                          <!-- <p class="red" *ngIf="tempStatus(plantInfo.plantBookId.temperature, plantInfo.temperature)">{{plantInfo.temperature}}</p>
+                          <p class="blue" *ngIf="!tempStatus(plantInfo.plantBookId.temperature, plantInfo.temperature)">{{plantInfo.temperature}}</p> -->
+                        </ion-label>
                       </div>
                     </div>
                   </ion-item>
@@ -60,10 +69,11 @@
                     <div class="right">
                       <p class="top">Yours</p>
                       <div class="justify-wrap">
-                        <p class="bottom red">{{plantInfo.light}} %</p>
+                        <p class="bottom red" *ngIf="lightStatus(plantInfo.plantBookId.light, plantInfo.light)">{{plantInfo.light}} %</p>
+                        <p class="bottom blue" *ngIf="!lightStatus(plantInfo.plantBookId.light, plantInfo.light)">{{plantInfo.light}} %</p>
                         <ion-label class="up-down">
-                          <img src="assets/images/up-icon.png" alt="" />
-                          <p class="red">500lux</p>
+                          <img *ngIf="lightStatus(plantInfo.plantBookId.light, plantInfo.light)" src="assets/images/up-icon.png" alt="" />
+                          <img *ngIf="!lightStatus(plantInfo.plantBookId.light, plantInfo.light)" src="assets/images/down-icon.png" alt="" />
                         </ion-label>
                       </div>
                     </div>
@@ -80,16 +90,17 @@
                   <ion-item class="con">
                     <div class="left">
                       <p class="top">Best</p>
-                      <p class="bottom">{{ plantInfo.plantBookId.level }}</p>
+                      <p class="bottom">{{ plantInfo.plantBookId.soil }}</p>
                     </div>
                     <span></span>
                     <div class="right">
                       <p class="top">Yours</p>
                       <div class="justify-wrap">
-                        <p class="bottom blue">{{plantInfo.soil}} %</p>
+                        <p class="bottom red" *ngIf="soilStatus(plantInfo.plantBookId.soil, plantInfo.soil)">{{plantInfo.soil}} %</p>
+                        <p class="bottom blue" *ngIf="!soilStatus(plantInfo.plantBookId.soil, plantInfo.soil)">{{plantInfo.soil}} %</p>
                         <ion-label class="up-down">
-                          <img src="/assets/images/down-icon.png" alt="" />
-                          <p class="blue">2%</p>
+                          <img *ngIf="soilStatus(plantInfo.plantBookId.soil, plantInfo.soil)" src="assets/images/up-icon.png" alt="" />
+                          <img *ngIf="!soilStatus(plantInfo.plantBookId.soil, plantInfo.soil)" src="assets/images/down-icon.png" alt="" />
                         </ion-label>
                       </div>
                     </div>
