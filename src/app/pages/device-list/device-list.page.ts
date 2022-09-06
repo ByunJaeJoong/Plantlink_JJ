@@ -102,12 +102,12 @@ export class DeviceListPage implements OnInit {
 
   // 블루투스 장치를 클릭하여 그 장치와 연결시킴
   async connect(id: string) {
-    this.loading.load('연결 중입니다.');
+    this.loading.lognLoad('연결 중입니다.');
     this.ble.connect(id).subscribe(
       data => {
         console.log('클릭한 데이터', data);
         if (this.myBluetooth.length > 0) {
-          if (this.myBluetooth[0].senserId != data.id) {
+          if (this.myBluetooth[0].name != data.name) {
             this.bluetoothData(data);
           }
         } else {
@@ -120,8 +120,15 @@ export class DeviceListPage implements OnInit {
         this.loading.hide();
       },
       async error => {
-        this.loading.hide();
-        this.peripheralError(error);
+        console.log(error);
+
+        if (this.isValid) {
+          setTimeout(() => {
+            this.loading.hide();
+            this.reconnectDevice(error.id);
+          }, 15000);
+          //this.peripheralError(error);
+        }
       }
     );
   }
@@ -136,7 +143,6 @@ export class DeviceListPage implements OnInit {
     this.bluetooth.dateCreated = new Date().toISOString();
 
     this.db.updateAt(`bluetooth/${this.bluetooth.bluetoothId}`, this.bluetooth);
-
     this.db.updateAt(`users/${this.userId}`, {
       bluetooth: firebase.default.firestore.FieldValue.arrayUnion(this.bluetooth.bluetoothId),
     });
@@ -237,12 +243,17 @@ export class DeviceListPage implements OnInit {
     this.plantData.plantDataId = this.common.generateFilename();
     this.plantData.userId = this.userId;
     this.plantData.myPlantId = this.myPlant[0].myPlantId;
-    this.plantData.bluetoothId = this.bluetooth.bluetoothId;
     this.plantData.soil = soil;
     this.plantData.light = light;
     this.plantData.temperature = temperature;
     this.plantData.dateCreated = new Date().toISOString();
     this.plantData.senserDate = senserDate;
+
+    if (this.myBluetooth[0].length > 0) {
+      this.plantData.bluetoothId = this.myBluetooth[0].bluetoothId;
+    } else {
+      this.plantData.bluetoothId = this.bluetooth.bluetoothId;
+    }
 
     this.db.updateAt(`plantData/${this.plantData.plantDataId}`, this.plantData);
   }
