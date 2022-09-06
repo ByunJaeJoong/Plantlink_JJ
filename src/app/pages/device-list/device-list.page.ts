@@ -27,6 +27,7 @@ export class DeviceListPage implements OnInit {
   characteristicId: string = '';
 
   isValid: boolean = true;
+  isConnect: boolean = true;
   myPlant: any;
 
   ascString: string = '';
@@ -76,7 +77,6 @@ export class DeviceListPage implements OnInit {
       for (let ob in data) {
         this.deviceList.push(JSON.parse(data[ob]));
       }
-
       const currentDate: Date = new Date();
       this.senserTime = currentDate.getHours(); // 현재시간
       this.senserDate = this.common.formatDate(currentDate); // 현재날짜
@@ -103,9 +103,11 @@ export class DeviceListPage implements OnInit {
   // 블루투스 장치를 클릭하여 그 장치와 연결시킴
   async connect(id: string) {
     this.loading.lognLoad('연결 중입니다.');
-    this.ble.connect(id).subscribe(
+    this.ble.autoConnect(
+      id,
       data => {
-        console.log('클릭한 데이터', data);
+        this.isConnect = false;
+        console.log(data);
         if (this.myBluetooth.length > 0) {
           if (this.myBluetooth[0].name != data.name) {
             this.bluetoothData(data);
@@ -118,19 +120,47 @@ export class DeviceListPage implements OnInit {
 
         this.read(data);
         this.loading.hide();
-      },
-      async error => {
-        console.log(error);
 
-        if (this.isValid) {
+        this.ble.disconnect(id).then(() => {});
+      },
+      error => {
+        if (this.isConnect) {
           setTimeout(() => {
             this.loading.hide();
             this.reconnectDevice(error.id);
           }, 15000);
-          //this.peripheralError(error);
         }
       }
     );
+    // this.ble.connect(id).subscribe(
+    //   data => {
+    //     console.log('클릭한 데이터', data);
+    //     if (this.myBluetooth.length > 0) {
+    //       if (this.myBluetooth[0].name != data.name) {
+    //         this.bluetoothData(data);
+    //       }
+    //     } else {
+    //       this.bluetoothData(data);
+    //     }
+
+    //     this.navController.navigateForward(['/connect-device']);
+
+    //     this.read(data);
+    //     this.loading.hide();
+
+    //   },
+    //   async error => {
+    //     console.log(error);
+
+    //     if (this.isValid) {
+    //       setTimeout(() => {
+    //         this.loading.hide();
+    //         this.reconnectDevice(error.id);
+    //       }, 15000);
+    //       //this.peripheralError(error);
+    //     }
+    //   }
+    // );
   }
 
   // 블루투스 장치 저장
@@ -156,6 +186,8 @@ export class DeviceListPage implements OnInit {
   }
 
   async read(data: any) {
+    console.log('readData', data);
+
     // 연결된 장치 고유 아이디
     const deviceId = data.id;
     // 안에서 읽어낼 서비스, 특징 아이디
