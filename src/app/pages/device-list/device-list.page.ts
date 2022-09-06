@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BLE } from '@ionic-native/ble/ngx';
-import { NavController } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { DbService } from 'src/app/services/db.service';
@@ -71,7 +71,8 @@ export class DeviceListPage implements OnInit {
     private route: ActivatedRoute,
     private alert: AlertService,
     private loading: LoadingService,
-    private common: CommonService
+    private common: CommonService,
+    private platform: Platform
   ) {
     this.route.queryParams.subscribe(data => {
       for (let ob in data) {
@@ -103,64 +104,60 @@ export class DeviceListPage implements OnInit {
   // 블루투스 장치를 클릭하여 그 장치와 연결시킴
   async connect(id: string) {
     this.loading.lognLoad('연결 중입니다.');
-    this.ble.autoConnect(
-      id,
-      data => {
-        this.isConnect = false;
-        console.log(data);
-        if (this.myBluetooth.length > 0) {
-          if (this.myBluetooth[0].name != data.name) {
+    if (this.platform.is('android')) {
+      this.ble.autoConnect(
+        id,
+        data => {
+          this.isConnect = false;
+          console.log(data);
+          if (this.myBluetooth.length > 0) {
+            if (this.myBluetooth[0].name != data.name) {
+              this.bluetoothData(data);
+            }
+          } else {
             this.bluetoothData(data);
           }
-        } else {
-          this.bluetoothData(data);
+
+          this.navController.navigateForward(['/connect-device']);
+
+          this.read(data);
+          this.loading.hide();
+
+          this.ble.disconnect(id).then(() => {});
+        },
+        error => {
+          if (this.isConnect) {
+            setTimeout(() => {
+              this.loading.hide();
+              this.reconnectDevice(error.id);
+            }, 15000);
+          }
         }
+      );
+    }
+    if (this.platform.is('ios')) {
+      this.ble.connect(id).subscribe(
+        data => {
+          console.log('클릭한 데이터', data);
+          if (this.myBluetooth.length > 0) {
+            if (this.myBluetooth[0].name != data.name) {
+              this.bluetoothData(data);
+            }
+          } else {
+            this.bluetoothData(data);
+          }
 
-        this.navController.navigateForward(['/connect-device']);
+          this.navController.navigateForward(['/connect-device']);
 
-        this.read(data);
-        this.loading.hide();
-
-        this.ble.disconnect(id).then(() => {});
-      },
-      error => {
-        if (this.isConnect) {
-          setTimeout(() => {
-            this.loading.hide();
-            this.reconnectDevice(error.id);
-          }, 15000);
+          this.read(data);
+          this.loading.hide();
+        },
+        async error => {
+          this.loading.hide();
+          this.peripheralError(error);
         }
-      }
-    );
-    // this.ble.connect(id).subscribe(
-    //   data => {
-    //     console.log('클릭한 데이터', data);
-    //     if (this.myBluetooth.length > 0) {
-    //       if (this.myBluetooth[0].name != data.name) {
-    //         this.bluetoothData(data);
-    //       }
-    //     } else {
-    //       this.bluetoothData(data);
-    //     }
-
-    //     this.navController.navigateForward(['/connect-device']);
-
-    //     this.read(data);
-    //     this.loading.hide();
-
-    //   },
-    //   async error => {
-    //     console.log(error);
-
-    //     if (this.isValid) {
-    //       setTimeout(() => {
-    //         this.loading.hide();
-    //         this.reconnectDevice(error.id);
-    //       }, 15000);
-    //       //this.peripheralError(error);
-    //     }
-    //   }
-    // );
+      );
+    }
   }
 
   // 블루투스 장치 저장
