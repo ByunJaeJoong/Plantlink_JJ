@@ -44,18 +44,18 @@ export class ChattingPage implements OnInit {
     this.userInfo$ = await this.db.doc$(`users/${this.myId}`);
     this.chat$ = await this.db.collection$(`chats`, ref => ref.where('userId', '==', this.myId).where('deleteSwitch', '==', false));
     this.chat = await this.chat$.pipe(first()).toPromise();
-    this.createChat();
+    if (this.chat?.length <= 0) {
+      this.createChat();
+    }
   }
 
   async createChat() {
-    if (this.chat?.length <= 0) {
-      this.chats.chatId = this.common.generateFilename();
-      this.chats.createdAt = Date.now();
-      this.chats.chatGroup = [this.myId, this.botId];
-      this.chats.messages = [{ chatContent: '모든게 다 잘될거야!', createdAt: Date.now(), uid: this.botId }];
-      this.chats.userId = this.myId;
-      this.db.updateAt(`chats/${this.chats.chatId}`, this.chats);
-    }
+    this.chats.chatId = this.common.generateFilename();
+    this.chats.createdAt = Date.now();
+    this.chats.chatGroup = [this.myId, this.botId];
+    this.chats.messages = [{ chatContent: '모든게 다 잘될거야!', createdAt: Date.now(), uid: this.botId }];
+    this.chats.userId = this.myId;
+    this.db.updateAt(`chats/${this.chats.chatId}`, this.chats);
   }
 
   // 튜토리얼 체크
