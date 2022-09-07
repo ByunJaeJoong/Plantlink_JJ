@@ -73,6 +73,7 @@ export class ChattingDetailPage implements OnInit {
         });
         this.createChat();
         this.navController.navigateRoot(['/tabs/home']);
+        this.deleteMessageToast();
       }
     });
   }
@@ -99,6 +100,9 @@ export class ChattingDetailPage implements OnInit {
   }
   headerBackSwitch = false;
 
+  async deleteMessageToast() {
+    this.alertService.toast('채팅방을 나갔습니다.', 'toast-style', 2000);
+  }
   //헤더 스크롤 할 때 색 변하게
   logScrolling(event) {
     let scroll = event.detail.scrollTop;

@@ -88,9 +88,9 @@ export class ChattingPage implements OnInit {
                 deleteSwitch: true,
               })
               .then(() => {
-                this.createChat().then(() => {
+                this.navController.navigateRoot(['/tabs/home']).then(() => {
                   this.deleteMessageToast();
-                  this.navController.navigateRoot(['/tabs/home']);
+                  this.createChat();
                 });
               });
           },
