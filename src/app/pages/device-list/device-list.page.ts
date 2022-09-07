@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BLE } from '@ionic-native/ble/ngx';
-import { NavController, Platform } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { DbService } from 'src/app/services/db.service';
@@ -71,16 +71,12 @@ export class DeviceListPage implements OnInit {
     private route: ActivatedRoute,
     private alert: AlertService,
     private loading: LoadingService,
-    private common: CommonService,
-    private platform: Platform
+    private common: CommonService
   ) {
     this.route.queryParams.subscribe(data => {
       for (let ob in data) {
         this.deviceList.push(JSON.parse(data[ob]));
       }
-      const currentDate: Date = new Date();
-      this.senserTime = currentDate.getHours(); // 현재시간
-      this.senserDate = this.common.formatDate(currentDate); // 현재날짜
       this.getData();
     });
   }
@@ -104,60 +100,31 @@ export class DeviceListPage implements OnInit {
   // 블루투스 장치를 클릭하여 그 장치와 연결시킴
   async connect(id: string) {
     this.loading.lognLoad('연결 중입니다.');
-    if (this.platform.is('android')) {
-      this.ble.autoConnect(
-        id,
-        data => {
-          this.isConnect = false;
-          console.log(data);
-          if (this.myBluetooth.length > 0) {
-            if (this.myBluetooth[0].name != data.name) {
-              this.bluetoothData(data);
-            }
-          } else {
+    this.ble.connect(id).subscribe(
+      data => {
+        this.isConnect = false;
+        if (this.myBluetooth.length > 0) {
+          if (this.myBluetooth[0].name != data.name) {
             this.bluetoothData(data);
           }
-
-          this.navController.navigateForward(['/connect-device']);
-
-          this.read(data);
-          this.loading.hide();
-
-          this.ble.disconnect(id).then(() => {});
-        },
-        error => {
-          if (this.isConnect) {
-            setTimeout(() => {
-              this.loading.hide();
-              this.reconnectDevice(error.id);
-            }, 15000);
-          }
+        } else {
+          this.bluetoothData(data);
         }
-      );
-    }
-    if (this.platform.is('ios')) {
-      this.ble.connect(id).subscribe(
-        data => {
-          console.log('클릭한 데이터', data);
-          if (this.myBluetooth.length > 0) {
-            if (this.myBluetooth[0].name != data.name) {
-              this.bluetoothData(data);
-            }
-          } else {
-            this.bluetoothData(data);
-          }
 
-          this.navController.navigateForward(['/connect-device']);
+        this.navController.navigateForward(['/connect-device']);
 
-          this.read(data);
-          this.loading.hide();
-        },
-        async error => {
-          this.loading.hide();
-          this.peripheralError(error);
+        this.read(data);
+        this.loading.hide();
+      },
+      async error => {
+        if (this.isConnect) {
+          setTimeout(() => {
+            this.loading.hide();
+            this.reconnectDevice(error.id);
+          }, 15000);
         }
-      );
-    }
+      }
+    );
   }
 
   // 블루투스 장치 저장
@@ -183,7 +150,9 @@ export class DeviceListPage implements OnInit {
   }
 
   async read(data: any) {
-    console.log('readData', data);
+    const currentDate: Date = new Date();
+    this.senserTime = currentDate.getHours(); // 현재시간
+    this.senserDate = this.common.formatDate(currentDate); // 현재날짜
 
     // 연결된 장치 고유 아이디
     const deviceId = data.id;
