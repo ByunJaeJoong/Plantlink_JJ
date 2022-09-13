@@ -28,7 +28,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/login-join',
+    redirectTo: '/tabs/home',
     pathMatch: 'full',
   },
 ];
