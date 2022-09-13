@@ -118,15 +118,15 @@ export class PlantDetailPage implements OnInit {
   soilStatus(best, current) {
     let lowSoil = 0;
     let highSoil = 0;
-    if (best.includes('하')) {
+    if (best.indexOf('하')) {
       lowSoil = 0;
       highSoil = 10;
       return;
-    } else if (best.includes('중')) {
+    } else if (best.indexOf('중')) {
       lowSoil = 11;
       highSoil = 50;
       return;
-    } else if (best.includes('상')) {
+    } else if (best.indexOf('상')) {
       lowSoil = 51;
       highSoil = 100;
       return;
