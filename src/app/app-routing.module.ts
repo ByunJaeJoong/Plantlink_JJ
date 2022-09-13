@@ -128,6 +128,10 @@ const routes: Routes = [
     path: 'join-address',
     loadChildren: () => import('./pages/account/join-address/join-address.module').then(m => m.JoinAddressPageModule),
   },
+  {
+    path: 'service',
+    loadChildren: () => import('./pages/service/service.module').then( m => m.ServicePageModule)
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],

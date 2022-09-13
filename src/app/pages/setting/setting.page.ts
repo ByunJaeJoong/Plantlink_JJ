@@ -100,6 +100,11 @@ export class SettingPage implements OnInit {
     this.navController.navigateForward(['/contract']);
   }
 
+  //이용약관 페이지로
+  goService() {
+    this.navController.navigateForward(['/service']);
+  }
+
   //백버튼
   goSetting() {
     this.navController.navigateForward(['/setting']);
