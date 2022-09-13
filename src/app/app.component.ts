@@ -138,33 +138,73 @@ export class AppComponent {
     this.navController.navigateForward(['/setting']);
   }
 
+  // openMenu() {
+  //   console.log('열림');
+
+  //   const active = document.querySelector<HTMLElement>('.tab-selected');
+  //   const menuCalss = document.querySelector<HTMLElement>('.menu');
+  //   const menuCalss2 = document.querySelector<HTMLElement>('.menu2');
+  //   console.log(menuCalss);
+  //   menuCalss.classList.add('green');
+  //   menuCalss2.classList.add('green2');
+  //   if (active) {
+  //     active.classList.add('selected-tab');
+  //     active.classList.remove('tab-selected');
+  //   }
+  // }
+
+  // closeMenu() {
+  //   console.log('닫힘');
+
+  //   const active = document.querySelector<HTMLElement>('.selected-tab');
+  //   const menuCalss = document.querySelector<HTMLElement>('.menu');
+  //   const menuCalss2 = document.querySelector<HTMLElement>('.menu2');
+  //   console.log(menuCalss);
+  //   menuCalss.classList.remove('green');
+  //   menuCalss2.classList.remove('green2');
+  //   if (active) {
+  //     active.classList.add('tab-selected');
+  //     active.classList.remove('selected-tab');
+  //   }
+  // }
+
   openMenu() {
     console.log('열림');
 
     const active = document.querySelector<HTMLElement>('.tab-selected');
-    const menuCalss = document.querySelector<HTMLElement>('.menu');
-    const menuCalss2 = document.querySelector<HTMLElement>('.menu2');
+    const menuCalss = document.querySelectorAll<HTMLElement>('.menu');
+
     console.log(menuCalss);
-    menuCalss.classList.add('green');
-    menuCalss2.classList.add('green2');
+
     if (active) {
       active.classList.add('selected-tab');
       active.classList.remove('tab-selected');
     }
+
+    menuCalss.forEach(ele => {
+      console.log(ele);
+
+      ele.classList.add('green');
+    });
   }
 
   closeMenu() {
     console.log('닫힘');
 
     const active = document.querySelector<HTMLElement>('.selected-tab');
-    const menuCalss = document.querySelector<HTMLElement>('.menu');
-    const menuCalss2 = document.querySelector<HTMLElement>('.menu2');
+    const menuCalss = document.querySelectorAll<HTMLElement>('.menu');
+
     console.log(menuCalss);
-    menuCalss.classList.remove('green');
-    menuCalss2.classList.remove('green2');
+
     if (active) {
       active.classList.add('tab-selected');
       active.classList.remove('selected-tab');
     }
+
+    menuCalss.forEach(ele => {
+      console.log(ele);
+
+      ele.classList.remove('green');
+    });
   }
 }
