@@ -56,11 +56,11 @@ ion-tab-button {
     background: url(../../assets/images/menu-icon-off.png) no-repeat center center / 1.0625rem 1.1875rem;
   }
 
-  // &.tab-selected {
-  //   ion-icon {
-  //     background: url(../../assets/images/menu-icon-active.png) no-repeat center center/ 1.0625rem 1.1875rem;
-  //   }
-  // }
+  &.tab-selected {
+    ion-icon {
+      background: url(../../assets/images/menu-icon-active.png) no-repeat center center/ 1.0625rem 1.1875rem;
+    }
+  }
 }
 
 // .menu {
