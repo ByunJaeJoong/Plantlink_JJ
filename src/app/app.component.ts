@@ -137,4 +137,15 @@ export class AppComponent {
     // this.menu.close();
     this.navController.navigateForward(['/setting']);
   }
+
+  openMenu() {
+    const active = document.querySelector<HTMLElement>('.tab-selected');
+    active.classList.add('selected-tab');
+    active.classList.remove('tab-selected');
+  }
+
+  closeMenu() {
+    const active = document.querySelector<HTMLElement>('.selected-tab');
+    active.classList.add('tab-selected');
+  }
 }
