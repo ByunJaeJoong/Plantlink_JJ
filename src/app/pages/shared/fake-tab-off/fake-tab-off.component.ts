@@ -8,7 +8,9 @@ import { MenuController, NavController } from '@ionic/angular';
 })
 export class FakeTabOffComponent implements OnInit {
   constructor(private navController: NavController, public menuController: MenuController) {}
+  isOpen = false;
 
+  green = false;
   ngOnInit() {}
 
   //홈으로 이동
@@ -28,7 +30,8 @@ export class FakeTabOffComponent implements OnInit {
 
   // 메뉴
   openAppMenu() {
-    this.menuController.enable(true, 'first');
+    // this.menuController.enable(true, 'first');
+    this.green = !this.green;
     this.menuController.open('first');
   }
 }

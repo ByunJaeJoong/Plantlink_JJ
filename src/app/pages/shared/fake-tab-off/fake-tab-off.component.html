@@ -12,7 +12,7 @@
     <ion-label class="plant-label">식물</ion-label>
   </div>
 
-  <div class="box menu" (click)="openAppMenu()">
+  <div class="box menu menu2" [ngClass]="{ 'selected-tab': green }" (click)="openAppMenu()">
     <ion-icon></ion-icon>
     <ion-label>메뉴</ion-label>
   </div>

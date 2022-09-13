@@ -11,7 +11,7 @@ export class TabsPage {
 
   // 메뉴
   openAppMenu() {
-    this.menuController.enable(true, 'first');
+    // this.menuController.enable(true, 'first');
     this.menuController.open('first');
   }
 }
