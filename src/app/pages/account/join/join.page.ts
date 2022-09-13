@@ -115,21 +115,26 @@ export class JoinPage implements OnInit {
 
   // 휴대폰 인증
   async authenticate() {
-    await this.loadingService.load();
-    this.timer.stop();
-    try {
-      const verificationId: string = await this.pa.authentication('+82' + Number(this.users.phone));
-      this.verificationId = verificationId;
-      this.sendSwitch = true;
-      this.alert.okBtn('alert', '인증번호가 발송되었습니다.');
-      this.timerStart();
-      console.log('send');
-    } catch (error) {
-      if (error.code == 'auth/invalid-verification-code') {
-        this.wrongNumber();
+    if (this.sendSwitch) {
+      this.timeOverAlert();
+    } else {
+      await this.loadingService.load();
+      this.timer.stop();
+      try {
+        const verificationId: string = await this.pa.authentication('+82' + Number(this.users.phone));
+        this.verificationId = verificationId;
+        this.sendSwitch = true;
+        this.alert.okBtn('alert', '인증번호가 발송되었습니다.');
+        this.timerStart();
+        console.log('send');
+      } catch (error) {
+        if (error.code == 'auth/invalid-verification-code') {
+          this.wrongNumber();
+        }
+        console.log(error);
       }
-      console.log(error);
     }
+
     await this.loadingService.hide();
   }
   wrongNumber() {
@@ -147,6 +152,9 @@ export class JoinPage implements OnInit {
           this.timeOverAlert();
         }
       });
+    setTimeout(() => {
+      this.sendSwitch = false;
+    }, 180000);
   }
   timeOverAlert() {
     this.alert.okBtn('alert', `${this.timerStr} 뒤에 재요청이 가능합니다.`);
