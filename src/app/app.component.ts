@@ -140,6 +140,7 @@ export class AppComponent {
 
   openMenu() {
     const active = document.querySelector<HTMLElement>('.tab-selected');
+    console.log({ active });
     const menuCalss = document.querySelector<HTMLElement>('.menu');
     menuCalss.classList.add('green');
     active.classList.add('selected-tab');
@@ -148,8 +149,10 @@ export class AppComponent {
 
   closeMenu() {
     const active = document.querySelector<HTMLElement>('.selected-tab');
+    console.log({ active });
     active.classList.add('tab-selected');
     const menuCalss = document.querySelector<HTMLElement>('.menu');
     menuCalss.classList.remove('green');
+    active.classList.remove('selected-tab');
   }
 }
