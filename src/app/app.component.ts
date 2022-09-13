@@ -110,31 +110,31 @@ export class AppComponent {
 
   //식물 현재 상태로
   goPlantDetail() {
-    this.menu.close();
+    // this.menu.close();
     this.navController.navigateForward(['/plant-detail']);
   }
 
   //식물 보고서
   goPlantReport() {
-    this.menu.close();
+    // this.menu.close();
     this.navController.navigateForward(['/plant-report']);
   }
 
   //식물 도감
   goPlantBook() {
-    this.menu.close();
+    // this.menu.close();
     this.navController.navigateForward(['/plant-book']);
   }
 
   //블루투스 연결하기
   goBlueTooth() {
-    this.menu.close();
+    // this.menu.close();
     this.navController.navigateForward(['/connect-device']);
   }
 
   //세팅
   goSetting() {
-    this.menu.close();
+    // this.menu.close();
     this.navController.navigateForward(['/setting']);
   }
 }

@@ -53,14 +53,39 @@ ion-tab-button {
 
 .menu {
   ion-icon {
-    background: url(../../assets/images/menu-icon-off.png) no-repeat center center / 1.0625rem 1rem;
+    background: url(../../assets/images/menu-icon-off.png) no-repeat center center / 1.0625rem 1.1875rem;
   }
-  &.tab-selected {
-    ion-icon {
-      background: url(../../assets/images/menu-icon-active.png) no-repeat center center/ 1.0625rem 1rem;
-    }
-  }
+
+  // &.tab-selected {
+  //   ion-icon {
+  //     background: url(../../assets/images/menu-icon-active.png) no-repeat center center/ 1.0625rem 1.1875rem;
+  //   }
+  // }
 }
+
+// .menu {
+//   width: 5.6094rem;
+//   height: 3.5rem;
+//   &::part(native) {
+//     display: flex;
+//     flex-direction: column;
+//   }
+//   .icon {
+//     width: 1.0625rem;
+//     height: 1rem;
+//     background: url(../../assets/images/menu-icon-off.png) no-repeat top 0 center / 1.0625rem 1rem;
+//   }
+
+//   ion-label {
+//     @include font(#949494, 500, 0.625rem, 0.75rem);
+//   }
+
+//   &.tab-selected {
+//     ion-label {
+//       color: #afd365;
+//     }
+//   }
+// }
 
 .text {
   position: absolute;

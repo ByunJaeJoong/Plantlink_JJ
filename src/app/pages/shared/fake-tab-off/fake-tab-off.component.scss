@@ -45,8 +45,19 @@
   }
 }
 
+// 회색 메뉴
 .menu {
   ion-icon {
     background: url(../../../../assets/images/menu-icon-off.png) no-repeat center center / 1.0625rem 1rem;
+  }
+}
+
+// 초록색 메뉴
+.green {
+  ion-label {
+    color: #afd365;
+  }
+  ion-icon {
+    background: url(../../../../assets/images/menu-icon-active.png) no-repeat center center/ 1.0625rem 1rem;
   }
 }
