@@ -13,7 +13,6 @@ export class AuthGuard implements CanActivate {
   async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     return this.platform.ready().then(async e => {
       const localUserId: string = localStorage.getItem('userId');
-      console.log('localUserId', localUserId);
 
       if (localUserId) {
         return true;
