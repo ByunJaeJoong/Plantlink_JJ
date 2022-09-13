@@ -66,6 +66,10 @@ export class FindIdPage implements OnInit {
 
     if (!this.userSwitch) {
       this.alert.okBtn('alert', '일치하는 회원 정보가 없습니다.');
+      return;
+    }
+    if (this.sendSwitch) {
+      this.timeOverAlert();
     } else {
       this.timer.stop();
       try {
@@ -102,6 +106,9 @@ export class FindIdPage implements OnInit {
           this.timeOverAlert();
         }
       });
+    setTimeout(() => {
+      this.sendSwitch = false;
+    }, 180000);
   }
   timeOverAlert() {
     this.alert.okBtn('alert', `${this.timerStr} 뒤에 재요청이 가능합니다.`);
