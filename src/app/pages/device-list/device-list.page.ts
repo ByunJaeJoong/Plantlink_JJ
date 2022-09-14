@@ -92,7 +92,7 @@ export class DeviceListPage implements OnInit {
       .toPromise();
 
     this.myBluetooth = await this.db
-      .collection$(`bluetooth`, (ref: any) => ref.where('deleteSwitch', '==', false))
+      .collection$(`bluetooth`, (ref: any) => ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false))
       .pipe(first())
       .toPromise();
   }
@@ -111,9 +111,12 @@ export class DeviceListPage implements OnInit {
           this.bluetoothData(data);
         }
 
-        this.navController.navigateForward(['/connect-device']);
+        this.navController.navigateForward(['/connect-device']).then(async () => {
+          await this.alert.toast('디바이스에 연결되었습니다.', 'toast-style', 2000);
+        });
 
         this.read(data);
+
         this.loading.hide();
       },
       async error => {
@@ -208,6 +211,8 @@ export class DeviceListPage implements OnInit {
 
   // 센서에 변화되는 데이터 값의 List안에 push하는 함수
   onDataDiscovered(data: string) {
+    console.log(data);
+
     this.divisionData = data.split(':');
     this.senserData = this.divisionData[1].split(',');
 
@@ -247,7 +252,7 @@ export class DeviceListPage implements OnInit {
     this.plantData.dateCreated = new Date().toISOString();
     this.plantData.senserDate = senserDate;
 
-    if (this.myBluetooth[0].length > 0) {
+    if (this.myBluetooth.length > 0) {
       this.plantData.bluetoothId = this.myBluetooth[0].bluetoothId;
     } else {
       this.plantData.bluetoothId = this.bluetooth.bluetoothId;
@@ -268,12 +273,14 @@ export class DeviceListPage implements OnInit {
 
   // 퍼센트 계산
   percent(par: string) {
-    return (Number(par) / 100) * 100;
+    const percent = (Number(par) / 100) * 100;
+    return Math.round(percent);
   }
 
   // 플랜트링크 센서 온도 계산
   temperatureCal(temp: string) {
-    return Number(temp) / 5;
+    const temper = Number(temp) / 5;
+    return Math.round(temper);
   }
 
   // 온도를 못받는 첫번째 센서값을 합치는 함수
