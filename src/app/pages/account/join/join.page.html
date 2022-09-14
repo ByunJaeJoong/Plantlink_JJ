@@ -98,6 +98,12 @@
     <ion-item class="agree-box">
       <ion-checkbox [(ngModel)]="agree"></ion-checkbox>
       <ion-label class="all-agree">개인 정보 이용에 동의합니다.</ion-label>
+      <ion-button fill="goInfo" (click)="goPersonal()" class="view"> 전체보기 </ion-button>
+    </ion-item>
+    <ion-item class="agree-box">
+      <ion-checkbox [(ngModel)]="service"></ion-checkbox>
+      <ion-label class="all-agree">서비스 이용약관에 동의합니다.</ion-label>
+      <ion-button fill="goInfo" (click)="goService()" class="view"> 전체보기 </ion-button>
     </ion-item>
     <ion-button (click)="goCom()" fill="clear" class="basic-btn"> 가입하기 </ion-button>
   </ion-toolbar>

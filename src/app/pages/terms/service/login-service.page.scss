@@ -1,0 +1,23 @@
+@import '../../../../theme/mixin.scss';
+//@include font(#161616, 300, 0.875rem, 1.0625rem);
+
+ion-header {
+  ion-toolbar {
+    .back-btn {
+      width: 1.875rem;
+      height: 1.875rem;
+      background: url(../../../../assets/images/back-icon.png) no-repeat center center/ 100%;
+    }
+  }
+}
+
+#contract {
+  padding: 1rem 1.25rem;
+  white-space: pre-line;
+  word-break: break-all;
+
+  h2 {
+    margin-bottom: 1.25rem;
+    @include font(#161616, 600, 0.9375rem, 1.125rem);
+  }
+}

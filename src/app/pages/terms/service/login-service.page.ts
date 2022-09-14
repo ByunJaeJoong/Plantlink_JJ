@@ -5,34 +5,24 @@ import { first } from 'rxjs/operators';
 import { DbService } from 'src/app/services/db.service';
 
 @Component({
-  selector: 'app-service',
-  templateUrl: './service.page.html',
-  styleUrls: ['./service.page.scss'],
+  selector: 'app-loginService',
+  templateUrl: './login-Service.page.html',
+  styleUrls: ['./login-service.page.scss'],
 })
-export class ServicePage implements OnInit {
-  type: string;
+export class loginServicePage implements OnInit {
   master: any = [];
-  switch: boolean = false;
   constructor(private navController: NavController, private db: DbService, private route: ActivatedRoute, private modalController: ModalController) {
     this.getData();
-    this.type = this.route.snapshot.queryParams.type;
   }
 
-  async ngOnInit() {
-    this.check();
-  }
+  async ngOnInit() {}
 
-  check() {
-    if (this.type == 'modal') {
-      this.switch = true;
-    }
-  }
   async getData() {
     this.master = await this.db.doc$(`master/Szxcsgls6gZwP8sa0Gpd8tKga4u1`).pipe(first()).toPromise();
   }
 
   //설정화면으로
   goSetting() {
-    this.navController.navigateBack(['/setting']);
+    this.modalController.dismiss();
   }
 }

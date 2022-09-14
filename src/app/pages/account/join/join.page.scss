@@ -34,6 +34,15 @@ ion-footer {
     --padding-start: 1.25rem;
     --padding-end: 1.25rem;
   }
+  .view {
+    --background: transparent;
+    width: 3.0625rem;
+    height: 1rem;
+    color: #6a6a6a;
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+  }
 }
 
 .agree-box {

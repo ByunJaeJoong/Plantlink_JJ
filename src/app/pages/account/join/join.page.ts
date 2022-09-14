@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import * as firebase from 'firebase';
 import { first } from 'rxjs/operators';
 import { Users } from 'src/app/models/users.model';
@@ -11,6 +11,9 @@ import { MoveParamsService } from 'src/app/services/move-params.service';
 import { PhoneAuthService } from 'src/app/services/phone-auth.service';
 import { TimerService } from 'src/app/services/timer.service';
 import { postcode } from 'src/assets/js/postcode.js';
+import { ServicePage } from '../../service/service.page';
+import { loginContractPage } from '../../terms/contract/login-contract.page';
+import { loginServicePage } from '../../terms/service/login-service.page';
 
 @Component({
   selector: 'app-join',
@@ -55,6 +58,7 @@ export class JoinPage implements OnInit {
   failAuth: boolean = false;
 
   agree: boolean;
+  service: boolean;
   search: string = '';
   shopAddress: any;
   shopZoneCode: any;
@@ -69,7 +73,8 @@ export class JoinPage implements OnInit {
     private timer: TimerService,
     private renderer: Renderer2,
     private moveParamsService: MoveParamsService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private modalController: ModalController
   ) {}
 
   ngOnInit() {
@@ -250,6 +255,10 @@ export class JoinPage implements OnInit {
       this.alert.okBtn('alert', '개인 정보 이용에 동의해 주세요.');
       return;
     }
+    if (!this.service) {
+      this.alert.okBtn('alert', '서비스 이용약관에 동의해 주세요.');
+      return;
+    }
 
     if (this.emailOverlap && this.passwordCheck() && this.certifiedSwitch && this.agree) {
       // await this.sociaLoginLink(this.users.email);
@@ -264,6 +273,20 @@ export class JoinPage implements OnInit {
         });
       });
     }
+  }
+  async goService() {
+    const modal = await this.modalController.create({
+      component: loginServicePage,
+    });
+
+    return await modal.present();
+  }
+  async goPersonal() {
+    const modal = await this.modalController.create({
+      component: loginContractPage,
+    });
+
+    return await modal.present();
   }
 
   async sociaLoginLink(credential, tokenId?, type?) {
