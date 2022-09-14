@@ -105,6 +105,18 @@ export class SettingPage implements OnInit {
     this.navController.navigateForward(['/service']);
   }
 
+  // 회원 탈퇴 페이지로
+  async goExit() {
+    this.navController.navigateForward(['/exit']);
+    // const ok = await this.alertService.cancelOkBtn(
+    //   'two-btn',
+    //   '비밀번호 확인이 되면 즉시 회원탈퇴 됩니다. </br> 정말 탈퇴 하시겠어요?',
+    //   '',
+    //   '취소',
+    //   '확인'
+    // );
+  }
+
   //백버튼
   goSetting() {
     this.navController.navigateForward(['/setting']);

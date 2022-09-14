@@ -153,6 +153,7 @@ export class DeviceListPage implements OnInit {
   }
 
   async read(data: any) {
+    this.loading.lognLoad('데이터 저장 중입니다. ');
     const currentDate: Date = new Date();
     this.senserTime = currentDate.getHours(); // 현재시간
     this.senserDate = this.common.formatDate(currentDate); // 현재날짜
@@ -201,8 +202,10 @@ export class DeviceListPage implements OnInit {
             this.onDataDiscovered(mergeString);
           }
           this.isValid = false;
+          this.loading.hide();
         },
         error => {
+          this.loading.hide();
           console.log(error);
         }
       );

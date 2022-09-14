@@ -132,6 +132,10 @@ const routes: Routes = [
     path: 'service',
     loadChildren: () => import('./pages/service/service.module').then( m => m.ServicePageModule)
   },
+  {
+    path: 'exit',
+    loadChildren: () => import('./pages/exit/exit.module').then( m => m.ExitPageModule)
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],

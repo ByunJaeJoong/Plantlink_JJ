@@ -1,0 +1,53 @@
+ion-header {
+  ion-toolbar {
+    .back-btn {
+      width: 1.875rem;
+      height: 1.875rem;
+      background: url(../../../assets/images/back-icon.png) no-repeat center center/ 100%;
+    }
+  }
+}
+
+ion-content {
+  --padding-start: 1.5rem;
+  --padding-end: 1.5rem;
+  --padding-top: 1.5rem;
+  --padding-bottom: 1.5rem;
+  h3 {
+    font-size: 1rem;
+    margin-bottom: 0.35rem;
+  }
+  .margin {
+    margin-bottom: 1.4375rem;
+  }
+}
+
+ion-button {
+  margin-bottom: 2.125rem;
+
+  margin-top: 1.125rem;
+}
+
+//validation 나타나는 인풋
+.validation-wrap {
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  p {
+    text-align: right;
+    margin-bottom: 0.25rem;
+
+    //   @include font(#da7f8c, 600, 0.6875rem, 0.875rem);
+  }
+}
+
+p {
+  font-size: 0.9rem;
+  color: #161616;
+  line-height: 1.5rem;
+  white-space: pre-line;
+  word-break: keep-all;
+  padding-right: 1.25rem;
+}
