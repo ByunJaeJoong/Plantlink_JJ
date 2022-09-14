@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
       if (localUserId) {
         return true;
       } else {
-        this.navc.navigateRoot('/login');
+        this.navc.navigateRoot('/login-join');
         return false;
       }
     });
