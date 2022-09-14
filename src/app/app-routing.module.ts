@@ -130,11 +130,19 @@ const routes: Routes = [
   },
   {
     path: 'service',
-    loadChildren: () => import('./pages/service/service.module').then( m => m.ServicePageModule)
+    loadChildren: () => import('./pages/service/service.module').then(m => m.ServicePageModule),
   },
   {
     path: 'exit',
-    loadChildren: () => import('./pages/exit/exit.module').then( m => m.ExitPageModule)
+    loadChildren: () => import('./pages/exit/exit.module').then(m => m.ExitPageModule),
+  },
+  {
+    path: 'loginService',
+    loadChildren: () => import('./pages/terms/service/login-service.module').then(m => m.loginServicePageModule),
+  },
+  {
+    path: 'loginContract',
+    loadChildren: () => import('./pages/terms/contract/login-contract.module').then(m => m.loginContractPageModule),
   },
 ];
 @NgModule({
