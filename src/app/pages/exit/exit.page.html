@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goSetting()" fill="clear" class="back-btn"> </ion-button>
+    </ion-buttons>
+    <ion-title>회원탈퇴</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="basic-wrap">
+    <h3>비밀번호</h3>
+    <ion-item class="input-wrap margin">
+      <ion-input type="password" inputmode="password" placeholder="비밀번호를 입력해주세요." [(ngModel)]="password"></ion-input>
+    </ion-item>
+  </div>
+
+  <p>
+    회원탈퇴를 위해 현재 비밀번호를 입력해주세요. <br />
+    비밀번호 확인이 되면 즉시 회원탈퇴 됩니다.
+  </p>
+
+  <ion-button (click)="goDelete()" class="basic-btn" fill="clear" [disabled]="!password"> 회원탈퇴 </ion-button>
+</ion-content>
