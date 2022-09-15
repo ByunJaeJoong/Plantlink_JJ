@@ -14,12 +14,17 @@ export class PlantBookPage implements OnInit {
   plantList: any;
   plantTmp: any;
 
+  dataCheck: boolean = false;
+
   searchMode: boolean = false;
 
   constructor(private navController: NavController, private db: DbService) {}
 
   ngOnInit() {
     this.getData();
+    setTimeout(() => {
+      this.dataCheck = true;
+    }, 1000);
   }
 
   async getData() {
