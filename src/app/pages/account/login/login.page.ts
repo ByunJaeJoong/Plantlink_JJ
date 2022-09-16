@@ -17,6 +17,9 @@ export class LoginPage implements OnInit {
   emailValidate: boolean = true;
   passwordValidate: boolean = true;
 
+  isEmail: boolean = false;
+  isPass: boolean = false;
+
   constructor(
     private navController: NavController,
     private db: DbService,
@@ -69,6 +72,28 @@ export class LoginPage implements OnInit {
           this.alert.showErrorMessage(err.code);
         }
       });
+  }
+
+  changeEmail() {
+    let regExp = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+
+    if (regExp.test(this.email) === true) {
+      // 이메일
+      this.isEmail = true;
+    } else {
+      // 이메일이 아님
+      this.isEmail = false;
+    }
+  }
+
+  changePass() {
+    let regExp = /^(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()+|=])[a-zA-Z\d~!@#$%^&*()+|=]{6,12}$/;
+    console.log(regExp.test(this.password));
+    if (regExp.test(this.password) === true) {
+      this.isPass = true;
+    } else {
+      this.isPass = false;
+    }
   }
 
   //회원가입으로

@@ -14,13 +14,15 @@
       <img src="assets/images/logo-black.png" alt="" />
     </h1>
 
-    <ng-container *ngIf="emailValidate">
-      <ion-item class="input-wrap">
-        <ion-input placeholder="구글 이메일" inputmode="text" type="email" [(ngModel)]="email"></ion-input>
+    <div class="validation-wrap" *ngIf="emailValidate">
+      <ion-item [ngClass]="email && !isEmail?  'input-vali-wrap' : 'input-wrap'">
+        <ion-input placeholder="구글 이메일" inputmode="text" type="email" [(ngModel)]="email" (ionChange)="changeEmail()"></ion-input>
       </ion-item>
-    </ng-container>
+      <ng-container *ngIf="email && !isEmail">
+        <p>이메일 형식을 맞춰주세요.</p>
+      </ng-container>
+    </div>
 
-    <!-- validation 나타날 때 이메일 입력창 입니다.  -->
     <div class="validation-wrap" *ngIf="!emailValidate">
       <ion-item class="input-vali-wrap">
         <ion-input placeholder="구글 이메일" inputmode="text" type="email" [(ngModel)]="email"></ion-input>
@@ -28,16 +30,18 @@
       <p>이메일을 입력해주세요</p>
     </div>
 
-    <ng-container *ngIf="passwordValidate">
-      <ion-item class="input-wrap">
-        <ion-input placeholder="비밀번호" inputmode="text" type="password" maxlength="20" minlength="8" [(ngModel)]="password"></ion-input>
+    <div class="validation-wrap" *ngIf="passwordValidate">
+      <ion-item [ngClass]="password && !isPass?  'input-vali-wrap' : 'input-wrap'">
+        <ion-input placeholder="비밀번호" inputmode="text" type="password" [(ngModel)]="password" (ionChange)="changePass()"></ion-input>
       </ion-item>
-    </ng-container>
+      <ng-container *ngIf="password && !isPass">
+        <p>6자 이상 12자 이하의 영문과 특수문자로 입력해주세요</p>
+      </ng-container>
+    </div>
 
-    <!-- validation 나타날 때 비밀번호 입력창 입니다.  -->
     <div class="validation-wrap" *ngIf="!passwordValidate">
       <ion-item class="input-vali-wrap">
-        <ion-input placeholder="비밀번호" inputmode="text" type="password" maxlength="20" minlength="8" [(ngModel)]="password"></ion-input>
+        <ion-input placeholder="비밀번호" inputmode="text" type="password" [(ngModel)]="password"></ion-input>
       </ion-item>
       <p>비밀번호를 입력해주세요</p>
     </div>
