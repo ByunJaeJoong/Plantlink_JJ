@@ -12,62 +12,84 @@
 <ion-content>
   <div id="find-id-wrap">
     <!-- 일반 이름 입력창 -->
-    <div class="basic-wrap">
+    <!-- <div class="basic-wrap">
       <h3>이름</h3>
       <ion-item class="input-wrap margin">
         <ion-input type="text" inputmode="text" placeholder="이름을 입력해주세요." [(ngModel)]="name"></ion-input>
       </ion-item>
-    </div>
+    </div> -->
 
     <!-- validation 나타날 때 입력창 입니다.  -->
-    <!-- <div class="validation-wrap margin" *ngIf="!nameCheck">
+    <div class="validation-wrap margin">
       <div class="top">
         <h3>이름</h3>
-        <p>올바른 이름을 입력해주세요</p>
+        <p *ngIf="!isName">올바른 이름을 입력해주세요</p>
       </div>
-      <ion-item class="input-vali-wrap">
-        <ion-input type="text" inputmode="text" placeholder="이름을 입력해주세요" [(ngModel)]="name"></ion-input>
-      </ion-item>
-    </div> -->
-
-    <div class="basic-wrap">
-      <h3>휴대폰 번호</h3>
-      <ion-item class="input-wrap">
-        <ion-input inputmode="numeric" type="tel" placeholder="휴대폰 번호를 입력해주세요." [(ngModel)]="phone"></ion-input>
+      <ion-item [ngClass]="isName ? 'input-wrap' : 'input-vali-wrap'">
+        <ion-input type="text" inputmode="text" placeholder="이름을 입력해주세요" [(ngModel)]="name" (ionChange)="changeName()"></ion-input>
       </ion-item>
     </div>
 
-    <!-- validation 나타날 때 비밀번호 입력창 입니다.  -->
-    <!-- <div class="validation-wrap">
-      <div class="top">
-        <h3>휴대폰 번호</h3>
-        <p>올바른 이름을 입력해주세요</p>
-      </div>
-      <ion-item class="input-vali-wrap">
-        <ion-input inputmode="numeric" type="tel" placeholder="비밀번호"></ion-input>
+    <!-- <div class="basic-wrap">
+      <h3>휴대폰 번호</h3>
+
+      <ion-item class="input-wrap">
+        <ion-input
+          inputmode="numeric" 
+          type="tel"
+          placeholder="휴대폰 번호를 입력해주세요."
+          [(ngModel)]="phone"
+          (ionChange)="changePhone()"
+        ></ion-input>
       </ion-item>
     </div> -->
 
-    <ion-button class="basic-btn certification" fill="clear" (click)="authenticate()"> 인증번호 받기 </ion-button>
+    <!-- validation 나타날 때 비밀번호 입력창 입니다.  -->
+    <div class="validation-wrap">
+      <div class="top">
+        <h3>휴대폰 번호</h3>
+        <p *ngIf="!isPhone">올바른 이름을 입력해주세요</p>
+      </div>
+      <ion-item [ngClass]="isPhone ? 'input-wrap' : 'input-vali-wrap'">
+        <ion-input
+          inputmode="numeric"
+          type="tel"
+          placeholder="휴대폰 번호를 입력해주세요."
+          [(ngModel)]="phone"
+          (ionChange)="changePhone()"
+        ></ion-input>
+      </ion-item>
+    </div>
+
+    <ion-button class="basic-btn certification" fill="clear" (click)="authenticate()" [disabled]="!name || !phone || !isName || !isPhone">
+      인증번호 받기
+    </ion-button>
 
     <!-- 일반 인증번호 인풋창 -->
-    <div class="basic-wrap">
+    <!-- <div class="basic-wrap">
       <h3>인증번호</h3>
       <ion-item class="input-wrap">
         <ion-input inputmode="numeric" type="numeric" placeholder="인증번호 숫자 6자리" maxlength="6" [(ngModel)]="certifyNum"></ion-input>
       </ion-item>
-    </div>
+    </div> -->
 
     <!-- validation 나타날 때 인증번호 입력창 입니다. -->
-    <!-- <div class="validation-wrap">
+    <div class="validation-wrap">
       <div class="top">
         <h3>인증번호</h3>
-        <p>올바른 인증 번호를 입력해주세요.</p>
+        <p *ngIf="!verifyNum">올바른 인증 번호를 입력해주세요.</p>
       </div>
-      <ion-item class="input-vali-wrap">
-        <ion-input inputmode="numeric" type="numeric" placeholder="인증번호 숫자 6자리" maxlength="6"></ion-input>
+      <ion-item [ngClass]="verifyNum ? 'input-wrap' : 'input-vali-wrap'">
+        <ion-input
+          inputmode="numeric"
+          type="numeric"
+          placeholder="인증번호 숫자 6자리"
+          maxlength="6"
+          [(ngModel)]="certifyNum"
+          (ionChange)="changeNum()"
+        ></ion-input>
       </ion-item>
-    </div> -->
+    </div>
 
     <ion-button class="basic-btn" fill="clear" (click)="complete()"> 확인 </ion-button>
   </div>

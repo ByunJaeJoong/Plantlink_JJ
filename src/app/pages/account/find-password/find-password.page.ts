@@ -32,6 +32,10 @@ export class FindPasswordPage implements OnInit {
   failAuth: boolean = false;
   sendSwitch: boolean = false;
 
+  isEmail: boolean = true;
+  isPhone: boolean = true;
+  verifyNum: boolean = true;
+
   constructor(
     private navController: NavController,
     private db: DbService,
@@ -60,6 +64,48 @@ export class FindPasswordPage implements OnInit {
     }
     console.log(this.user);
   }
+
+  changePhone() {
+    if (!this.phone) {
+      this.isPhone = true;
+      return;
+    }
+    let regExp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+    console.log(regExp.test(this.phone));
+    if (regExp.test(this.phone)) {
+      this.isPhone = true;
+    } else {
+      this.isPhone = false;
+    }
+  }
+  changeEmail() {
+    if (!this.email) {
+      this.isEmail = true;
+      return;
+    }
+    let regExp = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+
+    if (regExp.test(this.email) === true) {
+      // 이메일
+      this.isEmail = true;
+    } else {
+      // 이메일이 아님
+      this.isEmail = false;
+    }
+  }
+  changeNum() {
+    if (!this.certifyNum) {
+      this.verifyNum = true;
+      return;
+    }
+    let regExp = /^([0-9]{6})$/g;
+    if (regExp.test(this.certifyNum)) {
+      this.verifyNum = true;
+    } else {
+      this.verifyNum = false;
+    }
+  }
+
   // 회원정보 확인 후 인증번호 발송
   async authenticate() {
     await this.loadingService.load();
@@ -93,7 +139,10 @@ export class FindPasswordPage implements OnInit {
     this.alert.toast('인증번호를 발송했습니다.', 'toast-style', 2000);
   }
   wrongNumber() {
-    this.alert.okBtn('alert', `인증번호 확인 후<br>다시 인증번호를 입력해주세요.`);
+    if (this.verifyNum == true) {
+      this.verifyNum = false;
+    }
+    // this.alert.okBtn('alert', `인증번호 확인 후<br>다시 인증번호를 입력해주세요.`);
   }
 
   // 인증번호 유효시간

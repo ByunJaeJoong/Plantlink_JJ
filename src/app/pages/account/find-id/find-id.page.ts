@@ -32,6 +32,10 @@ export class FindIdPage implements OnInit {
   failAuth: boolean = false;
   sendSwitch: boolean = false;
 
+  isName: boolean = true;
+  isPhone: boolean = true;
+  verifyNum: boolean = true;
+
   constructor(
     private navController: NavController,
     private db: DbService,
@@ -57,6 +61,44 @@ export class FindIdPage implements OnInit {
       this.userSwitch = false;
     }
     console.log(this.user);
+  }
+
+  changePhone() {
+    if (!this.phone) {
+      this.isPhone = true;
+      return;
+    }
+    let regExp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+    console.log(regExp.test(this.phone));
+    if (regExp.test(this.phone)) {
+      this.isPhone = true;
+    } else {
+      this.isPhone = false;
+    }
+  }
+  changeName() {
+    if (!this.name) {
+      this.isName = true;
+      return;
+    }
+    let regExp = /([^가-힣\x20])/i;
+    if (regExp.test(this.name)) {
+      this.isName = false;
+    } else {
+      this.isName = true;
+    }
+  }
+  changeNum() {
+    if (!this.certifyNum) {
+      this.verifyNum = true;
+      return;
+    }
+    let regExp = /^([0-9]{6})$/g;
+    if (regExp.test(this.certifyNum)) {
+      this.verifyNum = true;
+    } else {
+      this.verifyNum = false;
+    }
   }
 
   // 회원정보 확인 후 인증번호 발송
@@ -92,7 +134,10 @@ export class FindIdPage implements OnInit {
     this.alert.toast('인증번호를 발송했습니다.', 'toast-style', 2000);
   }
   wrongNumber() {
-    this.alert.okBtn('alert', `인증번호 확인 후<br>다시 인증번호를 입력해주세요.`);
+    if (this.verifyNum == true) {
+      this.verifyNum = false;
+    }
+    // this.alert.okBtn('alert', `인증번호 확인 후<br>다시 인증번호를 입력해주세요.`);
   }
 
   // 인증번호 유효시간
