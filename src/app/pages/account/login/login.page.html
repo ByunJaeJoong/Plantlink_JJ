@@ -52,7 +52,7 @@
       <ion-button fill="clear" class="find-pw" (click)="findPw()"> 비밀번호 찾기 </ion-button>
     </div>
 
-    <ion-button class="basic-btn" fill="clear" (click)="login()"> 로그인 </ion-button>
+    <ion-button class="basic-btn" fill="clear" (click)="login()" [disabled]="!isEmail || !isPass"> 로그인 </ion-button>
 
     <ion-button class="main-border" fill="clear" (click)="goJoin()"> 회원가입 </ion-button>
   </div>
