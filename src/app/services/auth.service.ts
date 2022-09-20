@@ -130,10 +130,19 @@ export class AuthService {
   }
 
   // currentUser uid 받아오기
-  async uid() {
-    return await (
-      await this.afAuth.currentUser
-    ).uid;
+  // async uid() {
+  //   return await (
+  //     await this.afAuth.currentUser
+  //   ).uid;
+  // }
+
+  uid() {
+    return this.user$
+      .pipe(
+        take(1),
+        map(u => u && u.id)
+      )
+      .toPromise();
   }
 
   // currentUser 비밀번호 변경

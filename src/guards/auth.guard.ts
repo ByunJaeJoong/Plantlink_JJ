@@ -10,16 +10,18 @@ import { AuthService } from '../app/services/auth.service';
 export class AuthGuard implements CanActivate {
   constructor(public navc: NavController, public platform: Platform, public auth: AuthService) {}
 
-  async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-    return this.platform.ready().then(async e => {
-      const localUserId: string = localStorage.getItem('userId');
+  async canActivate(): Promise<boolean> {
+    // const localUserId: string = localStorage.getItem('userId');
+    const uid = await this.auth.uid();
 
-      if (localUserId) {
-        return true;
-      } else {
-        this.navc.navigateRoot('/login-join');
-        return false;
-      }
-    });
+    const isLoggedIn = !!uid;
+    console.log(uid, isLoggedIn);
+    if (!isLoggedIn) {
+      this.navc.navigateRoot('/login-join');
+      return false;
+    } else {
+      this.navc.navigateRoot('/tabs/home');
+      return false;
+    }
   }
 }
