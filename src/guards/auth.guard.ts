@@ -15,13 +15,11 @@ export class AuthGuard implements CanActivate {
     const uid = await this.auth.uid();
 
     const isLoggedIn = !!uid;
-    console.log(uid, isLoggedIn);
     if (!isLoggedIn) {
       this.navc.navigateRoot('/login-join');
       return false;
     } else {
-      this.navc.navigateRoot('/tabs/home');
-      return false;
+      return true;
     }
   }
 }
