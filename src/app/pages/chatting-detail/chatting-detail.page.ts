@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent, NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { first, map, take } from 'rxjs/operators';
 import { Chats } from 'src/app/models/chat.model';
 import { AlertService } from 'src/app/services/alert.service';
 import { ChatService } from 'src/app/services/chat.service';
@@ -86,8 +86,22 @@ export class ChattingDetailPage implements OnInit {
     this.db.updateAt(`chats/${this.chats.chatId}`, this.chats);
   }
 
-  sendMessage() {
-    this.cs.sendMessage(this.chatId, this.message);
+  async sendMessage() {
+    const chatArray = [];
+    const chatData = await this.chat$.pipe(take(1)).toPromise();
+    console.log('chatData', chatData.messages);
+    chatData.messages.map(data => {
+      if (data.uid == 'oerqH5wAqIfOXH1VrGkI7r2PpJa2') {
+        chatArray.push(data);
+        console.log(chatArray);
+      }
+    });
+    const reverse = chatArray.reverse();
+    console.log(reverse);
+    console.log(reverse[0]);
+    const saveChatScore = reverse[0].score;
+    const saveChatStatus = reverse[0].status;
+    this.cs.sendMessage(this.chatId, this.message, saveChatScore, saveChatStatus);
     this.message = '';
   }
   // 자동 스크롤

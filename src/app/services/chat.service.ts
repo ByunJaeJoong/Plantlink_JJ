@@ -355,7 +355,7 @@ export class ChatService {
    * @returns
    */
   // 채팅 메시지 전송
-  async sendMessage(chatId, chatContent) {
+  async sendMessage(chatId, chatContent, score, status) {
     // const uid = await this.auth.userDetails().uid;
     const uid = localStorage.getItem('userId');
 
@@ -363,6 +363,8 @@ export class ChatService {
       chatContent,
       createdAt: Date.now(),
       uid,
+      score,
+      status,
     };
 
     if (uid) {
