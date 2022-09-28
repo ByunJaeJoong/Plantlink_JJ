@@ -13,7 +13,10 @@ import { DbService } from 'src/app/services/db.service';
 export class ConnectDevicePage implements OnInit {
   bluetooth$: Observable<any>;
   myPlant: any;
+  connectPlant: any;
   userId: string = localStorage.getItem('userId');
+
+  userInfo$: Observable<any>;
 
   constructor(private navController: NavController, private db: DbService, private alertService: AlertService) {
     this.getData();
@@ -21,16 +24,19 @@ export class ConnectDevicePage implements OnInit {
 
   ngOnInit() {}
 
-  async getData() {
-    this.bluetooth$ = this.db.collection$(`bluetooth`, (ref: any) => ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false));
-
-    this.myPlant = await this.db
-      .collection$(`myPlant`, (ref: any) =>
-        ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false).where('cancelSwitch', '==', false)
-      )
-      .pipe(first())
-      .toPromise();
+  ionViewWillEnter() {
+    this.userInfo$.pipe(first()).subscribe(async data => {
+      if (data?.myPlant?.length <= 0) {
+        await this.emptyAlert();
+      }
+    });
   }
+
+  async getData() {
+    this.userInfo$ = await this.db.doc$(`users/${this.userId}`);
+    this.bluetooth$ = this.db.collection$(`bluetooth`, (ref: any) => ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false));
+  }
+
   //홈화면으로 가기
   goHome() {
     this.navController.navigateBack(['/tabs/home']);
@@ -38,11 +44,13 @@ export class ConnectDevicePage implements OnInit {
 
   //장치찾기로
   findDevice() {
-    if (this.myPlant.length == 0) {
-      this.emptyAlert();
-    } else {
-      this.navController.navigateForward(['/find-device']);
-    }
+    this.userInfo$.pipe(first()).subscribe(async data => {
+      if (data?.myPlant?.length <= 0) {
+        await this.emptyAlert();
+      } else {
+        this.navController.navigateForward(['/find-device']);
+      }
+    });
   }
 
   emptyAlert() {

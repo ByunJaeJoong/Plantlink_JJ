@@ -136,7 +136,7 @@ export class PlantReportPage implements OnInit {
     this.myPlantData$ = this.plantData$.pipe(
       map(data => {
         return data.filter((ele: any) => {
-          return ele.myPlantId.deleteSwitch == false && ele.myPlantId.cancelSwitch == false;
+          return ele.myPlantId.deleteSwitch == false && ele.myPlantId.cancelSwitch == true && ele.myPlantId.bluetoothSwitch == true;
         });
       })
     );
@@ -165,6 +165,7 @@ export class PlantReportPage implements OnInit {
         for (let dayCount = 0; dayCount < 7; dayCount++) {
           const check = weekPlants.filter((ele: any) => {
             const date = moment(startDate).add(i, 'day').format('YYYY-MM-DD');
+
             return ele.senserDate == date;
           });
 
@@ -271,25 +272,25 @@ export class PlantReportPage implements OnInit {
   addData(chart: any, data: string, segementTemp: string) {
     if (segementTemp == '주간') {
       chart.options.scales.x1.ticks.callback = function (value: number) {
-        if (this.getLabelForValue(value) == '월') {
+        if (this.getLabelForValue(value) == '일') {
           return `${data[0] ? data[0] : ''}`;
         }
-        if (this.getLabelForValue(value) == '화') {
+        if (this.getLabelForValue(value) == '월') {
           return `${data[1] ? data[1] : ''}`;
         }
-        if (this.getLabelForValue(value) == '수') {
+        if (this.getLabelForValue(value) == '화') {
           return `${data[2] ? data[2] : ''}`;
         }
-        if (this.getLabelForValue(value) == '목') {
+        if (this.getLabelForValue(value) == '수') {
           return `${data[3] ? data[3] : ''}`;
         }
-        if (this.getLabelForValue(value) == '금') {
+        if (this.getLabelForValue(value) == '목') {
           return `${data[4] ? data[4] : ''}`;
         }
-        if (this.getLabelForValue(value) == '토') {
+        if (this.getLabelForValue(value) == '금') {
           return `${data[5] ? data[5] : ''}`;
         }
-        if (this.getLabelForValue(value) == '일') {
+        if (this.getLabelForValue(value) == '토') {
           return `${data[6] ? data[6] : ''}`;
         }
       };
@@ -318,8 +319,6 @@ export class PlantReportPage implements OnInit {
     const day = paramDate.getDay();
     const diff = paramDate.getDate() - day;
 
-    console.log(new Date(paramDate.setDate(diff)).toISOString().substring(0, 10));
-
     return new Date(paramDate.setDate(diff)).toISOString().substring(0, 10);
   }
 
@@ -327,7 +326,6 @@ export class PlantReportPage implements OnInit {
   getSaturdayDate(d: string) {
     const newDate = new Date(d);
     newDate.setDate(newDate.getDate() + 6);
-    // console.log(this.common.formatDate(newDate));
 
     return this.common.formatDate(newDate);
   }

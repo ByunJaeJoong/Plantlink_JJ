@@ -86,10 +86,12 @@ export class DeviceListPage implements OnInit {
   async getData() {
     this.myPlant = await this.db
       .collection$(`myPlant`, (ref: any) =>
-        ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false).where('cancelSwitch', '==', false)
+        ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false).where('cancelSwitch', '==', true).orderBy('dateCreated', 'desc')
       )
       .pipe(first())
       .toPromise();
+
+    console.log(this.myPlant);
 
     this.myBluetooth = await this.db
       .collection$(`bluetooth`, (ref: any) => ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false))
@@ -98,40 +100,58 @@ export class DeviceListPage implements OnInit {
   }
 
   // 블루투스 장치를 클릭하여 그 장치와 연결시킴
-  async connect(id: string) {
-    this.loading.lognLoad('연결 중입니다.');
-    this.ble.connect(id).subscribe(
-      data => {
-        this.isConnect = false;
-        if (this.myBluetooth.length > 0) {
-          if (this.myBluetooth[0].name != data.name) {
+  async connect(item: any) {
+    if (item.name == 'SoilModule') {
+      this.loading.lognLoad('연결 중입니다.');
+      this.ble.connect(item.id).subscribe(
+        data => {
+          this.isConnect = false;
+          if (this.myBluetooth.length > 0) {
+            this.db.updateAt(`bluetooth/${this.myBluetooth[0].bluetoothId}`, {
+              deleteSwitch: true,
+            });
+
+            this.bluetoothData(data);
+          } else {
             this.bluetoothData(data);
           }
-        } else {
-          this.bluetoothData(data);
-        }
 
-        this.navController.navigateForward(['/connect-device']).then(async () => {
-          await this.alert.toast('디바이스에 연결되었습니다.', 'toast-style', 2000);
+          this.navController.navigateForward(['/connect-device']).then(async () => {
+            await this.alert.toast('디바이스에 연결되었습니다.', 'toast-style', 2000);
+          });
+
+          this.read(data);
+
+          this.loading.hide();
+        },
+        async error => {
+          if (this.isConnect) {
+            setTimeout(() => {
+              this.loading.hide();
+              this.reconnectDevice(error.id);
+            }, 15000);
+          }
+        }
+      );
+    } else {
+      this.alert.toast('블루투스 연결이 불가능한 장치입니다.', 'toast-style', 2000);
+    }
+  }
+
+  myPlantConnect() {
+    this.myPlant.forEach(ele => {
+      if (ele.bluetoothSwitch) {
+        this.db.updateAt(`myPlant/${ele.myPlantId}`, {
+          bluetoothSwitch: false,
         });
-
-        this.read(data);
-
-        this.loading.hide();
-      },
-      async error => {
-        if (this.isConnect) {
-          setTimeout(() => {
-            this.loading.hide();
-            this.reconnectDevice(error.id);
-          }, 15000);
-        }
       }
-    );
+    });
   }
 
   // 블루투스 장치 저장
   bluetoothData(data: any) {
+    this.myPlantConnect();
+
     this.bluetooth.bluetoothId = this.common.generateFilename();
     this.bluetooth.userId = this.userId;
     this.bluetooth.myPlantId = this.myPlant[0].myPlantId;
@@ -140,6 +160,13 @@ export class DeviceListPage implements OnInit {
     this.bluetooth.dateCreated = new Date().toISOString();
 
     this.db.updateAt(`bluetooth/${this.bluetooth.bluetoothId}`, this.bluetooth);
+
+    if (!this.myPlant[0].bluetoothSwitch) {
+      this.db.updateAt(`myPlant/${this.myPlant[0].myPlantId}`, {
+        bluetoothSwitch: true,
+      });
+    }
+
     this.db.updateAt(`users/${this.userId}`, {
       bluetooth: firebase.default.firestore.FieldValue.arrayUnion(this.bluetooth.bluetoothId),
     });
