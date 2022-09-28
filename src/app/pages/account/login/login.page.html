@@ -16,7 +16,7 @@
 
     <div class="validation-wrap" *ngIf="emailValidate">
       <ion-item [ngClass]="email && !isEmail?  'input-vali-wrap' : 'input-wrap'">
-        <ion-input placeholder="구글 이메일" inputmode="text" type="email" [(ngModel)]="email" (ionChange)="changeEmail()"></ion-input>
+        <ion-input placeholder="이메일" inputmode="text" type="email" [(ngModel)]="email" (ionChange)="changeEmail()"></ion-input>
       </ion-item>
       <ng-container *ngIf="email && !isEmail">
         <p>이메일 형식을 맞춰주세요.</p>
@@ -25,7 +25,7 @@
 
     <div class="validation-wrap" *ngIf="!emailValidate">
       <ion-item class="input-vali-wrap">
-        <ion-input placeholder="구글 이메일" inputmode="text" type="email" [(ngModel)]="email"></ion-input>
+        <ion-input placeholder="이메일" inputmode="text" type="email" [(ngModel)]="email"></ion-input>
       </ion-item>
       <p>이메일을 입력해주세요</p>
     </div>

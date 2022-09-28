@@ -96,7 +96,7 @@ export class PlantReportPage implements OnInit {
     '31',
   ];
 
-  weekLabel: Array<string> = ['월', '화', '수', '목', '금', '토', '일'];
+  weekLabel: Array<string> = ['일', '월', '화', '수', '목', '금', '토'];
 
   segment: string = '주간';
 
@@ -144,8 +144,8 @@ export class PlantReportPage implements OnInit {
     // 그 주의 월요일부터 일요일까지의 값을 가져온다.
     this.weekPlants$ = this.myPlantData$.pipe(
       map((dates: any) => {
-        const startDate: string = this.getMondayDate(this.selectedDate);
-        const endDate: string = this.getSundayDate(startDate);
+        const startDate: string = this.getSundayDate(this.selectedDate);
+        const endDate: string = this.getSaturdayDate(startDate);
 
         return dates.filter((ele: any) => {
           return ele.senserDate >= startDate && ele.senserDate <= endDate;
@@ -154,7 +154,7 @@ export class PlantReportPage implements OnInit {
     );
 
     this.weekPlants$.subscribe(weekPlants => {
-      const startDate = moment(this.getMondayDate(this.selectedDate)).format('YYYY-MM-DD');
+      const startDate = moment(this.getSundayDate(this.selectedDate)).format('YYYY-MM-DD');
 
       this.week.soil = [];
       this.week.temperature = [];
@@ -312,18 +312,23 @@ export class PlantReportPage implements OnInit {
     chart.update();
   }
 
-  // 특정일자(yyyy-mm-dd)에 해당하는 주차의 월요일 구하기
-  getMondayDate(d: string) {
+  // 특정일자(yyyy-mm-dd)에 해당하는 주차의 일요일 구하기
+  getSundayDate(d: string) {
     const paramDate = new Date(d);
     const day = paramDate.getDay();
-    const diff = paramDate.getDate() - day + (day == 0 ? -6 : 1);
+    const diff = paramDate.getDate() - day;
+
+    console.log(new Date(paramDate.setDate(diff)).toISOString().substring(0, 10));
+
     return new Date(paramDate.setDate(diff)).toISOString().substring(0, 10);
   }
 
-  // 월요일 기준으로 해당 일요일 구하기
-  getSundayDate(d: string) {
+  // 월요일 기준으로 해당 토요일 구하기
+  getSaturdayDate(d: string) {
     const newDate = new Date(d);
     newDate.setDate(newDate.getDate() + 6);
+    // console.log(this.common.formatDate(newDate));
+
     return this.common.formatDate(newDate);
   }
 
@@ -526,7 +531,7 @@ export class PlantReportPage implements OnInit {
 
         scales: {
           x: {
-            title: { display: true, align: 'start', text: '(℃)', font: { size: 8 }, padding: 0 },
+            title: { display: true, align: 'start', text: '(%)', font: { size: 8 }, padding: 0 },
 
             grid: {
               display: false,
@@ -649,7 +654,7 @@ export class PlantReportPage implements OnInit {
 
         scales: {
           x: {
-            title: { display: true, align: 'start', text: '(℃)', font: { size: 8 }, padding: 0 },
+            title: { display: true, align: 'start', text: '(%)', font: { size: 8 }, padding: 0 },
 
             grid: {
               display: false,
@@ -772,7 +777,7 @@ export class PlantReportPage implements OnInit {
 
         scales: {
           x: {
-            title: { display: true, align: 'start', font: { size: 8 }, padding: 0 },
+            title: { display: true, align: 'start', text: '(℃)', font: { size: 8 }, padding: 0 },
 
             grid: {
               display: false,
@@ -968,7 +973,7 @@ export class PlantReportPage implements OnInit {
 
         scales: {
           x: {
-            title: { display: true, align: 'start', font: { size: 8 }, padding: 0 },
+            title: { display: true, align: 'start', text: '(%)', font: { size: 8 }, padding: 0 },
 
             grid: {
               borderWidth: 0,
@@ -1163,7 +1168,7 @@ export class PlantReportPage implements OnInit {
 
         scales: {
           x: {
-            title: { display: true, align: 'start', font: { size: 8 }, padding: 0 },
+            title: { display: true, align: 'start', text: '(%)', font: { size: 8 }, padding: 0 },
 
             grid: {
               display: false,
