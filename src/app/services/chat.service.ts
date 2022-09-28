@@ -354,8 +354,8 @@ export class ChatService {
    * @param type 보내는 채팅의 종류 (text | image)
    * @returns
    */
-  // 채팅 메시지 전송
-  async sendMessage(chatId, chatContent, score, status) {
+  // // 채팅 메시지 전송
+  async sendMessage(chatId, chatContent) {
     // const uid = await this.auth.userDetails().uid;
     const uid = localStorage.getItem('userId');
 
@@ -363,13 +363,10 @@ export class ChatService {
       chatContent,
       createdAt: Date.now(),
       uid,
-      score,
-      status,
     };
 
     if (uid) {
       const ref = this.afs.collection('chats').doc(chatId);
-
       return ref.update({
         messages: firebase.default.firestore.FieldValue.arrayUnion(data),
       });

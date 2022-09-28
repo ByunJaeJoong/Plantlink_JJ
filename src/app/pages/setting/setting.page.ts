@@ -141,14 +141,13 @@ export class SettingPage implements OnInit {
         .collection$(`chats`, ref => ref.where('userId', '==', this.userId))
         .pipe(first())
         .toPromise();
-      console.log(myChat);
 
       const myBluetooth = await this.db
         .collection$(`bluetooth`, ref => ref.where('userId', '==', this.userId))
         .pipe(first())
         .toPromise();
 
-      // 로그인 사용자의 일기장 데이터 보이지 않도록
+      // // 로그인 사용자의 일기장 데이터 보이지 않도록
       if (myDiary.length > 0) {
         myDiary.forEach(async (data: any) => {
           await this.db.updateAt(`diary/${data.id}`, {
@@ -157,7 +156,7 @@ export class SettingPage implements OnInit {
         });
       }
 
-      // 로그인 사용자의 등록된 식물 데이터 보이지 않도록 처리
+      // // 로그인 사용자의 등록된 식물 데이터 보이지 않도록 처리
       if (myPlantData.length > 0) {
         await this.db.updateAt(`users/${this.userId}`, {
           plantSwitch: false,
@@ -174,19 +173,24 @@ export class SettingPage implements OnInit {
       // 로그인 사용자의 채팅 데이터 보이지 않도록
       if (myChat.length > 0) {
         myChat.forEach(async (data: any) => {
-          await this.db
-            .updateAt(`chats/${data.id}`, {
-              deleteSwitch: true,
-            })
-            .then(() => {
-              this.chats.chatId = this.common.generateFilename();
-              this.chats.createdAt = Date.now();
-              this.chats.chatGroup = [this.userId, this.botId];
-              this.chats.messages = [{ chatContent: '모든게 다 잘될거야!', createdAt: Date.now(), uid: this.botId }];
-              this.chats.userId = this.userId;
-              this.db.updateAt(`chats/${this.chats.chatId}`, this.chats);
-            });
+          await this.db.updateAt(`chats/${data.id}`, {
+            deleteSwitch: true,
+          });
         });
+
+        const checkChat = await this.db
+          .collection$(`chats`, ref => ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false))
+          .pipe(first())
+          .toPromise();
+
+        if (checkChat.length <= 0) {
+          this.chats.chatId = this.common.generateFilename();
+          this.chats.createdAt = Date.now();
+          this.chats.chatGroup = [this.userId, this.botId];
+          this.chats.messages = [{ chatContent: '모든게 다 잘될거야!', createdAt: Date.now(), uid: this.botId }];
+          this.chats.userId = this.userId;
+          this.db.updateAt(`chats/${this.chats.chatId}`, this.chats);
+        }
       }
 
       // 로그인 사용자의 블루투스 연동 데이터 보이지 않도록
