@@ -54,16 +54,33 @@ export class FindDevicePage implements OnInit {
 
     // 주변 블루투스 스캔을 진행
     this.ble.startScan([]).subscribe(device => {
-      if (device.name) {
+      if (device.name == 'SoilModule') {
         this.onDeviceDiscovered(device);
       }
     });
+
+    setTimeout(() => {
+      this.stopScan();
+    }, 30000);
   }
 
   // 스캔 중지
   stopScan() {
     this.ble.stopScan().then(() => {
       console.log('스캔이 중지되었습니다.');
+
+      if (this.deviceList.length <= 0) {
+        this.alertService.okBtn('alert', '발견된 장치가 없습니다.<br>다시 찾기를 시도해주세요.');
+      } else {
+        this.deviceList = this.deviceList.filter((arr, index, callback) => index === callback.findIndex(ele => ele.id === arr.id));
+
+        const devices = [JSON.stringify(this.deviceList)];
+
+        this.navController.navigateRoot(['/device-list'], {
+          queryParams: devices,
+          skipLocationChange: true,
+        });
+      }
     });
   }
 
@@ -82,26 +99,27 @@ export class FindDevicePage implements OnInit {
 
   //홈화면으로 가기
   goHome() {
+    this.stopScan();
     this.navController.navigateBack(['/connect-device']);
   }
 
   // 블루투스 리스트 모달창
-  async imgDetail() {
-    this.stopScan();
-    const ok = await this.alertService.cancelOkBtn(
-      'two-btn',
-      `${this.deviceList.length}개의 장치가 발견되었습니다:)<br>연결페이지로 이동하시겠어요?`,
-      '',
-      '취소',
-      '확인'
-    );
-    if (ok) {
-      const devices = [JSON.stringify(this.deviceList)];
+  // async imgDetail() {
+  //   this.stopScan();
+  //   const ok = await this.alertService.cancelOkBtn(
+  //     'two-btn',
+  //     `${this.deviceList.length}개의 장치가 발견되었습니다:)<br>연결페이지로 이동하시겠어요?`,
+  //     '',
+  //     '취소',
+  //     '확인'
+  //   );
+  //   if (ok) {
+  //     const devices = [JSON.stringify(this.deviceList)];
 
-      this.navController.navigateRoot(['/device-list'], {
-        queryParams: devices,
-        skipLocationChange: true,
-      });
-    }
-  }
+  //     this.navController.navigateRoot(['/device-list'], {
+  //       queryParams: devices,
+  //       skipLocationChange: true,
+  //     });
+  //   }
+  // }
 }

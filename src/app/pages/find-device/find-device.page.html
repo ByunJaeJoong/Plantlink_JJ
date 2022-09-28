@@ -30,7 +30,7 @@
   <!-- 1. 장치 찾는 화면일 때 함께 보입니다. 장치를 찾지 않을 때는 안보입니다 -->
   <ng-container *ngIf="deviceList?.length > 0 && isValid">
     <p class="find">{{deviceList?.length}}개의 장치 발견</p>
-    <ion-button fill="clear" (click)="imgDetail()"> 기기 연결하기 </ion-button>
+    <!-- <ion-button fill="clear" (click)="imgDetail()"> 기기 연결하기 </ion-button> -->
   </ng-container>
 
   <!-- 2. 장치를 찾을 수 없을 때 함께 뜨는 버튼입니다 -->
