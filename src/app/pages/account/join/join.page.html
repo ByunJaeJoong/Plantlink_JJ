@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>회원가입</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/" text="" icon=""> </ion-back-button>
+      <ion-button class="back-btn" (click)="back()" fill="clear"> </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -39,7 +39,7 @@
       ></ion-input>
     </ion-item>
     <!-- validation -->
-    <h4 class="error" *ngIf="password && !passwordExpression()">6자 이상 12자 이하의 영문과 특수문자 조합</h4>
+    <h4 class="error" *ngIf="password && !passwordExpression()">6자 이상 12자 이하의 영문과 특수문자(~!@#$%^&*()+|=) 조합</h4>
   </div>
 
   <!-- 비밀번호 확인 -->
