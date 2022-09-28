@@ -33,6 +33,7 @@ export class PlantBookDetailPage implements OnInit {
     userId: '',
     deleteSwitch: false,
     cancelSwitch: false,
+    bluetoothSwitch: false,
   };
   constructor(
     private alertService: AlertService,
@@ -62,7 +63,7 @@ export class PlantBookDetailPage implements OnInit {
         ref
           .where('userId', '==', this.userId)
           .where('plantBookId', '==', this.plantBookId)
-          .where('cancelSwitch', '==', false)
+          .where('cancelSwitch', '==', true)
           .where('deleteSwitch', '==', false)
       )
       .pipe(first())
@@ -118,7 +119,8 @@ export class PlantBookDetailPage implements OnInit {
       .toPromise();
     if (plantOverlap?.length > 0) {
       this.db.updateAt(`myPlant/${plantOverlap[0].myPlantId}`, {
-        cancelSwitch: false,
+        cancelSwitch: true,
+        dateCreated: new Date().toISOString(),
       });
       this.checkMyPlant();
     } else {
@@ -129,7 +131,7 @@ export class PlantBookDetailPage implements OnInit {
       this.myPlant.soil = 0;
       this.myPlant.plantBookId = this.plantBookId;
       this.myPlant.userId = this.userId;
-      this.myPlant.cancelSwitch = false;
+      this.myPlant.cancelSwitch = true;
       this.db.updateAt(`myPlant/${this.myPlant.myPlantId}`, this.myPlant);
       this.db.updateAt(`users/${this.userId}`, {
         myPlant: firebase.default.firestore.FieldValue.arrayUnion(this.myPlant.myPlantId),
@@ -155,18 +157,17 @@ export class PlantBookDetailPage implements OnInit {
               .where('userId', '==', this.userId)
               .where('plantBookId', '==', this.plantBookId)
               .where('deleteSwitch', '==', false)
-              .where('cancelSwitch', '==', false)
+              .where('cancelSwitch', '==', true)
           )
           .pipe(first())
           .toPromise();
         const plantBookId = deletePlant[0].myPlantId;
         this.db.updateAt(`myPlant/${plantBookId}`, {
-          cancelSwitch: true,
+          cancelSwitch: false,
         });
         this.db.updateAt(`users/${this.userId}`, {
           myPlant: firebase.default.firestore.FieldValue.arrayRemove(plantBookId),
         });
-        this.checkMyPlant();
       }
       this.checkMyPlant();
     });

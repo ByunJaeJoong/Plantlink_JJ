@@ -9,4 +9,5 @@ export interface myPlant {
   userId: string;
   deleteSwitch: boolean;
   cancelSwitch: boolean;
+  bluetoothSwitch: boolean;
 }

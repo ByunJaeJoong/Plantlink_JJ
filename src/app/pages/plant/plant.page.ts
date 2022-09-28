@@ -55,18 +55,18 @@ export class PlantPage implements OnInit {
     //   })
     // );
     this.plantInfo$ = this.db.collection$(`myPlant`, ref =>
-      ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false).where('cancelSwitch', '==', false).orderBy('dateCreated', 'desc')
+      ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false).where('cancelSwitch', '==', true).orderBy('dateCreated', 'desc')
     );
   }
   goDelete(myPlantId) {
     this.alertService.cancelOkBtn('two-btn', '나의 식물에서 해지하시겠어요?', '', '취소').then(ok => {
       if (ok) {
-        // this.db.updateAt(`users/${this.userId}`, {
-        //   myPlant: firebase.default.firestore.FieldValue.arrayRemove(myPlantId),
-        // });
-        // this.db.updateAt(`myPlant/${myPlantId}`, {
-        //   cancelSwitch: true,
-        // });
+        this.db.updateAt(`users/${this.userId}`, {
+          myPlant: firebase.default.firestore.FieldValue.arrayRemove(myPlantId),
+        });
+        this.db.updateAt(`myPlant/${myPlantId}`, {
+          cancelSwitch: true,
+        });
         console.log(myPlantId);
       }
     });
