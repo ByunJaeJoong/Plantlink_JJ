@@ -15,7 +15,7 @@ export class ImageService {
     encodingType: this.camera.EncodingType.JPEG,
     mediaType: this.camera.MediaType.PICTURE,
     sourceType: this.camera.PictureSourceType.CAMERA,
-    // correctOrientation: true,
+    correctOrientation: true,
     // saveToPhotoAlbum: false,
   };
 
