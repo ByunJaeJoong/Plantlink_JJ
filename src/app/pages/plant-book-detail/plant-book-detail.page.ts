@@ -110,38 +110,36 @@ export class PlantBookDetailPage implements OnInit {
 
   //2. 등록완료
   async completeAlert() {
-    this.checkOverlap().then(async () => {
-      const plantOverlap = await this.db
-        .collection$(`myPlant`, ref =>
-          ref.where('userId', '==', this.userId).where('plantBookId', '==', this.plantBookId).where('deleteSwitch', '==', false)
-        )
-        .pipe(first())
-        .toPromise();
-      if (plantOverlap?.length > 0) {
-        this.db.updateAt(`myPlant/${plantOverlap[0].myPlantId}`, {
-          cancelSwitch: false,
-        });
-        this.checkMyPlant();
-      } else {
-        this.myPlant.myPlantId = this.common.generateFilename();
-        this.myPlant.name = this.plant.name;
-        this.myPlant.temperature = 0;
-        this.myPlant.light = 0;
-        this.myPlant.soil = 0;
-        this.myPlant.plantBookId = this.plantBookId;
-        this.myPlant.userId = this.userId;
-        this.myPlant.cancelSwitch = false;
-        this.db.updateAt(`myPlant/${this.myPlant.myPlantId}`, this.myPlant);
-        this.db.updateAt(`users/${this.userId}`, {
-          myPlant: firebase.default.firestore.FieldValue.arrayUnion(this.myPlant.myPlantId),
-        });
-        this.checkMyPlant();
-      }
-      this.alertService.cancelOkBtn('two-btn', '나의 식물로 등록되었습니다:)<br>식물 메뉴로 가서 확인하시겠어요?', '', '취소', '확인').then(ok => {
-        if (ok) {
-          this.navController.navigateForward(['/tabs/plant']);
-        }
+    const plantOverlap = await this.db
+      .collection$(`myPlant`, ref =>
+        ref.where('userId', '==', this.userId).where('plantBookId', '==', this.plantBookId).where('deleteSwitch', '==', false)
+      )
+      .pipe(first())
+      .toPromise();
+    if (plantOverlap?.length > 0) {
+      this.db.updateAt(`myPlant/${plantOverlap[0].myPlantId}`, {
+        cancelSwitch: false,
       });
+      this.checkMyPlant();
+    } else {
+      this.myPlant.myPlantId = this.common.generateFilename();
+      this.myPlant.name = this.plant.name;
+      this.myPlant.temperature = 0;
+      this.myPlant.light = 0;
+      this.myPlant.soil = 0;
+      this.myPlant.plantBookId = this.plantBookId;
+      this.myPlant.userId = this.userId;
+      this.myPlant.cancelSwitch = false;
+      this.db.updateAt(`myPlant/${this.myPlant.myPlantId}`, this.myPlant);
+      this.db.updateAt(`users/${this.userId}`, {
+        myPlant: firebase.default.firestore.FieldValue.arrayUnion(this.myPlant.myPlantId),
+      });
+      this.checkMyPlant();
+    }
+    this.alertService.cancelOkBtn('two-btn', '나의 식물로 등록되었습니다:)<br>식물 메뉴로 가서 확인하시겠어요?', '', '취소', '확인').then(ok => {
+      if (ok) {
+        this.navController.navigateForward(['/tabs/plant']);
+      }
     });
   }
   // db 에서 삭제
@@ -164,6 +162,9 @@ export class PlantBookDetailPage implements OnInit {
         const plantBookId = deletePlant[0].myPlantId;
         this.db.updateAt(`myPlant/${plantBookId}`, {
           cancelSwitch: true,
+        });
+        this.db.updateAt(`users/${this.userId}`, {
+          myPlant: firebase.default.firestore.FieldValue.arrayRemove(plantBookId),
         });
         this.checkMyPlant();
       }

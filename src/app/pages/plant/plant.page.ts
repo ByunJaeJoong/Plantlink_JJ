@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import * as firebase from 'firebase';
 import { combineLatest, Observable, of } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
@@ -35,24 +36,40 @@ export class PlantPage implements OnInit {
   }
   async getData() {
     this.userInfo$ = await this.db.doc$(`users/${this.userId}`);
-    //this.plantInfo$ = await this.userInfo$.pipe(docListJoin(this.db.afs, 'myPlant', 'myPlant'));
-    this.plantInfo$ = this.userInfo$.pipe(
-      switchMap(user => {
-        let reads$ = [];
-        console.log(user);
+    // //this.plantInfo$ = await this.userInfo$.pipe(docListJoin(this.db.afs, 'myPlant', 'myPlant'));
+    // this.plantInfo$ = this.userInfo$.pipe(
+    //   switchMap(user => {
+    //     let reads$ = [];
+    //     console.log(user);
 
-        user.myPlant.forEach(id => {
-          const doc$ = this.db.doc$(`myPlant/${id}`);
-          reads$.push(doc$);
-        });
+    //     user.myPlant.forEach(id => {
+    //       const doc$ = this.db.doc$(`myPlant/${id}`);
+    //       reads$.push(doc$);
+    //     });
 
-        if (reads$.length > 0) {
-          return combineLatest(reads$);
-        } else {
-          return of([]);
-        }
-      })
+    //     if (reads$.length > 0) {
+    //       return combineLatest(reads$);
+    //     } else {
+    //       return of([]);
+    //     }
+    //   })
+    // );
+    this.plantInfo$ = this.db.collection$(`myPlant`, ref =>
+      ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false).where('cancelSwitch', '==', false).orderBy('dateCreated', 'desc')
     );
+  }
+  goDelete(myPlantId) {
+    this.alertService.cancelOkBtn('two-btn', '나의 식물에서 해지하시겠어요?', '', '취소').then(ok => {
+      if (ok) {
+        // this.db.updateAt(`users/${this.userId}`, {
+        //   myPlant: firebase.default.firestore.FieldValue.arrayRemove(myPlantId),
+        // });
+        // this.db.updateAt(`myPlant/${myPlantId}`, {
+        //   cancelSwitch: true,
+        // });
+        console.log(myPlantId);
+      }
+    });
   }
 
   //식물목록이 없을 때 뜨는 alert

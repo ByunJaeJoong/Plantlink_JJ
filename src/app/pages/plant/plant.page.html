@@ -14,18 +14,24 @@
     <!-- 식물이 있는 경우! 없는 경우는 class="plant-wrap" 묶음 전체 지웁니다-->
     <div class="plant-wrap" *ngIf="plantInfo$ | async as plantInfo">
       <span></span>
-      <ng-container *ngFor="let item of plantInfo; let i = index">
-        <ion-item (click)="goPlantDetail(item.myPlantId, i)" class="chat-list">
-          <ng-container *ngIf="('plantBook/' + item.plantBookId | doc | async ) as plant">
-            <ion-avatar>
-              <img [src]="plant.plantImage ? plant.plantImage : 'assets/images/default-img.png'" alt="" />
-            </ion-avatar>
-            <ion-label> {{item.name}} </ion-label>
-            <p *ngIf="!item.cancelSwitch">디바이스와 연결됨</p>
-            <p *ngIf="item.cancelSwitch">나의 식물로 추가됨 {{this.test}}</p>
-          </ng-container>
-        </ion-item>
+      <ng-container *ngIf="plantInfo?.length > 0">
+        <ion-item-sliding *ngFor="let item of plantInfo; let i = index">
+          <ion-item (click)="goPlantDetail(item.myPlantId, i)" class="chat-list">
+            <ng-container *ngIf="('plantBook/' + item.plantBookId | doc | async ) as plant">
+              <ion-avatar>
+                <img [src]="plant.plantImage ? plant.plantImage : 'assets/images/default-img.png'" alt="" />
+              </ion-avatar>
+              <ion-label> {{item.name}} </ion-label>
+              <p *ngIf="item.bluetoothSwitch">디바이스와 연결됨</p>
+              <p *ngIf="!item.bluetoothSwitch">나의 식물로 추가됨</p>
+            </ng-container>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option (click)="goDelete(item.myPlantId)">나가기</ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
       </ng-container>
+
       <!-- <ion-item (click)="goPlantDetail()" class="chat-list">
         <ion-avatar>
           <img src="assets/samples/plant-sample02.jpeg" alt="" />
