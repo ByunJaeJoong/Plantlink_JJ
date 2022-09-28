@@ -53,25 +53,32 @@ export class PlantDetailPage implements OnInit {
     //   this.plantInfo = await this.plantInfo$.pipe(first()).toPromise();
     // } else {
     this.userInfo$ = await this.db.doc$(`users/${this.userId}`);
-    this.plantInfo$ = this.userInfo$.pipe(
-      switchMap(user => {
-        let reads$ = [];
-        console.log(user);
+    // this.plantInfo$ = this.userInfo$.pipe(
+    //   switchMap(user => {
+    //     let reads$ = [];
+    //     console.log(user);
 
-        user.myPlant.forEach(id => {
-          console.log(id);
+    //     user.myPlant.forEach(id => {
+    //       console.log(id);
 
-          const doc$ = this.db.doc$(`myPlant/${id}`).pipe(docJoin(this.db.afs, 'plantBookId', 'plantBook'));
-          reads$.push(doc$);
-        });
-        if (reads$.length > 0) {
-          return combineLatest(reads$);
-        } else {
-          return of([]);
-        }
-      })
-    );
+    //       const doc$ = this.db.doc$(`myPlant/${id}`).pipe(docJoin(this.db.afs, 'plantBookId', 'plantBook'));
+    //       reads$.push(doc$);
+    //     });
+    //     if (reads$.length > 0) {
+    //       return combineLatest(reads$);
+    //     } else {
+    //       return of([]);
+    //     }
+    //   })
+    // );
+    this.plantInfo$ = this.db
+      .collection$(`myPlant`, ref =>
+        ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false).where('cancelSwitch', '==', true).orderBy('dateCreated', 'desc')
+      )
+      .pipe(leftJoinDocument(this.db.afs, 'plantBookId', 'plantBook'));
     this.plantInfo = await this.plantInfo$.pipe(first()).toPromise();
+    console.log(this.plantInfo);
+
     // }
   }
   tempStatus(best, current) {

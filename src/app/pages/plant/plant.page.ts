@@ -65,7 +65,7 @@ export class PlantPage implements OnInit {
           myPlant: firebase.default.firestore.FieldValue.arrayRemove(myPlantId),
         });
         this.db.updateAt(`myPlant/${myPlantId}`, {
-          cancelSwitch: true,
+          cancelSwitch: false,
         });
         console.log(myPlantId);
       }
