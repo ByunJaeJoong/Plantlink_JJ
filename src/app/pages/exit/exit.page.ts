@@ -16,6 +16,11 @@ export class ExitPage implements OnInit {
   email: string = '';
   password: string = '';
 
+  // 구글로만 로그인이 되어있다면 true로 변경
+  loginTypeCheck: boolean = false;
+
+  loginType: any;
+
   constructor(
     private loading: LoadingService,
     private db: DbService,
@@ -30,42 +35,71 @@ export class ExitPage implements OnInit {
 
   async getData() {
     const user = await this.db.doc$(`users/${this.userId}`).pipe(first()).toPromise();
-    console.log(user);
+    this.loginType = user.loginType;
+
+    if (this.loginType.indexOf('email') > -1) {
+      this.loginTypeCheck = false;
+    } else {
+      this.loginTypeCheck = true;
+    }
 
     this.email = user.email;
   }
 
   //회원탈퇴 진행하기
   goDelete() {
-    this.alert.cancelOkBtn('two-btn', '회원탈퇴를 진행합니다.', '', '취소').then(ok => {
-      if (ok) {
-        this.auth
-          .loginUser(this.email, this.password)
-          .then(data => {
-            this.db.updateAt(`users/${this.userId}`, {
-              exitSwitch: true,
-            });
-            this.loading.load();
+    if (this.loginType.indexOf('email') > -1) {
+      this.alert.cancelOkBtn('two-btn', '회원탈퇴를 진행합니다.', '', '취소').then(ok => {
+        if (ok) {
+          this.auth
+            .loginUser(this.email, this.password)
+            .then(data => {
+              this.db.updateAt(`users/${this.userId}`, {
+                exitSwitch: true,
+              });
+              this.loading.load();
 
-            this.auth
-              .exitUser()
-              .then(() => {
-                this.alert.toast('회원탈퇴가 정상적으로 이루어졌습니다.').then(() => {
-                  this.navc.navigateBack(['/login-join']);
+              this.auth
+                .exitUser()
+                .then(() => {
+                  this.alert.toast('회원탈퇴가 정상적으로 이루어졌습니다.').then(() => {
+                    this.navc.navigateBack(['/login-join']);
+                    this.loading.hide();
+                  });
+                })
+                .catch(err => {
+                  console.log(err);
                   this.loading.hide();
                 });
-              })
-              .catch(err => {
-                console.log(err);
+            })
+            .catch(error => {
+              console.log(error);
+              this.ErrorAlert();
+            });
+        }
+      });
+    } else {
+      this.alert.cancelOkBtn('two-btn', '회원탈퇴를 진행합니다.', '', '취소').then(ok => {
+        if (ok) {
+          this.db.updateAt(`users/${this.userId}`, {
+            exitSwitch: true,
+          });
+
+          this.auth
+            .exitUser()
+            .then(() => {
+              this.alert.toast('회원탈퇴가 정상적으로 이루어졌습니다.').then(() => {
+                this.navc.navigateBack(['/login-join']);
                 this.loading.hide();
               });
-          })
-          .catch(error => {
-            console.log(error);
-            this.ErrorAlert();
-          });
-      }
-    });
+            })
+            .catch(err => {
+              console.log(err);
+              this.loading.hide();
+            });
+        }
+      });
+    }
   }
 
   //비밀번호 틀린경우
