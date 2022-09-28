@@ -301,6 +301,13 @@ export class JoinPage implements OnInit {
         ////////////////////////////////////
       });
   }
+  back() {
+    this.alert.cancelOkBtn('two-btn', '회원가입 작성을<br> 취소하시겠어요?', '', '취소').then(ok => {
+      if (ok) {
+        this.navController.navigateBack(['/login-join']);
+      }
+    });
+  }
 
   // 닫기
   closeAddressPopup() {

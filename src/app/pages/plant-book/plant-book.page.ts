@@ -32,14 +32,14 @@ export class PlantBookPage implements OnInit {
       map((datas: any) => {
         // console.log(datas);
         return datas.sort((a, b) => {
-          var d1 = a.hitsList?.length;
-          var d2 = b.hitsList?.length;
+          var d1 = a.popular;
+          var d2 = b.popular;
           return d1 > d2 ? -1 : d2 > d1 ? 1 : 0;
         });
       })
     );
     this.plantList = await this.plant$.pipe(first()).toPromise();
-    // console.log(this.plantList);
+    console.log(this.plantList);
   }
   search() {
     this.searchMode = true;
