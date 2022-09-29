@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { localeFa } from '@mobiscroll/angular';
 import * as firebase from 'firebase';
 import { combineLatest, Observable, of } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
@@ -20,6 +21,8 @@ export class PlantPage implements OnInit {
 
   // plantInfo: any;
   plantInfo$: Observable<any>;
+
+  bluetooth: any;
   constructor(private alertService: AlertService, private navController: NavController, private db: DbService) {
     this.userId = localStorage.getItem('userId');
     this.getData();
@@ -57,6 +60,11 @@ export class PlantPage implements OnInit {
     this.plantInfo$ = this.db.collection$(`myPlant`, ref =>
       ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false).where('cancelSwitch', '==', true).orderBy('dateCreated', 'desc')
     );
+
+    this.bluetooth = await this.db
+      .collection$(`bluetooth`, (ref: any) => ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false))
+      .pipe(first())
+      .toPromise();
   }
   goDelete(myPlantId) {
     this.alertService.cancelOkBtn('two-btn', '나의 식물에서 해지하시겠어요?', '', '취소').then(ok => {
@@ -67,7 +75,16 @@ export class PlantPage implements OnInit {
         this.db.updateAt(`myPlant/${myPlantId}`, {
           cancelSwitch: false,
         });
-        console.log(myPlantId);
+        if (this.bluetooth.length > 0) {
+          const bluetoothCheck = this.bluetooth.filter((ele: any) => {
+            return ele.myPlantId == myPlantId;
+          });
+          if (bluetoothCheck.length > 0) {
+            this.db.updateAt(`bluetooth/${bluetoothCheck[0].bluetoothId}`, {
+              deleteSwitch: true,
+            });
+          }
+        }
       }
     });
   }

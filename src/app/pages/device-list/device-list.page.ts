@@ -91,8 +91,6 @@ export class DeviceListPage implements OnInit {
       .pipe(first())
       .toPromise();
 
-    console.log(this.myPlant);
-
     this.myBluetooth = await this.db
       .collection$(`bluetooth`, (ref: any) => ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false))
       .pipe(first())

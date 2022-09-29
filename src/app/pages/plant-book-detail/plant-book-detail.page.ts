@@ -35,6 +35,8 @@ export class PlantBookDetailPage implements OnInit {
     cancelSwitch: false,
     bluetoothSwitch: false,
   };
+
+  bluetooth: any;
   constructor(
     private alertService: AlertService,
     private navController: NavController,
@@ -148,7 +150,12 @@ export class PlantBookDetailPage implements OnInit {
   async deleteMyPlant() {}
 
   //3.식물 해제하기
-  disconnectAlert() {
+  async disconnectAlert() {
+    this.bluetooth = await this.db
+      .collection$(`bluetooth`, (ref: any) => ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false))
+      .pipe(first())
+      .toPromise();
+
     this.alertService.cancelOkBtn('two-btn', '나의 식물을 해제하면 장치 연결도 해제됩니다.<br>해제하시겠어요?', '', '취소', '확인').then(async ok => {
       if (ok) {
         const deletePlant = await this.db
@@ -168,6 +175,17 @@ export class PlantBookDetailPage implements OnInit {
         this.db.updateAt(`users/${this.userId}`, {
           myPlant: firebase.default.firestore.FieldValue.arrayRemove(plantBookId),
         });
+
+        if (this.bluetooth.length > 0) {
+          const bluetoothCheck = this.bluetooth.filter((ele: any) => {
+            return ele.myPlantId == deletePlant[0].myPlantId;
+          });
+          if (bluetoothCheck.length > 0) {
+            this.db.updateAt(`bluetooth/${bluetoothCheck[0].bluetoothId}`, {
+              deleteSwitch: true,
+            });
+          }
+        }
       }
       this.checkMyPlant();
     });
