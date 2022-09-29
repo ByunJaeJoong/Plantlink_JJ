@@ -40,7 +40,6 @@
 }
 
 .plant-wrap {
-  padding: 1rem 1.3125rem 1rem 1.25rem;
   span {
     display: block;
     width: 100%;
@@ -48,10 +47,12 @@
     background-color: #f0f0f0;
   }
   ion-item {
+    --padding-start: 1rem;
+    --padding-end: 1rem;
     &.chat-list {
       --padding-top: 0.75rem;
       --padding-bottom: 0.75rem;
-      // --background: transparent;
+      --background: transparent;
 
       border-bottom: 1px solid #f0f0f0;
       ion-avatar {
@@ -100,6 +101,14 @@
       padding-inline-start: 1rem;
 
       @include font(#161616, 400, 0.875rem, 1.0625rem);
+    }
+  }
+}
+
+ion-item-sliding {
+  &.item-sliding-active-slide {
+    ion-item {
+      background: #fff;
     }
   }
 }
