@@ -7,6 +7,7 @@ import { AlertService } from 'src/app/services/alert.service';
 import { CommonService } from 'src/app/services/common.service';
 import { DbService } from 'src/app/services/db.service';
 import { ImageService } from 'src/app/services/image.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-setting',
@@ -36,7 +37,8 @@ export class SettingPage implements OnInit {
     private db: DbService,
     private actionSheetController: ActionSheetController,
     private image: ImageService,
-    private common: CommonService
+    private common: CommonService,
+    private loading: LoadingService
   ) {
     this.getData();
   }
@@ -127,6 +129,7 @@ export class SettingPage implements OnInit {
     const ok = await this.alertService.cancelOkBtn('two-btn', `데이터를 삭제하시겠어요?`, '', '취소', '확인');
 
     if (ok) {
+      this.loading.lognLoad('데이터 삭제 중입니다.');
       const myDiary = await this.db
         .collection$(`diary`, ref => ref.where('userId', '==', this.userId))
         .pipe(first())
@@ -206,6 +209,7 @@ export class SettingPage implements OnInit {
           });
         });
       }
+      this.loading.hide();
     }
   }
 }
