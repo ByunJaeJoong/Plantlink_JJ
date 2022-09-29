@@ -15,8 +15,8 @@
 <ion-content>
   <div id="diary-write-wrap">
     <div class="pic" *ngIf="diary.images?.length > 0">
-      <ion-card (pressing)="onRightClick($event)">
-        <img src="{{diary?.images[0]}}" alt="" />
+      <ion-card>
+        <img (contextmenu)="onRightClick($event)" src="{{diary?.images[0]}}" alt="" />
       </ion-card>
     </div>
 
