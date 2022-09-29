@@ -27,7 +27,7 @@ export class DiaryDetailPage implements OnInit {
     this.diaryData = await this.db.doc$(`diary/${this.diaryId}`).pipe(first()).toPromise();
   }
 
-  onRightClick() {
+  onRightClick(e) {
     return false;
   }
   //달력화면으로 !

@@ -72,7 +72,7 @@ export class DiaryWritePage implements OnInit {
     this.close();
   }
 
-  onRightClick() {
+  onRightClick(e) {
     return false;
   }
 
