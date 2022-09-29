@@ -20,5 +20,7 @@
     비밀번호 확인이 되면 즉시 회원탈퇴 됩니다.
   </p>
 
+  <p *ngIf="loginTypeCheck">회원탈퇴 버튼을 클릭하게 되면 즉시 회원탈퇴 됩니다.</p>
+
   <ion-button (click)="goDelete()" class="basic-btn" fill="clear" [disabled]="!password"> 회원탈퇴 </ion-button>
 </ion-content>
