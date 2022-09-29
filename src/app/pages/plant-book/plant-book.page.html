@@ -18,6 +18,8 @@
       (ionInput)="searchChange()"
       (search)="search()"
       clearIcon
+      (ionFocus)="searchBarHidden()"
+      (ionBlur)="searchBarShow()"
     ></ion-searchbar>
   </ion-item>
 </ion-header>
@@ -72,7 +74,7 @@
   </ng-container>
 </ion-content>
 
-<ion-footer class="fake-tab">
+<ion-footer class="fake-tab" *ngIf="!tabSwitch">
   <ion-toolbar>
     <app-fake-tab-off></app-fake-tab-off>
   </ion-toolbar>

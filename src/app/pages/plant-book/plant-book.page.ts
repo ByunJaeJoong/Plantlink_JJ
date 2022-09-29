@@ -17,6 +17,7 @@ export class PlantBookPage implements OnInit {
   dataCheck: boolean = false;
 
   searchMode: boolean = false;
+  tabSwitch: boolean = false;
 
   constructor(private navController: NavController, private db: DbService) {}
 
@@ -49,13 +50,6 @@ export class PlantBookPage implements OnInit {
     console.log(this.keyword);
   }
 
-  // checkWord(item: any) {
-  //   if (item.name.includes(this.keyword)) {
-  //     const matchWord = item.name.match(this.keyword);
-  //     return matchWord;
-  //   }
-  // }
-
   //홈화면으로
   goHome() {
     this.navController.navigateBack(['/tabs/home']);
@@ -66,7 +60,6 @@ export class PlantBookPage implements OnInit {
       this.keyword = item.name;
       this.searchMode = true;
     }
-    console.log(item);
   }
   //식물 정보 디테일
   goPlantBookDetail(plantBookId) {
@@ -75,5 +68,15 @@ export class PlantBookPage implements OnInit {
         plantBookId: plantBookId,
       },
     });
+  }
+
+  // input창에 focus가 있을때 tab매뉴 사라짐
+  searchBarHidden() {
+    this.tabSwitch = true;
+  }
+
+  // input창에 focus가 나갔을때 tab매뉴 나옴
+  searchBarShow() {
+    this.tabSwitch = false;
   }
 }
