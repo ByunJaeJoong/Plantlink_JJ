@@ -34,21 +34,31 @@
 
     <!-- 스크롤 -->
     <ng-template #myTemplate let-data class="template-list">
-      <ion-item (click)="goDiaryDetail(data.id)" class="text-box image-con">
-        <ng-container *ngIf="data.original.image != undefined">
-          <ion-card>
-            <img src="{{data.original.image}}" alt="" />
-          </ion-card>
-          <p class="rows-ellipsis">{{data.title}}</p>
-        </ng-container>
-      </ion-item>
+      <ion-item-sliding>
+        <ion-item (click)="goDiaryDetail(data.id)" class="text-box image-con">
+          <ng-container *ngIf="data.original.image != undefined">
+            <ion-card>
+              <img src="{{data.original.image}}" alt="" />
+            </ion-card>
+            <p class="rows-ellipsis">{{data.title}}</p>
+          </ng-container>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option (click)="delete(data.id)">삭제</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
 
-      <ion-item class="no-image-con" (click)="goDiaryDetail(data.id)">
-        <ng-container *ngIf="data.original.image == undefined">
-          <p class="rows-ellipsis">{{data.title}}</p>
-          <!-- <p class="rows-ellipsis">{{data.title}}</p> -->
-        </ng-container>
-      </ion-item>
+      <ion-item-sliding>
+        <ion-item class="no-image-con" (click)="goDiaryDetail(data.id)">
+          <ng-container *ngIf="data.original.image == undefined">
+            <p class="rows-ellipsis">{{data.title}}</p>
+            <!-- <p class="rows-ellipsis">{{data.title}}</p> -->
+          </ng-container>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option (click)="delete(data.id)">삭제</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
     </ng-template>
   </div>
 </ion-content>

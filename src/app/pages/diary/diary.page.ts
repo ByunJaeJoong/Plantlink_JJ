@@ -94,6 +94,13 @@ export class DiaryPage implements OnInit {
     });
   }
 
+  // 일기 삭제
+  delete(id) {
+    this.db.updateAt(`diary/${id}`, {
+      deleteSwitch: true,
+    });
+  }
+
   //홈으로
   goHome() {
     this.navController.navigateBack(['/tabs/home']);

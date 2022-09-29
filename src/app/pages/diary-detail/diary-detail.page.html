@@ -18,7 +18,7 @@
 
     <div class="pic" *ngIf="diaryData.images?.length > 0">
       <ion-card>
-        <img src="{{diaryData?.images[0]}}" alt="" />
+        <img (contextmenu)="onRightClick($event)" src="{{diaryData?.images[0]}}" alt="" />
       </ion-card>
     </div>
 

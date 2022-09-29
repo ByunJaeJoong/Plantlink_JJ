@@ -72,6 +72,10 @@ export class DiaryWritePage implements OnInit {
     this.close();
   }
 
+  onRightClick() {
+    return false;
+  }
+
   //모달 닫기
   close() {
     this.modalController.dismiss();
