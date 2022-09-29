@@ -71,8 +71,10 @@ export class FindDevicePage implements OnInit {
 
       if (this.deviceList.length <= 0) {
         this.alertService.okBtn('alert', '발견된 장치가 없습니다.<br>다시 찾기를 시도해주세요.');
+        this.isValid = false;
       } else {
         this.deviceList = this.deviceList.filter((arr, index, callback) => index === callback.findIndex(ele => ele.id === arr.id));
+        this.isValid = true;
 
         const devices = [JSON.stringify(this.deviceList)];
 
@@ -90,11 +92,6 @@ export class FindDevicePage implements OnInit {
     this.ngZone.run(() => {
       this.deviceList.push(device);
     });
-    if (this.deviceList.length > 0) {
-      this.isValid = true;
-    } else {
-      this.isValid = false;
-    }
   }
 
   //홈화면으로 가기
@@ -102,24 +99,4 @@ export class FindDevicePage implements OnInit {
     this.stopScan();
     this.navController.navigateBack(['/connect-device']);
   }
-
-  // 블루투스 리스트 모달창
-  // async imgDetail() {
-  //   this.stopScan();
-  //   const ok = await this.alertService.cancelOkBtn(
-  //     'two-btn',
-  //     `${this.deviceList.length}개의 장치가 발견되었습니다:)<br>연결페이지로 이동하시겠어요?`,
-  //     '',
-  //     '취소',
-  //     '확인'
-  //   );
-  //   if (ok) {
-  //     const devices = [JSON.stringify(this.deviceList)];
-
-  //     this.navController.navigateRoot(['/device-list'], {
-  //       queryParams: devices,
-  //       skipLocationChange: true,
-  //     });
-  //   }
-  // }
 }
