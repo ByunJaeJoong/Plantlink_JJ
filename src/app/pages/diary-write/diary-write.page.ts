@@ -73,7 +73,7 @@ export class DiaryWritePage implements OnInit {
   }
 
   onRightClick(e) {
-    return false;
+    console.log(e);
   }
 
   //모달 닫기

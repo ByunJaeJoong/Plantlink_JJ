@@ -22,6 +22,7 @@ ion-header {
   .pic {
     text-align: center;
     margin-bottom: 1.6875rem;
+
     ion-card {
       display: inline-block;
       width: 13.3125rem;
@@ -32,6 +33,15 @@ ion-header {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none; /* Webkit */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Edge*/
+        user-select: none; /* Future-proof*/
+        user-select: none;
+        touch-action: none;
+        pointer-events: none;
+        -webkit-user-drag: none;
       }
     }
   }
