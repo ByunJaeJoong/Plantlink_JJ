@@ -24,16 +24,13 @@ export class ConnectDevicePage implements OnInit {
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
-    this.userInfo$.pipe(first()).subscribe(async data => {
-      if (data?.myPlant?.length <= 0) {
-        await this.emptyAlert();
-      }
-    });
-  }
-
   async getData() {
     this.userInfo$ = await this.db.doc$(`users/${this.userId}`);
+    this.myPlant = await this.db
+      .collection$(`myPlant`, ref => ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false).where('cancelSwitch', '==', true))
+      .pipe(first())
+      .toPromise();
+
     this.bluetooth$ = this.db.collection$(`bluetooth`, (ref: any) => ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false));
   }
 
@@ -44,13 +41,14 @@ export class ConnectDevicePage implements OnInit {
 
   //장치찾기로
   findDevice() {
-    this.userInfo$.pipe(first()).subscribe(async data => {
-      if (data?.myPlant?.length <= 0) {
-        await this.emptyAlert();
-      } else {
-        this.navController.navigateForward(['/find-device']);
-      }
-    });
+    if (this.myPlant?.length <= 0) {
+      this.emptyAlert();
+      return;
+    }
+    if (this.myPlant?.length > 0) {
+      this.navController.navigateForward(['/find-device']);
+      return;
+    }
   }
 
   emptyAlert() {

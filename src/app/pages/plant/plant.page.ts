@@ -31,35 +31,21 @@ export class PlantPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.userInfo$.pipe(first()).subscribe(async data => {
-      if (data.myPlant.length <= 0) {
+    this.plantInfo$.subscribe(async data => {
+      if (data?.length <= 0) {
         await this.emptyAlert();
       }
     });
   }
   async getData() {
     this.userInfo$ = await this.db.doc$(`users/${this.userId}`);
-    // //this.plantInfo$ = await this.userInfo$.pipe(docListJoin(this.db.afs, 'myPlant', 'myPlant'));
-    // this.plantInfo$ = this.userInfo$.pipe(
-    //   switchMap(user => {
-    //     let reads$ = [];
-    //     console.log(user);
 
-    //     user.myPlant.forEach(id => {
-    //       const doc$ = this.db.doc$(`myPlant/${id}`);
-    //       reads$.push(doc$);
-    //     });
-
-    //     if (reads$.length > 0) {
-    //       return combineLatest(reads$);
-    //     } else {
-    //       return of([]);
-    //     }
-    //   })
-    // );
     this.plantInfo$ = this.db.collection$(`myPlant`, ref =>
       ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false).where('cancelSwitch', '==', true).orderBy('dateCreated', 'desc')
     );
+    this.plantInfo$.subscribe(data => {
+      console.log(data);
+    });
 
     this.bluetooth = await this.db
       .collection$(`bluetooth`, (ref: any) => ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false))
