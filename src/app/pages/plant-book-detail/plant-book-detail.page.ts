@@ -52,6 +52,11 @@ export class PlantBookDetailPage implements OnInit {
     this.plant$ = await this.db.doc$(`plantBook/${this.plantBookId}`);
     this.plant = await this.plant$.pipe(first()).toPromise();
     this.currentPlant$ = await this.db.doc$(`users/${this.userId}`).pipe(docListJoin(this.db.afs, 'myPlant', 'myPlant'));
+    this.bluetooth = await this.db
+      .collection$(`bluetooth`, (ref: any) => ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false))
+      .pipe(first())
+      .toPromise();
+
     this.checkMyPlant();
 
     setTimeout(() => {
@@ -151,11 +156,6 @@ export class PlantBookDetailPage implements OnInit {
 
   //3.식물 해제하기
   async disconnectAlert() {
-    this.bluetooth = await this.db
-      .collection$(`bluetooth`, (ref: any) => ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false))
-      .pipe(first())
-      .toPromise();
-
     this.alertService.cancelOkBtn('two-btn', '나의 식물을 해제하면 장치 연결도 해제됩니다.<br>해제하시겠어요?', '', '취소', '확인').then(async ok => {
       if (ok) {
         const deletePlant = await this.db
@@ -168,6 +168,9 @@ export class PlantBookDetailPage implements OnInit {
           )
           .pipe(first())
           .toPromise();
+
+        console.log(deletePlant);
+
         const plantBookId = deletePlant[0].myPlantId;
         this.db.updateAt(`myPlant/${plantBookId}`, {
           cancelSwitch: false,
