@@ -40,8 +40,8 @@ export class DiaryPage implements OnInit {
       this.postDate = date.toISOString();
     },
   };
-  diaryIndex: any;
-  tempIndex = 9; // 1씩 늘어나며 임시의 시간으로 들어감
+  // diaryIndex: any;
+  // tempIndex = 9; // 1씩 늘어나며 임시의 시간으로 들어감
 
   constructor(private navController: NavController, private modalController: ModalController, private db: DbService) {
     // diary 페이지에 오면 당일에 표시
@@ -59,15 +59,15 @@ export class DiaryPage implements OnInit {
       .pipe(
         map(diarys => {
           diarys.map((diary: any) => {
-            const tempPreDate = diary.postDate.slice(0, 11); // postDate앞부분
-            this.tempIndex = this.tempIndex + 1; // 시간부분을 임시로 세팅
-            const tempPostDate = diary.postDate.slice(13); // postDate뒷부분
-            //mbsc 자체에서 시간 기준으로 오름차순 정렬이 되어 임시의 데이터 생성
-            this.diaryIndex = tempPreDate + this.tempIndex + tempPostDate;
+            // const tempPreDate = diary.postDate.slice(0, 11); // postDate앞부분
+            // this.tempIndex = this.tempIndex + 1; // 시간부분을 임시로 세팅
+            // const tempPostDate = diary.postDate.slice(13); // postDate뒷부분
+            // //mbsc 자체에서 시간 기준으로 오름차순 정렬이 되어 임시의 데이터 생성
+            // this.diaryIndex = tempPreDate + this.tempIndex + tempPostDate;
 
             (diary.color = defaultColor),
-              (diary.end = diary.postDate),
-              (diary.start = this.diaryIndex),
+              (diary.end = diary.postDate), // 클릭한날짜
+              (diary.start = diary.postDate), // 당일
               (diary.id = diary.diaryId),
               (diary.title = diary.content),
               (diary.image = diary.images?.[0]);
@@ -83,6 +83,9 @@ export class DiaryPage implements OnInit {
 
   test(ev: any) {
     this.date = ev.month;
+  }
+  order(event) {
+    return true;
   }
 
   //일기디테일
