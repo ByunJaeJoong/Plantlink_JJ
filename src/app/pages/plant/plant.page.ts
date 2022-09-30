@@ -16,7 +16,7 @@ export class PlantPage implements OnInit {
   userId: any;
   userInfo$: Observable<any>;
   myPlant$: Observable<any>;
-
+  myPlant: any;
   test: any;
 
   // plantInfo: any;
@@ -30,21 +30,24 @@ export class PlantPage implements OnInit {
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
-    this.plantInfo$.subscribe(async data => {
-      if (data?.length <= 0) {
-        await this.emptyAlert();
-      }
-    });
-  }
+  // ionViewWillEnter() {
+  //   this.plantInfo$.subscribe(async data => {
+  //     if (data?.length <= 0) {
+  //       await this.emptyAlert();
+  //     }
+  //   });
+  // }
   async getData() {
     this.userInfo$ = await this.db.doc$(`users/${this.userId}`);
 
     this.plantInfo$ = this.db.collection$(`myPlant`, ref =>
       ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false).where('cancelSwitch', '==', true).orderBy('dateCreated', 'desc')
     );
-    this.plantInfo$.subscribe(data => {
-      console.log(data);
+
+    this.plantInfo$.subscribe(async data => {
+      if (data?.length <= 0) {
+        await this.emptyAlert();
+      }
     });
 
     this.bluetooth = await this.db
@@ -52,6 +55,7 @@ export class PlantPage implements OnInit {
       .pipe(first())
       .toPromise();
   }
+
   goDelete(myPlantId) {
     this.alertService.cancelOkBtn('two-btn', '나의 식물에서 해지하시겠어요?', '', '취소').then(ok => {
       if (ok) {
