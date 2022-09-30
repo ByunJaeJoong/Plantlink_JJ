@@ -1,7 +1,8 @@
 import { Component, OnInit, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
 import { BLE } from '@ionic-native/ble/ngx';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
-import { NavController } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert.service';
 import { LoadingService } from 'src/app/services/loading.service';
 
@@ -21,12 +22,16 @@ export class FindDevicePage implements OnInit {
     public loadingService: LoadingService,
     private alertService: AlertService,
     private ble: BLE,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private platform: Platform,
+    private router: Router
   ) {
     this.main();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.backbutton();
+  }
 
   // 처음 또는 새로고침을 할 때
   async main() {
@@ -93,6 +98,15 @@ export class FindDevicePage implements OnInit {
   backStopScan() {
     this.ble.stopScan().then(() => {
       console.log('백버튼 스캔이 중지되었습니다.');
+    });
+  }
+
+  backbutton() {
+    this.platform.backButton.subscribeWithPriority(0, async () => {
+      let url = this.router.url;
+      if (url == '/find-device') {
+        this.goHome();
+      }
     });
   }
 
