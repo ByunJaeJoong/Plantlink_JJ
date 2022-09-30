@@ -13,6 +13,7 @@ import { LoadingService } from 'src/app/services/loading.service';
 export class FindDevicePage implements OnInit {
   deviceList: any = [];
   isValid: boolean = false;
+  backClick: boolean = false;
 
   constructor(
     private navController: NavController,
@@ -59,9 +60,11 @@ export class FindDevicePage implements OnInit {
       }
     });
 
-    setTimeout(() => {
-      this.stopScan();
-    }, 30000);
+    if (!this.backClick) {
+      setTimeout(() => {
+        this.stopScan();
+      }, 30000);
+    }
   }
 
   // 스캔 중지
@@ -69,10 +72,10 @@ export class FindDevicePage implements OnInit {
     this.ble.stopScan().then(() => {
       console.log('스캔이 중지되었습니다.');
 
-      if (this.deviceList.length <= 0) {
-        this.alertService.okBtn('alert', '발견된 장치가 없습니다.<br>다시 찾기를 시도해주세요.');
+      if (this.deviceList.length <= 0 && !this.backClick) {
         this.isValid = false;
-      } else {
+        this.alertService.okBtn('alert', '발견된 장치가 없습니다.<br>다시 찾기를 시도해주세요.');
+      } else if (this.deviceList.length > 0 && !this.backClick) {
         this.deviceList = this.deviceList.filter((arr, index, callback) => index === callback.findIndex(ele => ele.id === arr.id));
         this.isValid = true;
 
@@ -86,6 +89,13 @@ export class FindDevicePage implements OnInit {
     });
   }
 
+  // 홈 버튼 클릭후 스캔 중지
+  backStopScan() {
+    this.ble.stopScan().then(() => {
+      console.log('백버튼 스캔이 중지되었습니다.');
+    });
+  }
+
   // 스캔된 블루투스 장치들을 List안에 push하는 함수
   onDeviceDiscovered(device: object) {
     // 값이 변화할 때마다 체크하면서 push 진행
@@ -96,7 +106,8 @@ export class FindDevicePage implements OnInit {
 
   //홈화면으로 가기
   goHome() {
-    this.stopScan();
+    this.backClick = true;
+    this.backStopScan();
     this.navController.navigateBack(['/connect-device']);
   }
 }
