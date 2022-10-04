@@ -60,7 +60,11 @@ export class FindDevicePage implements OnInit {
 
     // 주변 블루투스 스캔을 진행
     this.ble.startScan([]).subscribe(device => {
-      if (device.name == 'SoilModule') {
+      // if (device.name == 'SoilModule') {
+      //   this.onDeviceDiscovered(device);
+      // }
+      // 디바이스 이름에 SoilModule이 포함되어있다면 true
+      if (device.name.includes('SoilModule')) {
         this.onDeviceDiscovered(device);
       }
     });
