@@ -51,20 +51,15 @@ export class ChattingDetailPage implements OnInit {
   ngOnInit() {}
 
   async getData() {
-    this.chat$ = await this.db.doc$(`chats/${this.chatId}`).pipe(
-      map(item => {
-        // console.log(item);
-        const chat: any = item;
-        const exitMyChat = item[`exit${this.myId}`];
-        if (exitMyChat) {
-          let exitedAt = exitMyChat;
-          chat.messages = chat.messages.filter(ele => ele.createdAt > exitedAt);
-        }
-        this.scrollBottom();
-        return item;
-      })
-    );
+    this.chat$ = await this.db.doc$(`chats/${this.chatId}`);
+
+    this.chat = this.chat$.subscribe(params => {
+      setTimeout(() => {
+        this.bottomScrolling();
+      }, 200);
+    });
   }
+
   exit() {
     this.alertService.cancelOkBtn('two-btn', '채팅 내용이 삭제됩니다.<br>채팅방을 나가시겠습니까?', '', '취소', '확인').then(ok => {
       if (ok) {
@@ -92,12 +87,14 @@ export class ChattingDetailPage implements OnInit {
   }
 
   // 자동 스크롤
-  scrollBottom(v?) {
-    setTimeout(() => {
-      if (this.content) {
-        this.content.scrollToBottom(v || 100);
-      }
-    }, 100);
+  public bottomScrolling(): void {
+    if (this.content) {
+      this.content.scrollToBottom(100);
+    }
+  }
+
+  public trackByCreated(i, msg): void {
+    return msg.dateCreated;
   }
   headerBackSwitch = false;
 
@@ -107,8 +104,6 @@ export class ChattingDetailPage implements OnInit {
   //헤더 스크롤 할 때 색 변하게
   logScrolling(event) {
     let scroll = event.detail.scrollTop;
-    // console.log(event);
-
     if (scroll > 56) {
       this.headerBackSwitch = true;
     } else {
