@@ -5,8 +5,6 @@ import { SplashScreen } from '@awesome-cordova-plugins/splash-screen/ngx';
 import { StatusBar } from '@awesome-cordova-plugins/status-bar/ngx';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
-import { LoadingService } from './services/loading.service';
-import { DbService } from './services/db.service';
 import { Router } from '@angular/router';
 import { AlertService } from './services/alert.service';
 declare const cordova: any;
@@ -39,21 +37,6 @@ export class AppComponent {
 
       if (this.platform.is('cordova')) {
         this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
-
-        /*
-        onesignal 서비스를 사용할 때만
-          this.oneSignal.startInit('onesignal', 'firebase ');
-
-          this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
-
-
-          // user가 push를 눌러서 앱을 열었을때(꺼져있든 켜져있든).
-          this.oneSignal.handleNotificationOpened().subscribe((e: any) => {
-              console.log("push에 담겨온 정보",e.notification.payload.additionalData)
-          });
-
-          this.oneSignal.endInit();
-        */
       }
 
       //유저 시스템 폰트사이즈 막기

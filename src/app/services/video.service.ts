@@ -118,12 +118,10 @@ export class VideoService {
                     });
                   })
                   .catch(error => {
-                    console.log('error', error);
                     this.loadingService.hide();
                   });
               })
               .catch(error1 => {
-                console.log('error1', error1);
                 this.loadingService.hide();
               });
           });
@@ -155,11 +153,9 @@ export class VideoService {
       this.videoEditor
         .createThumbnail(option)
         .then(result => {
-          console.log('result', result);
           resolve(result);
         })
         .catch(error => {
-          console.log('error', error);
           reject(error);
         });
     });
@@ -238,9 +234,7 @@ export class VideoService {
       uploadTask.on(
         firebase.default.storage.TaskEvent.STATE_CHANGED,
         snapshot => {},
-        error => {
-          console.log(error);
-        },
+        error => {},
         () => {
           try {
             uploadTask.then(v => {
@@ -261,26 +255,20 @@ export class VideoService {
       if (this.platform.is('android')) {
         this.androidPermission.checkPermission(this.androidPermission.PERMISSION.WRITE_EXTERNAL_STORAGE).then(
           value => {
-            console.log('카메라 접근 권한 확인:', value.hasPermission);
             if (value.hasPermission) {
               resolve(true);
             } else {
               this.androidPermission.requestPermission(this.androidPermission.PERMISSION.WRITE_EXTERNAL_STORAGE).then(
                 value => {
-                  console.log('카메라 접근 권한 설정:', value.hasPermission);
                   if (value.hasPermission) {
                     resolve(true);
                   }
                 },
-                e => {
-                  console.log('카메라 접근 권한 설정 실패:', e.message, e);
-                }
+                e => {}
               );
             }
           },
-          e => {
-            console.log('카메라 접근 권한 확인 실패:', e.message, e);
-          }
+          e => {}
         );
       } else {
         resolve(true);
@@ -309,9 +297,7 @@ export class VideoService {
         uploadTask.on(
           firebase.default.storage.TaskEvent.STATE_CHANGED,
           snapshot => {},
-          error => {
-            console.log(error);
-          },
+          error => {},
           () => {
             try {
               uploadTask.then(v => {

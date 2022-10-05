@@ -23,14 +23,11 @@ export class JoinAddressPage implements OnInit {
 
   ngOnInit() {
     const param = this.moveParamsService.getData();
-    console.log(param);
   }
 
   openDaumPopup() {
     setTimeout(() => {
-      // this.keyboard.hide();
       this.getAddress().then(data => {
-        console.log('data', data);
         this.shopZoneCode = data.sigunguCode;
         this.shopAddress = data.roadAddress;
         this.shopAddressSwitch = true;

@@ -11,7 +11,6 @@ import { MoveParamsService } from 'src/app/services/move-params.service';
 import { PhoneAuthService } from 'src/app/services/phone-auth.service';
 import { TimerService } from 'src/app/services/timer.service';
 import { postcode } from 'src/assets/js/postcode.js';
-import { ServicePage } from '../../service/service.page';
 import { loginContractPage } from '../../terms/contract/login-contract.page';
 import { loginServicePage } from '../../terms/service/login-service.page';
 
@@ -95,6 +94,8 @@ export class JoinPage implements OnInit {
       this.emailOverlap = true;
     }
   }
+
+  // 이메일 유효성 검사
   emailExpression() {
     let regExp = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
     return regExp.test(this.users.email);
@@ -131,12 +132,10 @@ export class JoinPage implements OnInit {
         this.sendSwitch = true;
         this.alert.okBtn('alert', '인증번호가 발송되었습니다.');
         this.timerStart();
-        console.log('send');
       } catch (error) {
         if (error.code == 'auth/invalid-verification-code') {
           this.wrongNumber();
         }
-        console.log(error);
       }
     }
 
@@ -208,16 +207,10 @@ export class JoinPage implements OnInit {
       this.getAddress().then(data => {
         this.shopZoneCode = data.sigunguCode;
         this.shopAddress = data.roadAddress;
-        console.log('data', data);
         this.shopAddressSwitch = true;
         this.address = data.address;
         this.search = data.sido + '/' + data.sigungu + '/' + data.bname;
       });
-
-      // postcode(this.renderer, this.popup.nativeElement, data => {
-      //   console.log(data);
-      //   this.store.address = data.address;
-      // });
     }, 1000);
   }
 
@@ -261,13 +254,11 @@ export class JoinPage implements OnInit {
     }
 
     if (this.emailOverlap && this.passwordCheck() && this.certifiedSwitch && this.agree) {
-      // await this.sociaLoginLink(this.users.email);
       this.auth.registerUser(this.users.email, this.confirmPassword).then(result => {
         this.users.uid = result.user.uid;
         if (!this.address2) this.address2 = '';
         this.users.address = `${this.address} ${this.address2}`;
         this.db.updateAt(`users/${result.user.uid}`, this.users).then(() => {
-          console.log('성공!');
           this.loadingService.hide();
           this.navController.navigateForward(['/complete-join']);
         });

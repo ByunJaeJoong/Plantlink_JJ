@@ -106,15 +106,6 @@ export class PlantBookDetailPage implements OnInit {
       });
     }
   }
-  //나의 식물 등록하기 - 해제하기
-  //1. 연결된 장치가 없을 때
-  // noDevice() {
-  //   this.alertService.cancelOkBtn('two-btn', '현재 연결된 장치가 없습니다.<br>장치를 연결하러 가시겠어요?', '', '취소', '확인').then(ok => {
-  //     if (ok) {
-  //       this.navController.navigateForward(['/connect-device']);
-  //     }
-  //   });
-  // }
 
   //2. 등록완료
   async completeAlert() {
@@ -168,8 +159,6 @@ export class PlantBookDetailPage implements OnInit {
           )
           .pipe(first())
           .toPromise();
-
-        console.log(deletePlant);
 
         const plantBookId = deletePlant[0].myPlantId;
         this.db.updateAt(`myPlant/${plantBookId}`, {

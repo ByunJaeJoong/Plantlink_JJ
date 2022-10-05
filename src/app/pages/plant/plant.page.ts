@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { localeFa } from '@mobiscroll/angular';
 import * as firebase from 'firebase';
-import { combineLatest, Observable, of } from 'rxjs';
-import { first, map, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
-import { DbService, docJoin, docListJoin, leftJoinDocument } from 'src/app/services/db.service';
+import { DbService } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-plant',
@@ -30,13 +29,6 @@ export class PlantPage implements OnInit {
 
   ngOnInit() {}
 
-  // ionViewWillEnter() {
-  //   this.plantInfo$.subscribe(async data => {
-  //     if (data?.length <= 0) {
-  //       await this.emptyAlert();
-  //     }
-  //   });
-  // }
   async getData() {
     this.userInfo$ = await this.db.doc$(`users/${this.userId}`);
 
@@ -56,6 +48,7 @@ export class PlantPage implements OnInit {
       .toPromise();
   }
 
+  // 나의 식물을 해지할 함수
   goDelete(myPlantId) {
     this.alertService.cancelOkBtn('two-btn', '나의 식물에서 해지하시겠어요?', '', '취소').then(ok => {
       if (ok) {
@@ -94,7 +87,6 @@ export class PlantPage implements OnInit {
   headerBackSwitch = false;
   logScrolling(event) {
     let scroll = event.detail.scrollTop;
-    console.log(event);
 
     if (scroll > 56) {
       this.headerBackSwitch = true;

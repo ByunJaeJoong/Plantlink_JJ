@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { first } from 'rxjs/operators';
@@ -62,7 +62,6 @@ export class FindPasswordPage implements OnInit {
     } else {
       this.userSwitch = false;
     }
-    console.log(this.user);
   }
 
   changePhone() {
@@ -71,7 +70,6 @@ export class FindPasswordPage implements OnInit {
       return;
     }
     let regExp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
-    console.log(regExp.test(this.phone));
     if (regExp.test(this.phone)) {
       this.isPhone = true;
     } else {
@@ -125,12 +123,10 @@ export class FindPasswordPage implements OnInit {
         this.sendSwitch = true;
         this.prove();
         this.timerStart();
-        console.log('send');
       } catch (error) {
         if (error.code == 'auth/invalid-verification-code') {
           this.wrongNumber();
         }
-        console.log(error);
       }
     }
     await this.loadingService.hide();

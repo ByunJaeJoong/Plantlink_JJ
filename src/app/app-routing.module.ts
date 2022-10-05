@@ -49,20 +49,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/chatting-detail/chatting-detail.module').then(m => m.ChattingDetailPageModule),
   },
   {
-    path: 'plant-search',
-    loadChildren: () => import('./pages/plant-search/plant-search.module').then(m => m.PlantSearchPageModule),
-  },
-  {
     path: 'plant-detail',
     loadChildren: () => import('./pages/plant-detail/plant-detail.module').then(m => m.PlantDetailPageModule),
   },
   {
     path: 'setting',
     loadChildren: () => import('./pages/setting/setting.module').then(m => m.SettingPageModule),
-  },
-  {
-    path: 'app-menu',
-    loadChildren: () => import('./pages/app-menu/app-menu.module').then(m => m.AppMenuPageModule),
   },
   {
     path: 'faq',
@@ -100,10 +92,7 @@ const routes: Routes = [
     path: 'diary-detail',
     loadChildren: () => import('./pages/diary-detail/diary-detail.module').then(m => m.DiaryDetailPageModule),
   },
-  {
-    path: 'diary-write-camera',
-    loadChildren: () => import('./pages/diary-write-camera/diary-write-camera.module').then(m => m.DiaryWriteCameraPageModule),
-  },
+
   {
     path: 'plant-book-detail',
     loadChildren: () => import('./pages/plant-book-detail/plant-book-detail.module').then(m => m.PlantBookDetailPageModule),

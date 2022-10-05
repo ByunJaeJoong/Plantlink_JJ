@@ -29,9 +29,9 @@ export class PlantBookPage implements OnInit {
   }
 
   async getData() {
+    // 인기 식물을 파악하여 식물 검색에 나오도록 처리
     this.plant$ = await this.db.collection$(`plantBook`).pipe(
       map((datas: any) => {
-        // console.log(datas);
         return datas.sort((a, b) => {
           var d1 = a.popular;
           var d2 = b.popular;
@@ -40,14 +40,12 @@ export class PlantBookPage implements OnInit {
       })
     );
     this.plantList = await this.plant$.pipe(first()).toPromise();
-    console.log(this.plantList);
   }
   search() {
     this.searchMode = true;
   }
   searchChange() {
     this.searchMode = false;
-    console.log(this.keyword);
   }
 
   //홈화면으로

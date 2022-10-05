@@ -10,22 +10,7 @@ import { DbService } from 'src/app/services/db.service';
 export class HomePage implements OnInit {
   constructor(public menuController: MenuController, private db: DbService) {}
 
-  ngOnInit() {
-    // this.update();
-    console.log(localStorage.getItem('userId'));
-  }
-
-  // update() {
-  //   const id = this.db.createId();
-  //   this.db.updateAt(faq/${id}, {
-  //     faqId: id,
-  //     title: 'title',
-  //     content: 'content',
-  //     dateCreated: new Date().toISOString(),
-  //     userType: 'business',
-  //     deleteSwitch: false,
-  //   });
-  // }
+  ngOnInit() {}
 
   // 메뉴
   openAppMenu() {

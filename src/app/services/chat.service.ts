@@ -42,7 +42,6 @@ export class ChatService {
         }
         return;
       } else {
-        console.log('subscribe 한번만');
         this.subscribeSwitch = true;
         this.afAuth.authState.subscribe(data => {
           if (data) {
@@ -69,8 +68,6 @@ export class ChatService {
       .toPromise();
 
     let chats = myChat.filter(chat => chat.uid.indexOf(userId) > -1);
-
-    console.log('chats', chats);
 
     if (chats.length > 0) {
       this.navc.navigateForward('/chat-detail', {
@@ -157,7 +154,7 @@ export class ChatService {
   // 채팅리스트 가져오기
   async getChatList(): Promise<Observable<Array<ChatList>>> {
     let myUid = await this.init();
-    console.log('myUid', myUid);
+
     return this.db.afs
       .collection<Chat>('chats', ref => ref.where('uid', 'array-contains', this.myUid))
       .valueChanges({ idField: 'id' })
@@ -260,7 +257,6 @@ export class ChatService {
             map(actions => {
               return actions.map(a => {
                 const data: any = a.payload.doc.data();
-                // console.log(data);
 
                 if (data[`exit${myid}`]) {
                   // 채팅방 나감
@@ -356,7 +352,6 @@ export class ChatService {
    */
   // // 채팅 메시지 전송
   async sendMessage(chatId, chatContent) {
-    // const uid = await this.auth.userDetails().uid;
     const uid = localStorage.getItem('userId');
 
     const data = {

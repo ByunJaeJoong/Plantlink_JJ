@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { DbService } from 'src/app/services/db.service';
@@ -88,7 +88,7 @@ export class LoginPage implements OnInit {
 
   changePass() {
     let regExp = /^(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()+|=])[a-zA-Z\d~!@#$%^&*()+|=]{6,12}$/;
-    console.log(regExp.test(this.password));
+
     if (regExp.test(this.password) === true) {
       this.isPass = true;
     } else {

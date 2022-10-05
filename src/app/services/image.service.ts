@@ -129,13 +129,11 @@ export class ImageService {
               })
               .catch(error => {
                 this.loadingService.hide();
-                console.log('error', error);
               });
           }
           resolve(images);
         },
         err => {
-          console.log('getImagePicker error:', err.message, err);
           this.loadingService.hide();
         }
       );
@@ -168,7 +166,6 @@ export class ImageService {
             })
             .catch(error => {
               this.loadingService.hide();
-              console.log('error', error);
             });
         })
         .catch(err => {
@@ -203,7 +200,6 @@ export class ImageService {
             })
             .catch(error => {
               this.loadingService.hide();
-              console.log('error', error);
             });
         })
         .catch(err => {
@@ -234,8 +230,6 @@ export class ImageService {
       let img = new Image();
       img.src = base64;
       img.onload = () => {
-        console.log('img?', img.height, img.width);
-
         // Determine new ratio based on max size
         var ratio = 1;
         if (img.width > maxWidth) ratio = maxWidth / img.width;

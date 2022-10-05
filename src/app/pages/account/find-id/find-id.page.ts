@@ -1,9 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { first } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
-import { AuthService } from 'src/app/services/auth.service';
 import { DbService } from 'src/app/services/db.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { PhoneAuthService } from 'src/app/services/phone-auth.service';
@@ -39,12 +37,10 @@ export class FindIdPage implements OnInit {
   constructor(
     private navController: NavController,
     private db: DbService,
-    private auth: AuthService,
     private alert: AlertService,
     private loadingService: LoadingService,
     private pa: PhoneAuthService,
-    private timer: TimerService,
-    private route: ActivatedRoute
+    private timer: TimerService
   ) {}
 
   ngOnInit() {}
@@ -60,22 +56,23 @@ export class FindIdPage implements OnInit {
     } else {
       this.userSwitch = false;
     }
-    console.log(this.user);
   }
 
+  // 전화번호 입력 시, validation 정규식
   changePhone() {
     if (!this.phone) {
       this.isPhone = true;
       return;
     }
     let regExp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
-    console.log(regExp.test(this.phone));
     if (regExp.test(this.phone)) {
       this.isPhone = true;
     } else {
       this.isPhone = false;
     }
   }
+
+  // 이름 입력 시, validation 정규식
   changeName() {
     if (!this.name) {
       this.isName = true;
@@ -88,6 +85,8 @@ export class FindIdPage implements OnInit {
       this.isName = true;
     }
   }
+
+  // 인증번로 입력 시, validation 정규식
   changeNum() {
     if (!this.certifyNum) {
       this.verifyNum = true;
@@ -120,12 +119,10 @@ export class FindIdPage implements OnInit {
         this.sendSwitch = true;
         this.prove();
         this.timerStart();
-        console.log('send');
       } catch (error) {
         if (error.code == 'auth/invalid-verification-code') {
           this.wrongNumber();
         }
-        console.log(error);
       }
     }
     await this.loadingService.hide();
@@ -137,7 +134,6 @@ export class FindIdPage implements OnInit {
     if (this.verifyNum == true) {
       this.verifyNum = false;
     }
-    // this.alert.okBtn('alert', `인증번호 확인 후<br>다시 인증번호를 입력해주세요.`);
   }
 
   // 인증번호 유효시간

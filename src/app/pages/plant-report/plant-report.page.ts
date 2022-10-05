@@ -6,10 +6,9 @@ import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { DbService, leftJoinDocument } from 'src/app/services/db.service';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { CommonService } from 'src/app/services/common.service';
 import * as moment from 'moment';
-import fa from '@mobiscroll/angular/dist/js/i18n/fa';
 Chart.register(...registerables);
 
 @Component({
@@ -117,6 +116,7 @@ export class PlantReportPage implements OnInit {
     });
   }
 
+  // 처음 차트가 생성되도록 만들기
   ngOnInit() {
     setTimeout(() => {
       this.weekTem();
@@ -162,6 +162,7 @@ export class PlantReportPage implements OnInit {
 
       let i = 0; // 날짜 더해주는 용도!
       if (weekPlants.length > 0) {
+        // 클릭한 날짜의 일요일부터 토요일까지 같은 날짜끼리 확인
         for (let dayCount = 0; dayCount < 7; dayCount++) {
           const check = weekPlants.filter((ele: any) => {
             const date = moment(startDate).add(i, 'day').format('YYYY-MM-DD');
@@ -170,19 +171,23 @@ export class PlantReportPage implements OnInit {
           });
 
           if (check.length > 0) {
+            // 같은 날짜 끼리의 저장된 데이터를 배열에 넣어줌
             check.forEach((data: any) => {
               this.soilWeek.push(data.soil);
               this.lightWeek.push(data.light);
               this.temperatureWeek.push(data.temperature);
             });
+            // 배열에 들어간 데이터를 평균값 처리
             const soil = this.average(this.soilWeek);
             const light = this.average(this.lightWeek);
             const temperature = this.average(this.temperatureWeek);
 
+            // 평균값 처리가 된 데이터를 차트에 넣어줌
             this.week.soil.push(soil.toString());
             this.week.light.push(light.toString());
             this.week.temperature.push(temperature.toString());
           } else {
+            // 만약 날에 데이터가 없다면 빈값으로 들어가도록 처리
             this.week.soil.push('');
             this.week.light.push('');
             this.week.temperature.push('');
@@ -190,6 +195,7 @@ export class PlantReportPage implements OnInit {
           i++;
         }
       }
+      // 날 또는 값이 변경될 때, 차트 업데이트
       if (this.weekTemperature) {
         this.addData(this.weekTemperature, this.week.temperature, '주간');
       }

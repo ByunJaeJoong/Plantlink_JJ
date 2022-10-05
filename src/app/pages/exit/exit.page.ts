@@ -37,6 +37,7 @@ export class ExitPage implements OnInit {
     const user = await this.db.doc$(`users/${this.userId}`).pipe(first()).toPromise();
     this.loginType = user.loginType;
 
+    // 로그인 타입에서 email이 포한되어있는지 체크하여 view쪽 변화
     if (this.loginType.indexOf('email') > -1) {
       this.loginTypeCheck = false;
     } else {
@@ -68,17 +69,16 @@ export class ExitPage implements OnInit {
                   });
                 })
                 .catch(err => {
-                  console.log(err);
                   this.loading.hide();
                 });
             })
             .catch(error => {
-              console.log(error);
               this.ErrorAlert();
             });
         }
       });
     } else {
+      // google 로그인으로만 이루어져 있을 경우, 버튼 클릭시 회원 탈퇴 진행
       this.alert.cancelOkBtn('two-btn', '회원탈퇴를 진행합니다.', '', '취소').then(ok => {
         if (ok) {
           this.db.updateAt(`users/${this.userId}`, {
@@ -94,7 +94,6 @@ export class ExitPage implements OnInit {
               });
             })
             .catch(err => {
-              console.log(err);
               this.loading.hide();
             });
         }

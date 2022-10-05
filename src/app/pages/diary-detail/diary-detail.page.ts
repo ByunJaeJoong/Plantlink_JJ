@@ -15,6 +15,7 @@ export class DiaryDetailPage implements OnInit {
   diaryData: any = [];
 
   constructor(private navController: NavController, private route: ActivatedRoute, private db: DbService, private modalController: ModalController) {
+    // 클릭한 일기장 id값을 파라미터로 전달
     this.route.queryParams.subscribe(params => {
       this.diaryId = params.diaryId;
       this.getData();
@@ -24,6 +25,7 @@ export class DiaryDetailPage implements OnInit {
   ngOnInit() {}
 
   async getData() {
+    // 데이터를 수정할 때, 클릭한 일기장 정보를 불러옴
     this.diaryData = await this.db.doc$(`diary/${this.diaryId}`).pipe(first()).toPromise();
   }
 
@@ -40,6 +42,7 @@ export class DiaryDetailPage implements OnInit {
     const modal = await this.modalController.create({
       component: DiaryWritePage,
       componentProps: {
+        // 클릭한 일기장 정보를 modal창에 넘겨줌
         diaryData: this.diaryData,
       },
     });

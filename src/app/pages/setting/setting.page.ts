@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController, NavController, NavParams } from '@ionic/angular';
+import { ActionSheetController, NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Chats } from 'src/app/models/chat.model';
@@ -110,13 +110,6 @@ export class SettingPage implements OnInit {
   // 회원 탈퇴 페이지로
   async goExit() {
     this.navController.navigateForward(['/exit']);
-    // const ok = await this.alertService.cancelOkBtn(
-    //   'two-btn',
-    //   '비밀번호 확인이 되면 즉시 회원탈퇴 됩니다. </br> 정말 탈퇴 하시겠어요?',
-    //   '',
-    //   '취소',
-    //   '확인'
-    // );
   }
 
   //백버튼
@@ -181,11 +174,13 @@ export class SettingPage implements OnInit {
           });
         });
 
+        // 데이터 삭제 후 채팅방이 남아있는지 체크
         const checkChat = await this.db
           .collection$(`chats`, ref => ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false))
           .pipe(first())
           .toPromise();
 
+        // 남아있는 채팅방이 없을 경우 새로운 채팅방 생성
         if (checkChat.length <= 0) {
           this.chats.chatId = this.common.generateFilename();
           this.chats.createdAt = Date.now();

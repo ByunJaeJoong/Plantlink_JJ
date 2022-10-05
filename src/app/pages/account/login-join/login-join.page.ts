@@ -60,23 +60,18 @@ export class LoginJoinPage implements OnInit {
       this.google
         .login(params)
         .then(async (response: any) => {
-          console.log('google login response', response);
           const { idToken, accessToken } = response;
 
           this.user.email = response.email;
-          console.log('this.user.email', this.user.email, response);
+
           const credential = accessToken
             ? firebase.default.auth.GoogleAuthProvider.credential(idToken, accessToken)
             : firebase.default.auth.GoogleAuthProvider.credential(idToken);
-
-          console.log(this.user.email, credential);
 
           const emailCheck = await this.db
             .collection$(`users`, ref => ref.where('email', '==', this.user.email))
             .pipe(first())
             .toPromise();
-          // email 있는지?
-          console.log('emailCheck', emailCheck);
 
           if (emailCheck.length > 0 && !emailCheck[0].loginType.includes('google')) {
             this.emailAlreadyCheck(this.user.email, credential, accessToken, 'google');
@@ -86,43 +81,19 @@ export class LoginJoinPage implements OnInit {
               .auth()
               .signInWithCredential(credential)
               .then(async (success: any) => {
-                console.log('fireAuthSignInWithCredential success : ', success);
                 const user = success.user;
                 const uid = user.uid;
                 const isLogin = await this.isLoginOrSignUp(uid);
                 if (isLogin) this.loginUser(uid);
                 else this.registerUser(user, credential, 'google');
-                // this.registerUser(user, credential, 'google');
               });
           }
           this.loadingService.hide();
         })
         .catch(err => {
-          console.log('google login error', err);
           this.loadingService.hide();
         });
     }
-    // // web일 때
-    // else {
-    //   params = {};
-    //   await this.fireAuth
-    //     .signInWithPopup(new firebase.default.auth.GoogleAuthProvider())
-    //     .then(async (success: any) => {
-    //       console.log('google Success', success);
-
-    //       const user = success.user;
-    //       const uid = user.uid;
-    //       const email = user.email;
-    //       const isLogin = await this.isLoginOrSignUp(uid);
-    //       if (isLogin) this.loginUser(uid, email);
-    //       else this.registerUser(user, email);
-    //       this.loadingService.hide();
-    //     })
-    //     .catch((err: any) => {
-    //       console.log('google login error', err);
-    //       this.loadingService.hide();
-    //     });
-    // }
     this.loadingService.hide();
   }
   fireAuthSignInWithCredential(credential) {
@@ -131,7 +102,6 @@ export class LoginJoinPage implements OnInit {
       .auth()
       .signInWithCredential(credential)
       .then(async (success: any) => {
-        console.log('fireAuthSignInWithCredential success : ', success);
         const user = success.user;
         const uid = user.uid;
 
@@ -175,25 +145,19 @@ export class LoginJoinPage implements OnInit {
   // db에 이미 유저가 있으면 true 없으면 false를 반환하는 함수
   async isLoginOrSignUp(uid) {
     const user = await this.getUserData(uid);
-    console.log('user', user);
 
     return user && user.uid && user.uid == uid && user.dateCreated && user.dateCreated.length > 0 ? true : false;
   }
 
   // 로그인 함수
   async loginUser(uid: string, email?: string): Promise<void> {
-    console.log('login uid : ', uid);
-
     const userTmp = await this.db.doc$(`users/${uid}`).pipe(first()).toPromise();
     if (userTmp && userTmp.anotherAccountId) uid = userTmp.anotherAccountId;
 
     localStorage.setItem('userId', uid);
 
     const uidTmp = await this.auth.uid();
-    console.log('uidTmp', uidTmp, 'uid', uid);
     const user: any = await this.getUserData(uidTmp);
-
-    console.log('멤버 타입 : ', user.memberType);
 
     this.navController.navigateRoot(['/tabs/home']);
     this.loadingService.hide();
@@ -202,9 +166,6 @@ export class LoginJoinPage implements OnInit {
   // 회원가입 함수
   async registerUser(user: any, credential, type?, email?: string): Promise<void> {
     this.loadingService.load();
-    console.log('registerUser, registerUser');
-    // 회원 가입 시 link
-    // await this.socialFirebase(credential, type);
 
     localStorage.setItem('email', email);
 
@@ -216,9 +177,6 @@ export class LoginJoinPage implements OnInit {
     this.user.phone = user.phoneNumber;
     if (!this.user.phone) this.user.phone = user.phoneNumber ? user.phoneNumber : '';
     const userData = users && users.length > 0 ? { ...users[0], email: email ? email : '' } : this.user;
-    console.log('userData', userData);
-
-    console.log('저장되는 유저 데이터', { ...userData, email: this.user.email });
 
     this.db.updateAt(`users/${this.user.uid}`, { ...userData, email: this.user.email, name: this.user.name, phone: this.user.phone }).then(() => {
       if (users.length > 0) this.loginUser(user.uid, email);
@@ -227,24 +185,6 @@ export class LoginJoinPage implements OnInit {
 
     this.loadingService.hide();
   }
-  // 회원 가입 시 link
-  // socialFirebase(credential, type) {
-  //   firebase.default
-  //     .auth()
-  //     .currentUser.linkWithCredential(credential)
-  //     .then(data => {
-  //       switch (type) {
-  //         case 'google':
-  //           this.db.updateAt(`users/${data.user.uid}`, {
-  //             loginType: firebase.default.firestore.FieldValue.arrayUnion('google'),
-  //             // googleToken: tokenId,
-  //           });
-  //           break;
-  //       }
-
-  //       var uid = data.user.uid;
-  //     });
-  // }
 
   //로그인하기
   goLogin() {
@@ -287,19 +227,15 @@ export class LoginJoinPage implements OnInit {
           handler: data => {
             // 로딩 바
             this.loadingService.load();
-            console.log('비밀번호', data.password);
             firebase.default
               .auth()
               .signInWithEmailAndPassword(email, data.password)
               .then(data => {
-                console.log('data: ', data);
-
                 if (type == 'google') {
                   this.socialShareLogin(credential, tokenId, type);
                 }
               })
               .catch(error => {
-                console.log('Error', error);
                 this.loadingService.hide();
                 if (error.code == 'auth/wrong-password') {
                   this.alert.okBtn('alert', '입력하신 비밀번호가 틀립니다. <br />확인 후 다시 입력해주세요.');
@@ -322,7 +258,6 @@ export class LoginJoinPage implements OnInit {
           .auth()
           .signInWithCredential(credential)
           .then(async (success: any) => {
-            console.log('fireAuthSignInWithCredential success : ', success);
             const user = success.user;
             const uid = user.uid;
             const isLogin = await this.isLoginOrSignUp(uid);

@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController, IonSlides, NavController } from '@ionic/angular';
-import * as firebase from 'firebase';
-import { combineLatest, Observable, of } from 'rxjs';
-import { first, switchMap } from 'rxjs/operators';
-import { DbService, docJoin, docListJoin, leftJoinDocument } from 'src/app/services/db.service';
+import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { DbService, leftJoinDocument } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-plant-detail',
@@ -22,6 +21,8 @@ export class PlantDetailPage implements OnInit {
   plantInfo: any;
   userInfo$: Observable<any>;
 
+  headerBackSwitch = false;
+
   @ViewChild('slides', { static: false }) slides: IonSlides;
   constructor(private navController: NavController, private route: ActivatedRoute, private db: DbService, private alertController: AlertController) {
     this.myPlantId = this.route.snapshot.queryParams.plantId;
@@ -38,7 +39,6 @@ export class PlantDetailPage implements OnInit {
 
   slideChanged() {
     this.slides.slideTo(this.index);
-    console.log(this.index);
   }
 
   ngOnInit() {
@@ -46,41 +46,17 @@ export class PlantDetailPage implements OnInit {
   }
 
   async getData() {
-    // if (this.myPlantId) {
-    //   this.plantInfo$ = await this.db
-    //     .collection$(`myPlant`, ref => ref.where('myPlantId', '==', this.myPlantId))
-    //     .pipe(leftJoinDocument(this.db.afs, 'plantBookId', 'plantBook'));
-    //   this.plantInfo = await this.plantInfo$.pipe(first()).toPromise();
-    // } else {
     this.userInfo$ = await this.db.doc$(`users/${this.userId}`);
-    // this.plantInfo$ = this.userInfo$.pipe(
-    //   switchMap(user => {
-    //     let reads$ = [];
-    //     console.log(user);
 
-    //     user.myPlant.forEach(id => {
-    //       console.log(id);
-
-    //       const doc$ = this.db.doc$(`myPlant/${id}`).pipe(docJoin(this.db.afs, 'plantBookId', 'plantBook'));
-    //       reads$.push(doc$);
-    //     });
-    //     if (reads$.length > 0) {
-    //       return combineLatest(reads$);
-    //     } else {
-    //       return of([]);
-    //     }
-    //   })
-    // );
     this.plantInfo$ = this.db
       .collection$(`myPlant`, ref =>
         ref.where('userId', '==', this.userId).where('deleteSwitch', '==', false).where('cancelSwitch', '==', true).orderBy('dateCreated', 'desc')
       )
       .pipe(leftJoinDocument(this.db.afs, 'plantBookId', 'plantBook'));
     this.plantInfo = await this.plantInfo$.pipe(first()).toPromise();
-    console.log(this.plantInfo);
-
-    // }
   }
+
+  // 온도 상태에 대한 비교함수
   tempStatus(best, current) {
     const lowBest = Number(best.split('~')[0]);
     const hiBest = best.split('~')[1];
@@ -93,6 +69,8 @@ export class PlantDetailPage implements OnInit {
       return false;
     }
   }
+
+  // 조도 상태에 대한 비교함수
   lightStatus(best, current) {
     let lowLight = 0;
     let highLight = 0;
@@ -122,6 +100,8 @@ export class PlantDetailPage implements OnInit {
       return false;
     }
   }
+
+  // 습도 상태에 대한 비교함수
   soilStatus(best, current) {
     let lowSoil = 0;
     let highSoil = 0;
@@ -146,6 +126,8 @@ export class PlantDetailPage implements OnInit {
       return false;
     }
   }
+
+  // 식물의 이름을 변경할 수 있는 함수
   async changeName(myPlantId, name) {
     const alert = await this.alertController.create({
       cssClass: 'alert',
@@ -166,11 +148,9 @@ export class PlantDetailPage implements OnInit {
     await alert.present();
   }
 
-  headerBackSwitch = false;
   //헤더 스크롤 할 때 색 변하게
   logScrolling(event) {
     let scroll = event.detail.scrollTop;
-    console.log(event);
 
     if (scroll > 56) {
       this.headerBackSwitch = true;

@@ -45,7 +45,6 @@ export class FindDevicePage implements OnInit {
     this.ble
       .isEnabled()
       .then(() => {
-        console.log('블루투스 활성화');
         this.searchDevices();
       })
       .catch(() => {
@@ -56,8 +55,6 @@ export class FindDevicePage implements OnInit {
 
   // 블루투스 장치 검색
   async searchDevices() {
-    console.log('진행확인 장치 검색');
-
     // 주변 블루투스 스캔을 진행
     this.ble.startScan([]).subscribe(device => {
       // 디바이스 이름에 SoilModule이 포함되어있다면 true
@@ -76,15 +73,15 @@ export class FindDevicePage implements OnInit {
   // 스캔 중지
   stopScan() {
     this.ble.stopScan().then(() => {
-      console.log('스캔이 중지되었습니다.');
-
       if (this.deviceList.length <= 0 && !this.backClick) {
         this.isValid = false;
         this.alertService.okBtn('alert', '발견된 장치가 없습니다.<br>다시 찾기를 시도해주세요.');
       } else if (this.deviceList.length > 0 && !this.backClick) {
+        // 센서 id를 체크하여 중복제거
         this.deviceList = this.deviceList.filter((arr, index, callback) => index === callback.findIndex(ele => ele.id === arr.id));
         this.isValid = true;
 
+        // 블루투스 스캔에 감지된 센서 리스트들을 넘겨줌
         const devices = [JSON.stringify(this.deviceList)];
 
         this.navController.navigateRoot(['/device-list'], {
@@ -97,11 +94,10 @@ export class FindDevicePage implements OnInit {
 
   // 홈 버튼 클릭후 스캔 중지
   backStopScan() {
-    this.ble.stopScan().then(() => {
-      console.log('백버튼 스캔이 중지되었습니다.');
-    });
+    this.ble.stopScan().then(() => {});
   }
 
+  // 안드로이드에 있는 백 버튼을 클릭할 시에 실행되는 함수
   backbutton() {
     this.platform.backButton.subscribeWithPriority(0, async () => {
       let url = this.router.url;

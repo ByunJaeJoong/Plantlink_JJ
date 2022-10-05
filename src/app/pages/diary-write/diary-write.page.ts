@@ -55,6 +55,7 @@ export class DiaryWritePage implements OnInit {
 
   // 일기장 등록
   async save() {
+    // 데이터 수정 시, 수정된 데이터만 update
     if (this.diaryData) {
       this.updateDiary();
       this.navController.navigateForward(['/diary']);
@@ -67,11 +68,13 @@ export class DiaryWritePage implements OnInit {
     }
   }
 
+  // 일기장등록 후 db에 저장
   async updateDiary() {
     await this.db.updateAt(`diary/${this.diary.diaryId}`, this.diary);
     this.close();
   }
 
+  // 사진을 누를 때, 우클릭 방지
   onRightClick(e) {
     return false;
   }
@@ -123,15 +126,4 @@ export class DiaryWritePage implements OnInit {
       this.diary.images = [];
     }
   }
-
-  //앨범으로 가기
-  // async goAlbum() {
-  //   const modal = await this.modalController.create({
-  //     component: DiaryWriteCameraPage,
-  //     componentProps: {
-  //       images: this.diary.images
-  //     },
-  //   });
-  //   return await modal.present();
-  // }
 }
