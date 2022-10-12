@@ -115,6 +115,32 @@ export class FindDevicePage implements OnInit {
     });
   }
 
+  // 블루투스 리스트 모달창
+  async imgDetail() {
+    this.backClick = true;
+    this.backStopScan();
+    const ok = await this.alertService.cancelOkBtn(
+      'two-btn',
+      `${this.deviceList.length}개의 장치가 발견되었습니다:)<br>연결페이지로 이동하시겠어요?`,
+      '',
+      '취소',
+      '확인'
+    );
+    if (ok) {
+      // 센서 id를 체크하여 중복제거
+      this.deviceList = this.deviceList.filter((arr, index, callback) => index === callback.findIndex(ele => ele.id === arr.id));
+      this.isValid = true;
+
+      // 블루투스 스캔에 감지된 센서 리스트들을 넘겨줌
+      const devices = [JSON.stringify(this.deviceList)];
+
+      this.navController.navigateRoot(['/device-list'], {
+        queryParams: devices,
+        skipLocationChange: true,
+      });
+    }
+  }
+
   //홈화면으로 가기
   goHome() {
     this.backClick = true;
