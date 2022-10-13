@@ -62,11 +62,11 @@ export class PlantDetailPage implements OnInit {
     const hiBest = best.split('~')[1];
     const highBest = Number(hiBest.split('도')[0]);
     if (current >= lowBest && current <= highBest) {
-      return false;
+      return 'nochange';
     } else if (current > highBest) {
-      return true;
+      return 'up';
     } else if (current < lowBest) {
-      return false;
+      return 'down';
     }
   }
 
@@ -93,11 +93,11 @@ export class PlantDetailPage implements OnInit {
         break;
     }
     if (current >= lowLight && current <= highLight) {
-      return false;
+      return 'nochange';
     } else if (current > highLight) {
-      return true;
+      return 'up';
     } else if (current < lowLight) {
-      return false;
+      return 'down';
     }
   }
 
@@ -105,25 +105,22 @@ export class PlantDetailPage implements OnInit {
   soilStatus(best, current) {
     let lowSoil = 0;
     let highSoil = 0;
-    if (best.indexOf('하')) {
+    if (best.indexOf('하') == 0) {
       lowSoil = 0;
       highSoil = 10;
-      return;
-    } else if (best.indexOf('중')) {
+    } else if (best.indexOf('중') == 0) {
       lowSoil = 11;
       highSoil = 50;
-      return;
-    } else if (best.indexOf('상')) {
+    } else if (best.indexOf('상') == 0) {
       lowSoil = 51;
       highSoil = 100;
-      return;
     }
     if (current >= lowSoil && current <= highSoil) {
-      return false;
+      return 'nochange';
     } else if (current > highSoil) {
-      return true;
+      return 'up';
     } else if (current < lowSoil) {
-      return false;
+      return 'down';
     }
   }
 

@@ -37,16 +37,33 @@
                     <div class="right">
                       <p class="top">Yours</p>
                       <div class="justify-wrap">
-                        <p class="bottom">{{plantInfo.temperature}}°C</p>
+                        <p class="bottom red" *ngIf="tempStatus(plantInfo.plantBookId.temperature, plantInfo.temperature) == 'up'">
+                          {{plantInfo.temperature}}°C
+                        </p>
+                        <p class="bottom blue" *ngIf="tempStatus(plantInfo.plantBookId.temperature, plantInfo.temperature) == 'down'">
+                          {{plantInfo.temperature}}°C
+                        </p>
+                        <p class="bottom black" *ngIf="tempStatus(plantInfo.plantBookId.temperature, plantInfo.temperature) == 'nochange'">
+                          {{plantInfo.temperature}}°C
+                        </p>
                         <ion-label class="up-down">
-                          <img *ngIf="tempStatus(plantInfo.plantBookId.temperature, plantInfo.temperature)" src="assets/images/up-icon.png" alt="" />
                           <img
-                            *ngIf="!tempStatus(plantInfo.plantBookId.temperature, plantInfo.temperature)"
+                            *ngIf="tempStatus(plantInfo.plantBookId.temperature, plantInfo.temperature) == 'up'"
+                            src="assets/images/up-icon.png"
+                            alt=""
+                          />
+                          <img
+                            *ngIf="tempStatus(plantInfo.plantBookId.temperature, plantInfo.temperature) == 'down'"
                             src="assets/images/down-icon.png"
                             alt=""
                           />
-                          <!-- <p class="red" *ngIf="tempStatus(plantInfo.plantBookId.temperature, plantInfo.temperature)">{{plantInfo.temperature}}</p>
-                          <p class="blue" *ngIf="!tempStatus(plantInfo.plantBookId.temperature, plantInfo.temperature)">{{plantInfo.temperature}}</p> -->
+                          <!-- 변함없음에 대한 이미지를 사용하려면 밑에 주석을 풀고, src에 사용할 이미지를 넣으면 됩니다. assets/images 파일 안에 이미지 첨부 후 사용-->
+                          <!-- <img
+                            *ngIf="tempStatus(plantInfo.plantBookId.temperature, plantInfo.temperature) == 'nochange'"
+                            src="assets/images/down-icon.png"
+                            alt=""
+                          /> -->
+                          <p *ngIf="tempStatus(plantInfo.plantBookId.temperature, plantInfo.temperature) == 'nochange'">-</p>
                         </ion-label>
                       </div>
                     </div>
@@ -69,11 +86,21 @@
                     <div class="right">
                       <p class="top">Yours</p>
                       <div class="justify-wrap">
-                        <p class="bottom red" *ngIf="lightStatus(plantInfo.plantBookId.light, plantInfo.light)">{{plantInfo.light}} %</p>
-                        <p class="bottom blue" *ngIf="!lightStatus(plantInfo.plantBookId.light, plantInfo.light)">{{plantInfo.light}} %</p>
+                        <p class="bottom red" *ngIf="lightStatus(plantInfo.plantBookId.light, plantInfo.light) == 'up'">{{plantInfo.light}} %</p>
+                        <p class="bottom blue" *ngIf="lightStatus(plantInfo.plantBookId.light, plantInfo.light) == 'down'">{{plantInfo.light}} %</p>
+                        <p class="bottom black" *ngIf="lightStatus(plantInfo.plantBookId.light, plantInfo.light) == 'nochange'">
+                          {{plantInfo.light}} %
+                        </p>
                         <ion-label class="up-down">
-                          <img *ngIf="lightStatus(plantInfo.plantBookId.light, plantInfo.light)" src="assets/images/up-icon.png" alt="" />
-                          <img *ngIf="!lightStatus(plantInfo.plantBookId.light, plantInfo.light)" src="assets/images/down-icon.png" alt="" />
+                          <img *ngIf="lightStatus(plantInfo.plantBookId.light, plantInfo.light) == 'up'" src="assets/images/up-icon.png" alt="" />
+                          <img *ngIf="lightStatus(plantInfo.plantBookId.light, plantInfo.light) == 'down'" src="assets/images/down-icon.png" alt="" />
+                          <!-- 변함없음에 대한 이미지를 사용하려면 밑에 주석을 풀고, src에 사용할 이미지를 넣으면 됩니다. assets/images 파일 안에 이미지 첨부 후 사용-->
+                          <!-- <img
+                            *ngIf="lightStatus(plantInfo.plantBookId.light, plantInfo.light) == 'nochange'"
+                            src="assets/images/down-icon.png"
+                            alt=""
+                          /> -->
+                          <p *ngIf="lightStatus(plantInfo.plantBookId.light, plantInfo.light) == 'nochange'">-</p>
                         </ion-label>
                       </div>
                     </div>
@@ -96,11 +123,19 @@
                     <div class="right">
                       <p class="top">Yours</p>
                       <div class="justify-wrap">
-                        <p class="bottom red" *ngIf="soilStatus(plantInfo.plantBookId.soil, plantInfo.soil)">{{plantInfo.soil}} %</p>
-                        <p class="bottom blue" *ngIf="!soilStatus(plantInfo.plantBookId.soil, plantInfo.soil)">{{plantInfo.soil}} %</p>
+                        <p class="bottom red" *ngIf="soilStatus(plantInfo.plantBookId.soil, plantInfo.soil) == 'up'">{{plantInfo.soil}} %</p>
+                        <p class="bottom blue" *ngIf="soilStatus(plantInfo.plantBookId.soil, plantInfo.soil) == 'down'">{{plantInfo.soil}} %</p>
+                        <p class="bottom black" *ngIf="soilStatus(plantInfo.plantBookId.soil, plantInfo.soil) == 'nochange'">{{plantInfo.soil}} %</p>
                         <ion-label class="up-down">
-                          <img *ngIf="soilStatus(plantInfo.plantBookId.soil, plantInfo.soil)" src="assets/images/up-icon.png" alt="" />
-                          <img *ngIf="!soilStatus(plantInfo.plantBookId.soil, plantInfo.soil)" src="assets/images/down-icon.png" alt="" />
+                          <img *ngIf="soilStatus(plantInfo.plantBookId.soil, plantInfo.soil) == 'up'" src="assets/images/up-icon.png" alt="" />
+                          <img *ngIf="soilStatus(plantInfo.plantBookId.soil, plantInfo.soil) == 'down'" src="assets/images/down-icon.png" alt="" />
+                          <!-- 변함없음에 대한 이미지를 사용하려면 밑에 주석을 풀고, src에 사용할 이미지를 넣으면 됩니다. assets/images 파일 안에 이미지 첨부 후 사용-->
+                          <!-- <img
+                            *ngIf="soilStatus(plantInfo.plantBookId.soil, plantInfo.soil) == 'nochange'"
+                            src="assets/images/down-icon.png"
+                            alt=""
+                          /> -->
+                          <p *ngIf="soilStatus(plantInfo.plantBookId.soil, plantInfo.soil) == 'nochange'">-</p>
                         </ion-label>
                       </div>
                     </div>
