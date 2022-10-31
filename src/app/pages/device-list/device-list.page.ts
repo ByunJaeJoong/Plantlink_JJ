@@ -104,7 +104,7 @@ export class DeviceListPage implements OnInit {
   // 블루투스 장치를 클릭하여 그 장치와 연결시킴
   async connect(item: any) {
     // item.name에 SoilModule이 포함되어있다면 true
-    if (item.name.includes('SoilModule')) {
+    if (item.name.includes('SM')) {
       this.loading.lognLoad('연결 중입니다.');
 
       // 디바이스 id를 넣어 연결을 시도하는 함수

@@ -58,9 +58,7 @@ export class FindDevicePage implements OnInit {
     // 주변 블루투스 스캔을 진행
     this.ble.startScan([]).subscribe(device => {
       // 디바이스 이름에 SoilModule이 포함되어있다면 true
-      if (device.name.includes('SoilModule')) {
-        this.onDeviceDiscovered(device);
-      }
+      this.onDeviceDiscovered(device);
     });
 
     if (!this.backClick) {
@@ -111,7 +109,9 @@ export class FindDevicePage implements OnInit {
   onDeviceDiscovered(device: object) {
     // 값이 변화할 때마다 체크하면서 push 진행
     this.ngZone.run(() => {
-      this.deviceList.push(device);
+      if(JSON.stringify(device).includes('SM')) {
+        this.deviceList.push(device);
+      }
     });
   }
 
